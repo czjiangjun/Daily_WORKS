@@ -1,0 +1,292 @@
+\documentclass{article}      % Specifies the document class
+
+%%%%%%%%%%%%%%%%% CJK 中文版面控制  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{CJK} % CTEX-CJK 中文支持                            %
+\usepackage{xeCJK} % seperate the english and chinese		 %
+\usepackage{CJKutf8} % Texlive 中文支持                         %
+\usepackage{CJKnumb} %中文序号                                   %
+\usepackage{indentfirst} % 中文段落首行缩进                      %
+%\setlength\parindent{22pt}       % 段落起始缩进量               %
+\renewcommand{\baselinestretch}{1.2} % 中文行间距调整            %
+\setlength{\textwidth}{16cm}                                     %
+\setlength{\textheight}{24cm}                                    %
+\setlength{\topmargin}{-1cm}                                     %
+\setlength{\oddsidemargin}{0.1cm}                                %
+\setlength{\evensidemargin}{\oddsidemargin}                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
+\usepackage{mathrsfs}                                    %英文花体
+\usepackage{xcolor}                                        %使用默认允许使用颜色
+%\usepackage{hyperref} 
+\usepackage{graphicx}
+\usepackage{subfigure}           %图片跨页
+\usepackage{animate}		 %插入动画
+\usepackage{caption}
+\captionsetup{font=footnotesize}
+
+%\usepackage[version=3]{mhchem}		%化学公式
+\usepackage{chemfig}		%化学公式
+
+\usepackage{fontspec} % use to set font
+%\setCJKmainfont{SimSun}
+\XeTeXlinebreaklocale "zh"  % Auto linebreak for chinese
+\XeTeXlinebreakskip = 0pt plus 1pt % Auto linebreak for chinese
+
+\usepackage{longtable}                                   %使用长表格
+\usepackage{multirow}
+\usepackage{makecell}		%允许单元格内换行
+
+%%%%%%%%%%%%%%%%%%%%%%%%%  参考文献引用 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%尽量使用 BibTeX(含有超链接，数据库的条目URL即可)                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[numbers,sort&compress]{natbib} %紧密排列             %
+\usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
+\usepackage{hypernat}                                                                         %
+\usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
+\hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}         %
+%参考文献含有超链接引用时需要下列宏包，注意与natbib有冲突        %
+%\usepackage[dvipdfm]{hyperref}                                  %
+%\usepackage{hypernat}                                           %
+\newcommand{\upcite}[1]{\hspace{0ex}\textsuperscript{\cite{#1}}} %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\AtBeginDvi{\special{pdf:tounicode GBK-EUC-UCS2}} %CTEX用dvipdfmx的话，用该命令可以解决      %
+%						   %pdf书签的中文乱码问题		      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%  % EPS 图片支持  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+%\CJKindent     %在CJK环境中,中文段落起始缩进2个中文字符
+%\indent
+\graphicspath{{Figures/}}
+%
+\renewcommand{\abstractname}{\small{\CJKfamily{hei} 摘\quad 要}} %\CJKfamily{hei} 设置中文字体，字号用\big \small来设
+\renewcommand{\refname}{\centering\CJKfamily{hei} 参考文献}
+%\renewcommand{\figurename}{\CJKfamily{hei} 图.}
+\renewcommand{\figurename}{{\bf Fig}.}
+%\renewcommand{\tablename}{\CJKfamily{hei} 表.}
+\renewcommand{\tablename}{{\bf Tab}.}
+
+%将图表的Caption写成 图(表) Num. 格式
+\makeatletter
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{#1. #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1. #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother
+
+\newcommand{\keywords}[1]{{\hspace{0\ccwd}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
+
+%%%%%%%%%%%%%%%%%%中文字体设置%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%默认字体 defalut fonts \TeX 是一种排版工具 \\		%
+%{\bfseries 粗体 bold \TeX 是一种排版工具} \\		%
+%{\CJKfamily{song}宋体 songti \TeX 是一种排版工具} \\	%
+%{\CJKfamily{hei} 黑体 heiti \TeX 是一种排版工具} \\	%
+%{\CJKfamily{kai} 楷书 kaishu \TeX 是一种排版工具} \\	%
+%{\CJKfamily{fs} 仿宋 fangsong \TeX 是一种排版工具} \\	%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\addcontentsline{toc}{section}{Bibliography}
+
+%-------------------------------The Title of The Paper-----------------------------------------%
+\title{关于本人在材料计算软件方面工作和经历的说明}
+%----------------------------------------------------------------------------------------------%
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+\author{
+\small
+北京市计算中心~姜骏
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+\small
+%(The Address，City Post code)						%Address	       %
+}
+\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+\maketitle
+
+%-------------------------------------------------------------------------------The Abstract and the keywords of The Paper----------------------------------------------------------------------------%
+%\begin{abstract}
+%The content of the abstract
+%\end{abstract}
+
+%\keywords {Keyword1; Keyword2; Keyword3}
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+%----------------------------------------------------------------------------------------The Body Of The Paper----------------------------------------------------------------------------------------%
+%Introduction
+自2001年攻读量子化学专业的研究生以来，我主要从事第一原理材料计算方法和软件研发有关的工作。现将这些年的软件研发工作简单报告如下:~
+\section{对{\rm FP-LAPW}方法和{\rm WIEN2k}软件的研发经历}
+在攻读博士学位期间，我主要学习\textrm{FP-LAPW}方法，对该方法和软件曾投入过较多的精力。一方面，\textbf{我详细通读了\textrm{WIEN2k}的全部代码(代码量约71,000行)}，重点围绕\textrm{Full-Potential}方法的实现、\textrm{LAPW}方法的基组在\textrm{muffin-tin}球面上的连续、以及$\vec k$-空间的四面体积分算法实现等问题，了解了以\textrm{FP-LAPW}方法的核心计算技术与相关细节，掌握了以该方法为代表的第一原理计算自洽迭代过程的程序实现框架；另一方面，为克服\textrm{FP-LAPW}方法所需基组大，计算效率低的问题，\textbf{我将$\vec k\cdot\vec p$方法引入到\textrm{WIEN2k}软件中，通过较少的高精度$\vec k$点，在不损失计算精度的前提下，将计算效率提升了约1$\sim$2个数量级，对于复杂体系，该方法有着更显著的优势}。$\vec k\cdot\vec p$方法加速\textrm{WIEN2k}计算的相关结果，收录在\textit{Intelligent Computing}一书中\upcite{kp-method}。2010-2012年期间，我也曾注意到基于\textrm{WIEN2k}软件发展的\textrm{GW}方法，主要用于含~\textit{d}~和~\textit{f}~电子体系的能带结构计算，但主要是研读代码和理解方法，没有进行大的软件开发工作。
+
+\section{对{\rm PAW}方法和{\rm VASP}软件的研发经历}
+自2012年秋起，根据研究工作的需要，我把对方法和软件的重点转移到了\textrm{PAW}方法和\textrm{VASP}软件，该工作一直持续至今，目前仍在持续进行中。\textbf{我阅读了\textrm{VASP}的核心计算代码(代码量约100,000行)}。与\textrm{WIEN2k}的代码不同，\textrm{VASP}的代码结构是更为紧密的有机整体，因此代码梳理工作也更庞大。我以\textrm{VASP}的主程序为纲领，重点围绕\textrm{PAW}方法的赝势构造\upcite{PAW-dataset}和计算流程实现、体系总能量计算、多种$\vec k$空间积分算法和\underline{矩阵迭代对角化与电荷密度自洽迭代过程}的多种优化算法实现过程，进一步深化了我对包括第一原理分子动力学计算在内的自洽迭代收敛过程的认识。对代码和算法最重要的理解体现在:~
+\begin{itemize}
+	\item 明确了基于\textrm{PAW}方法的周期体系总能计算与\textrm{Fermi~}面平移的关系
+	\item 掌握了\textrm{VASP}软件的多种$\vec k$空间布点与积分算法实现的内在关联，特别是各种方法对导体\textrm{Fermi}面的影响
+	\item 确认了\textrm{VASP}软件中的各种优化算法中的\textrm{precondition}的选择:~本质上是通过物理模型确定优化的“方向”
+\end{itemize}
+对\textrm{VASP}代码细节的梳理，为今后发展第一原理材料计算的方法和软件提供了一定的基础。
+
+2017年，我参与“材料基因工程关键技术与支撑平台”重点专项的课题1“研发多尺度集成化高通量计算方法与计算软件”的有关研究任务，根据研究工作的需要，我在详细分析\textrm{VASP}代码的晶体对称性分析模块时，发现\textrm{VASP}中的晶体对称性分析功能的空间群信息的不足。\textbf{基于我对\textrm{VASP}代码的深入掌握，并根据群表示理论，我独立编写了代码(代码量约3,000行)，完善了\textrm{VASP}软件中晶体的空间群信息的分析与表示功能}。上述工作成为是我参加该重点专项任务的重要内容之一，相关软件著作权在申报中。
+
+\section{对高通量材料计算软件的代码梳理}
+2016年开始，我陆续学习和掌握了多种高通量材料计算软件的开源软件，高通量材料计算流程软件的主要功能是:~(1)对材料计算模型建立，(2)计算过程监控与反馈，(3)计算结果的输出、分析与数据存储等，而材料模拟最核心的微观粒子运动方程则是通过调用外部计算软件如\textrm{VASP}、\textrm{LAMMPS}来完成的。因此高通量材料计算流程软件的开发的重点和难点在于材料计算的建模功能、计算流程的设置和容错机制的完善和计算结果的可视化等。\textbf{我重点分析了第一原理材料模拟流程软件\textrm{Material Projects~(MP)~}和多尺度计算流程软件\textrm{Atomic Simulation Environment~(ASE)}的功能模块，包括\textrm{MP}中的\textrm{Pymatgen}、\textrm{FireWorks}、\textrm{Custodian}和计算流程示范模块\textrm{Atomate}，以及\textrm{ASE}的材料建模功能模块\textrm{Atoms}和适应不同尺度计算的软件接口模块\textrm{Calculator}等}。上述研究工作也是我参加重点专项任务的组成部分，这段经历充实了我对\textrm{Python}模块加载和数据库支持的高通量材料计算流程软件的整体框架和程序实现的知识储备，同时也为高通量材料计算软件深度研发奠定了重要的软件和系统知识。
+
+\section{通用硬件环境下的软件编译与安装}
+2012-2013年，我曾在有关软件公司工作，2016年至今，我一直在北京市计算中心工作，在这些工作岗位上，作为技术支持人员，我需要在不同软硬件环境下编译和安装各种材料计算软件。多年的从业经历，除了让我掌握了一套\textrm{VASP}、\textrm{ABINIT}、\textrm{WIEN2k}、\textrm{LAMMPS}、\textrm{CP2k}等多种软件在不同配置环境下的安装和编译的关键技术，还熟悉了大型集群计算的运维，特别是作业调度系统(如\textrm{PBS}、\textrm{SLURM}和\textrm{LSF}等)的工作方式。这些技术，对于支持高通量材料计算软件开发，保证系统和软件的稳定运行，可以起到基础支持作用。
+
+\vskip 15pt
+综上所述，本人多年从事第一原理计算软件核心方法与算法研究和高通量计算流程软件的开发工作，旁及大型计算环境下的计算软件的运维(主要是编译、安装和稳定化运行)。我的软件研发方式是从解读代码入手的，\textbf{系统掌握了赝势方法、\textrm{LAPW}方法、\textrm{LMTO}方法和\textrm{PAW}方法的程序实现的核心算法及材料计算软件自动流程的代码结构}。为此我投入了大量的时间和精力，甚至也因此没有能够发表像样的、有分量的研究论文——作为科研工作者考核，这是本人的一个非常严重的不足;~但我之所以仍坚持这一“笨拙”的学习和研究方式，甚至乐此不疲，因为我的实践和坚持证明，\textbf{通过解读代码为基础的软件开发方式，看似效率低下，但确实能使开发者具备较为扎实的材料计算软件开发所必需的算法和代码功底}，这恰恰是从事一般计算机软件开发和从事材料计算专业人员不能兼备的能力。
+
+无论是材料计算核心软件的功能扩展还是高通量计算流程软件开发与完善，都应该视为软件开发的系统工程，特别是类似\textrm{VASP}这种代码结构复杂、各功能有机结合程度高的软件，除了需要丰富的物理、化学和材料学知识的储备，开发人员同样需要了解已有的基础代码，才有可能完成材料计算软件的开发工作。同时，在代码开发过程，代码开发人员有必要做好有关软件版本管理、日志维护、软件测试等具体的日常工作，才能确保软件开发过程的系统性和延续性。我的工作和研究经历，使我对材料计算软件的研发有了比较全面了解和认识，也具备了一定的必要能力，如果将来机会允许，我能为材料计算软件研发工作贡献一点绵薄之力，将是我一生最大的幸运。
+%-------------------The Figure Of The Paper------------------
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[height=3.35in,width=2.85in,viewport=0 0 400 475,clip]{PbTe_Band_SO.eps}
+%\hspace{0.5in}
+%\includegraphics[height=3.35in,width=2.85in,viewport=0 0 400 475,clip]{EuTe_Band_SO.eps}
+%\caption{\small Band Structure of PbTe (a) and EuTe (b).}%(与文献\cite{EPJB33-47_2003}图1对比)
+%\label{Pb:EuTe-Band_struct}
+%\end{figure}
+
+%-------------------The Equation Of The Paper-----------------
+%\begin{equation}
+%\varepsilon_1(\omega)=1+\frac2{\pi}\mathscr P\int_0^{+\infty}\frac{\omega'\varepsilon_2(\omega')}{\omega'^2-\omega^2}d\omega'
+%\label{eq:magno-1}
+%\end{equation}
+
+%\begin{equation} 
+%\begin{split}
+%\varepsilon_2(\omega)&=\frac{e^2}{2\pi m^2\omega^2}\sum_{c,v}\int_{BZ}d{\vec k}\left|\vec e\cdot\vec M_{cv}(\vec k)\right|^2\delta [E_{cv}(\vec k)-\hbar\omega] \\
+% &= \frac{e^2}{2\pi m^2\omega^2}\sum_{c,v}\int_{E_{cv}(\vec k=\hbar\omega)}\left|\vec e\cdot\vec M_{cv}(\vec k)\right|^2\dfrac{dS}{\nabla_{\vec k}E_{cv}(\vec k)}
+% \end{split}
+%\label{eq:magno-2}
+%\end{equation}
+
+%-------------------The Table Of The Paper----------------------
+%\begin{table}[!h]
+%\tabcolsep 0pt \vspace*{-12pt}
+%%\caption{The representative $\vec k$ points contributing to $\sigmA_2^{xy}$ of interband transition in EuTe around 2.5 eV.}
+%\label{Table-EuTe_Sigma}
+%\begin{minipage}{\textwidth}
+%%\begin{center}
+%\centering
+%\def\temptablewidth{0.84\textwidth}
+%\rule{\temptablewidth}{1pt}
+%\begin{tabular*} {\temptablewidth}{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}l|}
+
+%-------------------------------------------------------------------------------------------------------------------------
+%&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
+%Components\footnote{波函数主要成分后的括号中，$5s$、$5p$和$5p$、$4f$、$5d$分别指碲和铕的原子轨道。} &Gap (eV)   \\ \hline
+%-------------------------------------------------------------------------------------------------------------------------
+%&2.35       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%&       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%-------------------------------------------------------------------------------------------------------------------------
+%\end{tabular*}
+%\rule{\temptablewidth}{1pt}
+%\end{minipage}{\textwidth}
+%\end{table}
+
+%-------------------The Long Table Of The Paper--------------------
+%\begin{small}
+%%\begin{minipage}{\textwidth}
+%%\begin{longtable}[l]{|c|c|cc|c|c|} %[c]指定长表格对齐方式
+%\begin{longtable}[c]{|c|c|p{1.9cm}p{4.6cm}|c|c|}
+%\caption{Assignment for the peaks of EuB$_6$}
+%\label{tab:EuB6-1}\\ %\\长表格的caption中换行不可少
+%\hline
+%%
+%--------------------------------------------------------------------------------------------------------------------------------
+%\multicolumn{2}{|c|}{\bfseries$\sigmA_1(\omega)$谱峰}&\multicolumn{4}{c|}{\bfseries部分重要能带间电子跃迁\footnotemark}\\ \hline
+%\endfirsthead
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%\multicolumn{6}{r}{\it 续表}\\
+%\hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%标记 &峰位(eV) &\multicolumn{2}{c|}{有关电子跃迁} &gap(eV)  &\multicolumn{1}{c|}{经验指认} \\ \hline
+%\endhead
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%\multicolumn{6}{r}{\it 续下页}\\
+%\endfoot
+%\hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%%\hlinewd{0.5$p$t}
+%\endlastfoot
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%% Stuff from here to \endlastfoot goes at bottom of last page.
+%%
+%--------------------------------------------------------------------------------------------------------------------------------
+%标记 &峰位(eV)\footnotetext{见正文说明。} &\multicolumn{2}{c|}{有关电子跃迁\footnotemark} &gap(eV) &\multicolumn{1}{c|}{经验指认\upcite{PRB46-12196_1992}}\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%
+%     &0.07 &\multicolumn{2}{c|}{电子群体激发$\uparrow$} &--- &电子群\\ \cline{2-5}
+%\raisebox{2.3ex}[0pt]{$\omega_f$} &0.1 &\multicolumn{2}{c|}{电子群体激发$\downarrow$} &--- &体激发\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%
+%     &1.50 &\raisebox{-2ex}[0pt][0pt]{20-22(0,1,4)} &2$p$(10.4)4$f$(74.9)$\rightarrow$ &\raisebox{-2ex}[0pt][0pt]{1.47} &\\%\cline{3-5}
+%     &1.50$^\ast$ & &2$p$(17.5)5$d_{\mathrm E}$(14.0)$\uparrow$ & &4$f$$\rightarrow$5$d_{\mathrm E}$\\ \cline{3-5}
+%     \raisebox{2.3ex}[0pt][0pt]{$a$} &(1.0$^\dagger$) &\raisebox{-2ex}[0pt][0pt]{20-22(1,2,6)} &\raisebox{-2ex}[0pt][0pt]{4$f$(89.9)$\rightarrow$2$p$(18.7)5$d_{\mathrm E}$(13.9)$\uparrow$}\footnotetext{波函数主要成分后的括号中，2$s$、2$p$和5$p$、4$f$、5$d$、6$s$分别指硼和铕的原子轨道；5$d_{\mathrm E}$、5$d_{\mathrm T}$分别指铕的(5$d_{z^2}$，5$d_{x^2-y^2}$和5$d_{xy}$，5$d_{xz}$，5$d_{yz}$)轨道，5$d_{\mathrm{ET}}$(或5$d_{\mathrm{TE}}$)则指5个5$d$轨道成分都有，成分大的用脚标的第一个字母标示；2$ps$(或2$sp$)表示同时含有硼2$s$、2$p$轨道成分，成分大的用第一个字母标示。$\uparrow$和$\downarrow$分别标示$\alpha$和$\beta$自旋电子跃迁。} &\raisebox{-2ex}[0pt][0pt]{1.56} &激子跃迁。 \\%\cline{3-5}
+%     &(1.3$^\dagger$) & & & &\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+
+%     & &\raisebox{-2ex}[0pt][0pt]{19-22(0,0,1)} &2$p$(37.6)5$d_{\mathrm T}$(4.5)4$f$(6.7)$\rightarrow$ & & \\\nopagebreak %\cline{3-5}
+%     & & &2$p$(24.2)5$d_{\mathrm E}$(10.8)4$f$(5.1)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.78} &a、b、c峰可能 \\ \cline{3-5}
+%     & &\raisebox{-2ex}[0pt][0pt]{20-29(0,1,1)} &2$p$(35.7)5$d_{\mathrm T}$(4.8)4$f$(10.0)$\rightarrow$ & &包含有复杂的\\ \nopagebreak%\cline{3-5}
+%     &2.90 & &2$p$(23.2)5$d_{\mathrm E}$(13.2)4$f$(3.8)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.92} &强激子峰。$^{\ast\ast}$\\ \cline{3-5}
+%$b$  &2.90$^\ast$ &\raisebox{-2ex}[0pt][0pt]{19-22(0,1,1)} &2$p$(33.9)4$f$(15.5)$\rightarrow$ & &B2$s$-2$p$的价带 \\ \nopagebreak%\cline{3-5}
+%     &3.0 & &2$p$(23.2)5$d_{\mathrm E}$(13.2)4$f$(4.8)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.94} &顶$\rightarrow$B2$s$-2$p$导\\ \cline{3-5}
+%     & &12-15(0,1,2) &2$p$(39.3)$\rightarrow$2$p$(25.2)5$d_{\mathrm E}$(8.6)$\downarrow$ &2.83 &带底跃迁。\\ \cline{3-5}
+%     & &14-15(1,1,1) &2$p$(42.5)$\rightarrow$2$p$(29.1)5$d_{\mathrm E}$(7.0)$\downarrow$ &2.96 & \\\cline{3-5}
+%     & &13-15(0,1,1) &2$p$(40.4)$\rightarrow$2$p$(28.9)5$d_{\mathrm E}$(6.6)$\downarrow$ &2.98 & \\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%%\hline
+%%\hlinewd{0.5$p$t}
+%\end{longtable}
+%%\end{minipage}{\textwidth}
+%%\setlength{\unitlength}{1cm}
+%%\begin{picture}(0.5,2.0)
+%%  \put(-0.02,1.93){$^{1)}$}
+%%  \put(-0.02,1.43){$^{2)}$}
+%%\put(0.25,1.0){\parbox[h]{14.2cm}{\small{\\}}
+%%\put(-0.25,2.3){\line(1,0){15}}
+%%\end{picture}
+%\end{small}
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+
+%--------------------------------------------------------------------------The Biblography of The Paper-----------------------------------------------------------------%
+%\newpage																				%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+\begin{thebibliography}{99}																		%
+%\bibitem{PRL58-65_1987}H.Feil, C. Haas, {\it Phys. Rev. Lett.} {\bf 58}, 65 (1987).											%
+	\bibitem{kp-method} \textrm{Zhenxi Pan, Yong Pan, Jun Jiang$^{\ast}$, Liutao Zhao}, \textrm{High-Throughput Electronic Band Structure Calculations for Hexaborides}, \textit{Intelligent Computing}, \textbf{Springer}, \textbf{P.386-395}, (2019).%
+	\bibitem{PAW-dataset} \textrm{姜骏}，\textrm{PAW原子数据集的构造与检验}, \textit{中国化学会第十二届全国量子化学会议论文摘要集}，\textbf{太原}，(2014).
+\end{thebibliography}																			%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+%																					%
+%\phantomsection\addcontentsline{toc}{section}{Bibliography}	 %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正	%
+%\bibliography{ref/Myref_HT}																			%
+%\bibliographystyle{ref/mybib}																		%
+%%  \nocite{*}																				%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+\clearpage     
+%\end{CJK} 前加上\clearpage是CJK的要求
+\end{document}
