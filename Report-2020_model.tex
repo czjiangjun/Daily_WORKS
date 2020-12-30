@@ -17,6 +17,7 @@
 \usepackage{fancyhdr}           %使用页眉-页脚                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\usepackage{authblk}					 %作者地址和E-mail
 \usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
 \usepackage{mathrsfs}                                    %英文花体
 \usepackage{xcolor}                                        %使用默认允许使用颜色
@@ -40,6 +41,10 @@
 \usepackage{multirow}
 \usepackage{makecell}		%允许单元格内换行
 
+\usepackage{arydshln}
+\newcommand{\adots}{\mathinner{\mkern2mu%
+\raisebox{0.1em}{.}\mkern2mu\raisebox{0.4em}{.}%
+\mkern2mu\raisebox{0.7em}{.}\mkern1mu}}
 %%%%%%%%%%%%%%%%%%%%%%%%%  参考文献引用 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%尽量使用 BibTeX(含有超链接，数据库的条目URL即可)                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,6 +53,7 @@
 \usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
 %\usepackage{footbib}			   %脚注列出参考文献　   %
 \usepackage{hypernat}                                                                         %
+%\usepackage[dvipdfm,bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
 \usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
 \hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}         %
 %参考文献含有超链接引用时需要下列宏包，注意与natbib有冲突        %
@@ -61,12 +67,37 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\graphicspath{{Presentation_Beamer/}}                            %
+\graphicspath{{../Presentation_Beamer/}}                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+\title{Title/标题}   %
+%\author[a]{Author A}									     %
+\author[a]{Author/作者 A}   %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
+%\author[b]{Author D}									     %
+\author[b]{Author/作者 D}									     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+\affil[a]{作者单位-1}    %
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+\affil[b]{作者单位-2}			     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+\renewcommand\Authfont{\small\rm } % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+%\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\pagestyle{fancy}
+\pagestyle{fancy}    %与文献引用超链接style有冲突
 %\lhead{\bfseries Result} %页眉左边位置内容，并加粗 
 \chead{} % 页眉中间位置内容
 \rhead{\includegraphics[scale=0.20]{Figures/BCC_logo-1.png}}%在此处插入logo.pdf图片 图片靠右
@@ -82,6 +113,7 @@
 
 %\begin{CJK}{UTF8}{gbsn} %针对文字编码为unix %CJK自带的utf-8简体字体有gbsn(宋体)和gkai(楷体)
 %\begin{CJK}{GBK}{hei}	%针对文字编码为doc
+%\begin{CJK}{GBK}{hei}	 %针对文字编码为doc
 %\CJKindent     %在CJK环境中,中文段落起始缩进2个中文字符
 %\indent
 %
@@ -122,39 +154,45 @@
 
 %\addcontentsline{toc}{section}{Bibliography}
 
-%-------------------------------The Title of The Paper-----------------------------------------%
-%报告题目
-\title{报告题目:~}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Report-----------------------------------------%
+%\title{报告题目:~}
 %-----------------------------------------------------------------------------
 
 %----------------------The Authors and the address of The Paper--------------------------------%
-\author{
-\small
+%\author{
+%\small
 %Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
-\small
+%\small
 %(The Address，City Post code)						%Address	       %
-}
+%}
 %\affil[$\dagger$]{清华大学~材料加工研究所~A213}
-\date{}					%if necessary					       %
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary					       %
 %----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \maketitle
-\thispagestyle{fancy}   % 首页插入页眉页脚 
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
 
 %-------------------------------------------------------------------------------The Abstract and the keywords of The Paper----------------------------------------------------------------------------%
 \begin{abstract}
-摘要内容
+The content of the abstract %摘要内容
 %2020-11-24:~中国科学院-力学研究所
 %密度泛函理论自1960年代中旬确立以来，已经成为物理、化学和材料领域电子结构计算的重要工具。相比于传统的波函数理论，密度泛函理论以电子密度作为基本变量，有着更直观、明确的物理内涵，计算效率也更高。通过对密度泛函理论和Kohn-Sham方程的讨论，特别是交换-相关能泛函的改进和发展历史梳理，回顾密度泛函理论的概貌，简单介绍主要软件的基本框架。
 %2020-11-28:~北京理工大学
 %基于密度泛函理论(\textrm{DFT})发展的第一原理计算软件已经成为物理、化学和材料领域电子结构计算的重要工具。\textrm{LAPW}方法和\textrm{PAW}方法是目前材料电子计算的主要方法，围绕两种方法各自的基组构造、势能与总能量计算等问题，讨论基于密度泛函理论的相关软件(如\textrm{WIEN2k}、\textrm{VASP}等)的算法实现和基本框架。
 \end{abstract}
 
-%关键词
-%\keywords{\textrm{DFT}, \textrm{LAPW}, \textrm{PAW}, 电子计算}
+%\keywords{\textrm{DFT}, \textrm{LAPW}, \textrm{PAW}, 电子计算} %关键词
 
+%-------------------------------------------------------------------------------The Content of The Paper----------------------------------------------------------------------------------------------%
+%\tableofcontents %% 制作目录(目录是根据标题自动生成的)
 %----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 %------------------------------------------------------------------------------ main Body------------------------------------------------------------------------------------
+\newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
+\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%----------------------------------------------------------------------------------------The Body Of The Report----------------------------------------------------------------------------------------%
 %Introduction
 %\section{Introduction}
 %报告人简介

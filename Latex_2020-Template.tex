@@ -17,6 +17,7 @@
 \usepackage{fancyhdr}           %使用页眉-页脚                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\usepackage{authblk}					 %作者地址和E-mail
 \usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
 \usepackage{mathrsfs}                                    %英文花体
 \usepackage{xcolor}                                        %使用默认允许使用颜色
@@ -52,6 +53,7 @@
 \usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
 %\usepackage{footbib}			   %脚注列出参考文献　   %
 \usepackage{hypernat}                                                                         %
+%\usepackage[dvipdfm,bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
 \usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
 \hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}         %
 %参考文献含有超链接引用时需要下列宏包，注意与natbib有冲突        %
@@ -67,6 +69,31 @@
 %%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \graphicspath{{../Presentation_Beamer/}}                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+\title{Title/标题}   %
+%\author[a]{Author A}									     %
+\author[a]{Author/作者 A}   %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
+%\author[b]{Author D}									     %
+\author[b]{Author/作者 D}									     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+\affil[a]{作者单位-1}    %
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+\affil[b]{作者单位-2}			     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+\renewcommand\Authfont{\small\rm } % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+%\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -85,6 +112,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %\begin{CJK}{UTF8}{gbsn} %针对文字编码为unix %CJK自带的utf-8简体字体有gbsn(宋体)和gkai(楷体)
+%\begin{CJK}{GBK}{hei}	%针对文字编码为doc
 %\begin{CJK}{GBK}{hei}	 %针对文字编码为doc
 %\CJKindent     %在CJK环境中,中文段落起始缩进2个中文字符
 %\indent
@@ -126,20 +154,23 @@
 
 %\addcontentsline{toc}{section}{Bibliography}
 
-%-------------------------------The Title of The Paper-----------------------------------------%
-\title{标题}
-%----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Paper--------------------------------------------------------------%
+%\title{标题}
+%-------------------------------------------------------------------------------------------------------------------%
 
-%----------------------The Authors and the address of The Paper--------------------------------%
-\author{
-%作者:
-\small
-Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
-\small
-(The Address，City Post code)						%Address	       %
-}
-\date{}					%if necessary					       %
-%----------------------------------------------------------------------------------------------%
+%----------------------The Authors and the address of The Paper-----------------------------------------------------%
+%\author{ %%作者:
+%\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	                    %
+%\small
+%(The Address，City Post code)						%Address	                            %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}                                                                    %
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary				              	            %
+%-------------------------------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \maketitle
 %\thispagestyle{fancy}   % 首页插入页眉页脚 
 
@@ -152,13 +183,14 @@ The content of the abstract
 
 %-------------------------------------------------------------------------------The Content of The Paper----------------------------------------------------------------------------------------------%
 \tableofcontents %% 制作目录(目录是根据标题自动生成的)
+%----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 \newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
 \thispagestyle{fancy}   % 插入页眉页脚                                        %
-%----------------------------------------------------------------------------------------The Body Of The Paper----------------------------------------------------------------------------------------%
+%----------------------------------------------------------------------------------------The Main Body Of The Paper----------------------------------------------------------------------------------------%
 %Introduction
 
+%\setcounter{section}%{-1}% 控制chapter/section/page等的序号
 \section{Introduction}
 导言
 \section{正文章节}
@@ -300,8 +332,8 @@ The content of the abstract
 %\end{thebibliography}																			%
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 \phantomsection\addcontentsline{toc}{section}{Bibliography} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正%
-\bibliography{ref/Myref_HT}   %
-\bibliographystyle{ref/mybib} %% 接近ieeert样式
+\bibliography{../ref/Myref_HT}   %
+\bibliographystyle{../ref/mybib} %% 接近ieeert样式
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%      \bibliographystyle         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%      LaTeX 参考文献标准选项及其样式共有以下8种：                                %%%%%%%%
 % plain，按字母的顺序排列，比较次序为作者、年度和标题.
