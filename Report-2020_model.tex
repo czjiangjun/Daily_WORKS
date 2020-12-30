@@ -72,27 +72,28 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\title{More than one Author with different Affiliations}				     %
-\title{Title/标题}   %
+\title{报告标题:~}   %
 %\author[a]{Author A}									     %
-\author[a]{Author/作者 A}   %
+\author[ ]{姜~骏}   %
 %\author[a]{Author B}									     %
 %\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
-\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
+%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
 %\author[b]{Author D}									     %
-\author[b]{Author/作者 D}									     %
+%\author[b]{Author/作者 D}									     %
 %\author[b]{Author E}									     %
 %\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
-\affil[a]{作者单位-1}    %
+\affil[ ]{北京市计算中心}    %
 %\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
-\affil[b]{作者单位-2}			     %
+%\affil[b]{作者单位-2}			     %
 											     %
 %%% 使用 \thanks 定义通讯作者								     %
 											     %
-\renewcommand\Authfont{\small\rm } % 修改作者的字体与大小				     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
 \renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
-%\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
 \renewcommand\Authands{ , } % 将 and 换成逗号					     %
 \date{} % 去掉日期									     %
+%\date{2020-12-30}									     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -190,7 +191,7 @@ The content of the abstract %摘要内容
 %----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 %------------------------------------------------------------------------------ main Body------------------------------------------------------------------------------------
-\newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
+%\newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
 \thispagestyle{fancy}   % 插入页眉页脚                                        %
 %----------------------------------------------------------------------------------------The Body Of The Report----------------------------------------------------------------------------------------%
 %Introduction
