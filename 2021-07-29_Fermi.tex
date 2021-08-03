@@ -1,0 +1,547 @@
+\documentclass{article}      % Specifies the document class
+
+%%%%%%%%%%%%%%%%% CJK 中文版面控制  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{CJK} % CTEX-CJK 中文支持                            %
+\usepackage{xeCJK} % seperate the english and chinese		 %
+%\usepackage{CJKutf8} % Texlive 中文支持                         %
+\usepackage{CJKnumb} %中文序号                                   %
+\usepackage{indentfirst} % 中文段落首行缩进                      %
+%\setlength\parindent{22pt}       % 段落起始缩进量               %
+\renewcommand{\baselinestretch}{1.2} % 中文行间距调整            %
+\setlength{\textwidth}{16cm}                                     %
+\setlength{\textheight}{24cm}                                    %
+\setlength{\topmargin}{-1cm}                                     %
+\setlength{\oddsidemargin}{0.1cm}                                %
+\setlength{\evensidemargin}{\oddsidemargin}                      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{latexsym}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
+\usepackage{mathrsfs}                                    %英文花体
+\usepackage{xcolor}                                        %使用默认允许使用颜色
+%\usepackage{hyperref} 
+\usepackage{graphicx}
+\usepackage{subfigure}           %图片跨页
+\usepackage{animate}		 %插入动画
+\usepackage{caption}
+\captionsetup{font=footnotesize}
+
+%\usepackage[version=3]{mhchem}		%化学公式
+\usepackage{chemfig}		%化学公式
+\usepackage{chemformula}	%化学分子式
+
+\usepackage{fontspec} % use to set font
+\setCJKmainfont{SimSun}
+\XeTeXlinebreaklocale "zh"  % Auto linebreak for chinese
+\XeTeXlinebreakskip = 0pt plus 1pt % Auto linebreak for chinese
+
+\usepackage{longtable}                                   %使用长表格
+\usepackage{multirow}
+\usepackage{makecell}		%允许单元格内换行
+
+\usepackage{arydshln}
+\newcommand{\adots}{\mathinner{\mkern2mu%
+\raisebox{0.1em}{.}\mkern2mu\raisebox{0.4em}{.}%
+\mkern2mu\raisebox{0.7em}{.}\mkern1mu}}
+%%%%%%%%%%%%%%%%%%%%%%%%%  参考文献引用 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%尽量使用 BibTeX(含有超链接，数据库的条目URL即可)                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[numbers,sort&compress]{natbib} %紧密排列             %
+\usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
+\usepackage{hypernat}                                                                         %
+\usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
+\hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}         %
+%参考文献含有超链接引用时需要下列宏包，注意与natbib有冲突        %
+%\usepackage[dvipdfm]{hyperref}                                  %
+%\usepackage{hypernat}                                           %
+\newcommand{\upcite}[1]{\hspace{0ex}\textsuperscript{\cite{#1}}} %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\AtBeginDvi{\special{pdf:tounicode GBK-EUC-UCS2}} %CTEX用dvipdfmx的话，用该命令可以解决      %
+%						   %pdf书签的中文乱码问题		      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%  % EPS 图片支持  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+%\CJKindent     %在CJK环境中,中文段落起始缩进2个中文字符
+%\indent
+\graphicspath{{/home/jun_jiang/Documents/Latex_art_beamer/Presentation_Beamer/Figures/}}
+%\graphicspath{{/media/Windows_7/Documents/Presentation_Beamer/Figures/}}
+%
+\renewcommand{\abstractname}{\small{\CJKfamily{hei} 摘\quad 要}} %\CJKfamily{hei} 设置中文字体，字号用\big \small来设
+\renewcommand{\refname}{\centering\CJKfamily{hei} 参考文献}
+%\renewcommand{\figurename}{\CJKfamily{hei} 图.}
+\renewcommand{\figurename}{{\bf Fig}.}
+%\renewcommand{\tablename}{\CJKfamily{hei} 表.}
+\renewcommand{\tablename}{{\bf Tab}.}
+
+%将图表的Caption写成 图(表) Num. 格式
+\makeatletter
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{#1. #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1. #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother
+
+\newcommand{\keywords}[1]{{\hspace{0\ccwd}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
+
+%%%%%%%%%%%%%%%%%%中文字体设置%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%默认字体 defalut fonts \TeX 是一种排版工具 \\		%
+%{\bfseries 粗体 bold \TeX 是一种排版工具} \\		%
+%{\CJKfamily{song}宋体 songti \TeX 是一种排版工具} \\	%
+%{\CJKfamily{hei} 黑体 heiti \TeX 是一种排版工具} \\	%
+%{\CJKfamily{kai} 楷书 kaishu \TeX 是一种排版工具} \\	%
+%{\CJKfamily{fs} 仿宋 fangsong \TeX 是一种排版工具} \\	%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\addcontentsline{toc}{section}{Bibliography}
+
+%-------------------------------The Title of The Paper-----------------------------------------%
+\title{\rm{VASP~}软件的\rm{Fermi}能计算问题的讨论}
+%----------------------------------------------------------------------------------------------%
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+\author{
+\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+\small
+%(The Address，City Post code)						%Address	       %
+}
+\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+\maketitle
+
+%-------------------------------------------------------------------------------The Abstract and the keywords of The Paper----------------------------------------------------------------------------%
+%\begin{abstract}
+%The content of the abstract
+%\end{abstract}
+
+%\keywords {Keyword1; Keyword2; Keyword3}
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+%----------------------------------------------------------------------------------------The Body Of The Paper----------------------------------------------------------------------------------------%
+%Introduction
+\section{周期体系计算中的能量零点的移动与\textrm{Fermi}能}
+\subsection{问题的提出}
+在电子结构计算中，对分子、原子等有限尺度体系，习惯上将能量零点取在无穷远，即无穷远处的静止电子的能量为零。这样选择的能量参考点，束缚态的电子能量都是负值，并且基态最高占据态的电子能级与第一电离能的负值对应。但是对于理想的周期体系来说，“无穷远”因为引入周期性而消失，所以必须另外选择能量零点。\upcite{JPC-SSP12-4409_1979,XIE-LU}
+
+\subsection{晶体总能量计算与能量零点选择}
+一般地，晶体中的基态总能量$E_T$可以表示成晶格中的电子能量$E_{e-e}$与离子实排斥能$E_{N-N}$之和:~
+	\begin{equation}
+		E_T=E_{e-e}+E_{N-N}=T[\rho]+E_{ext}+E_{\mathrm{Coul}}+E_{\mathrm{XC}}+E_{N-N}
+		\label{eq:Crystal_ENE_R}
+	\end{equation}
+根据密度泛函理论(\textrm{Density-Functional Theory, DFT})和\textrm{Kohn-Sham}方程\upcite{PRB136-864_1964,PRA140-1133_1965}，电子本征态方程为:~
+\begin{equation}
+	\bigg[\dfrac12\nabla^2+V_{ext}(\vec r)+V_{\mathrm{Coul}}(\vec r)+V_{\mathrm{XC}}[\rho(\vec r)]\bigg]|\psi_i(\vec r)\rangle=\varepsilon_i|\psi_i(\vec r)\rangle
+	\label{eq:DFT}
+\end{equation}
+动能泛函用单电子能量表示为
+\begin{equation}
+	T[{\rho}]=\sum_in_i\langle\psi_i|\varepsilon_i-V_{\mathrm{KS}}|\psi_i\rangle
+	\label{eq:DFT_Kin}
+\end{equation}
+$n_i$是$\psi_i$上的电子占据数，$\varepsilon_i$是其能量本征值，因此总能量的泛函表示为:
+\begin{equation}
+	E_T=\sum_in_i\varepsilon_i-\dfrac12\int\int\mathrm{d}\vec r\mathrm{d}\vec r\dfrac{\rho(\vec r)\rho(\vec r^{\prime})}{|\vec r-\vec r^{\prime}|}+\int\mathrm{d}\vec r\rho(\vec r)[\epsilon_{\mathrm{XC}}(\vec r)-V_{\mathrm{XC}}(\vec r)]+E_{N-N}
+	\label{eq:DFT_ENE_R}
+	\end{equation}
+
+对于周期体系来说，因为电子的能量本征态是与动量空间($\vec K$空间)相关联，即\textrm{Kohn-Sham}方程表示为:
+\begin{equation}
+	\bigg[\dfrac12\vec k^2+V_{ext}(\vec k)+V_{\mathrm{Coul}}(\vec k)+V_{\mathrm{XC}}[\rho(\vec k)]\bigg]|\psi_i^{\vec k}(\vec r)\rangle=\varepsilon_i^{\vec k}|\psi_i^{\vec k}(\vec r)\rangle
+	\label{eq:DFT-k}
+\end{equation}
+显然，总能量在动量空间中计算更方便:~
+\begin{equation}
+	E_T=\sum_{i,\vec k}n_i\varepsilon_i^{\vec k}-\dfrac{\Omega}2\sum_{\vec k}\rho^{\ast}(\vec k)V_{\mathrm{Coul}}(\vec k)+\Omega\sum_{\vec k}\rho^{\ast}(\vec k)[\epsilon_{\mathrm{XC}}(\vec k)-V_{\mathrm{XC}}(\vec k)]+E_{N-N}
+	\label{eq:DFT_ENE_G}
+\end{equation}
+其中$V_{\mathrm{Coul}}(\vec k)$、$\epsilon_{\mathrm{XC}}(\vec k)$与$\rho^{\ast}(\vec k)$分别是\textrm{Coulomb}相互作用、单个电子的交换-相关能、交换-相关势和电子密度的\textrm{Fourier}分量。
+
+实际计算中需要作一些数学处理:~
+\begin{itemize}
+	\item 交换-相关势和交换-相关能的计算一般先在实空间计算$\epsilon_{\mathrm{XC}}(\vec r)$和$V_{\mathrm{XC}}(\vec r)$后，再通过\textrm{Fourier~}变换到动量空间，得到$\epsilon_{\mathrm{XC}}(\vec k)$和$V_{\mathrm{XC}}(\vec k)$。
+	\item 由\textrm{Poisson}方程
+\begin{equation}
+	\nabla^2V_{\mathrm{Coul}}(\vec r)=-4\pi\rho(\vec r)
+	\label{eq:Poisson}
+\end{equation}
+的\textrm{Fourier}展开有
+\begin{equation}
+	V_{\mathrm{Coul}}(\vec k)=\dfrac{4\pi\rho^{\ast}(\vec k)}{|\vec k|^2}
+	\label{eq:FFT_Poisson}
+\end{equation}
+显然$V_{\mathrm{Coul}}(\vec k=0)$是发散的;
+	\item 考虑离子间\textrm{Coulomb}相互作用能之和
+	\begin{equation}
+		E_{N-N}=\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_s^{\prime}|}
+		\label{eq:Ion_Coulomb_ENE}
+	\end{equation}
+这里$Z_s$是离子实的电荷数，$\vec R$表示晶格点的位矢，$\vec r_s$代表元胞内原子的相对位矢。因为$E_{N-N}$求和包含无穷多项，是发散的;
+	\item 用于求解能量本征态的式\eqref{eq:DFT-k}中$V_{ext}$的\textrm{Fourier}分量在$\vec k=0$处也是发散的。
+\end{itemize}
+因此总能量泛函中，$E_{N-N}$、$V_{\mathrm{Coul}}(\vec k=0)$和$V_{ext}(\vec k=0)$这三项单独都是发散的，但因为整个体系出于电中性，所以这些发散项相互抵消，应是一个常数。
+
+因此实际的总能计算中，首先在求解\textrm{Kohn-Sham}方程时，先将$V_{\mathrm{Coul}}(\vec k=0)$和$V_{ext}(\vec k=0)$同时置为零，这相当于势能作一平移，或者说重新定义势能零点。由此得到的总能泛函为:~
+\begin{equation}
+	E_T=\sum_{i,\textcolor{red}{\vec k\neq0}}n_i\varepsilon_i^{\vec k}-\dfrac{\Omega}2\sum_{\textcolor{red}{\vec k\neq 0}}\rho^{\ast}(\vec k)V_{\mathrm{Coul}}(\vec k)+\Omega\sum_{\vec k}\rho^{\ast}(\vec k)[\epsilon_{\mathrm{XC}}(\vec k)-V_{\mathrm{XC}}(\vec k)]+E_{N-N}
+	\label{eq:DFT_ENE_G-2}
+\end{equation}
+最后在总能量计算中，考虑补偿势能零点的这一平移。
+
+\subsection{发散项的处理}
+根据上面的讨论，总能量中发散项之和为:~
+	\begin{equation}
+		\begin{aligned}
+			\lim_{\vec k\rightarrow0}\Omega&\bigg[\dfrac12V_{\mathrm{Coul}}(\vec k)+\sum_sv_{ext}^s(\vec k)\bigg]\rho^{\ast}(\vec k)+\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_s^{\prime}|}\\
+			=&\sum_s\alpha_s\sum_sZ_s+E_{\mathrm{Ewald}}
+		\end{aligned}
+		\label{eq:diver-term}
+	\end{equation}
+	
+$V_{ext}$在不存在其他外场时，一般只考虑离子-电子的\textrm{Coulomb}相互作用，
+	\begin{equation}
+		\begin{aligned}
+			V_{ext}(\vec r)&=\sum_{\vec R,s}\dfrac{-Z_s}{|\vec r-\vec R-\vec r_s|}\\
+			&\equiv\sum_{\vec R,s}v_{ext}^s(\vec r-\vec R-\vec r_s)
+		\end{aligned}
+		\label{eq:Ion-ele_Coulomb}
+	\end{equation}
+
+对于形如$Z_s/r$的外场，其\textrm{Fourier}分量在$\vec k=0$附近展开
+	\begin{equation}
+		v_{ext}^s(\vec k)=-\dfrac{4\pi Z_s}{\Omega|\vec k|^2}+\alpha_s+O(\vec k)
+		\label{eq:V_ext}
+	\end{equation}
+展开$\rho^{\ast}(\vec k)$，有
+	\begin{equation}
+		\lim_{\vec k\rightarrow 0}\rho^{\ast}(\vec k)=\dfrac{\sum_sZ_s}{\Omega}+\beta|\vec k|^2+O(\vec k)
+		\label{eq:rho_ext}
+	\end{equation}
+去掉高次项，有
+\begin{equation}
+	\begin{aligned}
+		\lim_{\vec k\rightarrow 0}&\bigg[\boxed{\textcolor{blue}{\dfrac{\Omega}2\dfrac{4\pi[\rho^{\ast}(\vec k)]^2}{|\vec k|^2}}}+\boxed{\Omega}\bigg(\boxed{\textcolor{blue}{-\dfrac{4\pi\sum_sZ_s}{\Omega|\vec k|^2}}}+\sum_s\alpha_s\bigg)\boxed{\rho^{\ast}(\vec k)}+\boxed{\textcolor{red}{\dfrac12\dfrac{4\pi(\sum_sZ_s)^2}{\Omega|\vec k|^2}}}\bigg]\\
+		&+\boxed{\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_{s^{\prime}}|}-\lim_{\vec k\rightarrow0}\textcolor{red}{\dfrac12\dfrac{4\pi(\sum_sZ_s)^2}{\Omega|\vec k|^2}}}\\
+		=&\sum_s\alpha_s\sum_sZ_s+\textcolor{magenta}{E_{\mathrm{Ewald}}}
+	\end{aligned}
+	\label{eq:V_ext_exp2}
+\end{equation}
+其中离子间排斥势采用\textrm{Ewald~}方法得到\upcite{Born-Huang,R.Martin}:~对于形如点电荷形式的静电势$\dfrac{e^2}r$，可引入\textrm{Gauss~}误差函数\upcite{Grosso-Parravicini}
+\begin{equation}
+	\begin{aligned}
+		&\mathrm{erf}(x)=\dfrac2{\sqrt{\pi}}\int_0^{x}\mathrm{e}^{-t^2}\mathrm{d}t\\
+		&\mathrm{erfc}(x)=\dfrac2{\sqrt{\pi}}\int_x^{\infty}\mathrm{e}^{-t^2}\mathrm{d}t\\
+		\mbox{满足}\quad&\mathrm{erf}(x)+\mathrm{erfc}(x)=1
+	\end{aligned}
+	\label{eq:err_fun}
+\end{equation}
+得到恒等式(见图\ref{Error_Function}):
+\begin{equation}
+	\dfrac{e^2}r\equiv\dfrac{e^2}r\mathrm{erf}(\sqrt{\eta}r)+\dfrac{e^2}r\mathrm{erfc}(\sqrt{\eta}r)
+	\label{eq:err_fun_comp}
+\end{equation}
+\begin{figure}[h!]
+\centering
+\vspace*{-0.10in}
+\includegraphics[height=2.55in,width=5.8in,viewport=0 0 1100 455,clip]{Ewald_method.png}
+\caption{\small \textrm{Decomposition of the potential $-e^2/r$ (singular at the origin and of long-range nature) into a contribution $-(e^2/r)\mathrm{erf}(\sqrt{\eta}r)$(regular at the origin of long-range) and a contribution $-(e^2/r)\mathrm{erfc}(\sqrt{\eta}r)$ (singular at the origin and of short-range nature). Here $\sqrt{\eta}=1 (\mathrm{Bohr radius unit})$ is chosen.}\upcite{Grosso-Parravicini}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Error_Function}
+\end{figure}
+
+	\begin{equation}
+		\begin{aligned}
+			E_{\textrm{Ewald}}=&\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_{s^{\prime}}|}-\lim_{\vec k\rightarrow0}\dfrac12\times\dfrac{4\pi(\sum_sZ_s)^2}{\Omega|\vec k|^2}\\
+			=&\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_{s^{\prime}}|}-\dfrac1{2\Omega}\sum_{s,s^{\prime}}\int\mathrm{d}\vec r\dfrac{Z_sZ_{s^{\prime}}}r\\
+			=&\sum_{s,s^{\prime}}Z_sZ_{s^{\prime}}\bigg\{\dfrac{2\pi}{\Omega}\sum_{\vec k\neq 0}\cos[\vec k\cdot(\vec r_s-\vec r_{s^{\prime}})]\dfrac{\mathrm{e}^{-|\vec k|^2/4\eta}}{|\vec k|^2}\\
+			&-\dfrac{\pi}{2\eta\Omega}+\dfrac14\sum_{\vec R}\dfrac{\mathrm{erf}(\sqrt{\eta}x)}x\bigg|_{\vec R+\vec r_s-\vec r_s^{\prime}\neq0}-\sqrt{\dfrac{\eta}{\pi}}\delta_{s,s^{\prime}}\bigg\}
+		\end{aligned}
+		\label{eq:Ewald_ENE}
+	\end{equation}
+	$\mathrm{erf}(x)$是误差函数，$\sqrt{\eta}$原则上是任意参数。$\alpha_s$由$v_{ext}^s(\vec r)$确定:~
+	\begin{equation}
+		\alpha_s=\lim_{\vec k\rightarrow0}\bigg[v_{ext}^s(\vec k)+\dfrac{4\pi Z_s}{\Omega|\vec k|^2}\bigg]=\dfrac1{\Omega}\int\mathrm{d}\vec r\bigg[v_{ext}^s(\vec r)+\dfrac{Z_s}r\bigg]
+		\label{eq:alpha_s}
+	\end{equation}
+由此得到的总能量表达式是:
+\begin{equation}
+	\begin{aligned}
+		E_T=&\sum_i\varepsilon_i-\dfrac{\Omega}2\sum_{\vec k\neq0}\rho^{\ast}(\vec k)V_{\mathrm{Coul}}(\vec k)\\
+		&+\Omega\sum_{\vec k}\rho^{\ast}(\vec k)[\epsilon_{\mathrm{XC}}(\vec k)-V_{\mathrm{XC}}(\vec k)]\\
+		&+\sum_s\alpha_s\sum_sZ_s+E_{\mathrm{Ewald}}
+	\end{aligned}
+	\label{eq:TOT_ENE_Finial}
+\end{equation}
+
+\textrm{VASP~}软件的总能量计算即遵照式\eqref{eq:TOT_ENE_Finial}计算的。图\ref{TOTEN_VASP}给出就是\textrm{VASP~}总能计算的输出形式:~
+\begin{figure}[h!]
+\centering
+\vspace*{-0.12in}
+\includegraphics[height=3.85in,width=4.2in,viewport=0 0 600 495,clip]{VASP_Total_ENE.png}
+\caption{\small \textrm{The Total-E calculated by VASP.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{TOTEN_VASP}
+\end{figure}
+
+%根据\textrm{Ewald}的势能计算方法，$\boxed{\dfrac12\dfrac{4\pi(\sum_sZ_s)^2}{\Omega|\vec k|^2}}$表示的电子势能在$\vec k=0$处的贡献，可分为
+%	\begin{itemize}
+%		\item \textcolor{purple}{对应于实空间电子势能的长程可收敛部分:~}式\eqref{eq:Ewald_ENE}中第三项
+%			\begin{displaymath}
+%				-(\sum\limits_{s,s^{\prime}}Z_sZ_{s^{\prime}})\dfrac14\sum_{\vec R}\dfrac{\mathrm{erf}(\sqrt{\eta}x)}x\bigg|_{\vec R+\vec r_s-\vec r_s^{\prime}\neq0}
+%			\end{displaymath}
+%		\item \textcolor{purple}{对应于实空间电子势能的短程发散部分:~}式\eqref{eq:Ewald_ENE}中第二项
+%			\begin{displaymath}
+%				(\sum_{s,s^{\prime}}Z_sZ_{s^{\prime}})\dfrac{\pi}{2\eta\Omega}
+%			\end{displaymath}
+%		\textcolor{red}{注意:~实际计算中，因为误差函数的参数$\sqrt{\eta}$不为零，因此该发散部分表示为一个大数而不是$\infty$}。
+%	\end{itemize}
+%	类似地，不难看出，式\eqref{eq:Ewald_ENE}中\textcolor{blue}{第一项}和\textcolor{magenta}{第四项}分别对应离子-电子的\textrm{Coulomb}相互作用
+%	\begin{displaymath}
+%		\boxed{\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_{s^{\prime}}|}}
+%	\end{displaymath}
+%	的\textcolor{blue}{长程收敛}和\textcolor{magenta}{短程发散}部分。
+%
+%以\textrm{FCC-Al}为例，采用\textrm{VASP~}计算得到有关数值如下:~
+%\begin{displaymath}
+%	\begin{aligned}
+%	&\mathrm{E-fermi}:~&7.4406\\
+%	&\sum\alpha_iZ_i:~&-0.1949\\
+%	&\mathrm{Ewald-Energy}:~&-72.4621\\
+%	&\mathrm{XC(G=0)}:~&-10.00040 \\
+%	\end{aligned}
+%\end{displaymath}
+%将\textrm{VASP~}计算中的\textrm{Ewald-Energy}按式\eqref{eq:Ewald_ENE}分解，各部分对应的数值为:~
+%\begin{displaymath}
+%	\begin{aligned}
+%	&\mathrm{Part-1}:~&1.320907 \\
+%	&\mathrm{Part-2}:~&-50.176618 \\ 
+%	&\mathrm{Part-3}:~&1.481905 \\
+%	&\mathrm{Part-4}:~&-25.088309 \\
+%	\end{aligned}
+%\end{displaymath}
+%\textcolor{red}{不难看出，这里第二项和第四项分别代表两部分势能在$\vec k=0$的发散项贡献，因此数值的绝对值比另外两项大得多。}
+
+\section{能量零点移动对能量本征态的影响}
+根据上述讨论，因为能量零点的平移，周期体系计算的能量本征值$\varepsilon_i$的数值一般不绝对为负值。习惯上在能带和态密度表示时，常常将\textrm{Fermi~}能设置成零。
+
+参照总能计算中能量零点移动的讨论，可以计算\textrm{Kohn-Sham~}方程中势能零点引起的能量本征值的移动，%根据检索\textrm{VASP~}的代码发现:~\textcolor{red}{\textrm{VASP~}程序在构造\textrm{Fock~}矩阵的时候，已经包括了$V_{\mathrm{XC}}(\vec k=0)$的贡献~}，即\textcolor{purple}{$\mathrm{XC(G=0)}$}对应的数值(见图\ref{TOTEN_VASP});~
+$V_{\mathrm{Coul}}(\vec k=0)$和$V_{ext}[\rho(\vec k=0)]$。
+即
+\begin{equation}
+	\lim_{\vec k\rightarrow0}\bigg[V_{\mathrm{Coul}}(\vec k)+\sum_sv_{ext}^s(\vec k)\bigg]
+	\label{eq:part_diver-term}
+\end{equation}
+式\eqref{eq:part_diver-term}\textbf{势的移动}并不简单对应式\eqref{eq:diver-term}中\textbf{能量移动}的发散项求和。
+
+在$\vec k=0$附近，将式\eqref{eq:V_ext}和\eqref{eq:rho_ext}代入式\eqref{eq:part_diver-term}，去掉高次项，可有
+\begin{equation}
+	\begin{aligned}
+		&\lim_{\vec k\rightarrow 0}\bigg[\dfrac{4\pi\rho^{\ast}(\vec k)}{|\vec k|^2}+\bigg(-\dfrac{4\pi\sum_sZ_s}{\Omega|\vec k|^2}+\sum_s\alpha_s\bigg)\bigg]\\
+		=&\lim_{\vec k\rightarrow 0}\bigg[\boxed{\dfrac{4\pi}{\Omega}\dfrac{\sum_sZ_s}{|\vec k|^2}}+4\pi\beta\boxed{-\dfrac{4\pi\sum_sZs}{\Omega|\vec k^2|}}+\sum_s\alpha_s\bigg]\\
+		=&\sum_s\alpha_s+4\pi\beta
+	\end{aligned}
+	\label{eq:V_shift-term}
+\end{equation}
+式\eqref{eq:V_shift-term}对应\textrm{VASP~}软件中给出的\textcolor{purple}{$\mathrm{alpha+bet}$}的数值，见图\ref{TOTEN_VASP}(在\textrm{VASP~}中，\textcolor{purple}{bet}项对应式\eqref{eq:V_shift-term}的$4\pi\beta$)。
+
+上述推导也验证了赝势理论的基本思想:~对于电中性的周期体系，在倒空间中，电子\textrm{Coulomb~}势与原子核的吸引势相互抵消后，净的作用可近似为高阶奇点和一个平缓的势函数。\textrm{VASP~}软件中，$\alpha_s$和$\beta$的数值计算方式如下:~
+\begin{itemize}
+	\item \textcolor{blue}{$\alpha_s$取原子赝势在径向的第一个点(即离$\vec k=0$最近)的数值}
+	\item \textcolor{blue}{$\beta$由各原子赝电荷密度前5个点(即离$\vec k=0$足够近)的数值两阶差分后求和得到}
+\end{itemize}
+
+传统的求解\textrm{Kohn-Sham~}方程计算能量本征值时，将势函数中包括核-电子吸引和电子间排斥排斥势的全部$\vec k=0$部分的贡献扣除。如果考虑补偿函数式\eqref{eq:V_shift-term}的贡献，则利用了上述两项的奇点能量部分抵消的特性，保留了势能零点在无穷远时的部分特征(\textcolor{red}{注意:~采用该能量补偿方案，高阶奇点仍然存在!})。
+
+综上所述，在\textrm{VASP~}中，如果考虑周期体系的势能零点移动，则\textrm{Fermi~}的数值可取为\textbf{两项之和}:~
+\begin{displaymath}
+	\mathrm{E_{fermi}}=\textcolor{blue}{\mathrm{E-fermi}}+\textcolor{purple}{\mathrm{alpha+bet}}
+\end{displaymath}
+这就是排除高阶奇点后的\textrm{Fermi~}能，与传统的分子、原子中能量计算结果相近。
+%\subsection{一点讨论}
+%我们对\textrm{FCC-Al}的计算表明，
+%\begin{displaymath}
+%	\begin{aligned}
+%	&\mathrm{E-fermi}:~&7.4406\\
+%	&\sum\alpha_iZ_i:~&-0.1949\\
+%	&\mathrm{Ewald-Energy}:~&-72.4621\\
+%	&\mathrm{XC(G=0)}:~&-10.00040 \\
+%	&\mathrm{alpha+bet}:~-&14.2459\\
+%	\end{aligned}
+%\end{displaymath}
+%因此考虑势能零点移动修正的\textrm{Fermi}能应为(\textcolor{blue}{包含\textbf{OUTCAR}中$\mathrm{alpha+bet}$项}):
+%\begin{displaymath}
+%	7.4406-14.2459=-6.80\;\mathrm{eV}
+%\end{displaymath}
+%$\ast$注:上述计算验证~
+%\begin{itemize}
+%	\item 在\textrm{VASP~}计算中，$\mathrm{alpha+bet\mbox{项}}<0$恒成立
+%	\item \textrm{VASP~}中$|\mathrm{E-Fermi}|<|\mathrm{alpha+bet}|$成立
+%\end{itemize}
+
+\section{\rm{VASP}计算结果对上述推导的检验}
+考虑周期体系，如果原子间距离足够远，则周期体系计算结果应该逼近原子分子体系的计算结果，基于该思想，可以用\textrm{VASP}软件对假想的\textrm{Si}和\textrm{Fe}孤立原子(分别在足够大的晶胞中)，然后逐渐减少原子间距离，考察\textrm{OUTCAR}文件中\textcolor{purple}{\textrm{alpha+bet}}的变化，结果列于图\ref{Fig:VASP_alpha+bet}。
+\begin{figure}[h!]
+\centering
+\hspace*{-0.7in}
+\vspace*{-0.2in}
+\includegraphics[width=1.2\textwidth, viewport=0 0 1520 780, clip]{VASP_Fermi_alpha-bet.pdf}
+\caption{\small Compare the \textcolor{purple}{\textrm{alpha+bet}} with the distance of atom.}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Fig:VASP_alpha+bet}
+\end{figure}
+
+不难看出，随着原子间距离的逐步增大，\textcolor{purple}{\textrm{alpha+bet}}的数值逐渐趋向于零，相应的\textrm{Fermi}数值逐渐逼近原子能级(数据未在此列出)。一般地认为原子间距离超过10~\AA ，可以原子间没有相互作用，考虑本次极端模型中原子采用\textrm{FCC}密堆积，原子间距离为10~\AA~时对应的晶胞参数为15.874~\AA ，当晶胞参数大于15.874~\AA ，\textcolor{purple}{\textrm{alpha+bet}}的数值将趋向于0，这一结论与图\ref{Fig:VASP_alpha+bet}中曲线趋向零的起始位置吻合得很好。因此，趋于极端情况的假想模型计算结果也验证了\textcolor{purple}{\textrm{alpha+bet}}表示的就是排除高阶奇点后的能量本征值修正项，与前一节讨论的结论一致。
+%{
+%\frametitle{发展统一理论框架下的材料计算程序}
+%\begin{itemize}
+%	\item
+%\end{itemize}
+%}
+
+%-------------------The Figure Of The Paper------------------
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[height=3.35in,width=2.85in,viewport=0 0 400 475,clip]{PbTe_Band_SO.eps}
+%\hspace{0.5in}
+%\includegraphics[height=3.35in,width=2.85in,viewport=0 0 400 475,clip]{EuTe_Band_SO.eps}
+%\caption{\small Band Structure of PbTe (a) and EuTe (b).}%(与文献\cite{EPJB33-47_2003}图1对比)
+%\label{Pb:EuTe-Band_struct}
+%\end{figure}
+
+%-------------------The Equation Of The Paper-----------------
+%\begin{equation}
+%\varepsilon_1(\omega)=1+\frac2{\pi}\mathscr P\int_0^{+\infty}\frac{\omega'\varepsilon_2(\omega')}{\omega'^2-\omega^2}d\omega'
+%\label{eq:magno-1}
+%\end{equation}
+
+%\begin{equation} 
+%\begin{split}
+%\varepsilon_2(\omega)&=\frac{e^2}{2\pi m^2\omega^2}\sum_{c,v}\int_{BZ}d{\vec k}\left|\vec e\cdot\vec M_{cv}(\vec k)\right|^2\delta [E_{cv}(\vec k)-\hbar\omega] \\
+% &= \frac{e^2}{2\pi m^2\omega^2}\sum_{c,v}\int_{E_{cv}(\vec k=\hbar\omega)}\left|\vec e\cdot\vec M_{cv}(\vec k)\right|^2\dfrac{dS}{\nabla_{\vec k}E_{cv}(\vec k)}
+% \end{split}
+%\label{eq:magno-2}
+%\end{equation}
+
+%-------------------The Table Of The Paper----------------------
+%\begin{table}[!h]
+%\tabcolsep 0pt \vspace*{-12pt}
+%%\caption{The representative $\vec k$ points contributing to $\sigmA_2^{xy}$ of interband transition in EuTe around 2.5 eV.}
+%\label{Table-EuTe_Sigma}
+%\begin{minipage}{\textwidth}
+%%\begin{center}
+%\centering
+%\def\temptablewidth{0.84\textwidth}
+%\rule{\temptablewidth}{1pt}
+%\begin{tabular*} {\temptablewidth}{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}l|}
+
+%-------------------------------------------------------------------------------------------------------------------------
+%&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
+%Components\footnote{波函数主要成分后的括号中，$5s$、$5p$和$5p$、$4f$、$5d$分别指碲和铕的原子轨道。} &Gap (eV)   \\ \hline
+%-------------------------------------------------------------------------------------------------------------------------
+%&2.35       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%&       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%-------------------------------------------------------------------------------------------------------------------------
+%\end{tabular*}
+%\rule{\temptablewidth}{1pt}
+%\end{minipage}{\textwidth}
+%\end{table}
+
+%-------------------The Long Table Of The Paper--------------------
+%\begin{small}
+%%\begin{minipage}{\textwidth}
+%%\begin{longtable}[l]{|c|c|cc|c|c|} %[c]指定长表格对齐方式
+%\begin{longtable}[c]{|c|c|p{1.9cm}p{4.6cm}|c|c|}
+%\caption{Assignment for the peaks of EuB$_6$}
+%\label{tab:EuB6-1}\\ %\\长表格的caption中换行不可少
+%\hline
+%%
+%--------------------------------------------------------------------------------------------------------------------------------
+%\multicolumn{2}{|c|}{\bfseries$\sigmA_1(\omega)$谱峰}&\multicolumn{4}{c|}{\bfseries部分重要能带间电子跃迁\footnotemark}\\ \hline
+%\endfirsthead
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%\multicolumn{6}{r}{\it 续表}\\
+%\hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%标记 &峰位(eV) &\multicolumn{2}{c|}{有关电子跃迁} &gap(eV)  &\multicolumn{1}{c|}{经验指认} \\ \hline
+%\endhead
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%\multicolumn{6}{r}{\it 续下页}\\
+%\endfoot
+%\hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%%\hlinewd{0.5$p$t}
+%\endlastfoot
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%% Stuff from here to \endlastfoot goes at bottom of last page.
+%%
+%--------------------------------------------------------------------------------------------------------------------------------
+%标记 &峰位(eV)\footnotetext{见正文说明。} &\multicolumn{2}{c|}{有关电子跃迁\footnotemark} &gap(eV) &\multicolumn{1}{c|}{经验指认\upcite{PRB46-12196_1992}}\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%
+%     &0.07 &\multicolumn{2}{c|}{电子群体激发$\uparrow$} &--- &电子群\\ \cline{2-5}
+%\raisebox{2.3ex}[0pt]{$\omega_f$} &0.1 &\multicolumn{2}{c|}{电子群体激发$\downarrow$} &--- &体激发\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%
+%     &1.50 &\raisebox{-2ex}[0pt][0pt]{20-22(0,1,4)} &2$p$(10.4)4$f$(74.9)$\rightarrow$ &\raisebox{-2ex}[0pt][0pt]{1.47} &\\%\cline{3-5}
+%     &1.50$^\ast$ & &2$p$(17.5)5$d_{\mathrm E}$(14.0)$\uparrow$ & &4$f$$\rightarrow$5$d_{\mathrm E}$\\ \cline{3-5}
+%     \raisebox{2.3ex}[0pt][0pt]{$a$} &(1.0$^\dagger$) &\raisebox{-2ex}[0pt][0pt]{20-22(1,2,6)} &\raisebox{-2ex}[0pt][0pt]{4$f$(89.9)$\rightarrow$2$p$(18.7)5$d_{\mathrm E}$(13.9)$\uparrow$}\footnotetext{波函数主要成分后的括号中，2$s$、2$p$和5$p$、4$f$、5$d$、6$s$分别指硼和铕的原子轨道；5$d_{\mathrm E}$、5$d_{\mathrm T}$分别指铕的(5$d_{z^2}$，5$d_{x^2-y^2}$和5$d_{xy}$，5$d_{xz}$，5$d_{yz}$)轨道，5$d_{\mathrm{ET}}$(或5$d_{\mathrm{TE}}$)则指5个5$d$轨道成分都有，成分大的用脚标的第一个字母标示；2$ps$(或2$sp$)表示同时含有硼2$s$、2$p$轨道成分，成分大的用第一个字母标示。$\uparrow$和$\downarrow$分别标示$\alpha$和$\beta$自旋电子跃迁。} &\raisebox{-2ex}[0pt][0pt]{1.56} &激子跃迁。 \\%\cline{3-5}
+%     &(1.3$^\dagger$) & & & &\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+
+%     & &\raisebox{-2ex}[0pt][0pt]{19-22(0,0,1)} &2$p$(37.6)5$d_{\mathrm T}$(4.5)4$f$(6.7)$\rightarrow$ & & \\\nopagebreak %\cline{3-5}
+%     & & &2$p$(24.2)5$d_{\mathrm E}$(10.8)4$f$(5.1)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.78} &a、b、c峰可能 \\ \cline{3-5}
+%     & &\raisebox{-2ex}[0pt][0pt]{20-29(0,1,1)} &2$p$(35.7)5$d_{\mathrm T}$(4.8)4$f$(10.0)$\rightarrow$ & &包含有复杂的\\ \nopagebreak%\cline{3-5}
+%     &2.90 & &2$p$(23.2)5$d_{\mathrm E}$(13.2)4$f$(3.8)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.92} &强激子峰。$^{\ast\ast}$\\ \cline{3-5}
+%$b$  &2.90$^\ast$ &\raisebox{-2ex}[0pt][0pt]{19-22(0,1,1)} &2$p$(33.9)4$f$(15.5)$\rightarrow$ & &B2$s$-2$p$的价带 \\ \nopagebreak%\cline{3-5}
+%     &3.0 & &2$p$(23.2)5$d_{\mathrm E}$(13.2)4$f$(4.8)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.94} &顶$\rightarrow$B2$s$-2$p$导\\ \cline{3-5}
+%     & &12-15(0,1,2) &2$p$(39.3)$\rightarrow$2$p$(25.2)5$d_{\mathrm E}$(8.6)$\downarrow$ &2.83 &带底跃迁。\\ \cline{3-5}
+%     & &14-15(1,1,1) &2$p$(42.5)$\rightarrow$2$p$(29.1)5$d_{\mathrm E}$(7.0)$\downarrow$ &2.96 & \\\cline{3-5}
+%     & &13-15(0,1,1) &2$p$(40.4)$\rightarrow$2$p$(28.9)5$d_{\mathrm E}$(6.6)$\downarrow$ &2.98 & \\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%%\hline
+%%\hlinewd{0.5$p$t}
+%\end{longtable}
+%%\end{minipage}{\textwidth}
+%%\setlength{\unitlength}{1cm}
+%%\begin{picture}(0.5,2.0)
+%%  \put(-0.02,1.93){$^{1)}$}
+%%  \put(-0.02,1.43){$^{2)}$}
+%%\put(0.25,1.0){\parbox[h]{14.2cm}{\small{\\}}
+%%\put(-0.25,2.3){\line(1,0){15}}
+%%\end{picture}
+%\end{small}
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+\newpage
+%--------------------------------------------------------------------------The Biblography of The Paper-----------------------------------------------------------------%
+%\newpage																				%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+%\begin{thebibliography}{99}																		%
+%%\bibitem{PRL58-65_1987}H.Feil, C. Haas, {\it Phys. Rev. Lett.} {\bf 58}, 65 (1987).											%
+%\end{thebibliography}																			%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+%																					%
+\phantomsection\addcontentsline{toc}{section}{Bibliography}	 %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正	%
+\bibliography{/home/jun_jiang/Documents/Latex_art_beamer/ref/Myref}																			%
+\bibliographystyle{/home/jun_jiang/Documents/Latex_art_beamer/ref/mybib}																		%
+%  \nocite{*}																				%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+\clearpage     
+%\end{CJK} 前加上\clearpage是CJK的要求
+\end{document}
