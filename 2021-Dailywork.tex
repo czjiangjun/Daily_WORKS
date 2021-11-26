@@ -82,22 +82,21 @@
 %	TEST
 %	\end{verbatim}
 %\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\title{More than one Author with different Affiliations}				     %
-\title{Title/标题}   %
+\title{标题}   %
 %\author[a]{Author A}									     %
-\author[a]{Author/作者 A}   %
+\author[]{ }   %
 %\author[a]{Author B}									     %
 %\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
-\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
+%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
 %\author[b]{Author D}									     %
-\author[b]{Author/作者 D}									     %
+%\author[b]{Author/作者 D}									     %
 %\author[b]{Author E}									     %
 %\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
-\affil[a]{作者单位-1 \authorcr 地址}    %\authorcr表示换行
+%\affil[a]{作者单位-1 \authorcr 地址}    %\authorcr表示换行
 %\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
-\affil[b]{作者单位-2}			     %
+%\affil[b]{作者单位-2}			     %
 											     %
 %%% 使用 \thanks 定义通讯作者								     %
 %%\affil命令后的{}中的内容，如果觉得需要换行的话，换行命令是\authorcr（不是\\）。
@@ -192,26 +191,44 @@
 %\thispagestyle{fancy}   % 首页插入页眉页脚 
 
 %-------------------------------------------------------------------------------The Abstract and the keywords of The Paper----------------------------------------------------------------------------%
-\begin{abstract}
-The content of the abstract
-\end{abstract}
+%\begin{abstract}
+%The content of the abstract
+%\end{abstract}
 
-\keywords{Keyword1; Keyword2; Keyword3}
+%\keywords{Keyword1; Keyword2; Keyword3}
 
 %-------------------------------------------------------------------------------The Content of The Paper----------------------------------------------------------------------------------------------%
-\tableofcontents %% 制作目录(目录是根据标题自动生成的)
+%\tableofcontents %% 制作目录(目录是根据标题自动生成的)
 %----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
-\newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
-\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%\newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
+%\thispagestyle{fancy}   % 插入页眉页脚                                        %
 %----------------------------------------------------------------------------------------The Main Body Of The Paper----------------------------------------------------------------------------------------%
 %Introduction
 
 %\setcounter{section}%{-1}% 控制chapter/section/page等的序号
-\section{Introduction}
-导言
-\section{正文章节}
-参考文献的引用方式1\upcite{QCQC_2014}
+\section{January}
+\begin{itemize}
+	\item 2021-01-04-08:~\textrm{DVM-DAC}理论
+	\item 2021-01-04-08:~\textrm{DVM-DAC}理论
+\end{itemize}
+
+\section{March}
+\begin{itemize}
+	\item 2021-03:~\textrm{AtomPAW\_VASP}:~\textrm{rhfatm}嵌入
+\end{itemize}
+
+\section{April}
+\begin{itemize}
+	\item 2021-04-06:~清华王崇愚先生合金模型数据处理\textrm{Python-data}
+	\item 2021-04-07:~\textrm{VASP}的\textrm{INCAR}参数与说明
+\end{itemize}
+
+\section{July}
+\begin{itemize}
+	\item 2021-07-02:~送书名录\\
+		刘鹏、施思齐、黄钦、王繁
+\end{itemize}<++>
 %-------------------The Figure Of The Paper------------------
 %\begin{figure}[h!]
 %\centering
@@ -329,17 +346,12 @@ The content of the abstract
 %%\end{picture}
 %\end{small}
 
-
-%\textcolor{red}{\textbf{直接插入文件}}:\verbatiminput{/home/jun_jiang/Documents/Latex_art_beamer/Daily_WORKS/Report-2020_model.tex} %为保险:~选用文件名绝对路径
-%\textcolor{red}{\textbf{备忘录}}:\verbatiminput{/home/jun_jiang/Documents/备忘录.txt}
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 %-------------------------------------------------------------------------Thanks------------------------------------------------------------------------------------------------
 %\newpage %%
 %\newpage %%
 %\thispagestyle{fancy}   % 首页插入页眉页脚 
-\section{致谢}
-致谢内容
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 %--------------------------------------------------------------------------The Biblography of The Paper-----------------------------------------------------------------%
