@@ -1,4 +1,4 @@
-\documentclass[10pt, oneside, a4paper]{article}      % Specifies the document class
+\documentclass[11pt, oneside, a4paper]{article}      % Specifies the document class
 %\documentclass[10pt, twoside, a4paper]{article}      % Specifies the document class
 
 %%%%%%%%%%%%%%%%% CJK 中文版面控制  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -20,6 +20,8 @@
 \usepackage{authblk}					 %作者地址和E-mail
 \usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
 \usepackage{mathrsfs}                                    %英文花体
+\usepackage{tikz}					 %绘制平面图形
+%\usepackage[dvipdfmx]{movie15_dvipdfmx} %插入视频
 \usepackage{xcolor}                                        %使用默认允许使用颜色
 %\usepackage{hyperref} 
 \usepackage{graphicx}
@@ -33,7 +35,7 @@
 \usepackage{chemfig}		%化学公式
 
 \usepackage{fontspec} % use to set font
-\setCJKmainfont{SimSun}
+%\setCJKmainfont{SimSun}
 \XeTeXlinebreaklocale "zh"  % Auto linebreak for chinese
 \XeTeXlinebreakskip = 0pt plus 1pt % Auto linebreak for chinese
 
@@ -195,25 +197,29 @@ The content of the abstract %摘要内容
 \thispagestyle{fancy}   % 插入页眉页脚                                        %
 %----------------------------------------------------------------------------------------The Body Of The Report----------------------------------------------------------------------------------------%
 %Introduction
+\vskip 50pt
 %\section{Introduction}
 %报告人简介
 %１.~个人简历
-\textbf{姜骏的个人简历}
-
+\textbf{个人简历}
+\vskip 15pt
 \begin{minipage}[b]{0.75\textwidth}
 {\fontsize{11.0pt}{10.0pt}\selectfont{姜骏，北京市计算中心~~副研究员}}
-\vskip 4pt
-2001年毕业于中国纺织大学~(现~东华大学)~染整专业，2008年~北京大学物理化学专业博士研究生毕业。\\
-2008-2012年~北京大学博士后。\\
-2013-2016年~中物院高性能数值模拟软件中心助理研究员，2016年4月起，北京市计算中心副研究员。
+\vskip 10pt
+2001年~中国纺织大学~(现~东华大学)~染整专业~毕业.\\
+2008年~北京大学~物理化学专业~研究生~毕业.\\
+\vskip 3pt
+2008-2012年~北京大学~博士后.\\
+2013-2016年~中物院高性能数值模拟软件中心~助理研究员.\\
+2016年4月起，北京市计算中心~副研究员.
 \end{minipage}
-\hskip 15pt
+\hskip 1pt
 %2.~个人近照
-\begin{minipage}[b]{0.20\textwidth}
-	\vspace{17pt}
-\includegraphics[height=1.1in]{Figures/Person_Photo.JPG}
+\begin{minipage}[t]{0.20\textwidth}
+	\vspace{-100pt}
+\includegraphics[height=1.4in]{Figures/Person_Photo.JPG}
 \end{minipage}
-\vskip 12pt
+\vskip 25pt
 %3.~个人研究内容与兴趣
 姜骏长年从事第一原理计算方法和软件研究，熟悉密度泛函理论~(\textrm{Density Functional Theory, DFT})~和第一原理计算方法，特别是对赝势~(\textrm{Pseudo-Potential, PP})~方法、线性缀加平面波~(\textrm{Linearised Augmeneted Plane-Wave, LAPW})~方法和投影子缀加波~(\textrm{Projected~Augmented~Wave, PAW})~方法有系统深入的理解。2017年7月起，作为骨干研究人员承担科技部“材料基因工程关键技术与支撑平台”重点专项课题1“研发多尺度集成化高通量计算方法与计算软件”研究任务，从事高通量跨尺度并发式集成计算主体算法与软件开发。近年来的主要工作包括第一原理-分子动力学材料计算软件平台的设计与开发、晶体空间群软件开发和VASP软件的赝势重构等。
 
