@@ -223,6 +223,17 @@ for tb in tbs:
 #        print(rowline)
         table.cell(rowline,0).merge(table.cell(rowline,11)) #合并单元格(行)
 #        row_cells[0].text = 'check'  #合并单元格后填入内容
+        rate_Ni_Al = round(float(a_num[0])/float(a_num[1]),3)
+        if (float(a_num[7])>= 0.00001 and float(a_num[8])>= 0.00001) :
+          rate_Re_Ru = round(float(a_num[7])/float(a_num[8]),3)
+          if float(rate_Re_Ru) <= 0.0001:
+            rate_Ru_Re = ''
+          else:
+            rate_Ru_Re = round(float(1/rate_Re_Ru),2)
+          rate_element = '      Ni : Al = '+ str(rate_Ni_Al) +' : 1 ,         Re : Ru = 1 : '+str(rate_Ru_Re)
+        else:
+          rate_element = '      Ni : Al = '+ str(rate_Ni_Al) +' : 1'
+        row_cells[0].text = rate_element  #合并单元格后填入内容
         
 
 #    document.paragraphs[0].runs[0].add_break(docx.enum.text.WD_BREAK.PAGE)
