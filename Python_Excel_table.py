@@ -104,7 +104,7 @@ def DOS_Data_get(DOS_file):
     Num_step = 0
     DOS_tot_Energ = []
     DOS_tot_Data = []
-    DOS_atom_Data = []
+    DOS_atom = []
     Num_atom = line.replace('\n', '').strip(' ').split(' ')[0]
 
 #    print(Num_atom)
@@ -126,19 +126,20 @@ def DOS_Data_get(DOS_file):
 #    exit(0)    
     for i in range(int(Num_atom)): 
         file.readline().replace('\n', '').strip(' ').split(' ')
-        DOS_atom_Data.append([])
+        DOS_atom.append([])
 #        print(i)
         for count in range(Num_step):
-            DOS_atom_Data[i].append([])
+            DOS_atom[i].append([])
             DOS_Data = file.readline().replace('\n', '').strip(' ').split(' ')
             DOS_Data = [k for k in DOS_Data if k !='']
             for k in DOS_Data[1:]:
-                DOS_atom_Data[i][count].append(k)
-#        print(DOS_atom_Data)
+                DOS_atom[i][count].append(float(k))
+#        print(DOS_atom)
 #            break
 #        exit(0)    
 
 #        line = file.readline()
+    DOS_atom_Data = np.array(DOS_atom)
     return int(Num_atom), Num_step, DOS_tot_Energ, DOS_tot_Data, DOS_atom_Data
 
 
@@ -199,7 +200,7 @@ for i in object_path:
 
 # make data
     local_DOS_file = os.path.join(locate_path,i,'2-Static/DOSCAR')
-    DOS_atom, DOS_step, DOS_energy, DOS_tot, DOS_atom_data = DOS_Data_get(local_DOS_file)
+    Num_atom, DOS_step, DOS_energy, DOS_tot, DOS_atom_data = DOS_Data_get(local_DOS_file)
     local_DOS_fig = os.path.join(locate_path,i,'2-Static/DOS_Fig.pdf')
 #    print(DOS_energy)
 #    print(DOS)
@@ -209,20 +210,23 @@ for i in object_path:
     plt.axis([-7.65,9.45, 0, 1500.0])
     plt.xlabel("Energy/ eV")
     plt.ylabel("DOS")
+
     DOS_title = "Denesity_of_State_For_"+i
     plt.title(DOS_title)
-    plt.plot(DOS_energy, DOS_tot)
-#    plt.clf()  #clean figure 防止图片重叠
-#    for k in range(DOS_atom):
-#        DOS_atom_i = np.array(DOS_atom_data[k][:][:])
-#        for l in range(9):
-#            print(DOS_atom_i[:,l])
-#            plt.plot(DOS_energy, DOS_atom_i[:,l])
-#        plt.savefig(local_DOS_fig)
-#        exit(0)
 
+    plt.plot(DOS_energy, DOS_tot, label = 'Tot_DOS')
+    plt.legend(loc='best') 
+
+#    DOS_atom_t = np.sum(DOS_atom_data, axis = 0)
+#    plt.clf()  #clean figure 防止图片重叠
+#    for l in range(9):
+#        print(DOS_atom_t[:,l])
+#        plt.plot(DOS_energy, DOS_atom_t[:,l], label=i)
+#        plt.legend(loc='best') 
+#    plt.savefig(local_DOS_fig)
 #    plt.show()
     plt.savefig(local_DOS_fig)
+#    exit(0)
 
     Format_ENE = Format_Ene(Element_Numer, Element_ene, Element, OUTCAR_ENE)
 
