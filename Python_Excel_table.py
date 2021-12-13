@@ -5,7 +5,11 @@ import linecache
 import time
  
 import xlwt
+import xlrd
 import pymysql
+
+import matplotlib.pyplot as plt   # 导入模块 matplotlib.pyplot，并简写成 plt
+import numpy as np                # 导入模块 numpy，并简写成 np
 
 start_time = time.time()
 # 需要被复制的文件夹
@@ -70,10 +74,73 @@ def Format_Ene(Ele_num,Ele_ene,Ele, Etot):
 #        print(i)
 #        print( Ele_ene.get(i))
 #        print( Ele_num.get(i))
-        E_sum = E_sum+ Ele_ene.get(i)*Ele_num.get(i)
+        E_sum = E_sum + Ele_ene.get(i)*Ele_num.get(i)
 #    print(E_sum)
-    Formation = float(Etot)-E_sum
+    Formation = round(float(Etot)-E_sum,4)
     return Formation
+
+def Bond_Ene(Ele_num,Ele_ene,Ele, E_alloy, E_orig):
+    E_delt =  E_alloy - E_orig 
+    sum_orig = 0.0
+    sum_elem = 0.0
+    Ni_Num_orig = 336
+    Al_Num_orig = 56
+    for i in Ele:
+        if (i == 'Ni'):
+            sum_orig = sum_orig + Ni_Num_orig*Ele_ene.get(i)
+        if (i == 'Al'):
+            sum_orig = sum_orig + Al_Num_orig*Ele_ene.get(i)
+#        print(i)
+        sum_elem = sum_elem + Ele_ene.get(i)*Ele_num.get(i)
+    delt_E = E_delt - (sum_orig - sum_elem)
+#    print(E_sum)
+    BondEne = round(float(delt_E),4)
+    return BondEne
+
+def DOS_Data_get(DOS_file):
+    file = open(DOS_file, 'r')
+    line = file.readline()
+    count = 0
+    Num_step = 0
+    DOS_tot_Energ = []
+    DOS_tot_Data = []
+    DOS_atom_Data = []
+    Num_atom = line.replace('\n', '').strip(' ').split(' ')[0]
+
+#    print(Num_atom)
+    for count in range(4):
+        line = file.readline()
+        if (count == 3):
+            DOS_INFO = file.readline().replace('\n', '').strip(' ').split(' ')
+            DOS_INFO = [i for i in DOS_INFO if i !='']
+#            print(DOS_INFO)
+            Num_step = int(DOS_INFO[2])
+#    exit(0)    
+    for count in range(Num_step):
+            DOS_Data = file.readline().replace('\n', '').strip(' ').split(' ')
+            DOS_Data = [i for i in DOS_Data if i !='']
+#            print(DOS_Data)
+            DOS_tot_Energ.append(float(DOS_Data[0]))
+            DOS_tot_Data.append(float(DOS_Data[1]))
+#    print(DOS_tot_Energ)
+#    exit(0)    
+    for i in range(int(Num_atom)): 
+        file.readline().replace('\n', '').strip(' ').split(' ')
+        DOS_atom_Data.append([])
+#        print(i)
+        for count in range(Num_step):
+            DOS_atom_Data[i].append([])
+            DOS_Data = file.readline().replace('\n', '').strip(' ').split(' ')
+            DOS_Data = [k for k in DOS_Data if k !='']
+            for k in DOS_Data[1:]:
+                DOS_atom_Data[i][count].append(k)
+#        print(DOS_atom_Data)
+#            break
+#        exit(0)    
+
+#        line = file.readline()
+    return int(Num_atom), Num_step, DOS_tot_Energ, DOS_tot_Data, DOS_atom_Data
+
 
 #def objFileName():
 #    fileNameList = r"D:\test\list.txt"
@@ -108,7 +175,7 @@ Element_ene = {'Ni': -5.5089028, 'Al': -3.7382060, 'Ta': -11.8587815, 'Cr': -9.5
 
 locate_path = '/media/Windows/WORKS/2021-05/pos_9_2021-11/Model-2021-11-16'
 
-object_path = ['6-p01', '6-p02', '6-p03', '9-p01', '9-p02', '9-p03', 'orig']
+object_path = ['orig', '6-p01', '6-p02', '6-p03', '9-p01', '9-p02', '9-p03']
 #object_path = ['6-p05']
 
 E_name = 'E_tot.txt'
@@ -117,8 +184,9 @@ E_file = open(E_name, 'w')
 Fermi_name = 'E_Fermi.txt'
 Fermi_file = open(Fermi_name, 'w')
 
-j = 0
+# j = 0
 Energy = []
+E_orig = []
 for i in object_path:
 #    local_file = os.path.join(locate_path,i,'2-Static/POSCAR')
     local_file = os.path.join(locate_path,i,'1-Relax_Step1/POSCAR')
@@ -128,13 +196,46 @@ for i in object_path:
     grep_command = 'grep "sigma" ' + local_file + ' | tail -1 '
     OUTCAR_ENE = os.popen(grep_command).readlines()[0].split(' ')[-1]
     E_tot = OUTCAR_ENE.replace('\n','')
+
+# make data
+    local_DOS_file = os.path.join(locate_path,i,'2-Static/DOSCAR')
+    DOS_atom, DOS_step, DOS_energy, DOS_tot, DOS_atom_data = DOS_Data_get(local_DOS_file)
+    local_DOS_fig = os.path.join(locate_path,i,'2-Static/DOS_Fig.pdf')
+#    print(DOS_energy)
+#    print(DOS)
+
+
+    plt.clf()  #clean figure 防止图片重叠
+    plt.axis([-7.65,9.45, 0, 1500.0])
+    plt.xlabel("Energy/ eV")
+    plt.ylabel("DOS")
+    DOS_title = "Denesity_of_State_For_"+i
+    plt.title(DOS_title)
+    plt.plot(DOS_energy, DOS_tot)
+#    plt.clf()  #clean figure 防止图片重叠
+#    for k in range(DOS_atom):
+#        DOS_atom_i = np.array(DOS_atom_data[k][:][:])
+#        for l in range(9):
+#            print(DOS_atom_i[:,l])
+#            plt.plot(DOS_energy, DOS_atom_i[:,l])
+#        plt.savefig(local_DOS_fig)
+#        exit(0)
+
+#    plt.show()
+    plt.savefig(local_DOS_fig)
+
     Format_ENE = Format_Ene(Element_Numer, Element_ene, Element, OUTCAR_ENE)
+
+    if (i == 'orig'):
+        E_orig.append(E_tot)
+#        FormE_orig.append(Format_ENE)
+#        print(FormE_orig)
+#    Bing_ENE = Bond_Ene(Element_Numer, Element_ene, Element, Format_ENE, float(FormE_orig[0]))
+    Bing_ENE = Bond_Ene(Element_Numer, Element_ene, Element, float(E_tot), float(E_orig[0]))
 #    print(OUTCAR_ENE)
 #    exit(0)
     E_tot_Form = OUTCAR_ENE.replace('\n','') + '    '+str(Format_ENE) + '\n'
     E_file.write(E_tot_Form)
-
-
 
     grep_command = 'grep "E-fermi" ' + local_file + ' | tail -1 '
     FERMI_ENE = os.popen(grep_command).readlines()[0].split(':')[1].split('   ')[1]
@@ -142,6 +243,7 @@ for i in object_path:
 #    print(FERMI_ENE)
 #    print(FERMI_mov)
     Fermi_file.write(FERMI_ENE+'   '+FERMI_mov)
+    FERMI_SHIFT = float(FERMI_ENE)+float(FERMI_mov)
 #    if(object_path.index(i) == 0):
 #           grep_command = 'grep "sigma" ' + local_file + '| tail -1 > E_tot'
 #    else:
@@ -149,11 +251,13 @@ for i in object_path:
 #    print(grep_command)
 #os.system('rm -rf *.txt')
     Energy_i = []
-    Energy_i.append(str(E_tot))
+    Energy_i.append(E_tot)
     Energy_i.append(str(Format_ENE))
     Energy_i.append(FERMI_ENE)
+    Energy_i.append(FERMI_SHIFT)
+    Energy_i.append(Bing_ENE)
     Energy.append(Energy_i)
-    j=j+1
+#    j=j+1
 
 E_file.close()
 Fermi_file.close()
@@ -219,7 +323,8 @@ def write_excel(filename, data):
 
     book = xlwt.Workbook()            #创建excel对象
     sheet = book.add_sheet('Alloy_Energy')  #添加一个表Sheet
-    row0 = ["Alloy","E-tot (总能)","E-form (形成能)","E-fermi (Fermi能)","E-struct (结构能)"]
+    row0 = ["Alloy","E-tot (总能)","E-form (形成能)","E-fermi (Fermi能)","E-bond (键能)","E-struct (结构能)"]
+#    row0 = ["Alloy","E-tot (总能)","E-form (形成能)","E-fermi (Fermi能)/(Fermi能-shift)","E-struct (结构能)"]
     colum0 = object_path
 #   设置单元格宽度，sheet.col(0).width = 256 * num，设置第一列的宽度，num为字符的个数，256为单个字符的宽度
     sheet.col(0).width = 88*88
@@ -228,16 +333,25 @@ def write_excel(filename, data):
 
     #写第一行
     for i in range(0,len(row0)):
-	    sheet.write(0,i,row0[i],set_style('Times New Roman',320,True))
-
+        if( i<3 ):
+            sheet.write_merge(0,1,i,i,row0[i],set_style('Times New Roman',320,True))
+        elif(i==3):
+            sheet.write_merge(0,0,i,i+1,row0[i],set_style('Times New Roman',320,True))
+            sheet.write(1,i,"orig",set_style('Times New Roman',320,True))
+            sheet.write(1,i+1,"shift",set_style('Times New Roman',320,True))
+        else:
+            sheet.write_merge(0,1,i+1,i+1,row0[i],set_style('Times New Roman',320,True))
+#    sheet.write_merge(0,0,6,8,row0[4],set_style('Times New Roman',320,True))
+#    sheet.write(0,9,row0[4],set_style('Times New Roman',320,True))
+    #写第一列
     for i in range(0,len(colum0)):
-	    sheet.write(i+1,0,colum0[i],set_style('Times New Roman',220,True))
+	    sheet.write(i+2,0,colum0[i],set_style('Times New Roman',220,True))
 
     i = 1  #保存当前列
     for d in data: #取出data中的每一个元组存到表格的每一行
         for index in range(len(d)):   #将每一个元组中的每一个单元存到每一列
 #            设置单元格宽度，sheet.col(0).width = 256 * num，设置第一列的宽度，num为字符的个数，256为单个字符的宽度
-             sheet.col(i).width = 256*88
+             sheet.col(i).width = 88*88
 #             col_width = []
 #             for k in range(len(d)):
 #                for l in range(len(d)):
@@ -255,8 +369,10 @@ def write_excel(filename, data):
                 # tall_style = xlwt.easyxf('font:height 720;') #设置字体高度
                 # row0 = worksheet.row(0)
                 # row0.set_style(tall_style)
-             sheet.write(i,index+1,d[index],set_style('Times New Roman',320,True))
+             sheet.write(i+1,index+1,d[index],set_style('Times New Roman',320,True))
         i += 1
+
+
 
 # 合并单元格，合并第2行到第4行的第4列到第5列
 #    sheet.write_merge(2, 4, 4, 5, u'合并')
@@ -264,6 +380,12 @@ def write_excel(filename, data):
     book.save(filename) #保存excel
 
 write_excel('Energy_test.xls', Energy)
+
+# book = xlrd.open_workbook('Energy_test.xls')            #创建excel对象
+# sheet = book.sheet_by_name('Alloy_Energy')  #添加一个表Sheet
+# sheet.merged_cells(0,0,4,7)
+
+
 
 end_time = time.time()
 print(end_time-start_time,'秒')
