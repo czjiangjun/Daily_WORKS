@@ -142,6 +142,21 @@ def DOS_Data_get(DOS_file):
     DOS_atom_Data = np.array(DOS_atom)
     return int(Num_atom), Num_step, DOS_tot_Energ, DOS_tot_Data, DOS_atom_Data
 
+def Figure_DOS_product(x_data, y_data, label_ind, Fig_title):
+#    plt.clf()  #clean figure 防止图片重叠
+    plt.axis([-7.65,9.45, 0, 1500.0])
+    plt.xlabel("Energy/ eV")
+    plt.ylabel("DOS")
+
+#    Fig_title = "Denesity_of_State_For_"+i
+    plt.title(Fig_title)
+
+    plt.plot(x_data, y_data, label = label_ind)
+    plt.legend(loc='best') 
+
+#    plt.savefig(Fig_save)
+#    exit(0)
+    return
 
 #def objFileName():
 #    fileNameList = r"D:\test\list.txt"
@@ -207,26 +222,26 @@ for i in object_path:
 
 
     plt.clf()  #clean figure 防止图片重叠
-    plt.axis([-7.65,9.45, 0, 1500.0])
-    plt.xlabel("Energy/ eV")
-    plt.ylabel("DOS")
-
+#    plt.axis([-7.65,9.45, 0, 1500.0])
+#    plt.xlabel("Energy/ eV")
+#    plt.ylabel("DOS")
+#
     DOS_title = "Denesity_of_State_For_"+i
-    plt.title(DOS_title)
+#    plt.title(DOS_title)
 
-    plt.plot(DOS_energy, DOS_tot, label = 'Tot_DOS')
-    plt.legend(loc='best') 
+    label_ind = 'TOT_DOS'
+    Figure_DOS_product(DOS_energy, DOS_tot, 'TOT_DOS', DOS_title)
+#    plt.plot(DOS_energy, DOS_tot, label = 'Tot_DOS')
+#    plt.legend(loc='best') 
 
-#    DOS_atom_t = np.sum(DOS_atom_data, axis = 0)
+    DOS_atom_t = np.sum(DOS_atom_data, axis = 0)
 #    plt.clf()  #clean figure 防止图片重叠
-#    for l in range(9):
+    for l in range(9):
 #        print(DOS_atom_t[:,l])
+         Figure_DOS_product(DOS_energy, DOS_atom_t[:,l], i, DOS_title)
 #        plt.plot(DOS_energy, DOS_atom_t[:,l], label=i)
-#        plt.legend(loc='best') 
-#    plt.savefig(local_DOS_fig)
-#    plt.show()
     plt.savefig(local_DOS_fig)
-#    exit(0)
+#    plt.show()
 
     Format_ENE = Format_Ene(Element_Numer, Element_ene, Element, OUTCAR_ENE)
 
