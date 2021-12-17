@@ -173,14 +173,17 @@ def Replace_Element(ele_add, ele_replace, POSCAR, POSCAR_File):
         ComName = ComName + element[i]+'_'+str(elem_num[i])
 #    print(ComName)
     Pos_i = Pos
+    Pos_add = []
+#    Position = []
     for i in ele_replace:
        Index = ele_replace.get(i)
        Pos_i, Pos_rem = Devide_Positions(Index, Pos_i, Pos)
-#       print(Pos_i)
-#       print(Pos_rem)
-#       exit(0)
-    Position = Pos_i+Pos_rem
-    Position = np.array(Position)
+       Pos_add = Pos_add + Pos_rem
+#    print(len(Pos_i))
+#    print(len(Pos_add))
+    Position = Pos_i + Pos_add
+#    Position = np.array(Position)
+#    print(len(Position))
 
 #    print(Position)
 #    exit(0)
@@ -202,7 +205,7 @@ def Replace_Element(ele_add, ele_replace, POSCAR, POSCAR_File):
          for i in range(elem_tot):
              for j in range(len(Position[i][:])):
                  file.write(str(Position[i][j])+ '     ')
-                 print(Position[i][j])
+#                 print(Position[i][j])
              file.write('\n')
 
     return
