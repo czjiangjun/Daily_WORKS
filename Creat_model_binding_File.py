@@ -194,7 +194,9 @@ def Find_Position(Index, element_num, Position):
 
 def Replace_Element(ele_replace, POSCAR_orig, POSCAR, POSCAR_File):
     Info, Brava, element_num, Pos = READ_POSCAR (POSCAR)
+#    print(POSCAR, Brava)
     Info_orig, Brava_orig, element_num_orig, Pos_orig = READ_POSCAR (POSCAR_orig)
+#    print(POSCAR_orig, Brava_orig)
     
 #    print(Pos)
 #    print(element_num_orig)
@@ -284,8 +286,9 @@ locate_path = os.getcwd()
 VASP_path = ['1-Relax_Step1','1-Relax_Step2','1-Relax_Step3','2-Static']
 
 POSCAR_replace_file = locate_path +'/'+ 'POSCAR'+'_'+object_path
-# POSCAR_Alloy_file = locate_path +'/'+ Alloy + '/' +'2-Static' +'/' + 'POSCAR'
-POSCAR_Alloy_file = locate_path +'/'+ Alloy + '/' +'1-Relax_Step1' +'/' + 'POSCAR'
+POSCAR_Alloy_file = locate_path +'/'+ Alloy + '/' +'2-Static' +'/' + 'POSCAR'
+if not(os.path.exists(POSCAR_Alloy_file)):
+    POSCAR_Alloy_file = locate_path +'/'+ Alloy + '/' +'1-Relax_Step1' +'/' + 'POSCAR'
 
 # print(POSCAR_Alloy_file)
 # exit(0)
