@@ -4,6 +4,7 @@ import tarfile
 import linecache
 import subprocess 
 import time
+import copy 
 
 import math
 import numpy as np                # 导入模块 numpy，并简写成 np
@@ -71,6 +72,41 @@ start_time = time.time()
 #
 #逐个添加文件打包，未打包空子目录。可过滤文件。
 #如果只打包不压缩，将"w:gz"参数改为"w:"或"w"即可。
+def Read_Position(File):
+    file = open(File, encoding = 'utf-8')
+    readline = linecache.getline(File,1).replace('\n', '').strip(' ').split('=')
+    readline = [j for j in readline if j !='']
+    Alloy_orig = readline[1].strip(' ')
+
+    readline = linecache.getline(File,2).replace('\n', '').strip(' ').split('=')
+    readline = [j for j in readline if j !='']
+    Alloy = readline[1].strip(' ')
+
+    readline = linecache.getline(File,3).replace('\n', '').strip(' ').split('=')
+    readline = [j for j in readline if j !='']
+    Binding = readline[1].strip(' ')
+
+    readline = linecache.getline(File,4).replace('\n', '').strip(' ').split('=')
+    readline = [j for j in readline if j !='']
+    Object_Path = readline[1].strip(' ')
+
+    readline = linecache.getline(File,5).replace('\n', '').strip(' ').split(' ')
+    Alloy_elem_num = int(readline[0])
+
+    Position = {}
+    for i in range(Alloy_elem_num):
+        position_i = []
+        readline = linecache.getline(File,i+6).replace('\n', '').strip(' ').split(':')
+        readline = [j for j in readline if j !='']
+        text = readline[1].strip(' ').split(',')
+        position_i = [int(j) for j in text if j !='']
+        xx = {readline[0].strip(' '):position_i}
+        Position.update(xx)
+#    print(Alloy_orig)
+#    print(Position)
+#    exit(0)
+    return Alloy_orig, Alloy, Binding, Object_Path, Position
+
 def READ_POSCAR(POSCAR_File):
     Info = []
     Compound_Name = linecache.getline(POSCAR_File, 1).replace('\n', '')
@@ -181,11 +217,12 @@ def Replace_Element(ele_replace, POSCAR_orig, POSCAR, POSCAR_File):
               t3 = abs(float(k[2]) - float(Position_i[2]))
               delt = t1*t1+t2*t2+t3*t3
               if delt <= 0.0001: 
+                 element_num[element_orig] = element_num[element_orig] + 1
                  Pos.get(i).remove(k)
                  chang = ' --> ' + element_orig
                  k.append(chang)
                  Pos.get(element_orig).append(k)
-                 element_num[element_orig] = element_num[element_orig] + 1
+#              print(delt, num_remove, element_orig, element_num[element_orig])
 
     for i in element_num.keys():
         if element_num[i] != 0 :
@@ -219,28 +256,76 @@ def Replace_Element(ele_replace, POSCAR_orig, POSCAR, POSCAR_File):
 #                 print(Position[i][j])
     return
 
+def make_targz_one_by_one(output_filename, source_dir):
+   tar = tarfile.open(output_filename,"w:gz")
+   for root,dir,files in os.walk(source_dir):
+      for file in files:
+         pathfile = os.path.join(root, file)
+         tar.add(pathfile)
+   tar.close()
+
 #if __name__ == '__main__':
 #    copyImg()
 # exe_file = '/home/jun_jiang/Softs/Scrips/Structure_Energy'
 
+Position_File = '/media/Windows/WORKS/2021-05/pos_9_2021-11/Position_binding'
+POSCAR_orig_path, Alloy, Binding, object_path, replace_position = Read_Position(Position_File)
+
+locate_path = os.getcwd()
+# locate_path = '/media/Windows/WORKS/2021-05/pos_9yuan/2021-07-27'
 # locate_path = '/media/Windows/WORKS/2021-05/pos_9yuan/2021-09-06'
-POSCAR_orig_file = '/media/Windows/WORKS/2021-05/POSCAR_392_orig'
-locate_path = '/media/Windows/WORKS/2021-05/pos_9yuan/2021-07-27'
 
 #replace_element = {'Ta':3, 'Re':1}
-replace_position = {'Ta':[9,11,28], 'Re':[148]}
-object_path = ['2-p05']
+#replace_position = {'Ta':[9,11,28], 'Re':[148]}
+# object_path = ['2-p05']
 # object_path = ['6-p05', '6-p12', '6-p18', '9-p05', '9-p10', '9-p11', '9-p12', '9-p13', '9-p18']
 #object_path = ['6-p02', '6-p05_2', '6-p08', '6-p10', '6-p11', '6-p12_2', '6-p18_2', '6-p19', '9-p02', '9-p08', '9-p19']
 # object_path = ['6-p02_test']
 VASP_path = ['1-Relax_Step1','1-Relax_Step2','1-Relax_Step3','2-Static']
 
-POSCAR_Alloy_file = locate_path +'/'+ '6-p05' + '/' +'2-Static' +'/' + 'POSCAR'
-POSCAR_replace_file = locate_path +'/'+ 'POSCAR'+'_'+object_path[0]
+POSCAR_replace_file = locate_path +'/'+ 'POSCAR'+'_'+object_path
+# POSCAR_Alloy_file = locate_path +'/'+ Alloy + '/' +'2-Static' +'/' + 'POSCAR'
+POSCAR_Alloy_file = locate_path +'/'+ Alloy + '/' +'1-Relax_Step1' +'/' + 'POSCAR'
 
-Replace_Element(replace_position, POSCAR_orig_file, POSCAR_Alloy_file, POSCAR_replace_file)
+# print(POSCAR_Alloy_file)
+# exit(0)
+Replace_Element(replace_position, POSCAR_orig_path, POSCAR_Alloy_file, POSCAR_replace_file)
 # exit (0)
 
+# for j in object_path
+#    current_path = os.path.join(locate_path,Binding, j)
+current_path = os.path.join(locate_path, Binding, object_path)
+#        current_path=locate_path+'/'+'Model-2021-09-06'+'/'+i+'/'+j
+#        print(current_path)
+#        exit()
+if not(os.path.exists(current_path)):
+    os.makedirs(current_path)
+os.chdir(current_path)
+shutil.copyfile(POSCAR_replace_file, 'POSCAR')
+elements = linecache.getline(POSCAR_replace_file, 6)
+#        print(elements)
+#            exit()
+generate_potcar = 'pmg potcar -f PBE -s '+ (elements)
+os.system(generate_potcar)
+#            exit()
+INCAR_orig = os.path.join(locate_path, 'INCAR_2-Static')
+#        INCAR_orig = locate_path + '/'+'INCAR_'+j
+#        print(INCAR_orig)
+#       exit()
+KPOINTS_orig = os.path.join(locate_path, 'KPOINTS_2-Static')
+#        KPOINTS_orig = locate_path + '/'+'KPOINTS_'+j
+shutil.copyfile(INCAR_orig, 'INCAR')
+shutil.copyfile(KPOINTS_orig, 'KPOINTS')
+        
+# current_path = os.path.join(locate_path, Binding)
+# os.chdir(current_path)
+# tar_gz_orig = object_path+'.tar.gz'
+# make_targz_one_by_one(tar_gz_orig, object_path)
+# shutil.copyfile('2021-12-21.tar.gz','../2021-12-21.tar.gz')
+# shutil.move('2021-07-27.tar.gz','../')
+
+# shutil.rmtree(tar_gz_orig)
+# os.remove('2021-12-21.tar.gz')
 end_time = time.time()
 print(end_time-start_time,'秒')
 #    path2 = "C:\\Program Files\\MATLAB\\R2014b\\toolbox\\gatbx\\Test_fns\\" 
