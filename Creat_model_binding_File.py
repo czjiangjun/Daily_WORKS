@@ -298,8 +298,9 @@ Replace_Element(replace_position, POSCAR_orig_path, POSCAR_Alloy_file, POSCAR_re
 # exit (0)
 
 if (test_POSCAR == 0):
+    object_path = object_path + 'TEST'
     for j in VASP_path:
-         current_path = os.path.join(locate_path, object_path, j)
+         current_path = os.path.join(locate_path, Binding, object_path, j)
 #        current_path=locate_path+'/'+'Model-2021-09-06'+'/'+i+'/'+j
 #        print(current_path)
 #        exit()
@@ -347,8 +348,6 @@ else:
 #       exit()
     KPOINTS_orig = os.path.join(locate_path, 'KPOINTS_2-Static')
 #        KPOINTS_orig = locate_path + '/'+'KPOINTS_'+j
-
-
     shutil.copyfile(INCAR_orig, 'INCAR')
     shutil.copyfile(KPOINTS_orig, 'KPOINTS')
         
