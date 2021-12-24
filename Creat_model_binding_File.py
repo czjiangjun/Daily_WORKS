@@ -298,7 +298,7 @@ Replace_Element(replace_position, POSCAR_orig_path, POSCAR_Alloy_file, POSCAR_re
 # exit (0)
 
 if (test_POSCAR == 0):
-    object_path = object_path + 'TEST'
+    object_path = object_path + '_TEST'
     for j in VASP_path:
          current_path = os.path.join(locate_path, Binding, object_path, j)
 #        current_path=locate_path+'/'+'Model-2021-09-06'+'/'+i+'/'+j
