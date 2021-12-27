@@ -209,23 +209,30 @@ def Replace_Element(ele_replace, POSCAR_orig, POSCAR, POSCAR_File):
     for i in ele_replace.keys():
 #        elem_tot_i = elem_tot_i +len(ele_replace.get(i))
 #        xx = {element[i]:elem_tot_i}
-        element_num[i] = element_num[i] - len(ele_replace.get(i))
 
         for num_remove in ele_replace.get(i):
             element_orig, Position_i = Find_Position(num_remove, element_num_orig, Pos_orig)
             for k in Pos.get(i):
-              t1 = abs(float(k[0]) - float(Position_i[0]))
-              t2 = abs(float(k[1]) - float(Position_i[1]))
-              t3 = abs(float(k[2]) - float(Position_i[2]))
-              delt = t1*t1+t2*t2+t3*t3
-              if delt <= 0.0001: 
+              delt = 0.0
+              for j in range(3):
+                  test = float(k[j])
+                  if abs(float(k[j])-1.0) <= 0.05:
+                      test = float(k[j])-1.0
+                  ti = abs(test - float(Position_i[j]))
+                  delt = delt +ti*ti
+#               delt = (t1*t1+t2*t2+t3*t3)
+              if delt/3.0 <= 0.005: 
+                 element_num[i] = element_num[i] - 1
                  element_num[element_orig] = element_num[element_orig] + 1
                  Pos.get(i).remove(k)
                  chang = ' --> ' + element_orig
                  k.append(chang)
                  Pos.get(element_orig).append(k)
 #              print(delt, num_remove, element_orig, element_num[element_orig])
-
+#              else:
+#                 chang = i + ' <--- ' + 'keep' 
+#                 print(delt)
+#                 k.append(chang)
     for i in element_num.keys():
         if element_num[i] != 0 :
             xx = {i:element_num[i]}
@@ -293,6 +300,7 @@ if not(os.path.exists(POSCAR_Alloy_file)):
     test_POSCAR = 0
 
 # print(POSCAR_Alloy_file)
+# print(replace_position)
 # exit(0)
 Replace_Element(replace_position, POSCAR_orig_path, POSCAR_Alloy_file, POSCAR_replace_file)
 # exit (0)
