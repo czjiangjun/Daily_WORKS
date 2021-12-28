@@ -17,8 +17,6 @@
 \usepackage{fancyhdr}           %使用页眉-页脚                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage{verbatim}           %插入全部文件             %
-
 \usepackage{authblk}					 %作者地址和E-mail
 \usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
 \usepackage{mathrsfs}                                    %英文花体
@@ -142,6 +140,17 @@
 \graphicspath{{Presentation_Beamer/}}                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\usepackage{verbatim}			%Verbatim 宏包重新实现了 Verbatim 环境，并且提供一个命令可以导入一个 ASCII 文件到文档中
+%\verbatiminput{filename}
+
+%在beamer里面使用verbatim环境，可以通过在frame的参数里面添加 containsverbatim / fragile来解决，不过 containsverbatim 会导致pause失效
+%\begin{frame}[containsverbatim] %也可以用 \begin{frame}[fragile]
+%	\begin{verbatim}
+%	\usepackage{xcolor}
+%	TEST
+%	\end{verbatim}
+%\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\title{More than one Author with different Affiliations}				     %
 \title{\hei 标题}
@@ -149,9 +158,9 @@
 \author[a]{Author/作者 A}   %
 %\author[a]{Author B}									     %
 %\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
-%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
+\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
 %\author[b]{Author D}									     %
-%\author[b]{Author/作者 D}									     %
+\author[b]{Author/作者 D}									     %
 %\author[b]{Author E}									     %
 %\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
 \affil[a]{作者单位-1 \authorcr 地址}    %\authorcr表示换行
@@ -275,8 +284,8 @@ The content of the abstract
 
 %-------------------------------------------------------------------------------The Content of The Paper----------------------------------------------------------------------------------------------%
 \tableofcontents %% 制作目录(目录是根据标题自动生成的)
-
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
 \newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
 \thispagestyle{fancy}   % 插入页眉页脚                                        %
 %----------------------------------------------------------------------------------------The Body Of The Paper----------------------------------------------------------------------------------------%
