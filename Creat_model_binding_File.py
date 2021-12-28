@@ -86,17 +86,13 @@ def Read_Position(File):
     readline = [j for j in readline if j !='']
     Binding = readline[1].strip(' ')
 
-    readline = linecache.getline(File,4).replace('\n', '').strip(' ').split('=')
-    readline = [j for j in readline if j !='']
-    Object_Path = readline[1].strip(' ')
-
-    readline = linecache.getline(File,5).replace('\n', '').strip(' ').split(' ')
+    readline = linecache.getline(File,4).replace('\n', '').strip(' ').split(' ')
     Alloy_elem_num = int(readline[0])
 
     Position = {}
     for i in range(Alloy_elem_num):
         position_i = []
-        readline = linecache.getline(File,i+6).replace('\n', '').strip(' ').split(':')
+        readline = linecache.getline(File,i+5).replace('\n', '').strip(' ').split(':')
         readline = [j for j in readline if j !='']
         text = readline[1].strip(' ').split(',')
         position_i = [int(j) for j in text if j !='']
@@ -105,7 +101,7 @@ def Read_Position(File):
 #    print(Alloy_orig)
 #    print(Position)
 #    exit(0)
-    return Alloy_orig, Alloy, Binding, Object_Path, Position
+    return Alloy_orig, Alloy, Binding, Position
 
 def READ_POSCAR(POSCAR_File):
     Info = []
@@ -278,9 +274,9 @@ def make_targz_one_by_one(output_filename, source_dir):
 # exe_file = '/home/jun_jiang/Softs/Scrips/Structure_Energy'
 
 Position_File = '/media/Windows/WORKS/2021-05/pos_9_2021-11/Position_binding'
-POSCAR_orig_path, Alloy, Binding, object_path, replace_position = Read_Position(Position_File)
-
+POSCAR_orig_path, Alloy, Binding, replace_position = Read_Position(Position_File)
 locate_path = os.getcwd()
+
 # locate_path = '/media/Windows/WORKS/2021-05/pos_9yuan/2021-07-27'
 # locate_path = '/media/Windows/WORKS/2021-05/pos_9yuan/2021-09-06'
 
@@ -292,7 +288,9 @@ locate_path = os.getcwd()
 # object_path = ['6-p02_test']
 test_POSCAR = 1
 VASP_path = ['1-Relax_Step1','1-Relax_Step2','1-Relax_Step3','2-Static']
-
+list = list(replace_position.keys())
+# print(list[0])
+object_path = 'Atom_' + list[0]
 POSCAR_replace_file = locate_path +'/'+ 'POSCAR'+'_'+object_path
 POSCAR_Alloy_file = locate_path +'/'+ Alloy + '/' +'2-Static' +'/' + 'POSCAR'
 if not(os.path.exists(POSCAR_Alloy_file)):
