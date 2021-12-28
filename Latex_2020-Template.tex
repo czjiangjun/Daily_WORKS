@@ -17,9 +17,13 @@
 \usepackage{fancyhdr}           %使用页眉-页脚                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\usepackage{verbatim}           %插入全部文件             %
+
 \usepackage{authblk}					 %作者地址和E-mail
 \usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
 \usepackage{mathrsfs}                                    %英文花体
+\usepackage{tikz}					 %绘制平面图形
+%\usepackage[dvipdfmx]{movie15_dvipdfmx} %插入视频
 \usepackage{xcolor}                                        %使用默认允许使用颜色
 %\usepackage{hyperref} 
 \usepackage{graphicx}
@@ -142,7 +146,7 @@
 %\title{More than one Author with different Affiliations}				     %
 \title{\hei 标题}
 %\author[a]{Author A}									     %
-\author[ ]{姜~骏}   %
+\author[a]{Author/作者 A}   %
 %\author[a]{Author B}									     %
 %\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
 %\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
@@ -150,11 +154,14 @@
 %\author[b]{Author/作者 D}									     %
 %\author[b]{Author E}									     %
 %\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
-%\affil[ ]{北京市计算中心}    %
+\affil[a]{作者单位-1 \authorcr 地址}    %\authorcr表示换行
 %\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
-%\affil[b]{作者单位-2}			     %
+\affil[b]{作者单位-2}			     %
 											     %
 %%% 使用 \thanks 定义通讯作者								     %
+%%\affil命令后的{}中的内容，如果觉得需要换行的话，换行命令是\authorcr（不是\\）。
+%%Email中可以吧相同邮箱的人@前面的内容写在一个{}里，用逗号隔开。注意{和}前面要加\。例如：
+%%\affil[*]{单位1, \authorcr Email: \{zuozhe1, zuozhe2\}@yahoo.com, zuozhe3@sina.com}
 											     %
 %\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
 %\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
@@ -396,7 +403,10 @@ The content of the abstract
 %%\end{picture}
 %\end{small}
 
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+%------------------------------------直-接-插-入-文-件--------------------------------------------------------------------------------------
+%\textcolor{red}{\textbf{直接插入文件}}:\verbatiminput{/home/jun_jiang/Documents/Latex_art_beamer/Daily_WORKS/Report-2020_model.tex} %为保险:~选用文件名绝对路径
+%\textcolor{red}{\textbf{备忘录}}:\verbatiminput{/home/jun_jiang/Documents/备忘录.txt}
+%---------------------------------------------------------------------------------------------------------------------------------------------%
 
 %-------------------------------------------------------------------------Thanks------------------------------------------------------------------------------------------------
 %\newpage %%
@@ -416,6 +426,7 @@ The content of the abstract
 %\end{thebibliography}																			%
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 \phantomsection\addcontentsline{toc}{section}{Bibliography} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正%
+%\bibliography{../ref/Myref_from_2013}   %
 \bibliography{ref/Myref}   %
 \bibliographystyle{ref/mybib} %% 接近ieeert样式
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%      \bibliographystyle         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
