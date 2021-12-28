@@ -135,12 +135,12 @@
 \newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    %七号  
 
 %%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\graphicspath{{Presentation_Beamer/}}                            %
+\graphicspath{{Presentation_Beamer/Figures/}}                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\title{More than one Author with different Affiliations}				     %
-\title{\hei 标题}
+\title{{\rm VASP}软件的核心:~{\rm PAW}方法与迭代优化算法}
 %\author[a]{Author A}									     %
 \author[ ]{姜~骏}   %
 %\author[a]{Author B}									     %
@@ -150,46 +150,47 @@
 %\author[b]{Author/作者 D}									     %
 %\author[b]{Author E}									     %
 %\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
-%\affil[ ]{北京市计算中心}    %
+\affil[ ]{北京市计算中心}    %
 %\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
 %\affil[b]{作者单位-2}			     %
 											     %
 %%% 使用 \thanks 定义通讯作者								     %
 											     %
-%\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
-%\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
-%\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
-%\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
 \date{} % 去掉日期									     %
 %\date{2020-12-30}									     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%\renewcommand{\headrulewidth}{3pt} %页眉(单)线宽(默认黑色)，设为0可以去页眉线
-%\makeatletter % 双线页眉
-%\def\headrule{\color{blue}{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
-%\hrule\@height 0.5pt \@width\headwidth\vskip1pt %上面线为0.5pt粗
-%\hrule\@height 3.0pt\@width\headwidth  %下面3pt粗
-%\vskip-2\headrulewidth\vskip-1pt}      %两条线的距离1pt
-%  \vspace{6mm}}     %双线与下面正文之间的垂直间距
-%\makeatother
+%\renewcommand{\headrulewidth}{3pt} %页眉(单)线宽(默认黑色)，设为0可以去页眉线
+\makeatletter % 双线页眉
+\def\headrule{\color{blue}{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+\hrule\@height 0.5pt \@width\headwidth\vskip1pt %上面线为0.5pt粗
+\hrule\@height 3.0pt\@width\headwidth  %下面3pt粗
+\vskip-2\headrulewidth\vskip-1pt}      %两条线的距离1pt
+  \vspace{6mm}}     %双线与下面正文之间的垂直间距
+\makeatother
 
-%%\renewcommand{\footrulewidth}{3pt} %页脚线宽(默认黑色)，设为0可以去页脚线
-%\makeatletter % 双线页眉
-%\def\footrule{{\color{blue}{\if@fancyplain\let\footrulewidth\plainfootrulewidth\fi%
-%\hrule\@height 3.0pt \@width\headwidth}}
-%  \vspace{2mm}}
-%\makeatother
+%\renewcommand{\footrulewidth}{3pt} %页脚线宽(默认黑色)，设为0可以去页脚线
+\makeatletter % 双线页眉
+\def\footrule{{\color{blue}{\if@fancyplain\let\footrulewidth\plainfootrulewidth\fi%
+\hrule\@height 3.0pt \@width\headwidth}}
+  \vspace{2mm}}
+\makeatother
 
-%\pagestyle{fancy}    %与文献引用超链接style有冲突
+\pagestyle{fancy}    %与文献引用超链接style有冲突
 %\lhead{\bfseries Result} %页眉左边位置内容，并加粗 
-%\chead{} % 页眉中间位置内容
-%\rhead{\includegraphics[scale=0.20]{Figures/BCC_logo-1.png}}%在此处插入logo.pdf图片 图片靠右
-%\lfoot{}  %页脚
+\chead{} % 页眉中间位置内容
+\lhead{\includegraphics[scale=0.35]{BCC_logo-1.png}}%在此处插入logo.pdf图片 图片靠右
+\lfoot{\hei{地址:~~北京市海淀区丰贤中路7号北科产业3号楼 ~~~~ 邮编: ~~~~ 100094\\电话:~~010-59341997/98 ~~~~~ 传真:~~0101-59341888 ~~~~~ 网址:~~wwww.bcc.ac.cn}}  %页脚
 %\rule{\temptablewidth}{1pt}
 %\cfoot{}
 %\rfoot{}
-%\fancyfoot[C]{} %去掉页码
+\fancyfoot[C]{} %去掉页码
 %%%%%%%%%%%%%%%%%  % pagestyleR常用格式  %%%%%%%%%%%%%%%%%%%%%%%%%
 %% empty 无页眉页脚
 %% plain 无页眉，页脚为居中页码
@@ -198,6 +199,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %\begin{CJK}{UTF8}{gbsn} %针对文字编码为unix %CJK自带的utf-8简体字体有gbsn(宋体)和gkai(楷体)
+%\begin{CJK}{GBK}{hei}	%针对文字编码为doc
 %\begin{CJK}{GBK}{hei}	 %针对文字编码为doc
 %\CJKindent     %在CJK环境中,中文段落起始缩进2个中文字符
 %\indent
@@ -226,7 +228,7 @@
   \vskip\belowcaptionskip}
 \makeatother
 
-\newcommand{\keywords}[1]{{\hspace{0pt}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
+\newcommand{\keywords}[1]{{\hspace{0\ccwd}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
 
 %%%%%%%%%%%%%%%%%%中文字体设置%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %默认字体 defalut fonts \TeX 是一种排版工具 \\		%
@@ -239,13 +241,13 @@
 
 %\addcontentsline{toc}{section}{Bibliography}
 
-%-------------------------------The Title of The Paper-----------------------------------------%
-%\title{标题}
-%----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Report-----------------------------------------%
+%\title{报告标题:~}   %
+%-----------------------------------------------------------------------------
 
 %----------------------The Authors and the address of The Paper--------------------------------%
 %\author{
-%作者:
 %\small
 %Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
 %\small
@@ -261,24 +263,65 @@
 
 %-------------------------------------------------------------------------------The Abstract and the keywords of The Paper----------------------------------------------------------------------------%
 \begin{abstract}
-The content of the abstract
+%The content of the abstract %摘要内容
+作为最高效能的第一原理材料计算与模拟软件之一，\textrm{VASP}的最大优势是采用了投影子缀加波\textrm{(Projector Augmented Wave, PAW)}方法，该既保留了赝势\textrm{(Pseudo-Potential, PP)}方法的计算效率，又获得了逼近全势\textrm{(Full-Potential, FP)}方法的计算精度，使得\textrm{VASP}软件具有很强的第一原理计算效能；另一方面，\textrm{VASP}软件中集成的多种迭代优化算法，大大加速了\textrm{SCF}和\textrm{AIMD}的计算收敛。\textrm{PAW}方法和优化算法相结合，大大提高了\textrm{VASP}软件计算体系的规模。这里重点介绍:
+\begin{enumerate}
+\item \textrm{PAW}方法基本思想，特别是\textrm{G.~Kresse}改进的\textrm{PAW}方法与超软赝势\textrm{(US-PP)}方法的内在关系
+\item \textrm{VASP}的优化算法，从算法的角度考察电荷密度自洽迭代与矩阵对角化迭代的优化基本思想。
+\end{enumerate}
+
+\textrm{VASP}的计算的高精度，与其\textrm{POTACR}文件密切相关，\textrm{POTCAR}也是其是唯一没有公开源码的辅助文件。探索如何利用现有开源软件，重现\textrm{POTCAR}的生成技术路线，特别是赝电荷密度、赝势的构造关注的人并不多，这里展开一些讨论。
+%2020-11-24:~中国科学院-力学研究所
+%密度泛函理论自1960年代中旬确立以来，已经成为物理、化学和材料领域电子结构计算的重要工具。相比于传统的波函数理论，密度泛函理论以电子密度作为基本变量，有着更直观、明确的物理内涵，计算效率也更高。通过对密度泛函理论和Kohn-Sham方程的讨论，特别是交换-相关能泛函的改进和发展历史梳理，回顾密度泛函理论的概貌，简单介绍主要软件的基本框架。
+%2020-11-28:~北京理工大学
+%基于密度泛函理论(\textrm{DFT})发展的第一原理计算软件已经成为物理、化学和材料领域电子结构计算的重要工具。\textrm{LAPW}方法和\textrm{PAW}方法是目前材料电子计算的主要方法，围绕两种方法各自的基组构造、势能与总能量计算等问题，讨论基于密度泛函理论的相关软件(如\textrm{WIEN2k}、\textrm{VASP}等)的算法实现和基本框架。
+%近年来，能量密度泛函(energy density functional)在合金和有关材料研究中得到特别的重视，围绕能量密度泛函的计算软件也有意一些发展，这里重点讨论基于PAW方法的有关软件开发的基本情况。
 \end{abstract}
 
-\keywords{Keyword1; Keyword2; Keyword3}
+%\keywords{\textrm{DFT}, \textrm{LAPW}, \textrm{PAW}, 电子计算} %关键词
 
 %-------------------------------------------------------------------------------The Content of The Paper----------------------------------------------------------------------------------------------%
-\tableofcontents %% 制作目录(目录是根据标题自动生成的)
+%\tableofcontents %% 制作目录(目录是根据标题自动生成的)
+%----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
-\newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
+%------------------------------------------------------------------------------ main Body------------------------------------------------------------------------------------
+%\newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
 \thispagestyle{fancy}   % 插入页眉页脚                                        %
-%----------------------------------------------------------------------------------------The Body Of The Paper----------------------------------------------------------------------------------------%
+%----------------------------------------------------------------------------------------The Body Of The Report----------------------------------------------------------------------------------------%
 %Introduction
+%\section{Introduction}
+%报告人简介
+%１.~个人简历
+\vskip 40pt
+\textbf{姜骏的个人简历}
 
-\section{Introduction}
-导言
-\section{正文章节}
-参考文献的引用方式1\upcite{QCQC_2014}
+\begin{minipage}[b]{0.75\textwidth}
+{\fontsize{11.0pt}{10.0pt}\selectfont{姜骏，北京市计算中心~~副研究员}}
+\vskip 4pt
+2001年毕业于中国纺织大学~(现~东华大学)~染整专业，2008年~北京大学物理化学专业博士研究生毕业。\\
+2008-2012年~北京大学博士后。\\
+2013-2016年~中物院高性能数值模拟软件中心~助理研究员.\\
+2016年4月起，北京市计算中心~副研究员。
+\end{minipage}
+\hskip 15pt
+%2.~个人近照
+\begin{minipage}[b]{0.20\textwidth}
+	\vspace{17pt}
+\includegraphics[height=1.1in]{Person_Photo.JPG}
+\end{minipage}
+\vskip 30pt
+%3.~个人研究内容与兴趣
+姜骏长年从事第一原理计算方法和软件研究，熟悉密度泛函理论~(\textrm{Density Functional Theory, DFT})~和第一原理计算方法，特别是对赝势~(\textrm{Pseudo-Potential, PP})~方法、线性缀加平面波~(\textrm{Linearised Augmeneted Plane-Wave, LAPW})~方法和投影子缀加波~(\textrm{Projected~Augmented~Wave, PAW})~方法有系统深入的理解。2017年7月起，作为骨干研究人员承担科技部“材料基因工程关键技术与支撑平台”重点专项课题1“研发多尺度集成化高通量计算方法与计算软件”研究任务，从事高通量跨尺度并发式集成计算主体算法与软件开发。近年来的主要工作包括第一原理-分子动力学材料计算软件平台的设计与开发、晶体空间群软件开发和VASP软件的赝势重构等。
+
+%4. 个人名章
+%\hskip 0.75\textwidth
+%\begin{minipage}[b]{0.20\textwidth}
+%		\includegraphics[scale=0.07]{Figures/signature-seal_Jiang-1.png}
+%\end{minipage}
+
+%\section{正文章节}
+%参考文献的引用方式1\upcite{QCQC_2014}
+
 %-------------------The Figure Of The Paper------------------
 %\begin{figure}[h!]
 %\centering
@@ -399,12 +442,9 @@ The content of the abstract
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 %-------------------------------------------------------------------------Thanks------------------------------------------------------------------------------------------------
-%\newpage %%
+%\section{致谢}
 %\newpage %%
 %\thispagestyle{fancy}   % 首页插入页眉页脚 
-\section{致谢}
-致谢内容
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 %--------------------------------------------------------------------------The Biblography of The Paper-----------------------------------------------------------------%
 %\newpage																				%
@@ -415,9 +455,9 @@ The content of the abstract
 %	\bibitem{PAW-dataset} \textrm{姜骏}，\textrm{PAW原子数据集的构造与检验}, \textit{中国化学会第十二届全国量子化学会议论文摘要集}，\textbf{太原}，(2014).
 %\end{thebibliography}																			%
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
-\phantomsection\addcontentsline{toc}{section}{Bibliography} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正%
-\bibliography{ref/Myref}   %
-\bibliographystyle{ref/mybib} %% 接近ieeert样式
+%\phantomsection\addcontentsline{toc}{section}{Bibliography} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正%
+%\bibliography{ref/Myref_HT}   %
+%\bibliographystyle{ref/mybib} %% 接近ieeert样式
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%      \bibliographystyle         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%      LaTeX 参考文献标准选项及其样式共有以下8种：                                %%%%%%%%
 % plain，按字母的顺序排列，比较次序为作者、年度和标题.
@@ -429,7 +469,7 @@ The content of the abstract
 % siam，美国工业和应用数学学会期刊样式.
 % apalike，美国心理学学会期刊样式.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%  \nocite{*}																				%
+%%  \nocite{*}																				%
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 \clearpage     %\end{CJK} 前加上\clearpage是CJK的要求
