@@ -20,6 +20,8 @@
 \usepackage{authblk}					 %作者地址和E-mail
 \usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
 \usepackage{mathrsfs}                                    %英文花体
+\usepackage{tikz}					 %绘制平面图形
+%\usepackage[dvipdfmx]{movie15_dvipdfmx} %插入视频
 \usepackage{xcolor}                                        %使用默认允许使用颜色
 %\usepackage{hyperref} 
 \usepackage{graphicx}
@@ -66,9 +68,89 @@
 %						   %pdf书签的中文乱码问题		      %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%---------------------------------xeCJK下设置中文字体-----------------------------------------%  
+\setCJKfamilyfont{song}{SimSun}                             %宋体 song  
+\newcommand{\song}{\CJKfamily{song}}                        % 宋体   (Windows自带simsun.ttf)  
+\setCJKfamilyfont{xs}{NSimSun}                              %新宋体 xs  
+\newcommand{\xs}{\CJKfamily{xs}}  
+\setCJKfamilyfont{fs}{FangSong_GB2312}                      %仿宋2312 fs  
+\newcommand{\fs}{\CJKfamily{fs}}                            %仿宋体 (Windows自带simfs.ttf)  
+\setCJKfamilyfont{kai}{KaiTi_GB2312}                        %楷体2312  kai  
+\newcommand{\kai}{\CJKfamily{kai}}                            
+\setCJKfamilyfont{yh}{Microsoft YaHei}                    %微软雅黑 yh  
+\newcommand{\yh}{\CJKfamily{yh}}  
+\setCJKfamilyfont{hei}{SimHei}                                    %黑体  hei  
+\newcommand{\hei}{\CJKfamily{hei}}                          % 黑体   (Windows自带simhei.ttf)  
+\setCJKfamilyfont{msunicode}{Arial Unicode MS}            %Arial Unicode MS: msunicode  
+\newcommand{\msunicode}{\CJKfamily{msunicode}}  
+\setCJKfamilyfont{li}{LiSu}                                            %隶书  li  
+\newcommand{\li}{\CJKfamily{li}}  
+\setCJKfamilyfont{yy}{YouYuan}                             %幼圆  yy  
+\newcommand{\yy}{\CJKfamily{yy}}  
+\setCJKfamilyfont{xm}{MingLiU}                                        %细明体  xm  
+\newcommand{\xm}{\CJKfamily{xm}}  
+\setCJKfamilyfont{xxm}{PMingLiU}                             %新细明体  xxm  
+\newcommand{\xxm}{\CJKfamily{xxm}}  
+\setCJKfamilyfont{hwsong}{STSong}                            %华文宋体  hwsong  
+\newcommand{\hwsong}{\CJKfamily{hwsong}}  
+\setCJKfamilyfont{hwzs}{STZhongsong}                        %华文中宋  hwzs  
+\newcommand{\hwzs}{\CJKfamily{hwzs}}  
+\setCJKfamilyfont{hwfs}{STFangsong}                            %华文仿宋  hwfs  
+\newcommand{\hwfs}{\CJKfamily{hwfs}}  
+\setCJKfamilyfont{hwxh}{STXihei}                                %华文细黑  hwxh  
+\newcommand{\hwxh}{\CJKfamily{hwxh}}  
+\setCJKfamilyfont{hwl}{STLiti}                                        %华文隶书  hwl  
+\newcommand{\hwl}{\CJKfamily{hwl}}  
+\setCJKfamilyfont{hwxw}{STXinwei}                                %华文新魏  hwxw  
+\newcommand{\hwxw}{\CJKfamily{hwxw}}  
+\setCJKfamilyfont{hwk}{STKaiti}                                    %华文楷体  hwk  
+\newcommand{\hwk}{\CJKfamily{hwk}}  
+\setCJKfamilyfont{hwxk}{STXingkai}                            %华文行楷  hwxk  
+\newcommand{\hwxk}{\CJKfamily{hwxk}}  
+\setCJKfamilyfont{hwcy}{STCaiyun}                                 %华文彩云 hwcy  
+\newcommand{\hwcy}{\CJKfamily{hwcy}}  
+\setCJKfamilyfont{hwhp}{STHupo}                                 %华文琥珀   hwhp  
+\newcommand{\hwhp}{\CJKfamily{hwhp}}  
+\setCJKfamilyfont{fzsong}{Simsun (Founder Extended)}     %方正宋体超大字符集   fzsong  
+\newcommand{\fzsong}{\CJKfamily{fzsong}}  
+\setCJKfamilyfont{fzyao}{FZYaoTi}                                    %方正姚体  fzy  
+\newcommand{\fzyao}{\CJKfamily{fzyao}}  
+\setCJKfamilyfont{fzshu}{FZShuTi}                                    %方正舒体 fzshu  
+\newcommand{\fzshu}{\CJKfamily{fzshu}}  
+\setCJKfamilyfont{asong}{Adobe Song Std}                        %Adobe 宋体  asong  
+\newcommand{\asong}{\CJKfamily{asong}}  
+\setCJKfamilyfont{ahei}{Adobe Heiti Std}                            %Adobe 黑体  ahei  
+\newcommand{\ahei}{\CJKfamily{ahei}}  
+\setCJKfamilyfont{akai}{Adobe Kaiti Std}                            %Adobe 楷体  akai  
+\newcommand{\akai}{\CJKfamily{akai}}  
+%------------------------------设置字体大小------------------------%  
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}     %初号  
+\newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont} %小初号  
+\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}      %一号  
+\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}      %二号  
+\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}  %小二号  
+\newcommand{\sanhao}{\fontsize{15.75pt}{\baselineskip}\selectfont}  %三号  
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}%     四号  
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}  %小四号  
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    %五号  
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   %小五号  
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}  %六号  
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    %七号  
+
 %%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \graphicspath{{../Presentation_Beamer/}}                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{verbatim}			%Verbatim 宏包重新实现了 Verbatim 环境，并且提供一个命令可以导入一个 ASCII 文件到文档中
+%\verbatiminput{filename}
+
+%在beamer里面使用verbatim环境，可以通过在frame的参数里面添加 containsverbatim / fragile来解决，不过 containsverbatim 会导致pause失效
+%\begin{frame}[containsverbatim] %也可以用 \begin{frame}[fragile]
+%	\begin{verbatim}
+%	\usepackage{xcolor}
+%	TEST
+%	\end{verbatim}
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\title{More than one Author with different Affiliations}				     %
@@ -107,6 +189,7 @@
 %\lfoot{}  %页脚
 %\cfoot{}
 %\rfoot{}
+%\fancyfoot[C]{} %去掉页码
 %%%%%%%%%%%%%%%%%  % pagestyleR常用格式  %%%%%%%%%%%%%%%%%%%%%%%%%
 %% empty 无页眉页脚
 %% plain 无页眉，页脚为居中页码
@@ -144,7 +227,7 @@
   \vskip\belowcaptionskip}
 \makeatother
 
-\newcommand{\keywords}[1]{{\hspace{0\ccwd}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
+\newcommand{\keywords}[1]{{\hspace{0pt}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
 
 %%%%%%%%%%%%%%%%%%中文字体设置%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %默认字体 defalut fonts \TeX 是一种排版工具 \\		%
@@ -316,12 +399,17 @@
 %%\end{picture}
 %\end{small}
 
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+%------------------------------------直-接-插-入-文-件--------------------------------------------------------------------------------------
+%\textcolor{red}{\textbf{直接插入文件}}:\verbatiminput{/home/jun_jiang/Documents/Latex_art_beamer/Daily_WORKS/Report-2020_model.tex} %为保险:~选用文件名绝对路径
+%\textcolor{red}{\textbf{备忘录}}:\verbatiminput{/home/jun_jiang/Documents/备忘录.txt}
+%---------------------------------------------------------------------------------------------------------------------------------------------%
 
 %-------------------------------------------------------------------------Thanks------------------------------------------------------------------------------------------------
 %\newpage %%
 %\newpage %%
 %\thispagestyle{fancy}   % 首页插入页眉页脚 
+\section{致谢}
+致谢内容
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 %--------------------------------------------------------------------------The Biblography of The Paper-----------------------------------------------------------------%
