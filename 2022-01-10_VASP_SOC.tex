@@ -1,0 +1,706 @@
+\documentclass[10pt, oneside, a4paper]{article}      % Specifies the document class
+%\documentclass[10pt, twoside, a4paper]{article}      % Specifies the document class
+
+%%%%%%%%%%%%%%%%% CJK 中文版面控制  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{CJK} % CTEX-CJK 中文支持                            %
+\usepackage{xeCJK} % seperate the english and chinese		 %
+\usepackage{CJKutf8} % Texlive 中文支持                         %
+\usepackage{CJKnumb} %中文序号                                   %
+\usepackage{indentfirst} % 中文段落首行缩进                      %
+%\setlength\parindent{22pt}       % 段落起始缩进量               %
+\renewcommand{\baselinestretch}{1.2} % 中文行间距调整            %
+\setlength{\textwidth}{16cm}                                     %
+\setlength{\textheight}{24cm}                                    %
+\setlength{\topmargin}{-1cm}                                     %
+\setlength{\oddsidemargin}{0.1cm}                                %
+\setlength{\evensidemargin}{\oddsidemargin}                      %
+\usepackage{fancyhdr}           %使用页眉-页脚                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{authblk}					 %作者地址和E-mail
+\usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
+\usepackage{mathrsfs}                                    %英文花体
+\usepackage{tikz}					 %绘制平面图形
+%\usepackage[dvipdfmx]{movie15_dvipdfmx} %插入视频
+\usepackage{xcolor}                                        %使用默认允许使用颜色
+%\usepackage{hyperref} 
+\usepackage{graphicx}
+\usepackage{subfigure}           %图片跨页
+\usepackage{animate}		 %插入动画
+\usepackage{caption}
+\captionsetup{font=footnotesize}
+
+%\usepackage[version=3]{mhchem}		%化学公式
+\usepackage{chemformula}
+\usepackage{chemfig}		%化学公式
+
+\usepackage{fontspec} % use to set font
+\setCJKmainfont{SimSun}
+\XeTeXlinebreaklocale "zh"  % Auto linebreak for chinese
+\XeTeXlinebreakskip = 0pt plus 1pt % Auto linebreak for chinese
+
+\usepackage{longtable}                                   %使用长表格
+\usepackage{multirow}
+\usepackage{makecell}		%允许单元格内换行
+
+\usepackage{arydshln}
+\newcommand{\adots}{\mathinner{\mkern2mu%
+\raisebox{0.1em}{.}\mkern2mu\raisebox{0.4em}{.}%
+\mkern2mu\raisebox{0.7em}{.}\mkern1mu}}
+%%%%%%%%%%%%%%%%%%%%%%%%%  参考文献引用 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%尽量使用 BibTeX(含有超链接，数据库的条目URL即可)                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[numbers,sort&compress]{natbib} %紧密排列             %
+\usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
+%\usepackage{footbib}			   %脚注列出参考文献　   %
+\usepackage{hypernat}                                                                         %
+%\usepackage[dvipdfm,bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
+\usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
+\hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}         %
+%参考文献含有超链接引用时需要下列宏包，注意与natbib有冲突        %
+%\usepackage[dvipdfm]{hyperref}                                  %
+%\usepackage{hypernat}                                           %
+\newcommand{\upcite}[1]{\hspace{0ex}\textsuperscript{\cite{#1}}} %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\AtBeginDvi{\special{pdf:tounicode GBK-EUC-UCS2}} %CTEX用dvipdfmx的话，用该命令可以解决      %
+%						   %pdf书签的中文乱码问题		      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%---------------------------------xeCJK下设置中文字体-----------------------------------------%  
+\setCJKfamilyfont{song}{SimSun}                             %宋体 song  
+\newcommand{\song}{\CJKfamily{song}}                        % 宋体   (Windows自带simsun.ttf)  
+\setCJKfamilyfont{xs}{NSimSun}                              %新宋体 xs  
+\newcommand{\xs}{\CJKfamily{xs}}  
+\setCJKfamilyfont{fs}{FangSong_GB2312}                      %仿宋2312 fs  
+\newcommand{\fs}{\CJKfamily{fs}}                            %仿宋体 (Windows自带simfs.ttf)  
+\setCJKfamilyfont{kai}{KaiTi_GB2312}                        %楷体2312  kai  
+\newcommand{\kai}{\CJKfamily{kai}}                            
+\setCJKfamilyfont{yh}{Microsoft YaHei}                    %微软雅黑 yh  
+\newcommand{\yh}{\CJKfamily{yh}}  
+\setCJKfamilyfont{hei}{SimHei}                                    %黑体  hei  
+\newcommand{\hei}{\CJKfamily{hei}}                          % 黑体   (Windows自带simhei.ttf)  
+\setCJKfamilyfont{msunicode}{Arial Unicode MS}            %Arial Unicode MS: msunicode  
+\newcommand{\msunicode}{\CJKfamily{msunicode}}  
+\setCJKfamilyfont{li}{LiSu}                                            %隶书  li  
+\newcommand{\li}{\CJKfamily{li}}  
+\setCJKfamilyfont{yy}{YouYuan}                             %幼圆  yy  
+\newcommand{\yy}{\CJKfamily{yy}}  
+\setCJKfamilyfont{xm}{MingLiU}                                        %细明体  xm  
+\newcommand{\xm}{\CJKfamily{xm}}  
+\setCJKfamilyfont{xxm}{PMingLiU}                             %新细明体  xxm  
+\newcommand{\xxm}{\CJKfamily{xxm}}  
+\setCJKfamilyfont{hwsong}{STSong}                            %华文宋体  hwsong  
+\newcommand{\hwsong}{\CJKfamily{hwsong}}  
+\setCJKfamilyfont{hwzs}{STZhongsong}                        %华文中宋  hwzs  
+\newcommand{\hwzs}{\CJKfamily{hwzs}}  
+\setCJKfamilyfont{hwfs}{STFangsong}                            %华文仿宋  hwfs  
+\newcommand{\hwfs}{\CJKfamily{hwfs}}  
+\setCJKfamilyfont{hwxh}{STXihei}                                %华文细黑  hwxh  
+\newcommand{\hwxh}{\CJKfamily{hwxh}}  
+\setCJKfamilyfont{hwl}{STLiti}                                        %华文隶书  hwl  
+\newcommand{\hwl}{\CJKfamily{hwl}}  
+\setCJKfamilyfont{hwxw}{STXinwei}                                %华文新魏  hwxw  
+\newcommand{\hwxw}{\CJKfamily{hwxw}}  
+\setCJKfamilyfont{hwk}{STKaiti}                                    %华文楷体  hwk  
+\newcommand{\hwk}{\CJKfamily{hwk}}  
+\setCJKfamilyfont{hwxk}{STXingkai}                            %华文行楷  hwxk  
+\newcommand{\hwxk}{\CJKfamily{hwxk}}  
+\setCJKfamilyfont{hwcy}{STCaiyun}                                 %华文彩云 hwcy  
+\newcommand{\hwcy}{\CJKfamily{hwcy}}  
+\setCJKfamilyfont{hwhp}{STHupo}                                 %华文琥珀   hwhp  
+\newcommand{\hwhp}{\CJKfamily{hwhp}}  
+\setCJKfamilyfont{fzsong}{Simsun (Founder Extended)}     %方正宋体超大字符集   fzsong  
+\newcommand{\fzsong}{\CJKfamily{fzsong}}  
+\setCJKfamilyfont{fzyao}{FZYaoTi}                                    %方正姚体  fzy  
+\newcommand{\fzyao}{\CJKfamily{fzyao}}  
+\setCJKfamilyfont{fzshu}{FZShuTi}                                    %方正舒体 fzshu  
+\newcommand{\fzshu}{\CJKfamily{fzshu}}  
+\setCJKfamilyfont{asong}{Adobe Song Std}                        %Adobe 宋体  asong  
+\newcommand{\asong}{\CJKfamily{asong}}  
+\setCJKfamilyfont{ahei}{Adobe Heiti Std}                            %Adobe 黑体  ahei  
+\newcommand{\ahei}{\CJKfamily{ahei}}  
+\setCJKfamilyfont{akai}{Adobe Kaiti Std}                            %Adobe 楷体  akai  
+\newcommand{\akai}{\CJKfamily{akai}}  
+%------------------------------设置字体大小------------------------%  
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}     %初号  
+\newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont} %小初号  
+\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}      %一号  
+\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}      %二号  
+\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}  %小二号  
+\newcommand{\sanhao}{\fontsize{15.75pt}{\baselineskip}\selectfont}  %三号  
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}%     四号  
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}  %小四号  
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    %五号  
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   %小五号  
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}  %六号  
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    %七号  
+
+%%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\graphicspath{{/home/jun_jiang/Documents/Latex_art_beamer/Presentation_Beamer/Figures/}}                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{verbatim}			%Verbatim 宏包重新实现了 Verbatim 环境，并且提供一个命令可以导入一个 ASCII 文件到文档中
+%\verbatiminput{filename}
+
+%在beamer里面使用verbatim环境，可以通过在frame的参数里面添加 containsverbatim / fragile来解决，不过 containsverbatim 会导致pause失效
+%\begin{frame}[containsverbatim] %也可以用 \begin{frame}[fragile]
+%	\begin{verbatim}
+%	\usepackage{xcolor}
+%	TEST
+%	\end{verbatim}
+%\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+\title{VASP软件中的旋-轨耦合计算}   %
+%\author[a]{Author A}									     %
+\author[]{ }   %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
+%\author[b]{Author D}									     %
+%\author[b]{Author/作者 D}									     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+%\affil[a]{作者单位-1 \authorcr 地址}    %\authorcr表示换行
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+%\affil[b]{作者单位-2}			     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+%%\affil命令后的{}中的内容，如果觉得需要换行的话，换行命令是\authorcr（不是\\）。
+%%Email中可以吧相同邮箱的人@前面的内容写在一个{}里，用逗号隔开。注意{和}前面要加\。例如：
+%%\affil[*]{单位1, \authorcr Email: \{zuozhe1, zuozhe2\}@yahoo.com, zuozhe3@sina.com}
+											     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+%\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\pagestyle{fancy}    %与文献引用超链接style有冲突
+%\lhead{\bfseries Result} %页眉左边位置内容，并加粗 
+%\chead{} % 页眉中间位置内容
+%\rhead{\includegraphics[scale=0.20]{Figures/BCC_logo-1.png}}%在此处插入logo.pdf图片 图片靠右
+%\lfoot{}  %页脚
+%\cfoot{}
+%\rfoot{}
+%\fancyfoot[C]{} %去掉页码
+%%%%%%%%%%%%%%%%%  % pagestyleR常用格式  %%%%%%%%%%%%%%%%%%%%%%%%%
+%% empty 无页眉页脚
+%% plain 无页眉，页脚为居中页码
+%% headings 页眉为章节标题，无页脚
+%% myheadings 页眉内容可自定义，无页脚
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{CJK}{UTF8}{gbsn} %针对文字编码为unix %CJK自带的utf-8简体字体有gbsn(宋体)和gkai(楷体)
+%\begin{CJK}{GBK}{hei}	%针对文字编码为doc
+%\begin{CJK}{GBK}{hei}	 %针对文字编码为doc
+%\CJKindent     %在CJK环境中,中文段落起始缩进2个中文字符
+%\indent
+%
+\renewcommand{\abstractname}{\small{\CJKfamily{hei} 摘\quad 要}} %\CJKfamily{hei} 设置中文字体，字号用\big \small来设
+\renewcommand{\refname}{\centering\CJKfamily{hei} 参考文献}
+%\renewcommand{\figurename}{\CJKfamily{hei} 图.}
+\renewcommand{\figurename}{{\bf Fig}.}
+%\renewcommand{\tablename}{\CJKfamily{hei} 表.}
+\renewcommand{\tablename}{{\bf Tab}.}
+%\renewcommand{\thesubfigure}{\roman{subfigure}}  \makeatletter %子图标记罗马字母
+%\renewcommand{\thesubfigure}{\tiny(\alph{subfigure})}  \makeatletter　%子图标记英文字母
+%\renewcommand{\thesubfigure}{}  \makeatletter　%子图无标记
+%\newcommand{\bm}[1]{\mbox{\boldmath{$#1$}}} %黑体希腊字母
+
+%将图表的Caption写成 图(表) Num. 格式
+\makeatletter
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{#1. #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1. #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother
+
+\newcommand{\keywords}[1]{{\hspace{0pt}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
+
+%%%%%%%%%%%%%%%%%%中文字体设置%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%默认字体 defalut fonts \TeX 是一种排版工具 \\		%
+%{\bfseries 粗体 bold \TeX 是一种排版工具} \\		%
+%{\CJKfamily{song}宋体 songti \TeX 是一种排版工具} \\	%
+%{\CJKfamily{hei} 黑体 heiti \TeX 是一种排版工具} \\	%
+%{\CJKfamily{kai} 楷书 kaishu \TeX 是一种排版工具} \\	%
+%{\CJKfamily{fs} 仿宋 fangsong \TeX 是一种排版工具} \\	%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\addcontentsline{toc}{section}{Bibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Paper--------------------------------------------------------------%
+%\title{标题}
+%-------------------------------------------------------------------------------------------------------------------%
+
+%----------------------The Authors and the address of The Paper-----------------------------------------------------%
+%\author{ %%作者:
+%\small
+%北京市计算中心~~姜骏\thanks{jiangjun@bcc.ac.cn} %报告式:~单位:~作者
+%Author1, Author2, Author3\thanks{Communication author's E-mail} \\    %Authors' Names	                           %
+%\small
+%(The Address，City Post code)						%Address	                            %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}                                                                    %
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary				              	            %
+%-------------------------------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+
+%-------------------------------------------------------------------------------The Abstract and the keywords of The Paper----------------------------------------------------------------------------%
+%\begin{abstract}
+%The content of the abstract
+%\end{abstract}
+
+%\keywords{Keyword1; Keyword2; Keyword3}
+
+%-------------------------------------------------------------------------------The Content of The Paper----------------------------------------------------------------------------------------------%
+%\tableofcontents %% 制作目录(目录是根据标题自动生成的)
+%----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+%\newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
+%\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%----------------------------------------------------------------------------------------The Main Body Of The Paper----------------------------------------------------------------------------------------%
+%Introduction
+
+%\setcounter{section}%{-1}% 控制chapter/section/page等的序号
+\section{旋-轨耦合的一般形式}
+旋-轨耦合(\textrm{spin-orbital coupling, SOC})本质是考虑电子运动弱的相对论效应后引起电子能量的变化。在微扰近似下，表现为对\textrm{Schr\"odinger}方程的\textrm{Hamiltonian}的修正，主要包含电子的自旋角动量\textbf{s}和轨道角动量\textbf{l}的作用。
+
+\subsection{\rm{Dirac}方程}
+严格考虑电子的相对论效应必须采用\textrm{Dirac}方程:
+\begin{equation}
+	\mathbf{H}\Psi=c\mathbf{\alpha}\cdot\mathbf{p}+\beta m_ec^2+V(\mathbf{r})\Psi=\mathrm{i}\hbar\dfrac{\partial\psi}{\partial t}
+	\label{eq:Dirac_Hamilton}
+\end{equation}
+这里$\mathbf{\alpha}$和$\beta$是$4\times4$的矩阵:
+\begin{equation}
+	\mathbf{\alpha}=
+	\begin{pmatrix}
+		0 &{\bm\sigma}\\
+		{\bm\sigma} &0
+	\end{pmatrix}\quad
+	\beta=
+	\begin{pmatrix}
+		1 &0 &0 &0\\
+		0 &1 &0 &0\\
+		0 &0 &-1 &0\\
+		0 &0 &0 &-1
+	\end{pmatrix}
+	\label{eq:alpha_beta}
+\end{equation}
+$\mathbf{\sigma}$是\textrm{Pauli}矩阵
+\begin{equation}
+	\sigma_x=
+	\begin{pmatrix}
+		0 &1\\
+		1 &0
+	\end{pmatrix}
+	\quad \sigma_y=
+	\begin{pmatrix}
+		0 &-\mathrm{i}\\
+		\mathrm{i} &0
+	\end{pmatrix}
+	\quad \sigma_z=
+	\begin{pmatrix}
+		1 &0\\
+		0 &-1
+	\end{pmatrix}
+	\label{eq:Pauli_maxtix}
+\end{equation}
+式\eqref{eq:Dirac_Hamilton}的定态解是四分量(\textrm{four-component})函数$\Psi$，可以用两个二分量自旋(\textrm{two-component spin-angular})2-\textrm{spinors}波函数$\Phi$(称为波函数的大分量(\textrm{large component})部分)和$\chi$(小分量(\textrm{small component})部分)表示:
+\begin{equation}
+	\Psi = \mathrm{e}^{-\mathrm{i}Et}
+	\begin{pmatrix}
+		\Phi\\\chi
+	\end{pmatrix}
+	\quad\left\{
+		\begin{aligned}
+			c[{\bm\sigma}\cdot\mathbf{p}]\chi = [E-V(\mathbf{r})-m_ec^2]\Phi\\
+			c[{\bm\sigma}\cdot\mathbf{p}]\Phi = [E-V(\mathbf{r})-m_ec^2]\chi
+		\end{aligned}
+		\right.
+	\label{eq:two-component}
+\end{equation}
+
+\subsection{\rm{Dirac}方程的非相对论极限}
+在非相对论极限(\textrm{non-relativistic limit})下，式\eqref{eq:Dirac_Hamilton}中$(v/c)^2$相关部分的贡献即为旋-轨耦合。引入电子静态能量\textrm{(rest energy)}后，电子能量表示为$E=\varepsilon+m_ec^2$，由此可导出耦合方程\eqref{eq:two-component}中波函数的小分量部分$\chi$和大分量部分$\Phi$的比例为$(v/c)$。因此在非相对论极限下，最初的四分量波函数可以用大分量波函数$\Phi$表示为
+\begin{equation}
+	\dfrac1{2m_e}[{\bm\sigma}\cdot\mathbf{p}]\bigg[1+\dfrac{\varepsilon-V(\mathbf{r})}{2m_ec^2}\bigg]^{-1}[{\bm\sigma\cdot\mathbf{p}]\Phi+V(\mathbf{r})\Phi=\varepsilon\Phi
+	\label{eq:big_component}
+\end{equation}
+上式中第一项的分母展开为
+\begin{equation}
+	\bigg[1+\dfrac{\varepsilon-V(\mathbf{r})}{2m_ec^2}\bigg]^{-1}=1-\dfrac{\varepsilon-V(\mathbf{r})}{2m_ec^2}+O\bigg(\dfrac1{m_e^2c^4}\bigg)
+	\label{eq:mass_Darwin}
+\end{equation}
+利用算符关系
+\begin{equation}
+	\begin{aligned}
+		\mathbf{p}V(\mathbf{r})=&V(\mathbf{r})\mathbf{p}-\mathrm{i}\hbar\nabla V(\mathbf{r})\\
+	[{\bm\sigma}\cdot\nabla V(\mathbf{r})][{\bm\sigma\cdot\mathbf{p}]=&\nabla V(\mathbf{r})\cdot\mathbf{p}+\mathrm{i}{\bm\sigma}[\nabla V(\mathbf{r})\times\mathbf{p}]
+	\end{aligned}
+	\label{eq:opertor}
+\end{equation}
+由此式\eqref{eq:two-component}的微分方程可表示为
+\begin{equation}
+	\begin{aligned}
+		\bigg[\bigg(1-\dfrac{\varepsilon-V(\mathbf{r})}{2m_ec^2}\bigg)\dfrac{\mathbf{p}^2}{2m_e}+V(\mathbf{r})\bigg]\Phi-\dfrac{\hbar^2}{4m_e^2c^2}[\nabla V(\mathbf{r})\cdot\nabla\Phi]+\dfrac{\hbar}{4m_e^2c^2}{\bm\sigma}\cdot[\nabla V(\mathbf{r})\times\mathbf{p}]\Phi&=\varepsilon\Phi\\
+		\bigg[\dfrac{\mathbf{p}^2}{2m_e}+V(\mathbf{r})\bigg]\Phi-\dfrac{\mathbf{p}^4}{8m_e^3c^2}\Phi-\dfrac{\hbar^2}{4m_e^2c^2}[\nabla V(\mathbf{r})\cdot\nabla\Phi]+\dfrac{\hbar}{4m_e^2c^2}{\bm\sigma}\cdot[\nabla V(\mathbf{r})\times\mathbf{p}]\Phi&=\varepsilon\Phi\\
+	\end{aligned}
+	\label{eq:big-component}
+\end{equation}
+上式中第一第二项即为\textrm{Schr\"odinger}方程，第三和第四项分别为质量修正和\textrm{Darwin}修正，最后一项即可理解为旋-轨耦合的贡献
+\begin{equation}
+	H_{\mathrm{SOC}}=\dfrac{\hbar}{4m_e^2c^2}{\bm\sigma}\cdot[\nabla V(\mathbf{r})\times\mathbf{p}]
+	\label{eq:SOC_Hamilton}
+\end{equation}
+考虑单原子球对称势近似，就是一般教科书里熟悉的旋-轨耦合\textrm{Hamiltonian}的表达式
+\begin{equation}
+	H_{\mathrm{SOC}}=\dfrac1{2M_e^2c^2}\dfrac1r\dfrac{\mathrm{d}V}{\mathrm{d}r}(\mathbf{l}\cdot\mathbf{s})
+	\label{eq:SOC_sphere}
+\end{equation}
+其中$M_e$是考虑相对论效应后的电子质量
+\begin{displaymath}
+	M_e = \dfrac{m_e}{\sqrt{1-\dfrac{\varepsilon-V(\mathbf{r})}{2m_ec^2}}}=m_e+\dfrac{\varepsilon-V}{2c^2}
+\end{displaymath}
+$\mathbf{s}$和$\mathbf{l}$的表达式为
+\begin{displaymath}
+	\begin{aligned}
+		\mathbf{s}&=\dfrac12\hbar\bm\sigma\\
+		\mathbf{l}&=\mathbf{r}\times\mathbf{p}
+	\end{aligned}
+\end{displaymath}
+
+\section{\rm{VASP}中的旋-轨耦合计算}
+在\textrm{VASP}软件中，旋-轨耦合计算的程序实现比较简单，只考虑每个原子附近的球对称部分的旋-轨耦合贡献。在代码实现过程中严格按照式\eqref{eq:SOC_sphere}完成的，主要由源程序中\textrm{relativistic.F}部分实现，该部分计算主要通过三部分子程序实现:
+\begin{itemize}
+	\item 子程序\textbf{SPINORB\_STRENGTH}完成物理量$\dfrac{\hbar^2}{2(M_ec^2)}$和$\dfrac{\mathrm{d}V(r)}{\mathrm{d}r}\dfrac1r$，是\textrm{relativistic.F}的重要组成部分
+	\item 子程序\textbf{SPINORB\_MATRIX\_ELEMENTS}完成每个原子的原子核附近的旋-轨耦合$H_{\mathrm{SOC}}^{\mathrm{ion}}$对体系\textrm{Hamiltonian}的贡献
+	\item 子程序\textbf{SETUP\_LS}对于给定的原子角动量$\mathbf{l}~(l=1,2,3)$完成物理量$\mathbf{l}\cdot\mathbf{s}$的计算，是$\mathbf{l}\cdot\mathbf{s}$的最核心部分
+\end{itemize}
+以下就每一部分的内容详细说明:
+\subsection{子程序\bf{SETUP\_LS}}
+对于给定的角动量$l~(l=1,2,3)$，为了计算$\mathbf{l}\cdot\mathbf{s}$，即
+\begin{displaymath}
+	LS_{m_1,m_2,\sigma_1,\sigma_2,L}=\langle\sigma_1|\langle y_{l,m_1}|\hat l\hat s|y_{l,m_2}\rangle|\sigma_2\rangle=\langle y_{l,m_1}|\hat l|y_{l,m_2}\rangle\langle\sigma_1|\hat s|\sigma_2\rangle
+\end{displaymath}
+分别计算$\langle y_{l,m_1}|\hat l|y_{l,m_2}\rangle$和$\langle\sigma_1|\hat s|\sigma_2\rangle$:
+\subsubsection{角动量部分的贡献}
+利用升降算符与复数表示的球谐函数的关系
+\begin{displaymath}
+	\begin{aligned}
+		\hat{L}_-y_{l,m}=&\hbar\sqrt{l(l+1)-m(m-1)}y_{l,m-1}\\
+		\hat{L}_+y_{l,m}=&\hbar\sqrt{l(l+1)-m(m+1)}y_{l,m+1}
+	\end{aligned}
+\end{displaymath}
+这里$y_{l,m}$表示复数表示的球谐函数。
+
+得到实数表示的升降算符($\hbar$是单位)
+\begin{displaymath}
+	\begin{aligned}
+		\hat{L}_-=&\hbar\sqrt{(l-m)(l+m+1)}/2\\
+		\hat{L}_+=&\hbar\sqrt{(l+m)(l-m+1)}/2
+	\end{aligned}
+\end{displaymath}
+得到复空间表示的球谐函数在直角坐标系中的算符表示
+\begin{displaymath}
+	|y_{l,m_1}\rangle\hat{L}_C^{k}\langle y_{l,m_2}|=|y_{l,m_1}\rangle\hat{L}_{m_1,m_2}^{C_k}\langle y_{l,m_2}| \quad (k=x,y,z)
+\end{displaymath}
+即
+\begin{displaymath}
+	\begin{aligned}
+		\hat{L}_{m+1,m}^{C_x} =& \hat{L}_+ \quad (m+1\leqslant L)\\
+		\hat{L}_{m-1,m}^{C_x} =& \hat{L}_- \quad (m-1\geqslant -L)\\
+		\hat{L}_{m+1,m}^{C_y} =& -\mathrm{i}\hat{L}_+ \quad (m+1\leqslant L)\\
+		\hat{L}_{m-1,m}^{C_y} =& \mathrm{i}\hat{L}_- \quad (m-1\geqslant -L)\\
+		\hat{L}_{m,m}^{C_z} =& m
+	\end{aligned}
+\end{displaymath}
+
+构造实空间向复空间的球谐函数变换矩阵(矩阵元)
+\begin{displaymath}
+	U_{R2C}(m_1,m_2)=\langle y_{l,m_1}|Y_{l,m_2}\rangle
+\end{displaymath}
+这里$Y_{l,m}$表示实数表示的球谐函数。
+
+构造复空间向实空间的球谐函数变换矩阵
+\begin{displaymath}
+	U_{C2R}(m_1,m_2)=\langle Y_{l,m_1}|y_{l,m_2}\rangle
+\end{displaymath}
+
+在此基础上构造实空间球鞋函数在直角坐标系中的算算符表示
+\begin{displaymath}
+	|Y_{l,m_1}\rangle\hat{L}_R^{k}\langle Y_{l,m_2}|=|Y_{l,m_1}\rangle\hat{L}_{m_1,m_2}^{R_k}\langle Y_{l,m_2}| \quad (k=x,y,z)
+\end{displaymath}
+可有
+\begin{displaymath}
+	\hat{L}_{m_1,m_2}^{R_k}=\sum_{i,j}U_{C2R}(m_1,i)\hat{L}_{i,j}^{C_k}U_{R2C}(j,m_2) \quad(k=x,y,z)
+\end{displaymath}
+
+\subsubsection{\rm{spin}沿$z$向的$\mathbf{l}\cdot\mathbf{s}$贡献}
+将电子自旋分为$|\alpha\rangle=\dfrac12\sigma$和$|\beta\rangle=-\dfrac12\sigma$，当电子自旋与$z$方向平行时，$\mathbf{l}\cdot\mathbf{s}$将分解为
+\begin{displaymath}
+	\mathbf{l}\cdot\mathbf{s}_{\mathrm{orig}}=
+	\begin{pmatrix}
+		\langle\alpha|\mathrm{SO}|\alpha\rangle &\langle\alpha|\mathrm{SO}|\beta\rangle \\
+		\langle\beta|\mathrm{SO}|\alpha\rangle &\langle\beta|\mathrm{SO}|\beta\rangle
+	\end{pmatrix}
+\end{displaymath}
+不难看出，各部分的贡献(单位是$\hbar^2$)为
+\begin{displaymath}
+	\begin{aligned}
+		\langle\alpha|\mathrm{SO}|\alpha\rangle =& \hat{L}_{m_1,m_2}^{R_z}/2\\
+		\langle\alpha|\mathrm{SO}|\beta\rangle =& \hat{L}_{m_1,m_2}^{R_x}/2+\mathrm{i}\hat{L}_{m_1,m_2}^{R_y}/2\\
+		\langle\beta|\mathrm{SO}|\alpha\rangle =& \hat{L}_{m_1,m_2}^{R_x}/2-\mathrm{i}\hat{L}_{m_1,m_2}^{R_y}/2\\
+		\langle\beta|\mathrm{SO}|\beta\rangle =& -\hat{L}_{m_1,m_2}^{R_z}/2
+	\end{aligned}
+\end{displaymath}
+
+\subsubsection{一般的$\mathbf{l}\cdot\mathbf{s}$贡献}
+如果电子自旋与$z$轴呈一定的夹角(用\textrm{Euler}角$\theta$和$\phi$表示)，如图\ref{Fig:Euler_Angle}所示。
+\begin{figure}[h!]
+\centering
+\vspace{-0.3in}
+\includegraphics[height=1.95in,width=4.85in,viewport=0 0 700 275,clip]{Spin_Euler_angle.jpg}
+\caption{\small\textrm{The Schematic of Euler angle for spin.}.}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Fig:Euler_Angle}
+\end{figure}
+
+构造旋转矩阵
+\begin{displaymath}
+	\mathbf{ROT}=
+	\begin{pmatrix}
+		\cos\dfrac{\theta}2\mathrm{e}^{-\mathrm{i}\dfrac{\phi}2} &-\sin\dfrac{\theta}2\mathrm{e}^{-\mathrm{i}\dfrac{\phi}2}\\
+		\sin\dfrac{\theta}2\mathrm{e}^{\mathrm{i}\dfrac{\phi}2} &\cos\dfrac{\theta}2\mathrm{e}^{\mathrm{i}\dfrac{\phi}2}
+	\end{pmatrix}
+\end{displaymath}
+
+一般的$\mathbf{l}\cdot\mathbf{s}$的表达式为
+\begin{displaymath}
+	\mathbf{l}\cdot\mathbf{s}= \mathbf{ROT}^{-1}\mathbf{l}\cdot\mathbf{s}_{\mathrm{orig}}\mathbf{ROT}
+\end{displaymath}
+最后，指定角动量$l$的$\mathbf{l}\cdot\mathbf{s}$的结果存入变量\textrm{LS(m1,m2,1:4,L)}，(当前\textrm{VASP}计算$l=1,2,3$)。
+
+\subsection{子程序\bf{SPINORB\_STRENGTH}}
+由式\eqref{eq:SOC_sphere}可知，在获得一般$\mathbf{l}\cdot\mathbf{s}$的基础上，计算$\dfrac{\mathrm{d}V}{\mathrm{d}r}$等物理量。\textrm{VASP}中计算原子附近球对称性下的旋-轨耦合，但考虑原子附近势能$V(r)$在迭代过程中的变化:
+\begin{itemize}
+	\item 原子芯层电子的\textrm{Hartree}势:
+		\begin{displaymath}
+			V_{\mathrm{H}}^C(r)=\int\dfrac{\rho^C(r)}{|\mathbf{r}-\mathbf{r^{\prime}}|}\mathrm{d}^3r^{\prime}
+		\end{displaymath}
+	\item 扣除原子核电荷的贡献
+		\begin{displaymath}
+			V_{\mathrm{H}}(r)=V_{\mathrm{H}}^C(r)-\dfrac{Z}r
+		\end{displaymath}
+	\item 考虑价电子部分变化引起的贡献
+		\begin{displaymath}
+			V^C(r)=V_{\mathrm{H}}(r)-V_{i+1}^{V}(r)+V_{i}^{V}(r)
+		\end{displaymath}
+$V^V(r)$表示迭代过程中原子核附近来自价电子的球形部分贡献
+\end{itemize}
+计算物理量
+\begin{displaymath}
+	\xi(r)=\dfrac{\hbar^2}{2(m_ec)^2}\dfrac1{1-\dfrac12\dfrac{V^C(r)}{m_ec^2}}\dfrac1r\dfrac{\mathrm{d}V^C(r)}{\mathrm{d}r}
+\end{displaymath}
+注意:~式中$\dfrac1{1-\dfrac12\dfrac{V^C(r)}{m_ec^2}}$是\textrm{VASP}中近似考虑相对论效应引起的电子质量变化方式，\textrm{VASP}采用的是相对论质量变化的原始公式，$M=\dfrac m{\sqrt{1-\dfrac{\varepsilon-V(\mathbf{r})}{2mc^2}}}$将电子质量$\varepsilon$近似为\ch{H}原子的电子能量(1\textrm{Ry})。
+
+由此计算径向部分物理量的贡献，存入变量\textrm{SUM}中
+\begin{displaymath}
+	\mathrm{SUM}=\int w_{n,l}(r)\xi(r)w_{n^{\prime},l}(r)\mathrm{d}r
+\end{displaymath}
+这里$w_{n,l}(r)$是实空间表示的波函数\footnote{\textrm{VASP}在实空间表示的波函数$\Psi(r)=\sum\limits_{n,l,m}Y_{l,m}(\hat{r})w_{n,l}(r)r$，这里$n$包含了原子序号$i$和主量子数$n_0$}的径向部分$w_{n,l}(r)$。
+
+考虑波函数角度部分贡献，存入变量$\mathrm{DLLMM}(lm,lm^{\prime},\alpha,\alpha^{\prime})$
+\begin{displaymath}
+	\begin{aligned}
+		\mathrm{DLLMM}(lm,lm^{\prime},\alpha,\alpha^{\prime})=&\int w_{n,l}(r)\xi(r)w_{n^{\prime},l}(r)\mathrm{d}r\int\mathrm{d}\Omega\langle\alpha|\langle y_{l,m}|\mathrm{LS}|y_{l,m^{\prime}}\rangle|\alpha^{\prime}\rangle\\
+		=&\mathrm{SUM}\int\mathrm{d}\Omega\langle\alpha|\langle y_{l,m}|\mathrm{LS}|y_{l,m^{\prime}}\rangle|\alpha^{\prime}\rangle
+	\end{aligned}
+\end{displaymath}
+注意，这里球谐函数用的是复空间表示$|y_{l,m}(\hat r)\rangle$(为的是计算方便)，因为在计算$\mathbf{l}\cdot\mathbf{s}$的时候，应用实空间和倒空间的变换关系。
+
+\subsection{子程序\bf{SPINORB\_MATRIX\_ELEMENTS}}
+最后，\textrm{VASP}软件考虑\textrm{PAW}形式的波函数中每个原子的电子占据数矩阵的贡献，存入变量\textrm{SPINORB\_MATRIX\_ELEMENTS}
+\begin{displaymath}
+	H_{\mathrm{SOC}}^{\mathrm{ion}}=\sum_{\alpha,\alpha^{\prime}}n_{lm,\alpha}^{occ\ast}\mathrm{DLLMM}(lm,lm^{\prime},\alpha,\alpha^{\prime})n_{lm^{\prime},\alpha^{\prime}}^{occ}
+\end{displaymath}
+最后，\textrm{VASP}软件通过调用子程序\textbf{CAL\_SPINORB\_MATRIX\_ELEMENTS}，计算得到的变量\textrm{SPINORB\_MATRIX\_ELEMENTS}就是\textrm{Hamiltonian}矩阵中旋-轨耦合部分的贡献。
+
+\section{结论}
+综上所述，\textrm{VASP}程序中的旋-轨耦合计算实际上非常简单直接，就是严格遵照式\eqref{eq:SOC_sphere}的表示形式，计算每个原子球形近似下的$\mathbf{l}\cdot\mathbf{s}$，再结合球谐函数(波函数的角度部分)和自旋波函数的组合规律得到体系旋-轨耦合的贡献。
+%-------------------The Figure Of The Paper------------------
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[height=3.35in,width=2.85in,viewport=0 0 400 475,clip]{PbTe_Band_SO.eps}
+%\hspace{0.5in}
+%\includegraphics[height=3.35in,width=2.85in,viewport=0 0 400 475,clip]{EuTe_Band_SO.eps}
+%\caption{\small Band Structure of PbTe (a) and EuTe (b).}%(与文献\cite{EPJB33-47_2003}图1对比)
+%\label{Pb:EuTe-Band_struct}
+%\end{figure}
+
+%-------------------The Equation Of The Paper-----------------
+%\begin{equation}
+%\varepsilon_1(\omega)=1+\frac2{\pi}\mathscr P\int_0^{+\infty}\frac{\omega'\varepsilon_2(\omega')}{\omega'^2-\omega^2}d\omega'
+%\label{eq:magno-1}
+%\end{equation}
+
+%\begin{equation} 
+%\begin{split}
+%\varepsilon_2(\omega)&=\frac{e^2}{2\pi m^2\omega^2}\sum_{c,v}\int_{BZ}d{\vec k}\left|\vec e\cdot\vec M_{cv}(\vec k)\right|^2\delta [E_{cv}(\vec k)-\hbar\omega] \\
+% &= \frac{e^2}{2\pi m^2\omega^2}\sum_{c,v}\int_{E_{cv}(\vec k=\hbar\omega)}\left|\vec e\cdot\vec M_{cv}(\vec k)\right|^2\dfrac{dS}{\nabla_{\vec k}E_{cv}(\vec k)}
+% \end{split}
+%\label{eq:magno-2}
+%\end{equation}
+
+%-------------------The Table Of The Paper----------------------
+%\begin{table}[!h]
+%\tabcolsep 0pt \vspace*{-12pt}
+%%\caption{The representative $\vec k$ points contributing to $\sigma_2^{xy}$ of interband transition in EuTe around 2.5 eV.}
+%\label{Table-EuTe_Sigma}
+%\begin{minipage}{\textwidth}
+%%\begin{center}
+%\centering
+%\def\temptablewidth{0.84\textwidth}
+%\rule{\temptablewidth}{1pt}
+%\begin{tabular*} {\temptablewidth}{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}l|}
+
+%-------------------------------------------------------------------------------------------------------------------------
+%&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
+%Components\footnote{波函数主要成分后的括号中，$5s$、$5p$和$5p$、$4f$、$5d$分别指碲和铕的原子轨道。} &Gap (eV)   \\ \hline
+%-------------------------------------------------------------------------------------------------------------------------
+%&2.35       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%&       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%-------------------------------------------------------------------------------------------------------------------------
+%\end{tabular*}
+%\rule{\temptablewidth}{1pt}
+%\end{minipage}{\textwidth}
+%\end{table}
+
+%-------------------The Long Table Of The Paper--------------------
+%\begin{small}
+%%\begin{minipage}{\textwidth}
+%%\begin{longtable}[l]{|c|c|cc|c|c|} %[c]指定长表格对齐方式
+%\begin{longtable}[c]{|c|c|p{1.9cm}p{4.6cm}|c|c|}
+%\caption{Assignment for the peaks of EuB$_6$}
+%\label{tab:EuB6-1}\\ %\\长表格的caption中换行不可少
+%\hline
+%%
+%--------------------------------------------------------------------------------------------------------------------------------
+%\multicolumn{2}{|c|}{\bfseries$\sigma_1(\omega)$谱峰}&\multicolumn{4}{c|}{\bfseries部分重要能带间电子跃迁\footnotemark}\\ \hline
+%\endfirsthead
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%\multicolumn{6}{r}{\it 续表}\\
+%\hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%标记 &峰位(eV) &\multicolumn{2}{c|}{有关电子跃迁} &gap(eV)  &\multicolumn{1}{c|}{经验指认} \\ \hline
+%\endhead
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%\multicolumn{6}{r}{\it 续下页}\\
+%\endfoot
+%\hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%%\hlinewd{0.5$p$t}
+%\endlastfoot
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%% Stuff from here to \endlastfoot goes at bottom of last page.
+%%
+%--------------------------------------------------------------------------------------------------------------------------------
+%标记 &峰位(eV)\footnotetext{见正文说明。} &\multicolumn{2}{c|}{有关电子跃迁\footnotemark} &gap(eV) &\multicolumn{1}{c|}{经验指认\upcite{PRB46-12196_1992}}\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%
+%     &0.07 &\multicolumn{2}{c|}{电子群体激发$\uparrow$} &--- &电子群\\ \cline{2-5}
+%\raisebox{2.3ex}[0pt]{$\omega_f$} &0.1 &\multicolumn{2}{c|}{电子群体激发$\downarrow$} &--- &体激发\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%
+%     &1.50 &\raisebox{-2ex}[0pt][0pt]{20-22(0,1,4)} &2$p$(10.4)4$f$(74.9)$\rightarrow$ &\raisebox{-2ex}[0pt][0pt]{1.47} &\\%\cline{3-5}
+%     &1.50$^\ast$ & &2$p$(17.5)5$d_{\mathrm E}$(14.0)$\uparrow$ & &4$f$$\rightarrow$5$d_{\mathrm E}$\\ \cline{3-5}
+%     \raisebox{2.3ex}[0pt][0pt]{$a$} &(1.0$^\dagger$) &\raisebox{-2ex}[0pt][0pt]{20-22(1,2,6)} &\raisebox{-2ex}[0pt][0pt]{4$f$(89.9)$\rightarrow$2$p$(18.7)5$d_{\mathrm E}$(13.9)$\uparrow$}\footnotetext{波函数主要成分后的括号中，2$s$、2$p$和5$p$、4$f$、5$d$、6$s$分别指硼和铕的原子轨道；5$d_{\mathrm E}$、5$d_{\mathrm T}$分别指铕的(5$d_{z^2}$，5$d_{x^2-y^2}$和5$d_{xy}$，5$d_{xz}$，5$d_{yz}$)轨道，5$d_{\mathrm{ET}}$(或5$d_{\mathrm{TE}}$)则指5个5$d$轨道成分都有，成分大的用脚标的第一个字母标示；2$ps$(或2$sp$)表示同时含有硼2$s$、2$p$轨道成分，成分大的用第一个字母标示。$\uparrow$和$\downarrow$分别标示$\alpha$和$\beta$自旋电子跃迁。} &\raisebox{-2ex}[0pt][0pt]{1.56} &激子跃迁。 \\%\cline{3-5}
+%     &(1.3$^\dagger$) & & & &\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+
+%     & &\raisebox{-2ex}[0pt][0pt]{19-22(0,0,1)} &2$p$(37.6)5$d_{\mathrm T}$(4.5)4$f$(6.7)$\rightarrow$ & & \\\nopagebreak %\cline{3-5}
+%     & & &2$p$(24.2)5$d_{\mathrm E}$(10.8)4$f$(5.1)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.78} &a、b、c峰可能 \\ \cline{3-5}
+%     & &\raisebox{-2ex}[0pt][0pt]{20-29(0,1,1)} &2$p$(35.7)5$d_{\mathrm T}$(4.8)4$f$(10.0)$\rightarrow$ & &包含有复杂的\\ \nopagebreak%\cline{3-5}
+%     &2.90 & &2$p$(23.2)5$d_{\mathrm E}$(13.2)4$f$(3.8)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.92} &强激子峰。$^{\ast\ast}$\\ \cline{3-5}
+%$b$  &2.90$^\ast$ &\raisebox{-2ex}[0pt][0pt]{19-22(0,1,1)} &2$p$(33.9)4$f$(15.5)$\rightarrow$ & &B2$s$-2$p$的价带 \\ \nopagebreak%\cline{3-5}
+%     &3.0 & &2$p$(23.2)5$d_{\mathrm E}$(13.2)4$f$(4.8)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.94} &顶$\rightarrow$B2$s$-2$p$导\\ \cline{3-5}
+%     & &12-15(0,1,2) &2$p$(39.3)$\rightarrow$2$p$(25.2)5$d_{\mathrm E}$(8.6)$\downarrow$ &2.83 &带底跃迁。\\ \cline{3-5}
+%     & &14-15(1,1,1) &2$p$(42.5)$\rightarrow$2$p$(29.1)5$d_{\mathrm E}$(7.0)$\downarrow$ &2.96 & \\\cline{3-5}
+%     & &13-15(0,1,1) &2$p$(40.4)$\rightarrow$2$p$(28.9)5$d_{\mathrm E}$(6.6)$\downarrow$ &2.98 & \\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%%\hline
+%%\hlinewd{0.5$p$t}
+%\end{longtable}
+%%\end{minipage}{\textwidth}
+%%\setlength{\unitlength}{1cm}
+%%\begin{picture}(0.5,2.0)
+%%  \put(-0.02,1.93){$^{1)}$}
+%%  \put(-0.02,1.43){$^{2)}$}
+%%\put(0.25,1.0){\parbox[h]{14.2cm}{\small{\\}}
+%%\put(-0.25,2.3){\line(1,0){15}}
+%%\end{picture}
+%\end{small}
+
+%------------------------------------直-接-插-入-文-件--------------------------------------------------------------------------------------
+%\textcolor{red}{\textbf{直接插入文件}}:\verbatiminput{/home/jun_jiang/Documents/Latex_art_beamer/Daily_WORKS/Report-2020_model.tex} %为保险:~选用文件名绝对路径
+%\textcolor{red}{\textbf{备忘录}}:\verbatiminput{/home/jun_jiang/Documents/备忘录.txt}
+%---------------------------------------------------------------------------------------------------------------------------------------------%
+
+%-------------------------------------------------------------------------Thanks------------------------------------------------------------------------------------------------
+%\newpage %%
+%\newpage %%
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+%\section{致谢}
+%致谢内容
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+%--------------------------------------------------------------------------The Biblography of The Paper-----------------------------------------------------------------%
+%\newpage																				%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+%\begin{thebibliography}{99}																		%
+%%\bibitem{PRL58-65_1987}H.Feil, C. Haas, {\it Phys. Rev. Lett.} {\bf 58}, 65 (1987).											%
+%	\bibitem{kp-method} \textrm{Zhenxi Pan, Yong Pan, Jun Jiang$^{\ast}$, Liutao Zhao}, \textrm{High-Throughput Electronic Band Structure Calculations for Hexaborides}, \textit{Intelligent Computing}, \textbf{Springer}, \textbf{P.386-395}, (2019).%
+%	\bibitem{PAW-dataset} \textrm{姜骏}，\textrm{PAW原子数据集的构造与检验}, \textit{中国化学会第十二届全国量子化学会议论文摘要集}，\textbf{太原}，(2014).
+%\end{thebibliography}																			%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+\phantomsection\addcontentsline{toc}{section}{Bibliography} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正%
+%\bibliography{../ref/Myref_HT}   %
+\bibliography{../ref/Myref_from_2013}   %
+\bibliographystyle{../ref/mybib} %% 接近ieeert样式
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%      \bibliographystyle         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%      LaTeX 参考文献标准选项及其样式共有以下8种：                                %%%%%%%%
+% plain，按字母的顺序排列，比较次序为作者、年度和标题.
+% unsrt，样式同plain，只是按照引用的先后排序.
+% alpha，用作者名首字母+年份后两位作标号，以字母顺序排序.
+% abbrv，类似plain，将月份全拼改为缩写，更显紧凑.
+% ieeetr，国际电气电子工程师协会期刊样式.
+% acm，美国计算机学会期刊样式.
+% siam，美国工业和应用数学学会期刊样式.
+% apalike，美国心理学学会期刊样式.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  \nocite{*}																				%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+\clearpage     %\end{CJK} 前加上\clearpage是CJK的要求
+%\end{CJK*}
+\end{document}
