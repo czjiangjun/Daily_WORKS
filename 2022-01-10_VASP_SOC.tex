@@ -388,7 +388,9 @@ $\mathbf{s}$和$\mathbf{l}$的表达式为
 \end{displaymath}
 
 \section{\rm{VASP}中的旋-轨耦合计算}
-在\textrm{VASP}软件中，旋-轨耦合计算的程序实现比较简单，只考虑每个原子附近的球对称部分的旋-轨耦合贡献。在代码实现过程中严格按照式\eqref{eq:SOC_sphere}完成的，主要由源程序中\textrm{relativistic.F}部分实现，该部分计算主要通过三部分子程序实现:
+在\textrm{VASP}软件中，旋-轨耦合计算的程序实现比较简单，该模块只在\textrm{PAW}方法下才能使用(原始的赝势方法下不计算旋-轨耦合贡献)，并且只考虑每个原子附近的球对称部分的旋-轨耦合贡献。程序中通过引入\textrm{Euler}角描述角动量与$z$的夹角\footnote{该\textrm{Euler}角与非共线磁性的自旋计算的\textrm{Euler}角情形类似，所以\textrm{VASP}使用手册中，将非共线磁性和旋-轨耦合放在同一章节(见手册$\S 6.68~~\mathbf{Non-collinear calculations and spin orbit coupling}$ )，旋-轨耦合计算的控制选项($\S 6.68.2~~\mathbf{LSORBIT-tag}$)专门明确说明。}旋-轨耦合程序是\textrm{Olivier~Lebacq}和\textrm{Georg~Kresse}共同开发的，但未给出参考文献，应该没有形成论文。
+
+代码实现旋-轨耦合计算严格按照式\eqref{eq:SOC_sphere}完成，主要由源程序中\textrm{relativistic.F}部分实现，该部分计算主要通过三部分子程序实现:
 \begin{itemize}
 	\item 子程序\textbf{SPINORB\_STRENGTH}完成物理量$\dfrac{\hbar^2}{2(M_ec^2)}$和$\dfrac{\mathrm{d}V(r)}{\mathrm{d}r}\dfrac1r$，是\textrm{relativistic.F}的重要组成部分
 	\item 子程序\textbf{SPINORB\_MATRIX\_ELEMENTS}完成每个原子的原子核附近的旋-轨耦合$H_{\mathrm{SOC}}^{\mathrm{ion}}$对体系\textrm{Hamiltonian}的贡献
