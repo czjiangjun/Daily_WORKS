@@ -31,11 +31,11 @@
 \captionsetup{font=footnotesize}
 
 %\usepackage[version=3]{mhchem}		%化学公式
-%\usepackage{chemformula}
+\usepackage{chemformula}
 \usepackage{chemfig}		%化学公式
 
 \usepackage{fontspec} % use to set font
-%\setCJKmainfont{SimSun}
+\setCJKmainfont{SimSun}
 \XeTeXlinebreaklocale "zh"  % Auto linebreak for chinese
 \XeTeXlinebreakskip = 0pt plus 1pt % Auto linebreak for chinese
 
@@ -62,14 +62,82 @@
 %\usepackage[dvipdfm]{hyperref}                                  %
 %\usepackage{hypernat}                                           %
 \newcommand{\upcite}[1]{\hspace{0ex}\textsuperscript{\cite{#1}}} %
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\AtBeginDvi{\special{pdf:tounicode GBK-EUC-UCS2}} %CTEX用dvipdfmx的话，用该命令可以解决      %
 %						   %pdf书签的中文乱码问题		      %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%---------------------------------xeCJK下设置中文字体-----------------------------------------%  
+\setCJKfamilyfont{song}{SimSun}                             %宋体 song  
+\newcommand{\song}{\CJKfamily{song}}                        % 宋体   (Windows自带simsun.ttf)  
+\setCJKfamilyfont{xs}{NSimSun}                              %新宋体 xs  
+\newcommand{\xs}{\CJKfamily{xs}}  
+\setCJKfamilyfont{fs}{FangSong_GB2312}                      %仿宋2312 fs  
+\newcommand{\fs}{\CJKfamily{fs}}                            %仿宋体 (Windows自带simfs.ttf)  
+\setCJKfamilyfont{kai}{KaiTi_GB2312}                        %楷体2312  kai  
+\newcommand{\kai}{\CJKfamily{kai}}                            
+\setCJKfamilyfont{yh}{Microsoft YaHei}                    %微软雅黑 yh  
+\newcommand{\yh}{\CJKfamily{yh}}  
+\setCJKfamilyfont{hei}{SimHei}                                    %黑体  hei  
+\newcommand{\hei}{\CJKfamily{hei}}                          % 黑体   (Windows自带simhei.ttf)  
+\setCJKfamilyfont{msunicode}{Arial Unicode MS}            %Arial Unicode MS: msunicode  
+\newcommand{\msunicode}{\CJKfamily{msunicode}}  
+\setCJKfamilyfont{li}{LiSu}                                            %隶书  li  
+\newcommand{\li}{\CJKfamily{li}}  
+\setCJKfamilyfont{yy}{YouYuan}                             %幼圆  yy  
+\newcommand{\yy}{\CJKfamily{yy}}  
+\setCJKfamilyfont{xm}{MingLiU}                                        %细明体  xm  
+\newcommand{\xm}{\CJKfamily{xm}}  
+\setCJKfamilyfont{xxm}{PMingLiU}                             %新细明体  xxm  
+\newcommand{\xxm}{\CJKfamily{xxm}}  
+\setCJKfamilyfont{hwsong}{STSong}                            %华文宋体  hwsong  
+\newcommand{\hwsong}{\CJKfamily{hwsong}}  
+\setCJKfamilyfont{hwzs}{STZhongsong}                        %华文中宋  hwzs  
+\newcommand{\hwzs}{\CJKfamily{hwzs}}  
+\setCJKfamilyfont{hwfs}{STFangsong}                            %华文仿宋  hwfs  
+\newcommand{\hwfs}{\CJKfamily{hwfs}}  
+\setCJKfamilyfont{hwxh}{STXihei}                                %华文细黑  hwxh  
+\newcommand{\hwxh}{\CJKfamily{hwxh}}  
+\setCJKfamilyfont{hwl}{STLiti}                                        %华文隶书  hwl  
+\newcommand{\hwl}{\CJKfamily{hwl}}  
+\setCJKfamilyfont{hwxw}{STXinwei}                                %华文新魏  hwxw  
+\newcommand{\hwxw}{\CJKfamily{hwxw}}  
+\setCJKfamilyfont{hwk}{STKaiti}                                    %华文楷体  hwk  
+\newcommand{\hwk}{\CJKfamily{hwk}}  
+\setCJKfamilyfont{hwxk}{STXingkai}                            %华文行楷  hwxk  
+\newcommand{\hwxk}{\CJKfamily{hwxk}}  
+\setCJKfamilyfont{hwcy}{STCaiyun}                                 %华文彩云 hwcy  
+\newcommand{\hwcy}{\CJKfamily{hwcy}}  
+\setCJKfamilyfont{hwhp}{STHupo}                                 %华文琥珀   hwhp  
+\newcommand{\hwhp}{\CJKfamily{hwhp}}  
+\setCJKfamilyfont{fzsong}{Simsun (Founder Extended)}     %方正宋体超大字符集   fzsong  
+\newcommand{\fzsong}{\CJKfamily{fzsong}}  
+\setCJKfamilyfont{fzyao}{FZYaoTi}                                    %方正姚体  fzy  
+\newcommand{\fzyao}{\CJKfamily{fzyao}}  
+\setCJKfamilyfont{fzshu}{FZShuTi}                                    %方正舒体 fzshu  
+\newcommand{\fzshu}{\CJKfamily{fzshu}}  
+\setCJKfamilyfont{asong}{Adobe Song Std}                        %Adobe 宋体  asong  
+\newcommand{\asong}{\CJKfamily{asong}}  
+\setCJKfamilyfont{ahei}{Adobe Heiti Std}                            %Adobe 黑体  ahei  
+\newcommand{\ahei}{\CJKfamily{ahei}}  
+\setCJKfamilyfont{akai}{Adobe Kaiti Std}                            %Adobe 楷体  akai  
+\newcommand{\akai}{\CJKfamily{akai}}  
+%------------------------------设置字体大小------------------------%  
+\newcommand{\chuhao}{\fontsize{42pt}{\baselineskip}\selectfont}     %初号  
+\newcommand{\xiaochuhao}{\fontsize{36pt}{\baselineskip}\selectfont} %小初号  
+\newcommand{\yihao}{\fontsize{28pt}{\baselineskip}\selectfont}      %一号  
+\newcommand{\erhao}{\fontsize{21pt}{\baselineskip}\selectfont}      %二号  
+\newcommand{\xiaoerhao}{\fontsize{18pt}{\baselineskip}\selectfont}  %小二号  
+\newcommand{\sanhao}{\fontsize{15.75pt}{\baselineskip}\selectfont}  %三号  
+\newcommand{\sihao}{\fontsize{14pt}{\baselineskip}\selectfont}%     四号  
+\newcommand{\xiaosihao}{\fontsize{12pt}{\baselineskip}\selectfont}  %小四号  
+\newcommand{\wuhao}{\fontsize{10.5pt}{\baselineskip}\selectfont}    %五号  
+\newcommand{\xiaowuhao}{\fontsize{9pt}{\baselineskip}\selectfont}   %小五号  
+\newcommand{\liuhao}{\fontsize{7.875pt}{\baselineskip}\selectfont}  %六号  
+\newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    %七号  
+
 %%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\graphicspath{{../Presentation_Beamer/}}                            %
+\graphicspath{{Presentation_Beamer/}}                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{verbatim}			%Verbatim 宏包重新实现了 Verbatim 环境，并且提供一个命令可以导入一个 ASCII 文件到文档中
@@ -82,21 +150,21 @@
 %	TEST
 %	\end{verbatim}
 %\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\title{More than one Author with different Affiliations}				     %
-\title{标题}   %
-%\author[a]{Author A}									     %
-\author[]{ }   %
+\title{\hei{\textbf{VASP}的赝势生成}}
+%\author[a]{Author/作者 A}   %
 %\author[a]{Author B}									     %
-%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
 %\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
-%\author[b]{Author D}									     %
 %\author[b]{Author/作者 D}									     %
 %\author[b]{Author E}									     %
 %\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
 %\affil[a]{作者单位-1 \authorcr 地址}    %\authorcr表示换行
 %\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
 %\affil[b]{作者单位-2}			     %
+\author[]{姜骏\thanks{E-mal:~czjiangjun@gmail.com}}   %
+\affil[]{天宁问道斋 \authorcr 北京市西城区}    %\authorcr表示换行
 											     %
 %%% 使用 \thanks 定义通讯作者								     %
 %%\affil命令后的{}中的内容，如果觉得需要换行的话，换行命令是\authorcr（不是\\）。
@@ -105,20 +173,38 @@
 											     %
 \renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
 \renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
-%\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
 \renewcommand\Authands{ , } % 将 and 换成逗号					     %
 \date{} % 去掉日期									     %
+%\date{2020-12-30}									     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%\renewcommand{\headrulewidth}{3pt} %页眉(单)线宽(默认黑色)，设为0可以去页眉线
+%\makeatletter % 双线页眉
+%\def\headrule{\color{blue}{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
+%\hrule\@height 0.5pt \@width\headwidth\vskip1pt %上面线为0.5pt粗
+%\hrule\@height 3.0pt\@width\headwidth  %下面3pt粗
+%\vskip-2\headrulewidth\vskip-1pt}      %两条线的距离1pt
+%  \vspace{6mm}}     %双线与下面正文之间的垂直间距
+%\makeatother
+
+%%\renewcommand{\footrulewidth}{3pt} %页脚线宽(默认黑色)，设为0可以去页脚线
+%\makeatletter % 双线页眉
+%\def\footrule{{\color{blue}{\if@fancyplain\let\footrulewidth\plainfootrulewidth\fi%
+%\hrule\@height 3.0pt \@width\headwidth}}
+%  \vspace{2mm}}
+%\makeatother
+
 %\pagestyle{fancy}    %与文献引用超链接style有冲突
 %\lhead{\bfseries Result} %页眉左边位置内容，并加粗 
 %\chead{} % 页眉中间位置内容
-\rhead{\includegraphics[scale=0.20]{Figures/BCC_logo-1.png}}%在此处插入logo.pdf图片 图片靠右
+%\rhead{\includegraphics[scale=0.20]{Figures/BCC_logo-1.png}}%在此处插入logo.pdf图片 图片靠右
 %\lfoot{}  %页脚
+%\rule{\temptablewidth}{1pt}
 %\cfoot{}
 %\rfoot{}
+%\fancyfoot[C]{} %去掉页码
 %%%%%%%%%%%%%%%%%  % pagestyleR常用格式  %%%%%%%%%%%%%%%%%%%%%%%%%
 %% empty 无页眉页脚
 %% plain 无页眉，页脚为居中页码
@@ -156,7 +242,7 @@
   \vskip\belowcaptionskip}
 \makeatother
 
-\newcommand{\keywords}[1]{{\hspace{0\ccwd}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
+\newcommand{\keywords}[1]{{\hspace{0pt}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
 
 %%%%%%%%%%%%%%%%%%中文字体设置%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %默认字体 defalut fonts \TeX 是一种排版工具 \\		%
@@ -169,23 +255,22 @@
 
 %\addcontentsline{toc}{section}{Bibliography}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%-------------------------------The Title of The Paper--------------------------------------------------------------%
+%-------------------------------The Title of The Paper-----------------------------------------%
 %\title{标题}
-%-------------------------------------------------------------------------------------------------------------------%
+%----------------------------------------------------------------------------------------------%
 
-%----------------------The Authors and the address of The Paper-----------------------------------------------------%
-%\author{ %%作者:
+%----------------------The Authors and the address of The Paper--------------------------------%
+%\author{
+%作者:
 %\small
-%北京市计算中心~~姜骏\thanks{jiangjun@bcc.ac.cn} %报告式:~单位:~作者
-%Author1, Author2, Author3\thanks{Communication author's E-mail} \\    %Authors' Names	                           %
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
 %\small
-%(The Address，City Post code)						%Address	                            %
+%(The Address，City Post code)						%Address	       %
 %}
-%\affil[$\dagger$]{清华大学~材料加工研究所~A213}                                                                    %
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
 %\affil{清华大学~材料加工研究所~A213}
-%\date{}					%if necessary				              	            %
-%-------------------------------------------------------------------------------------------------------------------%
+%\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \maketitle
 %\thispagestyle{fancy}   % 首页插入页眉页脚 
@@ -199,66 +284,56 @@
 
 %-------------------------------------------------------------------------------The Content of The Paper----------------------------------------------------------------------------------------------%
 %\tableofcontents %% 制作目录(目录是根据标题自动生成的)
-%----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 %\newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
 %\thispagestyle{fancy}   % 插入页眉页脚                                        %
-%----------------------------------------------------------------------------------------The Main Body Of The Paper----------------------------------------------------------------------------------------%
+%----------------------------------------------------------------------------------------The Body Of The Paper----------------------------------------------------------------------------------------%
 %Introduction
-
-%\setcounter{section}%{-1}% 控制chapter/section/page等的序号
-\section{2021}
-\subsection{January}
+参数关系
 \begin{itemize}
-	\item 2021-01-04-08:~\textrm{DVM-DAC}理论
+	\item \textrm{AUTOA}:~ \textrm{AUTOA}=0.529177249
+	\item \textrm{RYTOEV}:~ \textrm{RYTOEV} = 13.605826
+	\item \textrm{FELECT}: $V(r)\cdot r$(对应单位)
+		\begin{displaymath}
+			2\times\textrm{AUTOA}\times\textrm{RYTOEV}
+		\end{displaymath}
 \end{itemize}
+%\section{Introduction}
+原子价电子径向波函数$\phi_i(r)$与价电子密度:
+\begin{equation}
+	\int|\phi_i(r)|^2\mathrm{d}r =4\pi\int\rho_v\mathrm{d}r
+	\label{eq:wave-charge}
+\end{equation}
+变量$\rho$
+\begin{equation}
+	\rho(r)=\rho
+	\label{eq:density}
+\end{equation}
 
-\subsection{March}
-\begin{itemize}
-	\item 2021-03:~\textrm{AtomPAW\_VASP}:~\textrm{rhfatm}嵌入
-\end{itemize}
+变量\textrm{POTAE}理论上应该遵照表达式
+\begin{equation}
+	\mathrm{POTAE} = V_{\mathrm{H}}[n_v]+V_{\mathrm{XC}}[n_v+n_c]
+	\label{eq:POTAE}
+\end{equation}
+计算，但实际上，\textcolor{red}{用于\textrm{POTAE}的价电子密度应该不是由原子波函数$\phi(r)$得到的!}
 
-\subsection{April}
-\begin{itemize}
-	\item 2021-04-06:~清华王崇愚先生合金模型数据处理\textrm{Python-data}
-	\item 2021-04-07:~\textrm{VASP}的\textrm{INCAR}参数与说明
-\end{itemize}
+理论上，有效势$V_{\mathrm{eff}}(r)$的计算表达式为
+\begin{equation}
+	V_{\mathrm{eff}}(r) = V_{\mathrm{H}}[n_v+n_{Zc}]+V_{\mathrm{XC}}[\rho_v+\rho_c]
+	\label{eq:POT_EFF}
+\end{equation}
 
-\subsection{July}
-\begin{itemize}
-	\item 2021-07-02:~送书名录\\
-		刘鹏、施思齐、黄钦、王繁
-\end{itemize}
+变量\textrm{POTPS}严格遵照表达式
+\begin{equation}
+	\mathrm{POTPS} = V_{\mathrm{H}}[\tilde{n}_v+\hat{n}_v]+V_{\mathrm{XC}}[\tilde{n}_v+\hat{n}_v+\tilde{n}_c]
+	\label{eq:POTPS}
+\end{equation}
+计算。
 
-\subsection{August}
-\begin{itemize}
-	\item 2021-08-16:~钱萍老师委托写部分章节
-\end{itemize}
-
-\subsection{October}
-\begin{itemize}
-	\item 2021-10-17:~东莞参加理论物理所国产软件会议
-\end{itemize}
-
-\subsection{December}
-\begin{itemize}
-	\item 2021-12-18:~课题结题
-\end{itemize}
-
-\section{2022}
-\subsection{January}
-\begin{itemize}
-	\item 2022-01:04-07:~\textrm{VASP}赝势实空间和倒空间变换代码分析
-	\item 2022-01:10-12:~\textrm{VASP}的\textrm{SOC}代码分析，真正理解\textrm{Euler~Angle}和$\mathbf{l}\cdot\mathbf{s}$的核心含义，角动量算符$\mathbf{l}$的关键是升降算符
-\end{itemize}
-
-\subsection{February}
-\begin{itemize}
-	\item \item 2022-02:07-11:~\textrm{atomPAW}与\textrm{VASP}的单位统一:~\textrm{atomPAW}的单位是:~\textrm{Ry}和\textrm{a.u.};~\textrm{VASP}的单位是:~\textrm{Hartree}和\textrm{{\AA}}($\mathrm{{\AA}nstr\"om}$)
-	\item \item 2022-02:18:~物理所(怀柔)吴泉生课题组讨论
-	\item \item 2022-02:23:~\textrm{PWmat}公司讨论
-	\item \item 2022-02:21-25:~搭\textrm{Atomat}-\textrm{ASE}服务器
-\end{itemize}
+关于变量\textrm{POTPSC}，从数据上看
+%\section{正文章节}
+%参考文献的引用方式1\upcite{QCQC_2014}
 %-------------------The Figure Of The Paper------------------
 %\begin{figure}[h!]
 %\centering
@@ -376,12 +451,17 @@
 %%\end{picture}
 %\end{small}
 
-%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+%------------------------------------直-接-插-入-文-件--------------------------------------------------------------------------------------
+%\textcolor{red}{\textbf{直接插入文件}}:\verbatiminput{/home/jun_jiang/Documents/Latex_art_beamer/Daily_WORKS/Report-2020_model.tex} %为保险:~选用文件名绝对路径
+%\textcolor{red}{\textbf{备忘录}}:\verbatiminput{/home/jun_jiang/Documents/备忘录.txt}
+%---------------------------------------------------------------------------------------------------------------------------------------------%
 
 %-------------------------------------------------------------------------Thanks------------------------------------------------------------------------------------------------
 %\newpage %%
 %\newpage %%
 %\thispagestyle{fancy}   % 首页插入页眉页脚 
+\section{致谢}
+致谢内容
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
 %--------------------------------------------------------------------------The Biblography of The Paper-----------------------------------------------------------------%
@@ -394,9 +474,9 @@
 %\end{thebibliography}																			%
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 \phantomsection\addcontentsline{toc}{section}{Bibliography} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正%
-%\bibliography{../ref/Myref_HT}   %
-\bibliography{../ref/Myref_from_2013}   %
-\bibliographystyle{../ref/mybib} %% 接近ieeert样式
+%\bibliography{../ref/Myref_from_2013}   %
+\bibliography{ref/Myref}   %
+\bibliographystyle{ref/mybib} %% 接近ieeert样式
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%      \bibliographystyle         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%      LaTeX 参考文献标准选项及其样式共有以下8种：                                %%%%%%%%
 % plain，按字母的顺序排列，比较次序为作者、年度和标题.
