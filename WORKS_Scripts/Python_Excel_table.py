@@ -410,5 +410,5 @@ end_time = time.time()
 print(end_time-start_time,'秒')
 #    path2 = "C:\\Program Files\\MATLAB\\R2014b\\toolbox\\gatbx\\Test_fns\\" 
 #   rename_func(path2)
-if __name__=='__main__':
-    main()
+# if __name__=='__main__':
+#   main()
