@@ -1,0 +1,8 @@
+[Desktop Entry]
+Encoding=UTF-8
+Comment=Upgrade
+Exec=/home/jun-jiang/Documents/Daily_WORKS/WORKS_Scripts/upgrade_ubuntu.sh
+Name=upgrade
+Terminal=false 
+Type=Application
+Icon=/home/jun-jiang/Documents/Latex_Beamer/Figures/Person_Photo.JPG
