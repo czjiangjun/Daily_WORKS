@@ -89,6 +89,8 @@ class MainWindow(wx.Frame):
             self.dirname = dlg.GetDirectory()
             f = open(os.path.join(self.dirname, self.filename), 'r')
             self.control.SetValue(f.read())
+#            content = self.contral.GetValue(f.read#())
+#            print(content)
             f.close()
         dlg.Destroy()
 

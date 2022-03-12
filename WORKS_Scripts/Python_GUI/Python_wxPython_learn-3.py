@@ -109,6 +109,7 @@ class MyApp(wx.App):
             wx.MessageBox("OK","info",wx.OK|wx.ICON_INFORMATION)
         else:
             wx.MessageBox("NO", "info", wx.OK|wx.ICON_INFORMATION)
+        print(password)
     def clear(self,event):
         pass
 

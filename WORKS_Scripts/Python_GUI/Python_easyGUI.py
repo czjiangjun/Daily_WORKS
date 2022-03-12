@@ -20,7 +20,7 @@ ret = a.enterbox(msg=' Question ', title=' Dialog_box ', default=' TEST ', strip
 print(ret)
 
 # integerbox(msg='', title=' ', default='', lowerbound=0, upperbound=99, image=None, root=None, **invalidKeywordArguments) # 只能输入界定范围内的整型数
-ret = a.integerbox(msg=' Question ', title=' Dialog_box', default=666, lowerbound=0, upperbound=999, image=None )
+ret = a.integerbox(msg=' Question ', title=' Dialog_box', default=666, lowerbound=0, upperbound=999, image=None)
 print(ret)
 
 Msg = '上网不涉密，涉密不上网'
