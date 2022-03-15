@@ -24,8 +24,10 @@ class Example(wx.Frame):
     def InitUI(self):
 
         panel = wx.Panel(self)
+        self.panel = panel
 
         sizer = wx.GridBagSizer(5, 5)
+        self.sizer = sizer
 
         text1 = wx.StaticText(panel, label="Model_From_File")
         sizer.Add(text1, pos=(1, 0), flag=wx.TOP|wx.LEFT, border=10)
@@ -66,12 +68,15 @@ class Example(wx.Frame):
         sizer.Add(text3, pos=(5, 0), flag=wx.LEFT, border=10)
 
         Element_Name = wx.TextCtrl(panel)
-        sizer.Add(Element_Name, pos=(5, 1), span=(1, 3), flag=wx.TOP|wx.EXPAND)
+#        sizer.Add(Element_Name, pos=(5, 1), span=(1, 3), flag=wx.TOP|wx.EXPAND)
+        sizer.Add(Element_Name, pos=(5, 1), span=(1, 3), flag=wx.TOP)
         self.Elements = Element_Name
 
-        list = [str(i) for i in range(100)]
+        list = [str(i+1) for i in range(100)]
 #        print(list)
-        ch = wx.ComboBox(panel, value ='', choices= list, style=wx.CB_SORT)
+        self.ch = wx.ComboBox(panel, pos=(300, 200), value ='1', choices= list, style=wx.CB_SIMPLE, name = "Num_of_Ele")
+#        sizer.Add(ch,  )
+        self.Bind(wx.EVT_COMBOBOX, self.setposition_atoms, self.ch)
 
         text4 = wx.StaticText(panel, label="Atom_Position:")
         sizer.Add(text4, pos=(6, 0), flag=wx.LEFT|wx.TOP, border=5)
@@ -188,6 +193,24 @@ class Example(wx.Frame):
 
     def clear(self,event):
         exit()
+
+
+    def setposition_atoms(self, event):
+
+        pos_vector = wx.StaticText(self.panel, label="position:")
+        self.sizer.Add(pos_vector, pos=(13, 0), flag=wx.LEFT|wx.TOP, border=5)
+
+        pos_x = wx.TextCtrl(self.panel)
+        self.sizer.Add(pos_x, pos=(13, 1), span=(1, 1), flag=wx.TOP|wx.LEFT,
+            border=8)
+        pos_y = wx.TextCtrl(self.panel)
+        self.sizer.Add(pos_y, pos=(13, 2), span=(1, 1), flag=wx.TOP|wx.ALIGN_CENTER,
+            border=8)
+        pos_z = wx.TextCtrl(self.panel)
+        self.sizer.Add(pos_z, pos=(13, 3), span=(1, 1), flag=wx.TOP|wx.RIGHT,
+            border=8)
+
+        return
 
 #    def setcell(self, event):
 
