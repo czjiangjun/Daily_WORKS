@@ -275,10 +275,13 @@ class Example(wx.Frame):
         self.elements = []
         self.numbers = []
         self.Element_Name = ''
+        elements_list = []
         for i in range(self.types):
             self.elements.append(self.ele_i[i].GetValue())
             self.numbers.append(int(self.num_i[i].GetValue()))
             self.Element_Name = self.Element_Name+self.ele_i[i].GetValue()+self.num_i[i].GetValue()
+            for j in range(int(self.num_i[i].GetValue())):
+                elements_list.append(self.ele_i[i].GetValue())
 
         self.tot_num = sum(self.numbers)
 
@@ -303,7 +306,7 @@ class Example(wx.Frame):
                   self.addatom_pos.append('')
                j = i+2
 
-               pos_vector = wx.StaticText(panel2, label="Atom_%d_position:"%(i+1))
+               pos_vector = wx.StaticText(panel2, label="Atom_%d ( %s ) position:"%((i+1), elements_list[i]))
                sizer2.Add(pos_vector, pos=(j+1, 0), flag=wx.LEFT|wx.BOTTOM, border=5)
  
                pos_x = wx.TextCtrl(panel2)
