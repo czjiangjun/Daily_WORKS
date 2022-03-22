@@ -278,9 +278,14 @@ class Example(wx.Frame):
         elements_list = []
         for i in range(self.types):
             self.elements.append(self.ele_i[i].GetValue())
-            self.numbers.append(int(self.num_i[i].GetValue()))
-            self.Element_Name = self.Element_Name+self.ele_i[i].GetValue()+self.num_i[i].GetValue()
-            for j in range(int(self.num_i[i].GetValue())):
+            self.numbers.append(abs(int(self.num_i[i].GetValue())))
+            if (abs(int(self.num_i[i].GetValue())) == 1):
+                self.Element_Name = self.Element_Name+self.ele_i[i].GetValue()
+            elif (abs(int(self.num_i[i].GetValue())) == 0):
+                self.Element_Name = self.Element_Name
+            else:
+                self.Element_Name = self.Element_Name+self.ele_i[i].GetValue()+self.num_i[i].GetValue()
+            for j in range(abs(int(self.num_i[i].GetValue()))):
                 elements_list.append(self.ele_i[i].GetValue())
 
         self.tot_num = sum(self.numbers)
