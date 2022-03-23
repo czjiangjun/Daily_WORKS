@@ -180,7 +180,7 @@ class Example(wx.Frame):
            print(self.file)
         else:
 
-           print(self.Element_Name)
+           print(self.Model_Name)
 
            atom_positions = []
            atom_positions_all = []
@@ -274,17 +274,17 @@ class Example(wx.Frame):
 
         self.elements = []
         self.numbers = []
-        self.Element_Name = ''
+        self.Model_Name = ''
         elements_list = []
         for i in range(self.types):
             self.elements.append(self.ele_i[i].GetValue())
             self.numbers.append(abs(int(self.num_i[i].GetValue())))
             if (abs(int(self.num_i[i].GetValue())) == 1):
-                self.Element_Name = self.Element_Name+self.ele_i[i].GetValue()
+                self.Model_Name = self.Model_Name+self.ele_i[i].GetValue()
             elif (abs(int(self.num_i[i].GetValue())) == 0):
-                self.Element_Name = self.Element_Name
+                self.Model_Name = self.Model_Name
             else:
-                self.Element_Name = self.Element_Name+self.ele_i[i].GetValue()+self.num_i[i].GetValue()
+                self.Model_Name = self.Model_Name+self.ele_i[i].GetValue()+str(abs(int(self.num_i[i].GetValue())))
             for j in range(abs(int(self.num_i[i].GetValue()))):
                 elements_list.append(self.ele_i[i].GetValue())
 
@@ -293,9 +293,9 @@ class Example(wx.Frame):
 #        self.text3 = wx.StaticText(panel2, label="Elements")
 #        sizer2.Add(self.text3, pos=(1, 0), flag=wx.LEFT|wx.BOTTOM, border=10)
  
-#        self.Element_Name = wx.TextCtrl(panel2)
-#        sizer.Add(Element_Name, pos=(5, 1), span=(1, 3), flag=wx.TOP|wx.EXPAND)
-#        sizer2.Add(self.Element_Name, pos=(1, 1), span=(1, 1), flag=wx.TOP|wx.EXPAND)
+#        self.Model_Name = wx.TextCtrl(panel2)
+#        sizer.Add(Model_Name, pos=(5, 1), span=(1, 3), flag=wx.TOP|wx.EXPAND)
+#        sizer2.Add(self.Model_Name, pos=(1, 1), span=(1, 1), flag=wx.TOP|wx.EXPAND)
 
         k = self.tot_num
         print(k)
@@ -443,7 +443,7 @@ class Example(wx.Frame):
         panel2.SetSizer(sizer2)
         sizer2.Fit(self)
         
-        print('TEST2')
+#        print('TEST2')
         self.Bind(wx.EVT_BUTTON, self.printout, button6)
         self.Bind(wx.EVT_BUTTON, self.clear, button7)
 #        exit()
@@ -497,7 +497,7 @@ class Example(wx.Frame):
 
         self.type_num.Hide()
 #        self.text3.Hide()
-#        self.Element_Name.Hide()
+#        self.Model_Name.Hide()
         self.ch.Hide()
 #        self.text_num.Hide()
         self.button_Genatom.Hide()
@@ -508,8 +508,8 @@ class Example(wx.Frame):
     def save_POSCAR(self):
 
         file = open('POSCAR', 'w')
-        Element_Name = self.Element_Name+"\n"
-        file.writelines(Element_Name)
+        Model_Name = self.Model_Name+"\n"
+        file.writelines(Model_Name)
 
         parameter_i = ''
         for i in self.param:
