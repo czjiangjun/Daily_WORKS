@@ -12,6 +12,7 @@ last modified: July 2020
 """
 
 import wx
+import wx.lib.scrolledpanel as scrolled
 
 class Example(wx.Frame):
 
@@ -264,8 +265,16 @@ class Example(wx.Frame):
         self.Centre()
 
 #        self.panel.Hide()
+#        self.panel.Hide()
+#        self.scroller = wx.ScrolledWindow(self, -1)
+#        self.scroller.SetScrollbars(0, 1, 0, 1200, noRefresh=False)
+#        self.scroller.SetScrollRate(0, 10)
+#        self.pnl = pnl = wx.Panel(self.scroller)
+        panel2 = scrolled.ScrolledPanel(self, wx.ID_ANY, size=((400, 300)), style=wx.SUNKEN_BORDER)
+        panel2.SetupScrolling()
 
-        panel2 = wx.Panel(self)
+
+#        panel2 = wx.Panel(self)
         self.panel2 = panel2
 
         sizer2 = wx.GridBagSizer(5, 5)
@@ -309,7 +318,7 @@ class Example(wx.Frame):
                   self.addatom_pos.append('')
                   self.addatom_pos.append('')
                   self.addatom_pos.append('')
-               j = i+2
+               j = i
 
                pos_vector = wx.StaticText(panel2, label="Atom_%d ( %s ) position:"%((i+1), elements_list[i]))
                sizer2.Add(pos_vector, pos=(j+1, 0), flag=wx.LEFT|wx.BOTTOM, border=5)
