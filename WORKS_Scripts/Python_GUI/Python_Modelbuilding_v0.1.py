@@ -59,7 +59,7 @@ class Example(wx.Frame):
         self.type_num = wx.StaticText(panel, label="Types_of_Elements = ")
         sizer.Add(self.type_num, pos=(5, 0), flag=wx.LEFT, border=10)
 
-        list = [str(i+1) for i in range(5)]
+        list = [str(i+1) for i in range(10)]
 #        print(list)
         self.ch = wx.ComboBox(panel, value ='1', choices= list, style=wx.CB_SIMPLE, name = "Num_of_Ele")
         sizer.Add(self.ch, pos=(5,2) , span=(1,1), flag=wx.TOP|wx.RIGHT)
