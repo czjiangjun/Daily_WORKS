@@ -290,7 +290,7 @@
 %\thispagestyle{fancy}   % 插入页眉页脚                                        %
 %----------------------------------------------------------------------------------------The Body Of The Paper----------------------------------------------------------------------------------------%
 %Introduction
-参数关系
+\section{参数关系}
 \begin{itemize}
 	\item \textrm{AUTOA}:~ \textrm{AUTOA}=0.529177249
 	\item \textrm{RYTOEV}:~ \textrm{RYTOEV} = 13.605826
@@ -298,8 +298,10 @@
 		\begin{displaymath}
 			2\times\textrm{AUTOA}\times\textrm{RYTOEV}
 		\end{displaymath}
+		表示$2e^2$的单位换算关系
 \end{itemize}
 %\section{Introduction}
+\section{变量表达式}
 原子价电子径向波函数$\phi_i(r)$与价电子密度:
 \begin{equation}
 	\int|\phi_i(r)|^2\mathrm{d}r =4\pi\int\rho_v\mathrm{d}r
@@ -332,6 +334,73 @@
 计算。
 
 关于变量\textrm{POTPSC}，从数据上看
+
+\subsection{实空间变量\textrm{POTPSC}与倒变量变量\textrm{PSP}}
+根据代码\textrm{setlocalpp.F}中，子程序\textrm{POTTORHO}的描述，
+\begin{equation}
+		\mathrm{POTPSC} = V_{\mathrm{H}}[\tilde{n}_c](r)+V_{\mathrm{H}}[Z](r)
+	\label{eq:POTPSC}
+\end{equation}
+定义核电荷中价电荷部分贡献势的误差函数
+\begin{equation}
+	\Delta V_{\mathrm{H}}[\tilde{Z}_v](r)=\dfrac{Z_v\mathrm{ERF}(r/\alpha)}r\times2e^2
+	\label{eq:Delta_Z_valence}
+\end{equation}
+由此确定，\textrm{FFT}变换中与实空间对应部分的表达式是
+\begin{displaymath}
+	\mathrm{POTPSC} \textcolor{red}{-} \Delta V_{\mathrm{H}}[Z_v](r) = V_{\mathrm{H}}[\tilde{n}_c](r)+V_{\mathrm{H}}[Z](r) \textcolor{red}{-} \Delta V_{\mathrm{H}}[Z_v](r)
+\end{displaymath}
+
+在倒空间，\textrm{FFT}变换部分表示为
+\begin{displaymath}
+	\mathrm{PSP} \textcolor{blue}{+} V_{\mathrm{H}}[Z_v](\vec{q}) \textcolor{blue}{-} \Delta V_{\mathrm{H}}^{\prime}[\tilde{Z}_v](\vec q)
+\end{displaymath}
+其中
+\begin{displaymath}
+	\begin{aligned}
+		V_{\mathrm{H}}[Z_v](\vec q)=&\dfrac{4\pi Z_v}{\vec q^2}\times2e^2\\
+		\Delta V_{\mathrm{H}}^{\prime}[\tilde{Z}_v](\vec q)=&\dfrac{4\pi Z_v}{\vec q^2}\mathrm{e}^{-(\vec q/2\alpha)^2}\times2e^2
+	\end{aligned}
+\end{displaymath}
+
+\textbf{由FFT变换对应于$V_{\mathrm{H}}[\tilde{n}_c]+V_{\mathrm{H}}[\tilde{Z}]$}(\textcolor{red}{这是赝势的核心本质!!})，可推定\textrm{PSP}相当于倒空间表示的
+\begin{equation}
+	\begin{aligned}
+		\mathrm{PSP}&=V_{\mathrm{H}}[\tilde{n}_c](\vec q)+V_{\mathrm{H}}[Z](q)-V_{\mathrm{H}}[Z_v](q)-\Delta V_{\mathrm{H}}[Z_v](q)+\Delta V_{\mathrm{H}}^{\prime}[Z_v](q)\\
+		&=V_{\mathrm{H}}[\tilde{n}_c](\vec q)+V_{\mathrm{H}}[Z_c](\vec q)-\Delta V_{\mathrm{H}}[Z_v](q)+\Delta V_{\mathrm{H}}^{\prime}[Z_v](q)
+	\end{aligned}
+	\label{eq:PSP}
+\end{equation}
+根据\textrm{Ewald}求和规则，
+\begin{displaymath}
+	\Delta V_{\mathrm{H}}[Z_v](q)-\Delta V_{\mathrm{H}}^{\prime}[Z_v](q)
+\end{displaymath}
+抵消。\\
+因此\textrm{PSP}对应的势是
+\begin{displaymath}
+	\mathrm{PSP} = V_{\mathrm{H}}[\tilde{n}_c](\vec q)+V_{\mathrm{H}}[Z_c](\vec q)
+\end{displaymath}
+这是真正可以平移的赝势。
+%\section{正文章节}
+%参考文献的引用方式1\upcite{QCQC_2014}
+%-------------------The Figure Of The Paper------------------
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[height=3.35in,width=2.85in,viewport=0 0 400 475,clip]{PbTe_Band_SO.eps}
+%\hspace{0.5in}
+%\includegraphics[height=3.35in,width=2.85in,viewport=0 0 400 475,clip]{EuTe_Band_SO.eps}
+%\caption{\small Band Structure of PbTe (a) and EuTe (b).}%(与文献\cite{EPJB33-47_2003}图1对比)
+%\label{Pb:EuTe-Band_struct}
+%\end{figure}
+
+%-------------------The Equation Of The Paper-----------------
+%\begin{equation}
+%\varepsilon_1(\omega)=1+\frac2{\pi}\mathscr P\int_0^{+\infty}\frac{\omega'\varepsilon_2(\omega')}{\omega'^2-\omega^2}d\omega'
+%\label{eq:magno-1}
+%\end{equation}
+
+
+
 %\section{正文章节}
 %参考文献的引用方式1\upcite{QCQC_2014}
 %-------------------The Figure Of The Paper------------------
