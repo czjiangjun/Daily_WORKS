@@ -53,14 +53,17 @@
 %%尽量使用 BibTeX(含有超链接，数据库的条目URL即可)                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage[numbers,sort&compress]{natbib} %紧密排列             %
+\usepackage[numbers,sort&compress]{natbib} %紧密排列              %
 %\usepackage[square,super,numbers,sort&compress]{natbib} %紧密排列%
-\usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
-%\usepackage{footbib}			   %脚注列出参考文献　   %
-\usepackage{hypernat}                                                                         %
+%\usepackage{footbib}			   %脚注列出参考文献　    %
+%                                                                 %
+% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %
+%\usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
+% !!! chapterbib 只有当 Book 状态下有效/ Article 状态下全文不会有错，但如果分割正文就会报错!!! %
+\usepackage{hypernat}                                                                          %
 %\usepackage[dvipdfm,bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
-\usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
-\hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}         %
+\usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}                       %
+\hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}          %
 %参考文献含有超链接引用时需要下列宏包，注意与natbib有冲突        %
 %\usepackage[dvipdfm]{hyperref}                                  %
 %\usepackage{hypernat}                                           %
@@ -93,10 +96,6 @@
 %	TEST
 %	\end{verbatim}
 %\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Template_Author}									     %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%  % 段落缩进   %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%       首行缩进   %%%%%%%%%%%
@@ -160,23 +159,10 @@
 
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
 %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%    The Title of The Paper    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\title{标题}
-%----------------------------------------------------------------------------------------------%
-%
-%----------------------The Authors and the address of The Paper--------------------------------%
-%\author{
-%作者:
-%\small
-%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names       %
-%\small
-%(The Address，City Post code)						%Address	       %
-%}
-%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
-%\affil{清华大学~材料加工研究所~A213}
-%\date{}					%if necessary				       %
-%----------------------------------------------------------------------------------------------%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Template_Author}									     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \maketitle
 %\thispagestyle{fancy}   % 首页插入页眉页脚 
 %
@@ -209,38 +195,8 @@
 %--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
 %-----------------------------------------------The Bibliography of The Paper-------------------------------------%
-
-%\newpage										      %
-\phantomsection\addcontentsline{toc}{section}{Bibliography} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正%
-%\phantomsection\addcontentsline{toc}{subsection}{\CJKfamily{hei} 主要参考资料}               % 
-
-%---------------------------------------------------------------------------------------------%
-%\begin{thebibliography}{99}								      %
-%											      %
-%\include{Template_Content-4-Bibliography}                     %
-%											      %
-%\end{thebibliography}								              %
-%--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
-\bibliography{../../ref/Myref}                         %
-%%\bibliography{../ref/Myref_from_2013}             %
-\bibliographystyle{../../ref/mybib}                   %%   接近ieeert样式
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%      \bibliographystyle         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%      LaTeX 参考文献标准选项及其样式共有以下8种：                                %%%%%%%%
-% plain，按字母的顺序排列，比较次序为作者、年度和标题.                                        %
-% unsrt，样式同plain，只是按照引用的先后排序.                                                 %
-% alpha，用作者名首字母+年份后两位作标号，以字母顺序排序.                                     %
-% abbrv，类似plain，将月份全拼改为缩写，更显紧凑.                                             %
-% ieeetr，国际电气电子工程师协会期刊样式.                                                     %
-% acm，美国计算机学会期刊样式.                                                                %
-% siam，美国工业和应用数学学会期刊样式.                                                       %
-% apalike，美国心理学学会期刊样式.                                                            %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%\nocite{*}                                                                                   %
-%---------------------------------------------------------------------------------------------%
-%
+\include{Template_Content-4-Bibliography}                     %
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
 %

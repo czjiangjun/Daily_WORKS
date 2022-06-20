@@ -54,12 +54,15 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage[numbers,sort&compress]{natbib} %紧密排列             %
+%\usepackage{footbib}			   %脚注列出参考文献　    %
+%                                                                 %
+% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %
 \usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
-%\usepackage{footbib}			   %脚注列出参考文献　   %
-\usepackage{hypernat}                                                                         %
+% !!! chapterbib 只有当 Book 状态下有效/ Article 状态下全文不会有错，但如果分割正文就会报错!!! %
+\usepackage{hypernat}                                                                          %
 %\usepackage[dvipdfm,bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
-\usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
-\hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}         %
+\usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}                       %
+\hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}          %
 %参考文献含有超链接引用时需要下列宏包，注意与natbib有冲突        %
 %\usepackage[dvipdfm]{hyperref}                                  %
 %\usepackage{hypernat}                                           %
