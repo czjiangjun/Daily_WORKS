@@ -14,6 +14,7 @@
 \setlength{\topmargin}{-1cm}                                     %
 \setlength{\oddsidemargin}{0.1cm}                                %
 \setlength{\evensidemargin}{\oddsidemargin}                      %
+\usepackage{fancyhdr}           %使用页眉-页脚                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{authblk}					 %作者地址和E-mail
@@ -178,30 +179,8 @@
 \date{} % 去掉日期									     %
 %\date{2020-12-30}									     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%  % 段落缩进   %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%       首行缩进   %%%%%%%%%%%
-%\setlength{\parindent}{2em}{     %
-%首行缩进2em的段落(可跨段落)      %
-%}                                %
-%%\CJKindent    %中文首行缩进     %
-%---------------------------------%
-%%%%%%%%%%% 取消多段首行缩进%%%%%%%%%%%%%%%
-%\setlength{\parindent}{0pt}{             %
-% 取消缩进段落(可跨段落)                  %
-%}                                        %
-%-----------------------------------------------------------------%
-%%%%%%%%%%% 悬挂缩进 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-%\noindent                      %1. 取消⾸⾏缩进                  %
-%\hangafter=1                   %2. 设置从第１⾏之后开始悬挂缩进  %
-%\setlength{\hangindent}{2em}   %3. 设置悬挂缩进量                %
-%{ 悬挂缩进段落(不可跨段落)                                       %
-%}                                                                %
-%-----------------------------------------------------------------%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\begin{document}
 %%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{fancyhdr}           %使用页眉-页脚                   %
 %%\renewcommand{\headrulewidth}{3pt} %页眉(单)线宽(默认黑色)，设为0可以去页眉线
 %\makeatletter % 双线页眉
 %\def\headrule{\color{blue}{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
@@ -234,16 +213,14 @@
 %% myheadings 页眉内容可自定义，无页脚
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{document}
-
 %\begin{CJK}{UTF8}{gbsn} %针对文字编码为unix %CJK自带的utf-8简体字体有gbsn(宋体)和gkai(楷体)
 %\begin{CJK}{GBK}{hei}	%针对文字编码为doc
 %\begin{CJK}{GBK}{hei}	 %针对文字编码为doc
 %\CJKindent     %在CJK环境中,中文段落起始缩进2个中文字符
 %\indent
 %
-\renewcommand{\abstractname}{\small{\CJKfamily{hei} 摘\quad 要}} %\CJKfamily{hei} 设置中文字体，字号用\large \small来设
-%\renewcommand{\contentsname}{\centering\CJKfamily{hei} 目~~~录}
+\renewcommand{\abstractname}{\small{\CJKfamily{hei} 摘\quad 要}} %\CJKfamily{hei} 设置中文字体，字号用\big \small来设
+\renewcommand{\contentsname}{\centering\CJKfamily{hei} 目~~~录}
 \renewcommand{\refname}{\centering\CJKfamily{hei} 参考文献}
 %\renewcommand{\figurename}{\CJKfamily{hei} 图.}
 \renewcommand{\figurename}{{\bf Fig}.}
@@ -308,6 +285,7 @@ The content of the abstract
 \keywords{Keyword1; Keyword2; Keyword3}
 
 %-------------------------------------------------------------------------------The Content of The Paper----------------------------------------------------------------------------------------------%
+%\addcontentsline{toc}{section}{\CJKfamily{hei} 目录/CONTENTS}  %如果需要将目录页插入目录
 \tableofcontents %% 制作目录(目录是根据标题自动生成的)
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 
@@ -460,10 +438,10 @@ The content of the abstract
 %\end{thebibliography}																			%
 %-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
 \phantomsection\addcontentsline{toc}{section}{Bibliography} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正%
-%\phantomsection\addcontentsline{toc}{subsection}{\CJKfamily{hei} 主要参考资料} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正%
+%\phantomsection\addcontentsline{toc}{section}{参考文献}    %目录中表示为“参考文献”
+\bibliographystyle{../ref/mybib} %% 接近ieeert样式
 %\bibliography{../ref/Myref_from_2013}   %
 \bibliography{../ref/Myref}   %
-\bibliographystyle{../ref/mybib} %% 接近ieeert样式
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%      \bibliographystyle         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%      LaTeX 参考文献标准选项及其样式共有以下8种：                                %%%%%%%%
 % plain，按字母的顺序排列，比较次序为作者、年度和标题.
