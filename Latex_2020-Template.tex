@@ -3,6 +3,7 @@
 %\documentclass[10pt, twoside, a4paper]{article}      % Specifies the document class
 %AutoFakeBold 克服汉字加粗问题
 
+\usepackage{ctex}
 %%%%%%%%%%%%%%%%% CJK 中文版面控制  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\usepackage{CJK} % CTEX-CJK 中文支持                            %
 \usepackage{xeCJK} % seperate the english and chinese		 %
@@ -53,12 +54,13 @@
 %%尽量使用 BibTeX(含有超链接，数据库的条目URL即可)                %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage[numbers,sort&compress]{natbib} %紧密排列             %
+\usepackage[numbers,sort&compress]{natbib} %紧密排列              %
+%\usepackage[square,super,numbers,sort&compress]{natbib} %紧密排列%
 %\usepackage{footbib}			   %脚注列出参考文献　    %
 %                                                                 %
+% !! chapterbib 只有当 Book & chapter 状态下有效/ Article 状态下全文不会有错，但分割正文会报错 !! %
+%\usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
 % !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %
-\usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
-% !!! chapterbib 只有当 Book 状态下有效/ Article 状态下全文不会有错，但如果分割正文就会报错!!! %
 \usepackage{hypernat}                                                                          %
 %\usepackage[dvipdfm,bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
 \usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}                       %
@@ -156,34 +158,6 @@
 %	\end{verbatim}
 %\end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\title{More than one Author with different Affiliations}				     %
-\title{\hei 标题}
-%\author[a]{Author A}									     %
-\author[a]{Author/作者 A}   %
-%\author[a]{Author B}									     %
-%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
-\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
-%\author[b]{Author D}									     %
-\author[b]{Author/作者 D}									     %
-%\author[b]{Author E}									     %
-%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
-\affil[a]{作者单位-1 \authorcr 地址}    %\authorcr表示换行
-%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
-\affil[b]{作者单位-2}			     %
-											     %
-%%% 使用 \thanks 定义通讯作者								     %
-%%\affil命令后的{}中的内容，如果觉得需要换行的话，换行命令是\authorcr（不是\\）。
-%%Email中可以吧相同邮箱的人@前面的内容写在一个{}里，用逗号隔开。注意{和}前面要加\。例如：
-%%\affil[*]{单位1, \authorcr Email: \{zuozhe1, zuozhe2\}@yahoo.com, zuozhe3@sina.com}
-											     %
-\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
-\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
-\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
-\renewcommand\Authands{ , } % 将 and 换成逗号					     %
-\date{} % 去掉日期									     %
-%\date{2020-12-30}									     %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%\renewcommand{\headrulewidth}{3pt} %页眉(单)线宽(默认黑色)，设为0可以去页眉线
@@ -260,8 +234,34 @@
 %{\CJKfamily{fs} 仿宋 fangsong \TeX 是一种排版工具} \\	%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\addcontentsline{toc}{section}{Bibliography}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+\title{\hei 标题}
+%\author[a]{Author A}									     %
+\author[a]{Author/作者 A}   %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
+%\author[b]{Author D}									     %
+\author[b]{Author/作者 D}									     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+\affil[a]{作者单位-1 \authorcr 地址}    %\authorcr表示换行
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+\affil[b]{作者单位-2}			     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+%%\affil命令后的{}中的内容，如果觉得需要换行的话，换行命令是\authorcr（不是\\）。
+%%Email中可以吧相同邮箱的人@前面的内容写在一个{}里，用逗号隔开。注意{和}前面要加\。例如：
+%%\affil[*]{单位1, \authorcr Email: \{zuozhe1, zuozhe2\}@yahoo.com, zuozhe3@sina.com}
+											     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%\date{2020-12-30}									     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %-------------------------------The Title of The Paper-----------------------------------------%
 %\title{标题}
 %----------------------------------------------------------------------------------------------%
@@ -445,7 +445,7 @@ The content of the abstract
 \phantomsection\addcontentsline{toc}{section}{Bibliography} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正%
 %\phantomsection\addcontentsline{toc}{section}{参考文献}    %目录中表示为“参考文献”
 \bibliographystyle{../ref/mybib} %% 接近ieeert样式
-%\bibliography{../ref/Myref_from_2013}   %
+%%\bibliography{../../ref/Myref, ../ref/Myref_from_2013}        %% 多个参考文献 .bib
 \bibliography{../ref/Myref}   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%      \bibliographystyle         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%      LaTeX 参考文献标准选项及其样式共有以下8种：                                %%%%%%%%

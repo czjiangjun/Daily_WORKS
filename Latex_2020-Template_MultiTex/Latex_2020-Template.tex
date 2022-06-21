@@ -4,168 +4,28 @@
 %\documentclass[10pt, oneside, a4paper]{book}      % Specifies the document class
 %AutoFakeBold 克服汉字加粗问题
 
-%%%%%%%%%%%%%%%%% CJK 中文版面控制  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\usepackage{CJK} % CTEX-CJK 中文支持                            %
-\usepackage{xeCJK} % seperate the english and chinese		 %
-\usepackage{CJKutf8} % Texlive 中文支持                         %
-\usepackage{CJKnumb} %中文序号                                   %
-\usepackage{indentfirst} % 中文段落首行缩进                      %
-%\setlength\parindent{22pt}       % 段落起始缩进量               %
-\renewcommand{\baselinestretch}{1.2} % 中文行间距调整            %
-\setlength{\textwidth}{16cm}                                     %
-\setlength{\textheight}{24cm}                                    %
-\setlength{\topmargin}{-1cm}                                     %
-\setlength{\oddsidemargin}{0.1cm}                                %
-\setlength{\evensidemargin}{\oddsidemargin}                      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage{authblk}					 %作者地址和E-mail
-\usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
-\usepackage{mathrsfs}                                    %英文花体
-\usepackage{tikz}					 %绘制平面图形
-%\usepackage[dvipdfmx]{movie15_dvipdfmx} %插入视频
-\usepackage{xcolor}                                        %使用默认允许使用颜色
-%\usepackage{hyperref} 
-\usepackage{graphicx}
-\usepackage{subfigure}           %图片跨页
-\usepackage{animate}		 %插入动画
-\usepackage{caption}
-\captionsetup{font=footnotesize}
-
-%\usepackage[version=3]{mhchem}		%化学公式
-\usepackage{chemformula}
-\usepackage{chemfig}		%化学公式
-
-\usepackage{fontspec} % use to set font
-\setCJKmainfont{SimSun}
-\XeTeXlinebreaklocale "zh"  % Auto linebreak for chinese
-\XeTeXlinebreakskip = 0pt plus 1pt % Auto linebreak for chinese
-
-\usepackage{longtable}                                   %使用长表格
-\usepackage{multirow}
-\usepackage{makecell}		%允许单元格内换行
-
-\usepackage{arydshln}
-\newcommand{\adots}{\mathinner{\mkern2mu%
-\raisebox{0.1em}{.}\mkern2mu\raisebox{0.4em}{.}%
-\mkern2mu\raisebox{0.7em}{.}\mkern1mu}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%  参考文献引用 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%尽量使用 BibTeX(含有超链接，数据库的条目URL即可)                %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage[numbers,sort&compress]{natbib} %紧密排列              %
-%\usepackage[square,super,numbers,sort&compress]{natbib} %紧密排列%
-%\usepackage{footbib}			   %脚注列出参考文献　    %
-%                                                                 %
-% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! %
-%\usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
-% !!! chapterbib 只有当 Book 状态下有效/ Article 状态下全文不会有错，但如果分割正文就会报错!!! %
-\usepackage{hypernat}                                                                          %
-%\usepackage[dvipdfm,bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
-\usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}                       %
-\hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}          %
-%参考文献含有超链接引用时需要下列宏包，注意与natbib有冲突        %
-%\usepackage[dvipdfm]{hyperref}                                  %
-%\usepackage{hypernat}                                           %
-\newcommand{\upcite}[1]{\hspace{0ex}\textsuperscript{\cite{#1}}} %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\AtBeginDvi{\special{pdf:tounicode GBK-EUC-UCS2}} %CTEX用dvipdfmx的话，用该命令可以解决      %
-%						   %pdf书签的中文乱码问题		      %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%-- Biblatex --%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%            新版本的BibLaTeX默认使用Biber而非BibTeX进行处理参考文献。                     %
-%\usepackage[backend=bibtex]{biblatex}                                                        %
-%\usepackage[style=authoryear,backend=biber]{biblatex}                                        %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------%%%%%%%%%%%%%%%%--------xeCJK下设置中文字体-----------%%%%%%%%%%%%%%%%%%-----------%  
+\include{Template_Preamble}                                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %---------%%%%%%%%%%%%%%%%--------xeCJK下设置中文字体-----------%%%%%%%%%%%%%%%%%%-----------%  
 \include{Template_Fonts}                                                                     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\graphicspath{{Presentation_Beamer/}}                            %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage{verbatim}			%Verbatim 宏包重新实现了 Verbatim 环境，并且提供一个命令可以导入一个 ASCII 文件到文档中
-%\verbatiminput{filename}
-
-%在beamer里面使用verbatim环境，可以通过在frame的参数里面添加 containsverbatim / fragile来解决，不过 containsverbatim 会导致pause失效
-%\begin{frame}[containsverbatim] %也可以用 \begin{frame}[fragile]
-%	\begin{verbatim}
-%	\usepackage{xcolor}
-%	TEST
-%	\end{verbatim}
-%\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%  % 段落缩进   %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%       首行缩进   %%%%%%%%%%%
-%\setlength{\parindent}{2em}{     %
-%首行缩进2em的段落(可跨段落)      %
-%}                                %
-%%\CJKindent    %中文首行缩进     %
-%---------------------------------%
-%%%%%%%%%%% 取消多段首行缩进%%%%%%%%%%%%%%%
-%\setlength{\parindent}{0pt}{             %
-% 取消缩进段落(可跨段落)                  %
-%}                                        %
-%-----------------------------------------------------------------%
-%%%%%%%%%%% 悬挂缩进 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-%\noindent                      %1. 取消⾸⾏缩进                  %
-%\hangafter=1                   %2. 设置从第１⾏之后开始悬挂缩进  %
-%\setlength{\hangindent}{2em}   %3. 设置悬挂缩进量                %
-%{ 悬挂缩进段落(不可跨段落)                                       %
-%}                                                                %
-%-----------------------------------------------------------------%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{Template_Fancy}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\graphicspath{{Presentation_Beamer/}}                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{document}
 
-%\begin{CJK}{UTF8}{gbsn} %针对文字编码为unix %CJK自带的utf-8简体字体有gbsn(宋体)和gkai(楷体)
-%\begin{CJK}{GBK}{hei}	%针对文字编码为doc
-%\begin{CJK}{GBK}{hei}	 %针对文字编码为doc
-%\CJKindent     %在CJK环境中,中文段落起始缩进2个中文字符
-%\indent
-%
-\renewcommand{\abstractname}{\small{\CJKfamily{hei} 摘\quad 要}} %\CJKfamily{hei} 设置中文字体，字号用\large \small来设
-%\renewcommand{\contentsname}{\centering\CJKfamily{hei} 目~~~录}
-\renewcommand{\refname}{\centering\CJKfamily{hei} 参考文献}
-%\renewcommand{\figurename}{\CJKfamily{hei} 图.}
-\renewcommand{\figurename}{{\bf Fig}.}
-%\renewcommand{\tablename}{\CJKfamily{hei} 表.}
-\renewcommand{\tablename}{{\bf Tab}.}
-%\renewcommand{\thesubfigure}{\roman{subfigure}}  \makeatletter %子图标记罗马字母
-%\renewcommand{\thesubfigure}{\tiny(\alph{subfigure})}  \makeatletter　%子图标记英文字母
-%\renewcommand{\thesubfigure}{}  \makeatletter　%子图无标记
-
-%将图表的Caption写成 图(表) Num. 格式
-\makeatletter
-\long\def\@makecaption#1#2{%
-  \vskip\abovecaptionskip
-  \sbox\@tempboxa{#1. #2}%
-  \ifdim \wd\@tempboxa >\hsize
-    #1. #2\par
-  \else
-    \global \@minipagefalse
-    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
-  \fi
-  \vskip\belowcaptionskip}
-\makeatother
-
-\newcommand{\keywords}[1]{{\hspace{0pt}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
-
-%----------------------------------------------------------------------------------------------------------------------------------------------------%
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Template_Author}									     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%    The Title of The Paper    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{Template_Author}								     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\maketitle
-%\thispagestyle{fancy}   % 首页插入页眉页脚 
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
 %
@@ -185,6 +45,8 @@
 \include{Template_Content-1-Introduction}                     %
 %--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
+%-------------------------------------------------------------%
+%
 %-----%%%%%%%----Main Body of The Paper----%%%%%%%%%%---------%
 \include{Template_Content-2-Main}                             %
 %--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
@@ -195,9 +57,11 @@
 \include{Template_Content-3-Acknowledge}                      %
 %--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
-%-----------------------------------------------The Bibliography of The Paper-------------------------------------%
+%----------------------------------------------------------------------------------------------------------------------------------------------------%
 %
+%----%%%%%%%%%%%%----The Bibliographyge----%%%%%%%%%%%%%%-----%
 \include{Template_Content-4-Bibliography}                     %
+%--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
 %
