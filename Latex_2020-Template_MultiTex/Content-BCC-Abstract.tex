@@ -1,0 +1,64 @@
+
+%\begin{CJK}{UTF8}{gbsn} %针对文字编码为unix %CJK自带的utf-8简体字体有gbsn(宋体)和gkai(楷体)
+%\begin{CJK}{GBK}{hei}	%针对文字编码为doc
+%\begin{CJK}{GBK}{hei}	 %针对文字编码为doc
+%\CJKindent     %在CJK环境中,中文段落起始缩进2个中文字符
+%\indent
+%
+\renewcommand{\abstractname}{\small{\CJKfamily{hei} 摘\quad 要}} %\CJKfamily{hei} 设置中文字体，字号用\big \small来设
+\renewcommand{\refname}{\centering\CJKfamily{hei} 参考文献}
+%\renewcommand{\figurename}{\CJKfamily{hei} 图.}
+\renewcommand{\figurename}{{\bf Fig}.}
+%\renewcommand{\tablename}{\CJKfamily{hei} 表.}
+\renewcommand{\tablename}{{\bf Tab}.}
+%\renewcommand{\thesubfigure}{\roman{subfigure}}  \makeatletter %子图标记罗马字母
+%\renewcommand{\thesubfigure}{\tiny(\alph{subfigure})}  \makeatletter　%子图标记英文字母
+%\renewcommand{\thesubfigure}{}  \makeatletter　%子图无标记
+
+%将图表的Caption写成 图(表) Num. 格式
+\makeatletter
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{#1. #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1. #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother
+
+\newcommand{\keywords}[1]{{\hspace{0\ccwd}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
+
+%%%%%%%%%%%%%%%%%%中文字体设置%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%默认字体 defalut fonts \TeX 是一种排版工具 \\		%
+%{\bfseries 粗体 bold \TeX 是一种排版工具} \\		%
+%{\CJKfamily{song}宋体 songti \TeX 是一种排版工具} \\	%
+%{\CJKfamily{hei} 黑体 heiti \TeX 是一种排版工具} \\	%
+%{\CJKfamily{kai} 楷书 kaishu \TeX 是一种排版工具} \\	%
+%{\CJKfamily{fs} 仿宋 fangsong \TeX 是一种排版工具} \\	%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\addcontentsline{toc}{section}{Bibliography}
+%-------------------------The Abstract and the keywords of The Report-------------------------------------------------------------------------%
+\thispagestyle{fancy}   % 插入页眉页脚                                        %
+\begin{abstract}
+%The content of the abstract %摘要内容
+作为最高效能的第一原理材料计算与模拟软件之一，\textrm{VASP}的最大优势是采用了投影子缀加波\textrm{(Projector Augmented Wave, PAW)}方法，该既保留了赝势\textrm{(Pseudo-Potential, PP)}方法的计算效率，又获得了逼近全势\textrm{(Full-Potential, FP)}方法的计算精度，使得\textrm{VASP}软件具有很强的第一原理计算效能；另一方面，\textrm{VASP}软件中集成的多种迭代优化算法，大大加速了\textrm{SCF}和\textrm{AIMD}的计算收敛。\textrm{PAW}方法和优化算法相结合，大大提高了\textrm{VASP}软件计算体系的规模。这里重点介绍:
+\begin{enumerate}
+\item \textrm{PAW}方法基本思想，特别是\textrm{G.~Kresse}改进的\textrm{PAW}方法与超软赝势\textrm{(US-PP)}方法的内在关系
+\item \textrm{VASP}的优化算法，从算法的角度考察电荷密度自洽迭代与矩阵对角化迭代的优化基本思想。
+\end{enumerate}
+
+\textrm{VASP}的计算的高精度，与其\textrm{POTACR}文件密切相关，\textrm{POTCAR}也是其是唯一没有公开源码的辅助文件。探索如何利用现有开源软件，重现\textrm{POTCAR}的生成技术路线，特别是赝电荷密度、赝势的构造关注的人并不多，这里展开一些讨论。
+%2020-11-24:~中国科学院-力学研究所
+%密度泛函理论自1960年代中旬确立以来，已经成为物理、化学和材料领域电子结构计算的重要工具。相比于传统的波函数理论，密度泛函理论以电子密度作为基本变量，有着更直观、明确的物理内涵，计算效率也更高。通过对密度泛函理论和Kohn-Sham方程的讨论，特别是交换-相关能泛函的改进和发展历史梳理，回顾密度泛函理论的概貌，简单介绍主要软件的基本框架。
+%2020-11-28:~北京理工大学
+%基于密度泛函理论(\textrm{DFT})发展的第一原理计算软件已经成为物理、化学和材料领域电子结构计算的重要工具。\textrm{LAPW}方法和\textrm{PAW}方法是目前材料电子计算的主要方法，围绕两种方法各自的基组构造、势能与总能量计算等问题，讨论基于密度泛函理论的相关软件(如\textrm{WIEN2k}、\textrm{VASP}等)的算法实现和基本框架。
+%近年来，能量密度泛函(energy density functional)在合金和有关材料研究中得到特别的重视，围绕能量密度泛函的计算软件也有意一些发展，这里重点讨论基于PAW方法的有关软件开发的基本情况。
+\end{abstract}
+
+%\keywords{\textrm{DFT}, \textrm{LAPW}, \textrm{PAW}, 电子计算} %关键词
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
