@@ -5,9 +5,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\title{More than one Author with different Affiliations}				     %
 \title{\hei 会议纪要}
-\author[ ]{记录员:~姜~骏}   %
+\author[ ]{记录员:~姓~名}   %
 %\author[ ]{姜~骏\thanks{jiangjun@bcc.ac.cn}}   %
-\affil[ ]{会议地点}    %
 %\author[a]{Author A}									     %
 %\author[a]{Author B}									     %
 %\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
@@ -15,6 +14,7 @@
 %\author[b]{Author D}									     %
 %\author[b]{Author/作者 D}								     %
 %\author[b]{Author E}									     %
+\affil[ ]{会议地点:~地点}    %
 %\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
 %\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
 %\affil[b]{作者单位-2}			    						     %
@@ -24,10 +24,10 @@
 \renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
 \renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
 \renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
-\renewcommand\Authands{ , } % 将 and 换成逗号					     %
-%\date{} % 日期									     %
-\date{YEAR-MONTH-DATE}									     %
+\renewcommand\Authands{ , } % 将 and 换成逗号						     %
+%\date{} % 不显示日期									     %
 %\date{2020-12-30}									     %
+\date{\footnotesize\rm YEAR-MONTH-DATE}							     %
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %-------------------------------The Title of The Report-----------------------------------------%

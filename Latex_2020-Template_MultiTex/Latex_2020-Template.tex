@@ -13,8 +13,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\include{Template_Fancy}
-\include{Template_BCC_Fancy}
+\include{Template_Fancy}					  %
+%\include{BCC_Report/Template_BCC_Fancy}			  %
+%\include{Meet_Conference/Template_Meet_Fancy}			  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -27,7 +28,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%    The Title of The Paper    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include*{Author_Title}								    	     %
 %\include{Author_Title}								    	     %
-%\include*{Title_Recoder_MeetInfo}							    	     %
+%\include*{BCC_Repoart/Author_Title_BCC}				    	     	     %
+%\include*{Meet_Conference/Title_Recoder_MeetInfo}				    	     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
@@ -35,8 +37,8 @@
 %
 %%%%------The Abstract and the keywords of The Paper-------%%%%
 \include*{Content-0-Abstract}                        	      %
-%\include*{Content-BCC-Abstract}                       	      %
-%\include*{Content-Meet-Abstract}                       	      %
+%\include*{BCC_Report/Content-BCC-Abstract}                   %
+%\include*{Meet_Conference/Content-Meet-Abstract}      	      %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -44,7 +46,7 @@
 %----------------The Body Of The Paper------------------------%
 %
 %-----%%%%%%%------- Introduction ---------%%%%%%%%%%---------%
-%\include*{Content-1-Introduction}    		              %
+\include*{Content-1-Introduction}    		              %
 %--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
 %-------------------------------------------------------------%
@@ -52,8 +54,8 @@
 %-----%%%%%%%----Main Body of The Paper----%%%%%%%%%%---------%
 \include*{Content-2-Main}                            	      %
 %\include{Content-2-Main}                            	      %
-%\include*{Template_Report_Author}    		              %
-%\include*{Content_MeetRecord}    		              %
+%\include*{BCC_Report/Template_Report_Author}    	      %
+%\include*{Meet_Conference/Content_MeetRecord}    	      %
 %--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
