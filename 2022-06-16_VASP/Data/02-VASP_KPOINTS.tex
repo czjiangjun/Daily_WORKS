@@ -1,0 +1,430 @@
+\section{Introduction}
+体系的对称性会对物理性质有决定性作用。在材料计算与模拟中，充分利用材料的对称性不仅可以有效提高计算效率，对各种尺度的物性分析也有很重要的帮助，因此一般的材料模拟软件中都包含对称性分析模块。材料电子结构的表示，与体系的对称性密切关联，在表示周期材料的电子能带时，路径的选择总是沿着$\vec k$空间中高对称性方向。这些高对称性$\vec k$点路径方向的选择主要依靠研究者的经验和习惯，并没有统一的规则，有着很大的随意性。\textrm{Setyawan}等\upcite{CMS49-299_2010}建议了，能带表示的标准化$\vec k$-\textrm{path}选择方案。我们在研究中注意到，材料电子计算领域著名软件\textrm{VASP}在对称性分析部分只提供了点群对称性分析，并未提供晶体空间群分析，其能带表示的$\vec k$-\textrm{path}也完全依赖人工选择，因此开发了\textbf{KPATH}软件，扩展了\textrm{VASP}软件的对称性分析功能并集成了能带表示标准化模块。
+
+我们的软件主要结构分为四个功能模块，如图\ref{Call_graph:basic}所示:
+\begin{itemize}
+	\item 模型晶胞参数(\textrm{RD\_POSCAR\_HEAD})和晶胞中原子坐标(\textrm{RD\_POSCAR})的读入
+	\item 输入晶胞的晶体学标准化和初基原胞的点群对称性分析与判断(\textrm{INISYM})
+	\item 空间群对称性分析与判断(SGROUP)
+	\item 标准化$\vec k$-\textrm{path}方案(\textrm{KPATH})
+\end{itemize}
+上述模块中，除了\textrm{SGROUP}是用\textbf{C}语言编写的，其余部分都是采用\textbf{FORTRAN90}编写的;\textrm{KPATH}是根据文献\cite{CMS49-299_2010}的思想实现的;点群对称性分析是将\textrm{VASP}软件的有关部分抽取出来独立而成的。
+\begin{figure}[h!]
+\centering
+\includegraphics[height=2.35in]{CallsGraph-K_Points_Path_Basic.png}
+\caption{\small The basic call graph of KPATH.}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Call_graph:basic}
+\end{figure}
+
+\section{晶胞参数和原子坐标的读入}
+子程序\textbf{RD\_POSCAR\_HEAD}和\textbf{RD\_POSCAR}\\
+\textbf{\textcolor{blue}{输入~}}\textrm{VASP}软件的晶体建模文件\textrm{POSCAR}\\
+\textbf{\textcolor{red}{输出~}}晶胞体积、晶胞参数矩阵、倒格子参数矩阵，数组形式存储的原子坐标
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[height=0.95\textheight]{ControlFlowGraph-RD_POSCAR_HEAD.png}
+%%\includegraphics[width=0.95\textwidth,viewport=0 0 400 475,clip]{ControlFlowGraph-RD_POSCAR_HEAD.png}
+%\caption{\small The contralflow graph of RD\_POSCAR\_HEAD.}%(与文献\cite{EPJB33-47_2003}图1对比)
+%\label{ContralFlow_graph:POSCAR-HEAD}
+%\end{figure}
+晶胞参数读入程序的流程关系见图\ref{ContralFlow_graph:POSCAR-HEAD}，任务是读入\textrm{VASP}软件指定的晶体建模文件\textrm{POSCAR}格式的前7行，包括晶胞参数(以$\mathbf{A}$($\vec A_1,\vec A_2,\vec A_3$)三维矢量方式给定)和原子类型$\mathit{NTYP}$及对应原子数目$\mathit{NIONTP}$。通过三维晶胞参数矢量计算晶胞体积$\Omega$，倒格矢晶胞参数三维矢量$\mathbf{B}$，此外还统计了晶胞模型中全部原子数目$\mathit{NIOND}$。
+
+原子坐标读入程序的流程关系见图\ref{ContralFlow_graph:POSCAR}，任务是继续读入\textrm{POSCAR}文件的后续各行原子坐标，并根据原子坐标方式(用字符$\mathrm{d/D}$标志分数坐标，$\mathrm{C/K/c/k}$标志\textrm{Cartisian}坐标)，分别计算实际原子坐标的数值，并将坐标统一写入数组$\mathit{POSITION}(1:3,1:\mathit{NIOND})$中。
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[height=0.95\textheight]{ControlFlowGraph-RD_POSCAR.png}
+%%\includegraphics[width=0.95\textwidth,viewport=0 0 400 475,clip]{ControlFlowGraph-RD_POSCAR_HEAD.png}
+%\caption{\small The contralflow graph of RD\_POSCAR.}%(与文献\cite{EPJB33-47_2003}图1对比)
+%\label{ContralFlow_graph:POSCAR}
+%\end{figure}
+至此，我们完成了对晶体建模文件的完整读入和最初步的处理，以下进入程序的对称性分析具体实施阶段。
+
+\section{晶胞参数的晶体学标准化和初基原胞的对称性分析}
+该部分功能主要由模块\textbf{INISYM}完成
+\subsection{晶胞参数的晶体学标准化}
+%\begin{figure}[!ht]
+%\centering
+%\includegraphics[height=1.05\textheight]{ControlFlowGraph-LATTYP.png}
+%%\includegraphics[width=0.95\textwidth,viewport=0 0 400 475,clip]{ControlFlowGraph-RD_POSCAR_HEAD.png}
+%\caption{\small The contralflow graph of LATTYP.}%(与文献\cite{EPJB33-47_2003}图1对比)
+%\label{ContralFlow_graph:LATTYP}
+%\end{figure}
+
+子程序\textbf{LATTYP}\\
+\textbf{\textcolor{blue}{输入~}}初始晶胞矢量$\vec A_1$、$\vec A_2$、$\vec A_3$\\
+\textbf{\textcolor{red}{输出~}}标准化晶胞的\textrm{Bravais}格子类型、晶胞参数$\mathit{CELDIM}(1:6)$和晶格矢量$\vec A_1$、$\vec A_2$、$\vec A_3$
+
+\textcolor{magenta}{找到最小的}晶格矢量(\textrm{shortest lattice vector})确定\textcolor{red}{标准晶格的}基(\textrm{primitive basis})算法:~
+
+\begin{itemize}
+	\item 根据输入的晶胞矢量，确定对应的晶胞参数$a$,\,$b$,\,$c$,\,$\cos\alpha$,\,$\cos\beta$,\,$\cos\gamma$\\
+		计算方案
+		\begin{displaymath}
+			\begin{aligned}
+			a=&|\vec A_1|\\
+			b=&|\vec A_2|/|\vec A_1|\cdot a\\
+			c=&|\vec A_3|/|\vec A_1|\cdot a\\
+			\cos\alpha=&\frac{|\vec A_2\cdot\vec A_3|}{|\vec A_2|\times|\vec A_3|}\\
+			\cos\beta=&\frac{|\vec A_1\cdot\vec A_3|}{|\vec A_1|\times|\vec A_3|}\\
+			\cos\gamma=&\frac{|\vec A_1\cdot\vec A_2|}{|\vec A_1|\times|\vec A_2|}
+			\end{aligned}
+			\label{eq:Cell_DM}
+		\end{displaymath}
+		初步判断晶体所属\textrm{Bravais~}格子类型($\mathit{IBRAV}$)，共14类，判据如下(以简单立方、体心立方为例)，并将标准晶胞参数存入$\mathit{CELLDIM}(1:6)$:~
+		\begin{enumerate}
+			\item 简单立方\textrm{cell}\\
+				如果 $|\vec A_1|=|\vec A_2|=|\vec A_3|$且$\cos\alpha=\cos\beta=\cos\gamma=0.0$则\\
+				$\mathit{IBRAV}=1$\\
+				$\mathit{CELLDIM}(1)=|\vec A_1|$
+			\item 体心立方\textrm{cell}\\
+				如果 $|\vec A_1|=|\vec A_2|=|\vec A_3|$且$\cos\alpha=-\frac13$则\\
+				$\mathit{IBRAV}=2$\\
+				$\mathit{CELLDIM}(1)=|\vec A_1|\cdot\frac2{\sqrt3}$
+			\item 面心立方\textrm{cell}
+			\item 六方\textrm{cell}
+			\item 简单四方\textrm{cell}
+			\item 体心四方\textrm{cell}
+			\item 三方\textrm{cell}
+			\item 简单正交\textrm{cell}
+			\item 体心正交\textrm{cell}
+			\item 面心正交\textrm{cell}
+			\item 底心正交\textrm{cell}
+			\item 简单单斜\textrm{cell}
+			\item 底心单斜\textrm{cell}
+			\item 三斜\textrm{cell}
+		特别地，针对面心立方，如果将(111)面选为基准面，则$\mathit{ITYP}=15$
+		\end{enumerate}
+	\item 检查“病态”晶胞，当晶胞差别比较大时，如$c/a$，$b/a$特别大或特别小，以及晶胞夹角接近$0^{\circ}$或$180^{\circ}$
+	\item \textcolor{red}{搜索原始晶胞中的最小晶格矢量}:~依次针对矢量$\vec A_1$,$\vec A_2$,$\vec A_3$，用迭代方式检查
+		\begin{enumerate}
+			\item 用\textcolor{green}{六组循环}分别检查矢量
+				\begin{displaymath}
+					\begin{aligned}
+						\vec A_1&=\vec A_1-\mathit{ICOUNT}\cdot\vec A_2\\
+						\vec A_1&=\vec A_1-\mathit{ICOUNT}\cdot\vec A_3\\
+						\vec A_2&=\vec A_2-\mathit{ICOUNT}\cdot\vec A_1\\
+						\vec A_2&=\vec A_2-\mathit{ICOUNT}\cdot\vec A_3\\
+						\vec A_3&=\vec A_3-\mathit{ICOUNT}\cdot\vec A_1\\
+						\vec A_3&=\vec A_3-\mathit{ICOUNT}\cdot\vec A_2
+					\end{aligned}
+				\end{displaymath}
+				并检查可能的
+				\begin{displaymath}
+					\begin{aligned}
+						\vec A_1&=\vec A_1+\mathit{ICOUNT}\star\vec A_2\\
+						\vec A_1&=\vec A_1+\mathit{ICOUNT}\star\vec A_3\\
+						\vec A_2&=\vec A_2+\mathit{ICOUNT}\star\vec A_1\\
+						\vec A_2&=\vec A_2+\mathit{ICOUNT}\star\vec A_3\\
+						\vec A_3&=\vec A_3+\mathit{ICOUNT}\star\vec A_1\\
+						\vec A_3&=\vec A_3+\mathit{ICOUNT}\star\vec A_2
+					\end{aligned}
+				\end{displaymath}
+				直到找到各个方向最小的矢量$\vec A_1^{\mathrm{min}}$,$\vec A_2^{\mathrm{min}}$,$\vec A_3^{\mathrm{min}}$
+			\item 检查标准晶胞是否存在“病态”晶胞($a$、$b$、$c$存在特别大或特别小的值，导致$\alpha$、$\beta$、$\gamma$接近$0^{\circ}$或$180^{\circ}$)
+			\item 将找到的矢量$\vec A_1$、$\vec A_2$、$\vec A_3$线性组合(按特定标准组合)得到标准晶格的矢量，确保标准晶胞与初始晶胞的体积不变，算法如下:\\
+				为确定标准胞
+				\begin{displaymath}
+					\begin{pmatrix}
+						X_1\\
+						X_2\\
+						X_3
+					\end{pmatrix}=
+\begin{pmatrix}
+						N_1 N_2 N_3\\
+						N_4 N_5 N_6\\
+						N_7 N_8 N_9
+\end{pmatrix}
+\begin{pmatrix}
+	\vec A_1^{\mathrm{min}} \\
+	\vec A_2^{\mathrm{min}} \\
+	\vec A_3^{\mathrm{min}}
+\end{pmatrix}
+				\end{displaymath}
+				要求对变换矩阵(矩阵元可取整数$N_i=-2,-1,0,1,2$)，其行列式满足
+				\begin{displaymath}
+					\begin{vmatrix}
+						N_1 N_2 N_3\\
+						N_4 N_5 N_6\\
+						N_7 N_8 N_9
+					\end{vmatrix}=\mathbf{1}
+				\end{displaymath}
+		\end{enumerate}
+			\item 根据得到的标准晶胞参数，判断标准晶格所属\textrm{Bravais~}格子类型($\mathit{ITYP}$)，将标准晶胞参数存入$\mathit{CELLDIM}(1:6)$(算法与初始晶格判断算法相同)\\
+				数组$\vec A_1$、$\vec A_2$、$\vec A_3$保存标准化晶格矢量\\
+				\textcolor{red}{注意}:~对于简单单斜晶系，要求$\cos\gamma<0$，并指定特定轴方向为$b$~轴，有$|\vec A_1|<|\vec A_3|$；对于这种情况，程序会自动调整矢量的顺序
+			\item 对比初始晶格类型$\mathit{IBRAV}$和标准晶格类型$\mathit{ITYP}$，如果两者不一致，给出警告信息
+			\item 输出晶格所属\textrm{Bravais~}格子类型和对应的晶胞参数
+%	\item 检查标准晶格矢量构造的晶格的特征，所属\textrm{Bravais~}格子和对应的晶胞参数$a$,\,$b$,\,$c$,\,$\alpha$,\,$\beta$,\,$\gamma$
+\end{itemize}
+
+\subsection{确定初基原胞}
+子程序\textbf{PRICEL}\\
+\textbf{\textcolor{blue}{输入~}}初始晶胞矢量$A^0_1$、$A^0_2$、$A^0_3$、\textrm{Bravais}格子类型$\mathit{IBRAV}$、标准化晶胞参数$\mathit{CELDIM}(6)$和初始晶胞中全部原子数、每类原子数及全部原子位置$\mathit{TAU}(N,3)$\\
+\textbf{\textcolor{red}{输出~}}初基原胞矢量$\vec P_1$、$\vec P_2$、$\vec P_3$、初基原胞的\textrm{Bravais}类型$\mathit{IPTYP}$、初基原胞参数$\mathit{PDIM}(6)$、初始晶胞包含初基原胞数$\mathit{NCELL}$
+\begin{itemize}
+	\item 在初始晶胞中，将坐标原点置于原始晶胞中心，即将原子全部坐标$\mathit{TAU}$变换到$[-0.5,0.5)$区间内)，算法如下:
+			\begin{displaymath}
+				\begin{aligned}
+					&TAU(I,i)=TAU(I,i)-NINT(TAU(I,i)) \\
+					&TAU(I,i)=\mathbf{MOD}(TAU(I,i)+100.5\_q)-0.5\_q \\
+					&TAU(I,i)=\mathbf{MOD}(TAU(I,i)+100.5\_q)-0.5\_q \\
+					&IF (\mathbf{ABS}(TAU(I,i)-0.5\_q)<T_{inty})\quad TAU(I,i)=-0.5\_q \\
+					&IF (\mathbf{ABS}(TAU(I,i)+0.5\_q)<T_{inty})\quad TAU(I,i)=-0.5\_q
+				\end{aligned}
+			\end{displaymath}
+	\item 将得到的每一类原子按坐标升序排列，存于$\mathit{TAU}$数组。采用堆排序\textrm{(heapsort algorithm)}算法，排升序原则:~先按$x$坐标排序，再对$y$坐标排序，最后按$z$坐标排序
+	\item 确定晶胞中\textcolor{magenta}{原子数最少的原子类型}$\mathit{IMINST}$和\textcolor{magenta}{原子数目}，并记录其\textcolor{magenta}{第一个原子}的坐标$\mathit{TAUSAV}$
+	\item 确定初始晶胞中的许可平移矢量:~
+		\begin{enumerate}
+			\item 选定原子数最少的一类原子，以其第一个原子坐标$\mathit{TAUSAV}$为参考，\textcolor{red}{分别确定其他各原子$\mathit{TAU}(IMINST,3)$与第一个原子的“平移矢量”关系}并存于数组$\mathit{TRA}$(这里只需要考虑同一类原子坐标平移)
+			\item 确定每一类原子的每个原子坐标$\mathit{TAU}$，经矢量$\mathit{TRA}$平移作用后的原子坐标$\mathit{TAU}+\mathit{TRA}$，置于$\mathit{TAUROT}$数组
+			\item 再次将原子坐标$\mathit{TAUROT}$变换到$[-0.5,0.5)$区间内，并按升序排列
+			\item 如果$\mathit{TAUROT}$数组的坐标与$\mathit{TAU}$数组中坐标重合，则由此确定一个许可平移，平移矢量存入$\mathit{PTRANS}(N_I,3)$。
+		\end{enumerate}
+	\item 将许可平移矢量$\mathit{PTRANS}$也按升序排列，\textcolor{red}{确定所有平移矢量中最小的三个不共面的矢量为初基原胞矢量}$\vec P_1$、$P_2$、$P_3$
+	\item 按子程序\textbf{LATTYP}确定初基原胞的\textrm{Bravais}格子类型$\mathit{IPTYP}$和原胞参数$\mathit{PDIM}$
+        \item 根据初始晶胞矢量和初基原胞矢量分别计算的体积，判定复晶胞的数目$\mathit{NCELL}$
+\begin{displaymath}
+	\mathrm{NCELL}=\dfrac{\Omega_{latt}}{\Omega_{prim}}
+\end{displaymath}
+	\item 检查初始晶胞中包含的初基原胞数目，算法如下:~
+		\begin{enumerate}
+			\item 计算初始晶胞矢量在每个方向上所含初基原胞数目:
+		\begin{displaymath}
+			\dfrac1{\vec p_i\cdot\vec B_j}=\dfrac1{\vec p_i\cdot\vec A_j^{-1}}=\dfrac{A_j}{\vec p_i}=\mathrm{N_{i}}
+		\end{displaymath}
+	\item 检查全部通过平移矢量$\mathit{PTRANS}$作用后仍在初始晶胞内的初基原胞，并统计许可平移数目$\mathit{ICOUNT}$
+		\end{enumerate}
+	\item 要求$\mathit{ICOUNT}=\mathit{NCELL}$
+\end{itemize}
+
+\subsection{原子坐标表示的标准化}
+将初始晶胞的原子坐标，由初始晶胞矢量构成的坐标系变换到标准晶胞矢量构成的坐标系下。算法如下:~
+\begin{itemize}
+	\item 标准晶胞矢量构成变换矩阵$\mathbf B$，求逆阵$\mathbf{B}^{-1}$
+	\item 记每个原子在原始晶胞中的坐标为矢量$\vec C$，计算原子实际的位置矢量$\vec R=\mathbf{A}\vec C$
+	\item 标准晶胞下原子坐标矢量为$\mathbf{B}^{-1}\vec R$
+\end{itemize}
+
+\subsection{确定体系的点群对称操作}
+体系的点群对称性(含平移操作)分析主要通过两层接口子程序\textbf{SETGRP}和\textbf{GETGRP}完成。
+
+\textbf{SETGRP}主要是根据初始晶胞所属\textrm{Bravais}格子类型$\mathit{IBRAV}$，生成全部点群对称操作矩阵，该点群操作矩阵标志的是原子放置位置，与所选坐标系无关，因此是整数表示的。对14种\textrm{Bravais}格子，列举了全部各类格子的生成元素。
+如立方晶系的3种初始生成元素分别为
+\begin{itemize}
+	\item 简单立方
+\begin{displaymath}
+	\mathbf{INV}=
+	\begin{pmatrix}
+		-1, 0, 0 \\ 
+		0,-1, 0 \\
+		0, 0, -1
+	\end{pmatrix}\quad
+	\mathbf{R3D}=
+	\begin{pmatrix}
+		0, 0, 1 \\ 
+		1, 0, 0 \\
+		0, 1, 0
+	\end{pmatrix}\quad
+	\mathbf{R4ZP}=
+	\begin{pmatrix}
+		0, -1, 0 \\ 
+		1, 0, 0 \\
+		0, 0, 1
+	\end{pmatrix}
+\end{displaymath}
+	\item 体心立方
+\begin{displaymath}
+	\mathbf{INV}=
+	\begin{pmatrix}
+		-1, 0, 0 \\ 
+		0,-1, 0 \\
+		0, 0, -1
+	\end{pmatrix}\quad
+	\mathbf{R3D}=
+	\begin{pmatrix}
+		0, 0, 1 \\ 
+		1, 0, 0 \\
+		0, 1, 0
+	\end{pmatrix}\quad
+	\mathbf{R4ZBC}=
+	\begin{pmatrix}
+		0, 1, 0 \\ 
+		0, 1, -1 \\
+		-1, 1, 0
+	\end{pmatrix}
+\end{displaymath}
+	\item 面心立方
+\begin{displaymath}
+	\mathbf{INV}=
+	\begin{pmatrix}
+		-1, 0, 0 \\ 
+		0,-1, 0 \\
+		0, 0, -1
+	\end{pmatrix}\quad
+	\mathbf{R3D}=
+	\begin{pmatrix}
+		0, 0, 1 \\ 
+		1, 0, 0 \\
+		0, 1, 0
+	\end{pmatrix}\quad
+	\mathbf{R4ZFC}=
+	\begin{pmatrix}
+		1, 1, 1 \\ 
+		0, 0, -1 \\
+		-1, 0, 0
+	\end{pmatrix}
+\end{displaymath}
+\end{itemize}
+根据群论理论，每一类点群，由生成元素矩阵，可以得到体系的全部许可的点群对称操作矩阵。
+
+子程序\textbf{GETGRP}由\textbf{SETGRP}完成点群对称操作生成后调用，主要是检查根据当前初始晶胞原子位置，哪些对称操作可以保留，哪些必须丢弃，从而确定初始晶胞实际最后最后许可的点群。
+\subsubsection{确定初始晶胞的实际许可的对称操作矩阵}
+子程序\textbf{CHKSYM~}是实际许可对称操作检查的核心部分，基本思想非常清晰
+\begin{itemize}
+	\item 对初始原胞中的每个原子坐标，依次用找到的点群元素依次作用后变换坐标，将变换后的原胞原子位置与初始的原子位置对比，存在\textbf{三种可能性}:
+\begin{enumerate}
+	\item 所有的原子位置可重合(纯粹的点群操作)
+	\item 除了点群对称操作，须外加\textbf{滑移}对称性检查(空间群操作)
+	\item 原子位置无法重合(不允许的对称操作)
+\end{enumerate}
+	\item 关于\textcolor{red}{滑移}对称性的判断，说明如下
+		\begin{enumerate}
+			\item 针对初始晶胞中的第一个原子，对比全部点群元素操作前后原子坐标差，将构成一组矢量。这组矢量中其中必定包含许可的滑移操作(如果存在滑移的话)。并且该滑移矢量适合全部原子。
+			\item 对点群元素作用后的原子坐标，扣除滑移矢量部分的贡献，将会回到初始晶胞的原子状态。
+			\item 原子坐标位置对比，与子程序\textbf{PRICEL}中的算法类似:~
+				\begin{description}
+					\item[-] 将原子坐标根据堆排序\textrm{(heapsort algorithm)}算法排序，分别得到两组原子位置序列
+					\item[-] 依次分别对比每个序列中的原子位置
+					\item[-] 只有当两个序列原子位置完全一致，才是许可的滑移(原子位置的数值对比，精度对结果的影响很大)
+				\end{description}
+特别需要注意:~初始原胞很可能是\textrm{super cell~}，因此是非\textrm{primitive~}的。因此会存在\textrm{non-primitive primitive~}滑移(\textrm{trivial translations of generating cell~})，为了避免对滑移定义的不唯一性，规定取所有许可滑移矢量中取模量最小的作为滑移矢量。
+		\end{enumerate}
+\end{itemize}
+具体程序执行流程
+\begin{itemize}
+	\item 对初始晶胞中每个原子坐标$\mathit{TAU}$，通过将坐标原点置于晶胞中心位置，将原子坐标变换到$[-0.5,0,5)$，将标准化后的原子坐标$\mathit{TAU}$按升序排列
+	\item 每个点群操作元素依次作用于原子坐标，得到$\mathit{TAUROT}$，它也将变换到$[-0.5,0,5)$，并按升序排列
+	\item 找到原子数最少类型的原子，记其对称操作后的坐标为$\mathit{TAUSAV}$
+		\begin{enumerate}
+			\item 依次计算全部$\mathit{TAU}(i,I)-\mathit{TAUSAV(i)}$，并记作$\mathit{GTRANS}$(测试滑移矢量)
+			\item 如果该矢量是整个晶格的平移(\textrm{trivial translation})，则排除
+		\end{enumerate}
+	\item 对原胞中的每一类原子坐标$TAUROT$，依次用找到的尝试矢量$\mathit{GTRANS}$作用后，变换到$[-0.5,0.5)$，再按升序排列
+	\item 依次对比每一类原子的每个坐标，只有当两者完全重合才确认找到许可的滑移矢量，并存入数组$\mathit{TRA}$
+	\item 对比完毕后，要将原子坐标$TAUROT$中的尝试矢量$\mathit{GTRANS}$扣除，为后一个对称操作准备
+	\item 最后只保留每一组点群元素许可的最小滑移操作，存入$\mathit{GTRANS}$，并统计对称操作数目$\mathit{NROT}$
+\end{itemize}
+最后有必要指出的是:~该流程必须分别对每一类的每个原子都执行，结果(许可的对称及nontrivial平移)必须对全部原子都适用，否则不能构成有效的对称操作
+\subsubsection{点群矩阵的最后确定}
+根据子程序\textbf{CHKSYM}返回的许可对称操作和滑移操作，将最终确定的对称操作矩阵矩阵和滑移操作矢量，分别存入$\mathit{S}(3,3,I)$和$\mathit{GTRANS(3,I)}$，此外全部矩阵元均清零。($\mathit{S}$矩阵和$\mathit{GTRANS}$的I上限是48)
+\subsection{确定体系的点群名}
+子程序\textbf{PGROUP}根据实际确定的点群对称元素，确定初始晶胞所属点群。
+\begin{itemize}
+	\item 对于对称操作元素数目唯一确定的(如$\mathit{NROT}=1/3/16/48$)，分别快速确定点群$\mathbf{C}_1$、$\mathbf{C}_3$、$\mathbf{D}_{4h}$、$\mathbf{O}_h$
+	\item 对于剩余的对称操作数和对称操作元，\textcolor{purple}{可能构成的不可约子群元素}分别为$\mathbf{E}$、$\mathbf{I}$、$\mathbf{C}_2$、$\mathbf{C}_3$、$\mathbf{C}_4$、$\mathbf{C}_6$、$\mathbf{S}_2$=$\mathbf{m}$、$\mathbf{S}_6$、$\mathbf{S}_4$、$\mathbf{S}_3$，采用枚举的方式
+		\begin{enumerate}
+			\item 分别计算对称元素矩阵全部的迹(\textrm{Trace})和行列式值(\textrm{Determinant})，根据迹和行列式值统计相应的不可约子群元素数目
+			\item 结合对称元素数目分别给出所属点群名
+		\end{enumerate}
+\end{itemize}
+
+在此基础上，通过矩阵变换，完成对称操作元素(含滑移操作)在初始晶胞中的表示；
+\subsection{点群对称操作前后原子位置的关联}
+子程序\textbf{POSMAP}\\
+\begin{itemize}
+	\item 对初始晶胞中每个原子坐标重新存入数组$\mathit{TAU}$，通过将坐标原点置于晶胞中心位置，将原子坐标变换到$[-0.5,0,5)$，得到标准化后的原子坐标$\mathit{TAU}$
+		\item 点群(含滑移)操作依次作用于$\mathit{TR}$后，同样变换到$[-0.5,0.5)$
+		\item 依次计算每一类原子的变换前后的坐标关系，满足$|\mathit{TR}(i,I)-\mathit{TAU}(i,J)|<\mathit{TINY}\;(i=1,2,3)$，则建立两者的原子序号、对称操作(含平移)关系，存入$\mathit{ROTMAP}$
+\end{itemize}
+
+\section{确定体系的空间群}
+空间群判断子程序\textbf{SGROUP}是在点群判断的基础上，根据体系所属的点群对称性结合许可的平移操作数目检查，确定所属的空间群。这部分代码是用\textbf{C}语言编写的。
+\subsection{确定体系的空间群}
+子程序\textbf{SGROUP}主要通过调用核心代码子程序\textbf{find\_space\_group}完成。这部分代码的算法流程如下:
+\begin{itemize}
+	\item 采用枚举方式，给出判断的点群所关联的空间群所对应的平移矢量:~
+		以$\mathbf{O}_h$点群为例:其对应的十个空间群为
+		\begin{enumerate}
+			\item 221(P\;m\;-3\;m)
+			\item 222(P\;n\;-3\;n) \;[origin choice 2]
+			\item 223(P\;m\;-3\;n)
+			\item 224(P\;n\;-3\;m) \;[origin choice 2]
+			\item 225(F\;m\;-3\;m)
+			\item 226(F\;m\;-3\;c)
+			\item 227(F\;d\;-3\;m) \;[origin choice 2]
+			\item 228(F\;d\;-3\;c) \;[origin choice 2]
+			\item 229(I\;m\;-3\;m)
+			\item 230(I\;a\;-3\;m)\\
+				每个空间群都是由不同的平移操作与48个点群操作相关联。其中第230号空间群，与48个点群操作关联的平移操作为
+				\begin{displaymath}
+				\begin{matrix}
+     0.0000, & 0.0000, & 0.0000, /*    1  */ \quad 0.5000, & 0.0000, & 0.5000, /*    2  */ \quad 0.0000, & 0.5000, & 0.5000, /*    3  */\\
+     0.5000, & 0.5000, & 0.0000, /*    4  */ \quad 0.0000, & 0.0000, & 0.0000, /*    5  */ \quad 0.5000, & 0.5000, & 0.0000, /*    6  */ \\
+     0.5000, & 0.0000, & 0.5000, /*    7  */ \quad 0.0000, & 0.5000, & 0.5000, /*    8  */ \quad 0.0000, & 0.0000, & 0.0000, /*    9  */ \\
+     0.0000, & 0.5000, & 0.5000, /*    10  */\quad 0.5000, & 0.5000, & 0.0000, /*    11  */\quad 0.5000, & 0.0000, & 0.5000, /*    12  */\\
+     0.7500, & 0.2500, & 0.2500, /*    13  */\quad 0.7500, & 0.7500, & 0.7500, /*    14  */\quad 0.2500, & 0.2500, & 0.7500, /*    15  */\\
+     0.2500, & 0.7500, & 0.2500, /*    16  */\quad 0.7500, & 0.2500, & 0.2500, /*    17  */\quad 0.2500, & 0.7500, & 0.2500, /*    18  */\\
+     0.7500, & 0.7500, & 0.7500, /*    19  */\quad 0.2500, & 0.2500, & 0.7500, /*    20  */\quad 0.7500, & 0.2500, & 0.2500, /*    21  */\\
+     0.2500, & 0.2500, & 0.7500, /*    22  */\quad 0.2500, & 0.7500, & 0.2500, /*    23  */\quad 0.7500, & 0.7500, & 0.7500, /*    24  */\\
+     0.0000, & 0.0000, & 0.0000, /*    25  */\quad 0.5000, & 0.0000, & 0.5000, /*    26  */\quad 0.0000, & 0.5000, & 0.5000, /*    27  */\\
+     0.5000, & 0.5000, & 0.0000, /*    28  */\quad 0.0000, & 0.0000, & 0.0000, /*    29  */\quad 0.5000, & 0.5000, & 0.0000, /*    30  */\\
+     0.5000, & 0.0000, & 0.5000, /*    31  */\quad 0.0000, & 0.5000, & 0.5000, /*    32  */\quad 0.0000, & 0.0000, & 0.0000, /*    33  */\\
+     0.0000, & 0.5000, & 0.5000, /*    34  */\quad 0.5000, & 0.5000, & 0.0000, /*    35  */\quad 0.5000, & 0.0000, & 0.5000, /*    36  */\\
+     0.2500, & 0.7500, & 0.7500, /*    37  */\quad 0.2500, & 0.2500, & 0.2500, /*    38  */\quad 0.7500, & 0.7500, & 0.2500, /*    39  */\\
+     0.7500, & 0.2500, & 0.7500, /*    40  */\quad 0.2500, & 0.7500, & 0.7500, /*    41  */\quad 0.7500, & 0.2500, & 0.7500, /*    42  */\\
+     0.2500, & 0.2500, & 0.2500, /*    43  */\quad 0.7500, & 0.7500, & 0.2500, /*    44  */\quad 0.2500, & 0.7500, & 0.7500, /*    45  */\\
+     0.7500, & 0.7500, & 0.2500, /*    46  */\quad 0.7500, & 0.2500, & 0.7500, /*    47  */\quad 0.2500, & 0.2500, & 0.2500  /*    48  */\\
+					\end{matrix}
+				\end{displaymath}
+		\end{enumerate}
+	\item 将每个点群的矩阵表示元素约化到初基原胞中，并得到全部点群操作。
+		\begin{description}
+			\item[-] 枚举所属点群的生成元素，并得到矩阵$(\mathbf{g}-\mathbf{E})$(对于$x$、$y$、$z$方向不固定的情形，枚举特别的处理)
+			\item[-] 引入初始的平移量$\mathbf{R}_{sh}$，对于\textcolor{blue}{三方和六方晶系}，$\mathbf{R}_{sh}$的三个分量取值可是$0,1/2,1/3,2/3$任意组合;对其余晶系$\mathbf{R}_{sh}$的三个分量可是$0,1/4,1/2,3/4$任意组合
+			\item[-]采用枚举方式检查可能的初始平移量中$\mathbf{R}_{sh}$中实际允许的平移矢量\\
+				由等式
+				\begin{displaymath}
+					(\mathbf{g}-\mathbf{E})\mathbf{r}=\mathbf{R}_{op}
+				\end{displaymath}
+				确定变换矩阵$(\mathbf{g}-\mathbf{E})^{-1}$和全部可能的平移矢量$\mathbf{r}$。这里$\mathbf{g}$是点群生成元素，$\mathbf{R}_{op}$是\textcolor{magenta}{由平移量$\mathbf{r}$导致的点群对称元素的完全平移矢量}(因此只有经约化的平移量$\mathit{rop}<\mathit{TOL}$才有可能是合理的合理的)，由此确定\textcolor{red}{晶胞许可的}$\mathbf{r}$(即$\mathbf{R}_{sh}$)
+			\item[-] \textcolor{blue}{遍历点群的对称元素，依次用晶胞许可的坐标系表示}，由此确定\textcolor{red}{晶胞所在的坐标系下的实际完全平移量}$\mathbf{r}^{\prime}$，并点群元素和许可的平移量按空间群中的顺序排列
+			\item[-] \textcolor{blue}{遍历点群可关联的空间群许可的平移量$\mathbf{r}$}，由等式
+		\begin{displaymath}
+			\mathbf{r}^{\prime}=\mathbf{r}+(\mathbf{g}-\mathbf{E})\mathbf{R}_{sh}
+		\end{displaymath}
+		依次计算并确定\textcolor{blue}{由当前坐标系表示引起的平移量为}
+		\begin{displaymath}
+			\mathbf{R}_{sh}^{\mathrm{coor}}=(\mathbf{g}-\mathbf{E})^{-1}(\mathbf{r}-\mathbf{r}^{\prime})
+		\end{displaymath}
+		\end{description}
+		校正坐标系贡献后，点群对称操作的平移矢量$\mathbf{R}^{\prime}$为
+		\begin{displaymath}
+			\mathbf{R}^{\prime}=\mathbf{r}^{\prime}+\mathbf{R}_{sh}^{\mathrm{coor}}=\mathbf{r}^{\prime}+(\mathbf{g}-\mathbf{E})^{-1}(\mathbf{r}-\mathbf{r}^{\prime})
+		\end{displaymath}
+
+	\item 符合空间群的平移(滑移)操作的检验
+		\begin{description}
+			\item[-] 变换成点群对称操作的平移矢量$\mathbf{R}^{\prime}$，经约化最后得到$\mathbf{r}_{op}^{\prime}$
+			\item[-] 枚举点群可对应的空间群许可平移矢量$\mathbf{r}$，如与点群对称元素得到平移矢量$\mathbf{r}_{op}^{\prime}$(已经按照空间群中有关顺序排列)与一致，则确定为平移为空间群许可的平移量。
+		\end{description}
+	\item 根据当前确定的平移矢量，统计(要遍历全部点群元素$\mathit{nop}$和许可平移量$\mathit{nsh}$)
+		\begin{enumerate}
+			\item 检查初基原胞的许可平移$Rshft[1:3]$(上限为8组)
+			\item 总的许可的平移矢量数$\mathit{nshft}$
+		\end{enumerate}
+	\item 遍历点群关联的全部空间群，根据确定的平移矢量数目$\mathit{nshft}$，记录对应的空间群与点群关联顺序$\mathit{isgrp}$，得到空间群名(空间群记号)$\mathit{sgrp\_name}$
+	\item 将全部空间群对称元素($\mathit{sym\_op}[1:4][1:3]$，含对称元素的平移操作)的表示约化到初基原胞中
+\end{itemize}
+\textcolor{red}{注意:~}由于有些\textrm{Bravais}格子因为坐标系选择，对称操作矩阵表示会有差别($\mathit{Nb}>0$)，程序在考虑这个问题的时候是通过引入转换矩阵$\mathbf{A}=\mathbf{Rot}$来实现不同坐标系下的表示和转换关系的。
+\subsection{输出空间群}
+子程序\textbf{SGROUP}枚举了230个空间群的全部记号，根据空间群名$\mathit{sgrp\_name}$，即可以得到标准晶胞的空间群记号，最后由子程序\textbf{WRITE\_RES}输出空间群记号、全部点群和空间群的对称操作元素矩阵表示。
+
+\section{确定体系的标准化$\vec k$点路径}
+根据体系所属的\textrm{Bravais~}格子，枚举全部标准化$\vec k$-\textrm{path}，结果写到\textrm{KPOINTS\_BAND}文件中。以立方晶系为例，对应的标准化$\vec k$-\textrm{path}设置为:~
+\begin{itemize}
+	\item 简单立方\quad $\Gamma$–$X$–$M$–$\Gamma$–$R$–$X$|$M$–$R$
+	\item 面心立方\quad $\Gamma$–$X$–$W$–$K$–$\Gamma$–$L$–$U$–$W$–$L$–$K$|$U$–$X$
+	\item 体心立方\quad $\Gamma$–$H$–$N$–$\Gamma$–$P$-$H$|$P$-$N$
+\end{itemize}
+

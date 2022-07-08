@@ -1,0 +1,863 @@
+%Introduction
+\section{能带表示的$\vec k$-\rm{path}的标准化}
+\subsection{问题的提出}
+体系的对称性会对物理性质有决定性作用。%在材料计算与模拟中，充分利用材料的对称性不仅可以有效提高计算效率，对各种尺度的物性分析也有很重要的帮助，因此一般的材料模拟软件中都包含对称性分析模块。
+以材料电子结构的为例，与体系的空间对称性密切关联。当体系具有平移周期的特征，其电子结构一般都用能带表示。而用于能带表示的$\vec k$~点路径的选择，又与体系的空间对称性密切关联，一般都沿着$\vec k$~空间中高对称性方向，但是具体到某个能带中的$\vec k$~点路径和方向的选择，主要依靠研究者的经验和习惯，并没有统一的规则，所以有着很大的随意性。\textrm{Setyawan}等\upcite{CMS49-299_2010}以\textrm{BCC}结构的\ch{GeF4}的能带为例，指出如果$\vec k$~点路径中不包含\textrm{H}点，则很可能把间接带隙(\textrm{indirect gap})误指认为$\Gamma$点的直接带隙(如图\ref{Band_Gap_BCC_GeF4}所示)。对于有类似晶体结构的材料，选择相同的$\vec k$~点路径，将有助于电子结构和能带信息的比较。
+\begin{figure}[h!]
+\centering
+\includegraphics[height=1.05in,width=1.65in,viewport=0 0 750 500,clip]{Band-Struct_GeF4.png}
+\caption{\small{\textrm{Band structure of \ch{GeF4}. The red arrow marked the indirect gap.}}}
+\label{Band_Gap_BCC_GeF4}
+\end{figure}
+
+为了规范能带表示，文献\cite{CMS49-299_2010}建议了一套完整的$\vec k$~点路径($\vec k$-\textrm{path})选择方案。另一方面，我们在研究中注意到，材料电子计算领域著名软件\textrm{VASP}\upcite{VASP_manual}在对称性分析部分只提供了点群对称性分析，并未提供晶体空间群的信息。其能带表示的$\vec k$~点路径也完全依赖人工选择。因此我们开发了\textbf{KPATH}软件，扩展了\textrm{VASP}软件的对称性分析功能(增加了空间群判断)并将上述能带表示的$\vec k$~点路径标准化模块集成到其中。
+
+\subsection{空间群元素及其表示}
+根据空间群理论，空间群元素可由点群元素和平移/滑移矢量组合的$4\times4$矩阵表示(称为\textrm{Seitz}矩阵表示)\upcite{AnnMath37-17_1936,Bradley-Cracknell_1972}
+\begin{equation}
+	\mathbf{S}=\left[\begin{array}{ccc;{2pt/2pt}c}
+		r_{11} &r_{12} &r_{13} & t_1 \\
+		r_{21} &r_{22} &r_{23} & t_2 \\
+		r_{31} &r_{32} &r_{33} & t_3 \\
+\hdashline[2pt/2pt]
+0 & 0 &0 & 1
+\end{array}\right]
+=\left[\begin{array}{c;{2pt/2pt}c}
+		\mathbf{R} & \mathbf{t} \\
+\hdashline[2pt/2pt]
+0 & 1
+\end{array}\right]
+=\{\mathbf{R}|\mathbf{t}\}
+	\label{equation:S-matrix}
+\end{equation}
+上式中$\mathbf{R}$为$3\times3$的矩阵，表示点群操作的元素;~$\mathbf{t}$是空间群许可的平移/滑移矢量。$r_{11},r_{12},\cdots,r_{33}$的取值是$0$, $+1$或 $-1$，平移/滑移矢量$t_1,t_2,t_3$的值为$0$,$\frac16$,$\frac14$,$\frac13$,$\frac12$,$\frac23$,$\frac34$或$\frac56$。根据群表示理论，有$n$个对称操作元素的空间群元素满足$\mathbf{S}_i\mathbf{S}_j=\mathbf{S}_k$满足条件$1\leqslant\{i,j,k\}\leqslant n$。
+
+在国际晶体群表\textrm{(International Tables for X-ray Crystallography):~Vol. I~X-}射线表\upcite{Henry-Lonsdale_1972}中，空间群元素是用一般等价点$\mathbf{x}(=x,y,z)$表示的(也称为\textrm{Jones Faithful 表象})。上述两种表示的关系为
+\begin{equation}
+	\begin{aligned}
+		x&=r_{11}X+r_{12}Y+r_{13}Z+t_1,\\
+		y&=r_{21}X+r_{22}Y+r_{23}Z+t_2,\\
+		z&=r_{31}X+r_{32}Y+r_{33}Z+t_3,\\
+	\end{aligned}
+	\label{eq:Jones-Seitz}
+\end{equation}
+式中$X,Y,Z$是原胞内的分数坐标。式\eqref{eq:Jones-Seitz}还可以更简单地表示为
+\begin{equation}
+	\mathbf{x}_i=\mathbf{R}_i\mathbf{X}+\mathbf{t}_i
+	\label{eq:Jones-Seitz-1}
+\end{equation}
+或者更简单地
+\begin{equation}
+	(\mathbf{x},l)_i=\mathbf{S}_i(\mathbf{X},1)
+	\label{eq:Jones-Seitz-2}
+\end{equation}
+与点群表示类似，可以产生空间群全部对称元素的最小集合构成\textrm{Seitz}矩阵表示的最小子空间，也称为\textbf{生成元矩阵}。仿照点群的判断流程，可以确定体系所属的空间群。但是。从群论的角度看，国际晶体群表\upcite{Henry-Lonsdale_1972}中的平移/滑移对称性的表示并不清晰，因为国际晶体群表中的晶胞原点的选择是任意的，因此直接通过查表的方式确定空间群的思路，程序实现非常不便。为了确定空间群，必须有明确的原点位置。因此与点群的确定过程对比，确定晶体空间群主要包括
+\begin{itemize}
+	\item 标准化的初基原胞的确定
+	\item 点群对称元素的确定
+	\item 平移对称操作的确定和初基原胞与晶胞
+	\item 点群和平移对称性的组合
+	\item 晶体原点的确定
+\end{itemize}
+
+\textrm{VASP}软件完成的是晶胞标准化、确定初基原胞和晶体所属点群对称性的功能，这部分功能主要通过调用模块\textbf{INISYM}完成。
+\subsection{晶胞标准化}
+调用子程序\textbf{LATTYP}，实现晶胞参数的标准化:~\\
+%\begin{figure}[!ht]
+%\centering
+%\includegraphics[height=1.05\textheight]{ControlFlowGraph-LATTYP.png}
+%%\includegraphics[width=0.95\textwidth,viewport=0 0 400 475,clip]{ControlFlowGraph-RD_POSCAR_HEAD.png}
+%\caption{\small The contralflow graph of LATTYP.}%(与文献\cite{EPJB33-47_2003}图1对比)
+%\label{ContralFlow_graph:LATTYP}
+%\end{figure}
+通过输入初始晶胞矢量$\vec A_1$、$\vec A_2$、$\vec A_3$，得到标准化晶胞的\textrm{Bravais}格子类型、晶胞参数$\mathit{CELDIM}(1:6)$和晶格矢量$\vec A_1$、$\vec A_2$、$\vec A_3$。
+
+通过搜索最小晶格矢量(\textrm{shortest lattice vector})，确定标准晶格基(\textrm{primitive basis})的算法如下:~
+\begin{itemize}
+	\item 根据输入的晶胞矢量，确定对应的晶胞参数$a$,\,$b$,\,$c$,\,$\cos\alpha$,\,$\cos\beta$,\,$\cos\gamma$
+		\begin{displaymath}
+			\begin{aligned}
+			a=&|\vec A_1|\\
+			b=&|\vec A_2|/|\vec A_1|\cdot a\\
+			c=&|\vec A_3|/|\vec A_1|\cdot a\\
+			\cos\alpha=&\frac{|\vec A_2\cdot\vec A_3|}{|\vec A_2|\times|\vec A_3|}\\
+			\cos\beta=&\frac{|\vec A_1\cdot\vec A_3|}{|\vec A_1|\times|\vec A_3|}\\
+			\cos\gamma=&\frac{|\vec A_1\cdot\vec A_2|}{|\vec A_1|\times|\vec A_2|}
+			\end{aligned}
+			\label{eq:Cell_DM}
+		\end{displaymath}
+根据晶胞参数，初步判断晶体所属\textrm{Bravais~}格子类型($\mathit{IBRAV}$)，共14类，并将标准晶胞参数存入数组$\mathit{CELLDIM}(1:6)$:~
+\begin{itemize}
+	\item 如对于简单立方，要求满足$|\vec A_1|=|\vec A_2|=|\vec A_3|$且$\cos\alpha=\cos\beta=\cos\gamma=0.0$，因此记
+				$\mathit{IBRAV}=1$，
+				$\mathit{CELLDIM}(1)=|\vec A_1|$
+	\item 对于体心立方，要求满足$|\vec A_1|=|\vec A_2|=|\vec A_3|$且$\cos\alpha=-\frac13$，因此记
+				$\mathit{IBRAV}=2$，
+				$\mathit{CELLDIM}(1)=|\vec A_1|\cdot\frac2{\sqrt3}$
+\end{itemize}
+%检查“病态”晶胞，当晶胞差别比较大时，如$c/a$，$b/a$特别大或特别小，以及晶胞夹角接近$0^{\circ}$或$180^{\circ}$
+	\item 搜索原始晶胞中的最小晶格矢量:~依次针对矢量$\vec A_1$,$\vec A_2$,$\vec A_3$，用迭代方式检查:~
+		\begin{itemize}
+			\item 用六组循环分别检查矢量所有可能的组合
+				\begin{displaymath}
+					\begin{aligned}
+						\vec A_1&=\vec A_1\pm\cdot\vec A_2\\
+						\vec A_1&=\vec A_1\pm\cdot\vec A_3\\
+						\vec A_2&=\vec A_2\pm\cdot\vec A_1\\
+						\vec A_2&=\vec A_2\pm\cdot\vec A_3\\
+						\vec A_3&=\vec A_3\pm\cdot\vec A_1\\
+						\vec A_3&=\vec A_3\pm\cdot\vec A_2
+					\end{aligned}
+				\end{displaymath}
+直到找到各个方向最小的矢量$\vec A_1^{\mathrm{min}}$,$\vec A_2^{\mathrm{min}}$,$\vec A_3^{\mathrm{min}}$。
+%			\item 检查标准晶胞是否存在“病态”晶胞($a$、$b$、$c$存在特别大或特别小的值，导致$\alpha$、$\beta$、$\gamma$接近$0^{\circ}$或$180^{\circ}$)
+			\item 将找到的矢量$\vec A_1^{\mathrm{min}}$、$\vec A_2^{\mathrm{min}}$、$\vec A_3^{\mathrm{min}}$线性组合得到标准晶格的矢量，确保标准晶胞与初始晶胞的体积不变，算法如下:\\
+				为确定标准胞
+				\begin{displaymath}
+					\begin{pmatrix}
+						X_1\\
+						X_2\\
+						X_3
+					\end{pmatrix}=
+\begin{pmatrix}
+						N_1 N_2 N_3\\
+						N_4 N_5 N_6\\
+						N_7 N_8 N_9
+\end{pmatrix}
+\begin{pmatrix}
+	\vec A_1^{\mathrm{min}} \\
+	\vec A_2^{\mathrm{min}} \\
+	\vec A_3^{\mathrm{min}}
+\end{pmatrix}
+				\end{displaymath}
+				要求对变换矩阵(矩阵元可取整数$N_i=-2,-1,0,1,2$)，其行列式满足
+				\begin{displaymath}
+					\begin{vmatrix}
+						N_1 N_2 N_3\\
+						N_4 N_5 N_6\\
+						N_7 N_8 N_9
+					\end{vmatrix}=\mathbf{1}
+				\end{displaymath}
+		\end{itemize}
+			\item 根据得到的标准晶胞参数，判断标准晶格所属\textrm{Bravais~}格子类型。%($\mathit{ITYP}$)，将标准晶胞参数存入$\mathit{CELLDIM}(1:6)$(算法与初始晶格判断算法相同)\\ 最后数组$\vec A_1$、$\vec A_2$、$\vec A_3$保存标准化晶格矢量
+%			对于简单单斜晶系，要求$\cos\gamma<0$，并指定特定轴方向为$b$~轴，有$|\vec A_1|<|\vec A_3|$；对于这种情况，程序会自动调整矢量的顺序
+%			\item 对比初始晶格类型$\mathit{IBRAV}$和标准晶格类型$\mathit{ITYP}$，如果两者不一致，给出警告信息
+%			\item 输出晶格所属\textrm{Bravais~}格子类型和对应的晶胞参数
+%	\item 检查标准晶格矢量构造的晶格的特征，所属\textrm{Bravais~}格子和对应的晶胞参数$a$,\,$b$,\,$c$,\,$\alpha$,\,$\beta$,\,$\gamma$
+\end{itemize}
+
+%完成原子坐标表示的标准化:~\\
+最后将初始晶胞的原子坐标，由初始晶胞矢量构成的坐标系变换到标准晶胞矢量构成的坐标系下。
+%算法如下:~
+%\begin{itemize}
+%	\item 标准晶胞矢量构成变换矩阵$\mathbf B$，求逆阵$\mathbf{B}^{-1}$
+%	\item 记每个原子在原始晶胞中的坐标为矢量$\vec C$，计算原子实际的位置矢量$\vec R=\mathbf{A}\vec C$
+%	\item 标准晶胞下原子坐标矢量为$\mathbf{B}^{-1}\vec R$
+%\end{itemize}
+
+\subsection{确定初基原胞}
+调用子程序\textbf{PRICEL}来确定初基原胞:~\\
+%通过输入初始晶胞矢量$A^0_1$、$A^0_2$、$A^0_3$、\textrm{Bravais}格子类型$\mathit{IBRAV}$、标准化晶胞参数和初始晶胞中全部原子数、每类原子数及全部原子位置$\mathit{TAU}(N,3)$，获得初基原胞矢量$\vec P_1$、$\vec P_2$、$\vec P_3$、初基原胞的\textrm{Bravais}类型$\mathit{IPTYP}$、初基原胞参数$\mathit{PDIM}(6)$、初始晶胞包含初基原胞数目$\mathit{NCELL}$。
+\begin{itemize}
+	\item 在初始晶胞中，将坐标原点置于原始晶胞中心，也就是将原子全部坐标$\mathit{TAU}$变换到$[-0.5,0.5)$区间内，算法如下:
+			\begin{displaymath}
+				\begin{aligned}
+					&TAU(I,i)=TAU(I,i)-\mathbf{NINT}(TAU(I,i)) \\
+					&TAU(I,i)=\mathbf{MOD}(TAU(I,i)+100.5\_q)-0.5\_q \\
+					&TAU(I,i)=\mathbf{MOD}(TAU(I,i)+100.5\_q)-0.5\_q \\
+					&IF (\mathbf{ABS}(TAU(I,i)-0.5\_q)<T_{inty})\quad TAU(I,i)=-0.5\_q \\
+					&IF (\mathbf{ABS}(TAU(I,i)+0.5\_q)<T_{inty})\quad TAU(I,i)=-0.5\_q
+				\end{aligned}
+			\end{displaymath}
+	\item 将得到的每一类原子按坐标升序排列，存于$\mathit{TAU}$数组。采用堆排序\textrm{(heapsort algorithm)}算法，排升序原则:~先按$x$坐标排序，再对$y$坐标排序，最后按$z$坐标排序
+	\item 确定晶胞中原子数最少的原子类型$\mathit{IMINST}$和原子数目，并记录其第一个原子的坐标$\mathit{TAUSAV}$
+	\item 确定初始晶胞中的许可平移矢量:~
+		\begin{itemize}
+			\item 选定原子数最少的一类原子，以其第一个原子坐标$\mathit{TAUSAV}$为参考，分别确定其他各原子$\mathit{TAU}(IMINST,3)$与第一个原子的“平移矢量”关系并存于数组$\mathit{TRA}$(只需要考虑同一类原子坐标平移)
+			\item 确定每一类原子的每个原子坐标$\mathit{TAU}$，经矢量$\mathit{TRA}$平移作用后的原子坐标$\mathit{TAU}+\mathit{TRA}$，置于$\mathit{TAUROT}$数组
+			\item 再次将原子坐标$\mathit{TAUROT}$变换到$[-0.5,0.5)$区间内，并按升序排列
+			\item 如果$\mathit{TAUROT}$数组的坐标与$\mathit{TAU}$数组中坐标重合，则由此确定一个许可平移，平移矢量存入$\mathit{PTRANS}(N_I,3)$。
+		\end{itemize}
+	\item 将许可平移矢量$\mathit{PTRANS}$也按升序排列，确定所有平移矢量中最小的三个不共面的矢量为初基原胞矢量$\vec P_1$、$P_2$、$P_3$
+	\item 调用子程序\textbf{LATTYP}，确定初基原胞的\textrm{Bravais}格子类型$\mathit{IPTYP}$和原胞参数$\mathit{PDIM}$
+        \item 根据初始晶胞矢量和初基原胞矢量分别计算的体积，判定复晶胞的数目$\mathit{NCELL}$
+\begin{displaymath}
+	\mathit{NCELL}=\dfrac{\Omega_{latt}}{\Omega_{prim}}
+\end{displaymath}
+\end{itemize}
+
+\subsection{确定晶体所属点群}
+调用两层接口子程序\textbf{SETGRP}和\textbf{GETGRP}，确定体系的点群对称操作(含平移操作)，完成体系所属点群的分析:~\\
+(1)\textbf{SETGRP}主要是根据初始晶胞所属\textrm{Bravais}格子类型，生成全部点群的对称元素的操作矩阵。对14种\textrm{Bravais}格子，列举了全部各类格子的生成元素。比如立方晶系的3种初始生成元素分别为
+\begin{itemize}
+	\item 简单立方
+\begin{displaymath}
+	\mathbf{INV}=
+	\begin{pmatrix}
+		-1, 0, 0 \\ 
+		0,-1, 0 \\
+		0, 0, -1
+	\end{pmatrix}\quad
+	\mathbf{R3D}=
+	\begin{pmatrix}
+		0, 0, 1 \\ 
+		1, 0, 0 \\
+		0, 1, 0
+	\end{pmatrix}\quad
+	\mathbf{R4ZP}=
+	\begin{pmatrix}
+		0, -1, 0 \\ 
+		1, 0, 0 \\
+		0, 0, 1
+	\end{pmatrix}
+\end{displaymath}
+	\item 体心立方
+\begin{displaymath}
+	\mathbf{INV}=
+	\begin{pmatrix}
+		-1, 0, 0 \\ 
+		0,-1, 0 \\
+		0, 0, -1
+	\end{pmatrix}\quad
+	\mathbf{R3D}=
+	\begin{pmatrix}
+		0, 0, 1 \\ 
+		1, 0, 0 \\
+		0, 1, 0
+	\end{pmatrix}\quad
+	\mathbf{R4ZBC}=
+	\begin{pmatrix}
+		0, 1, 0 \\ 
+		0, 1, -1 \\
+		-1, 1, 0
+	\end{pmatrix}
+\end{displaymath}
+	\item 面心立方
+\begin{displaymath}
+	\mathbf{INV}=
+	\begin{pmatrix}
+		-1, 0, 0 \\ 
+		0,-1, 0 \\
+		0, 0, -1
+	\end{pmatrix}\quad
+	\mathbf{R3D}=
+	\begin{pmatrix}
+		0, 0, 1 \\ 
+		1, 0, 0 \\
+		0, 1, 0
+	\end{pmatrix}\quad
+	\mathbf{R4ZFC}=
+	\begin{pmatrix}
+		1, 1, 1 \\ 
+		0, 0, -1 \\
+		-1, 0, 0
+	\end{pmatrix}
+\end{displaymath}
+\end{itemize}
+根据群论理论，每一类点群，由生成元素矩阵，可以得到体系的全部许可的点群对称操作矩阵。
+
+(2)子程序\textbf{SETGRP}完成点群对称操作生成后，调用子程序\textbf{GETGRP}，主要是根据当前初始晶胞原子位置，检查哪些对称操作可以保留，哪些必须丢弃(调用子程序\textbf{CHKSYM~}检查初始晶胞实际许可的对称操作)。
+
+由于平移/滑移操作的存在，在判断点群对称操作的时候，需要注意，对初始原胞中的每个原子坐标，依次用找到的点群元素依次作用后变换坐标，将变换后的原胞原子位置与初始的原子位置对比，将存在\textbf{三种可能性}:
+\begin{itemize}
+	\item 所有的原子位置可重合(纯粹的点群操作)
+	\item 除了点群对称操作，须外加\textbf{平移/滑移}对称性检查(空间群操作)
+	\item 原子位置无法重合(不允许的对称操作)
+\end{itemize}
+%对于存在平移/滑移操作的情况，要考虑
+%		\begin{itemize}
+%			\item 针对初始晶胞中的第一个原子，对比全部点群元素操作前后原子坐标差，将构成一组矢量。这组矢量中其中必定包含许可的滑移操作(如果存在滑移的话)。并且该滑移矢量适合全部原子。
+%			\item 对点群元素作用后的原子坐标，扣除滑移矢量部分的贡献，将会回到初始晶胞的原子状态。
+%			\item 原子坐标位置对比，与子程序\textbf{PRICEL}中的算法类似:~
+%				\begin{description}
+%					\item[-] 将原子坐标根据堆排序\textrm{(heapsort algorithm)}算法排序，分别得到两组原子位置序列
+%					\item[-] 依次分别对比每个序列中的原子位置
+%					\item[-] 只有当两个序列原子位置完全一致，才是许可的滑移(原子位置的数值对比，精度对结果的影响很大)
+%				\end{description}
+%特别需要注意:~初始原胞很可能是\textrm{super cell~}，因此是非\textrm{primitive~}的会存在\textrm{non-primitive primitive~}滑移(\textrm{trivial translations of generating cell~})，为了避免对滑移定义的不唯一性，规定取所有许可滑移矢量中取模量最小的作为滑移矢量。
+%		\end{itemize}
+子程序\textbf{CHKSYM}具体程序执行算法如下:
+\begin{itemize}
+	\item 对初始晶胞中每个原子坐标$\mathit{TAU}$，通过将坐标原点置于晶胞中心位置，将原子坐标变换到$[-0.5,0,5)$，将标准化后的原子坐标$\mathit{TAU}$按升序排列
+	\item 每个点群操作元素依次作用于原子坐标，得到$\mathit{TAUROT}$，它也将变换到$[-0.5,0,5)$，并按升序排列
+	\item 找到原子数最少类型的原子，记其对称操作后的坐标为$\mathit{TAUSAV}$
+		\begin{itemize}
+			\item 依次计算全部$\mathit{TAU}(i,I)-\mathit{TAUSAV(i)}$，并记作$\mathit{GTRANS}$(测试平移/滑移矢量)。
+			\item 如果该矢量是整个晶格的平移(\textrm{trivial translation})，则排除该平移/滑移量。
+		\end{itemize}
+	\item 对原胞中的每一类原子坐标$TAUROT$，依次用找到的尝试矢量$\mathit{GTRANS}$作用后，变换到$[-0.5,0.5)$，再按升序排列。
+	\item 依次对比每一类原子的每个坐标，只有当两者完全重合才确认找到许可的滑移矢量，并存入数组$\mathit{TRA}$。
+	\item 对比完毕后，要将原子坐标$TAUROT$中的尝试矢量$\mathit{GTRANS}$扣除，为后一个对称操作准备。
+	\item 最后只保留每一组点群元素许可的最小滑移操作，存入$\mathit{GTRANS}$，并统计对称操作数目$\mathit{NROT}$。
+\end{itemize}
+上述\textbf{CHKSYM}必须分别对每一类元素的每个原子都执行，结果(许可的对称操作及nontrivial平移)必须对全部原子都适用，否则不能构成有效的对称操作。
+%根据子程序\textbf{CHKSYM}返回的许可对称操作和滑移操作，将最终确定的对称操作矩阵矩阵和滑移操作矢量，分别存入$\mathit{S}(3,3,I)$和$\mathit{GTRANS(3,I)}$，此外全部矩阵元均清零。($\mathit{S}$矩阵和$\mathit{GTRANS}$的I上限是48)
+
+\subsection{确定晶体所属点群}
+调用子程序\textbf{PGROUP}确定晶体所属的点群:~根据点群理论，对称操作矩阵的行列式(\textrm{Trace})和迹(\textrm{trace})可以确定所属点群的类型。算法如下:~
+\begin{itemize}
+	\item 对于对称操作元素数目唯一确定的(如$\mathit{NROT}=1/3/16/48$)，分别快速确定点群$\mathbf{C}_1$、$\mathbf{C}_3$、$\mathbf{D}_{4h}$、$\mathbf{O}_h$
+	\item 对于剩余的对称操作数和对称操作元，可能构成的不可约子群元素分别为$\mathbf{E}$、$\mathbf{I}$、$\mathbf{C}_2$、$\mathbf{C}_3$、$\mathbf{C}_4$、$\mathbf{C}_6$、$\mathbf{S}_2$=$\mathbf{m}$、$\mathbf{S}_6$、$\mathbf{S}_4$、$\mathbf{S}_3$，依次采用枚举的方式，完成点群对称性判断:~
+		\begin{itemize}
+			\item 计算对称元素矩阵全部的迹(\textrm{Trace})和行列式值(\textrm{Determinant})，根据迹和行列式值统计相应的不可约子群元素数目。
+			\item 结合对称元素数目确定所属点群名。
+		\end{itemize}
+\end{itemize}
+
+%在此基础上，通过矩阵变换，完成对称操作元素(含滑移操作)在初始晶胞中的表示；
+%\subsection{点群对称操作前后原子位置的关联}
+%子程序\textbf{POSMAP}\\
+%\begin{itemize}
+%	\item 对初始晶胞中每个原子坐标重新存入数组$\mathit{TAU}$，通过将坐标原点置于晶胞中心位置，将原子坐标变换到$[-0.5,0,5)$，得到标准化后的原子坐标$\mathit{TAU}$
+%		\item 点群(含滑移)操作依次作用于$\mathit{TR}$后，同样变换到$[-0.5,0.5)$
+%		\item 依次计算每一类原子的变换前后的坐标关系，满足$|\mathit{TR}(i,I)-\mathit{TAU}(i,J)|<\mathit{TINY}\;(i=1,2,3)$，则建立两者的原子序号、对称操作(含平移)关系，存入$\mathit{ROTMAP}$
+%\end{itemize}
+
+\subsection{确定体系的空间群}
+空间群判断子程序\textbf{SGROUP}是在点群判断的基础上，根据体系所属的点群对称性结合许可的平移/滑移操作组合，确定所属的空间群。如前所述，由于平移/滑移对与原点选择关系密切，因此点群与平移/滑移的组合，并非与国际晶体群表\textrm{(International Tables for X-ray Crystallography):~Vol. I}\upcite{Henry-Lonsdale_1972}的230个空间群简单对应，\textrm{Hall}\upcite{ACA37-517_1981}发展了明确原点对应关系的空间群记号，因此可方便编程实现，具体可参阅文献\cite{ACA37-517_1981,ACA55-383_1999,ACA58-60_2002}。
+%这部分代码是用\textbf{C}语言编写的。
+%\subsection{确定体系的空间群}
+%子程序\textbf{SGROUP}主要通过调用核心代码子程序\textbf{find\_space\_group}完成。这部分代码的算法流程如下:
+\begin{enumerate}
+	\item 为了将点群与平移/滑移的组合与\textrm{Hall}记号关联起来，在初基原胞中，
+		\begin{description}
+			\item[-] 枚举所属点群的生成元素，并得到矩阵$(\mathbf{R_g}-\mathbf{E})$(对于$x$、$y$、$z$方向不固定的情形，枚举特别的处理)。
+			\item[-] 引入初始的平移量$\mathbf{t}_{sh}$，对于三方和六方晶系，$\mathbf{t}_{sh}$的三个分量许可的取值可是$0,1/2,1/3,2/3$任意组合;~对其余晶系$\mathbf{t}_{sh}$的三个分量许可值是$0,1/4,1/2,3/4$的任意组合。
+			\item[-]采用枚举方式检查可能的初始平移量中$\mathbf{t}_{sh}$中实际允许的平移矢量:~
+				由等式
+				\begin{displaymath}
+					(\mathbf{R_g}-\mathbf{E})\mathbf{t}=\mathbf{t}_{op}
+				\end{displaymath}
+确定变换矩阵$(\mathbf{R_g}-\mathbf{E})^{-1}$和全部可能的平移矢量$\mathbf{t}$。这里$\mathbf{R_g}$是点群生成元素，$\mathbf{t}_{op}$是由平移量$\mathbf{t}$导致的点群对称元素的完全平移矢量(因此只有经约化的平移量才有可能是合理的合理的)，由此确定晶胞许可的$\mathbf{t}$(即$\mathbf{t}_{sh}$)
+			\item[-] 遍历点群的对称元素，依次用晶胞许可的坐标系表示，由此确定晶胞所在的坐标系下的实际完全平移量$\mathbf{t}^{\prime}$，并点群元素和许可的平移量按空间群中的顺序排列
+			\item[-] 遍历点群可关联的空间群许可的平移量$\mathbf{t}$，由等式
+		\begin{displaymath}
+			\mathbf{t}^{\prime}=\mathbf{t}+(\mathbf{R_g}-\mathbf{E})\mathbf{t}_{sh}
+		\end{displaymath}
+		依次计算并确定当前坐标系表示引起的平移量为
+		\begin{displaymath}
+			\mathbf{t}_{sh}^{\mathrm{coor}}=(\mathbf{R_g}-\mathbf{E})^{-1}(\mathbf{t}-\mathbf{t}^{\prime})
+		\end{displaymath}
+		\end{description}
+		校正坐标系贡献后，点群对称操作的平移矢量$\mathbf{t}^{\prime}$为
+		\begin{displaymath}
+			\mathbf{t}^{\prime}=\mathbf{t}^{\prime}+\mathbf{t}_{sh}^{\mathrm{coor}}=\mathbf{t}^{\prime}+(\mathbf{R_g}-\mathbf{E})^{-1}(\mathbf{t}-\mathbf{t}^{\prime})
+		\end{displaymath}
+
+%	\item 符合空间群的平移/滑移操作的检验
+%		\begin{description}
+%			\item[-] 变换成点群对称操作的平移矢量$\mathbf{R}^{\prime}$，经约化最后得到$\mathbf{r}_{op}^{\prime}$
+%			\item[-] 枚举点群可对应的空间群许可平移矢量$\mathbf{r}$，如与点群对称元素得到平移矢量$\mathbf{r}_{op}^{\prime}$(已经按照空间群中有关顺序排列)与一致，则确定为平移为空间群许可的平移量。
+%		\end{description}
+	\item 根据当前确定的平移矢量，统计(要遍历全部点群元素$\mathit{nop}$和许可平移量$\mathit{nsh}$)
+%		\begin{enumerate}
+%			\item 检查初基原胞的许可平移$Rshft[1:3]$(上限为8组)
+%			\item 总的许可的平移矢量数$\mathit{nshft}$
+%		\end{enumerate}
+	\item 根据确定的点群和平移/滑移矢量的类型和数目，查表确定对应的\textrm{Hall}记号，得到空间群名(空间群记号)$\mathit{sgrp\_name}$
+	\item 将全部空间群对称元素($\mathit{sym\_op}[1:4][1:3]$，含对称元素的平移操作)的表示约化到初基原胞中
+\end{enumerate}
+最后输出空间群记号、全部点群对称操作元素矩阵表示$\mathbf{R}$和平移/滑移的矢量表示$\mathbf{t}$。
+%\textcolor{red}{注意:~}由于有些\textrm{Bravais}格子因为坐标系选择，对称操作矩阵表示会有差别($\mathit{Nb}>0$)，程序在考虑这个问题的时候是通过引入转换矩阵$\mathbf{A}=\mathbf{Rot}$来实现不同坐标系下的表示和转换关系的。
+
+\subsection{确定体系的标准化$\vec k$点路径}
+根据体系所属的\textrm{Bravais~}格子，枚举全部标准化$\vec k$-\textrm{path}，结果写到\textrm{KPOINTS\_BAND}文件中。以立方晶系为例，对应的标准化$\vec k$-\textrm{path}设置为:~
+\begin{itemize}
+	\item 简单立方\quad $\Gamma$–$X$–$M$–$\Gamma$–$R$–$X$|$M$–$R$
+	\item 面心立方\quad $\Gamma$–$X$–$W$–$K$–$\Gamma$–$L$–$U$–$W$–$L$–$K$|$U$–$X$
+	\item 体心立方\quad $\Gamma$–$H$–$N$–$\Gamma$–$P$-$H$|$P$-$N$
+\end{itemize}
+
+需要指出的是，当前的空间群分析模块是基于经典的群表示理论完成的，对于更为复杂的材料(如多元合金或复杂化合物)，目前的对称性分析模块对加速计算的辅助非常有限，因为对于复杂材料，只要有掺杂元素存在，就会极大地降低体系的对称性。因此，在后续工作中，有必要针对复杂体系，探索适当的对称性分析工具，充分利用体系的对称性，提高材料计算模拟的能力和效率。
+\section{周期体系计算中的能量零点的移动与\textrm{Fermi}能}
+\subsection{问题的提出}
+在电子结构计算中，对分子、原子等有限尺度体系，习惯上将能量零点取在无穷远，即无穷远处的静止电子的能量为零。这样选择的能量参考点，束缚态的电子能量都是负值，并且基态最高占据态的电子能级与第一电离能的负值对应。但是对于理想的周期体系来说，“无穷远”因为引入周期性而消失，所以必须另外选择能量零点。\upcite{JPC-SSP12-4409_1979,XIE-LU}
+
+\subsection{晶体总能量计算与能量零点选择}
+一般地，晶体中的基态总能量$E_T$可以表示成晶格中的电子能量$E_{e-e}$与离子实排斥能$E_{N-N}$之和:~
+	\begin{equation}
+		E_T=E_{e-e}+E_{N-N}=T[\rho]+E_{ext}+E_{\mathrm{Coul}}+E_{\mathrm{XC}}+E_{N-N}
+		\label{eq:Crystal_ENE_R}
+	\end{equation}
+根据密度泛函理论(\textrm{Density-Functional Theory, DFT})和\textrm{Kohn-Sham}方程\upcite{PRB136-864_1964,PRA140-1133_1965}，电子本征态方程为:~
+\begin{equation}
+	\bigg[\dfrac12\nabla^2+V_{ext}(\vec r)+V_{\mathrm{Coul}}(\vec r)+V_{\mathrm{XC}}[\rho(\vec r)]\bigg]|\psi_i(\vec r)\rangle=\varepsilon_i|\psi_i(\vec r)\rangle
+	\label{eq:DFT}
+\end{equation}
+动能泛函用单电子能量表示为
+\begin{equation}
+	T[{\rho}]=\sum_in_i\langle\psi_i|\varepsilon_i-V_{\mathrm{KS}}|\psi_i\rangle
+	\label{eq:DFT_Kin}
+\end{equation}
+$n_i$是$\psi_i$上的电子占据数，$\varepsilon_i$是其能量本征值，因此总能量的泛函表示为:
+\begin{equation}
+	E_T=\sum_in_i\varepsilon_i-\dfrac12\int\int\mathrm{d}\vec r\mathrm{d}\vec r\dfrac{\rho(\vec r)\rho(\vec r^{\prime})}{|\vec r-\vec r^{\prime}|}+\int\mathrm{d}\vec r\rho(\vec r)[\epsilon_{\mathrm{XC}}(\vec r)-V_{\mathrm{XC}}(\vec r)]+E_{N-N}
+	\label{eq:DFT_ENE_R}
+	\end{equation}
+
+对于周期体系来说，因为电子的能量本征态是与动量空间($\vec K$空间)相关联，即\textrm{Kohn-Sham}方程表示为:
+\begin{equation}
+	\bigg[\dfrac12\vec k^2+V_{ext}(\vec k)+V_{\mathrm{Coul}}(\vec k)+V_{\mathrm{XC}}[\rho(\vec k)]\bigg]|\psi_i^{\vec k}(\vec r)\rangle=\varepsilon_i^{\vec k}|\psi_i^{\vec k}(\vec r)\rangle
+	\label{eq:DFT-k}
+\end{equation}
+显然，总能量在动量空间中计算更方便:~
+\begin{equation}
+	E_T=\sum_{i,\vec k}n_i\varepsilon_i^{\vec k}-\dfrac{\Omega}2\sum_{\vec k}\rho^{\ast}(\vec k)V_{\mathrm{Coul}}(\vec k)+\Omega\sum_{\vec k}\rho^{\ast}(\vec k)[\epsilon_{\mathrm{XC}}(\vec k)-V_{\mathrm{XC}}(\vec k)]+E_{N-N}
+	\label{eq:DFT_ENE_G}
+\end{equation}
+其中$V_{\mathrm{Coul}}(\vec k)$、$\epsilon_{\mathrm{XC}}(\vec k)$与$\rho^{\ast}(\vec k)$分别是\textrm{Coulomb}相互作用、单个电子的交换-相关能、交换-相关势和电子密度的\textrm{Fourier}分量。
+
+实际计算中需要作一些数学处理:~
+\begin{itemize}
+	\item 交换-相关势和交换-相关能的计算一般先在实空间计算$\epsilon_{\mathrm{XC}}(\vec r)$和$V_{\mathrm{XC}}(\vec r)$后，再通过\textrm{Fourier~}变换到动量空间，得到$\epsilon_{\mathrm{XC}}(\vec k)$和$V_{\mathrm{XC}}(\vec k)$。
+	\item 由\textrm{Poisson}方程
+\begin{equation}
+	\nabla^2V_{\mathrm{Coul}}(\vec r)=-4\pi\rho(\vec r)
+	\label{eq:Poisson}
+\end{equation}
+的\textrm{Fourier}展开有
+\begin{equation}
+	V_{\mathrm{Coul}}(\vec k)=\dfrac{4\pi\rho^{\ast}(\vec k)}{|\vec k|^2}
+	\label{eq:FFT_Poisson}
+\end{equation}
+显然$V_{\mathrm{Coul}}(\vec k=0)$是发散的;
+	\item 考虑离子间\textrm{Coulomb}相互作用能之和
+	\begin{equation}
+		E_{N-N}=\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_s^{\prime}|}
+		\label{eq:Ion_Coulomb_ENE}
+	\end{equation}
+这里$Z_s$是离子实的电荷数，$\vec R$表示晶格点的位矢，$\vec r_s$代表元胞内原子的相对位矢。因为$E_{N-N}$求和包含无穷多项，是发散的;
+	\item 用于求解能量本征态的式\eqref{eq:DFT-k}中$V_{ext}$的\textrm{Fourier}分量在$\vec k=0$处也是发散的。
+\end{itemize}
+因此总能量泛函中，$E_{N-N}$、$V_{\mathrm{Coul}}(\vec k=0)$和$V_{ext}(\vec k=0)$这三项单独都是发散的，但因为整个体系出于电中性，所以这些发散项相互抵消，应是一个常数。
+
+因此实际的总能计算中，首先在求解\textrm{Kohn-Sham}方程时，先将$V_{\mathrm{Coul}}(\vec k=0)$和$V_{ext}(\vec k=0)$同时置为零，这相当于势能作一平移，或者说重新定义势能零点。由此得到的总能泛函为:~
+\begin{equation}
+	E_T=\sum_{i,\textcolor{red}{\vec k\neq0}}n_i\varepsilon_i^{\vec k}-\dfrac{\Omega}2\sum_{\textcolor{red}{\vec k\neq 0}}\rho^{\ast}(\vec k)V_{\mathrm{Coul}}(\vec k)+\Omega\sum_{\vec k}\rho^{\ast}(\vec k)[\epsilon_{\mathrm{XC}}(\vec k)-V_{\mathrm{XC}}(\vec k)]+E_{N-N}
+	\label{eq:DFT_ENE_G-2}
+\end{equation}
+最后在总能量计算中，考虑补偿势能零点的这一平移。
+
+\subsection{发散项的处理}
+根据上面的讨论，总能量中发散项之和为:~
+	\begin{equation}
+		\begin{aligned}
+			\lim_{\vec k\rightarrow0}\Omega&\bigg[\dfrac12V_{\mathrm{Coul}}(\vec k)+\sum_sv_{ext}^s(\vec k)\bigg]\rho^{\ast}(\vec k)+\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_s^{\prime}|}\\
+			=&\sum_s\alpha_s\sum_sZ_s+E_{\mathrm{Ewald}}
+		\end{aligned}
+		\label{eq:diver-term}
+	\end{equation}
+	
+$V_{ext}$在不存在其他外场时，一般只考虑离子-电子的\textrm{Coulomb}相互作用，
+	\begin{equation}
+		\begin{aligned}
+			V_{ext}(\vec r)&=\sum_{\vec R,s}\dfrac{-Z_s}{|\vec r-\vec R-\vec r_s|}\\
+			&\equiv\sum_{\vec R,s}v_{ext}^s(\vec r-\vec R-\vec r_s)
+		\end{aligned}
+		\label{eq:Ion-ele_Coulomb}
+	\end{equation}
+
+对于形如$Z_s/r$的外场，其\textrm{Fourier}分量在$\vec k=0$附近展开
+	\begin{equation}
+		v_{ext}^s(\vec k)=-\dfrac{4\pi Z_s}{\Omega|\vec k|^2}+\alpha_s+O(\vec k)
+		\label{eq:V_ext}
+	\end{equation}
+展开$\rho^{\ast}(\vec k)$，有
+	\begin{equation}
+		\lim_{\vec k\rightarrow 0}\rho^{\ast}(\vec k)=\dfrac{\sum_sZ_s}{\Omega}+\beta|\vec k|^2+O(\vec k)
+		\label{eq:rho_ext}
+	\end{equation}
+去掉高次项，有
+\begin{equation}
+	\begin{aligned}
+		\lim_{\vec k\rightarrow 0}&\bigg[\boxed{\textcolor{blue}{\dfrac{\Omega}2\dfrac{4\pi[\rho^{\ast}(\vec k)]^2}{|\vec k|^2}}}+\boxed{\Omega}\bigg(\boxed{\textcolor{blue}{-\dfrac{4\pi\sum_sZ_s}{\Omega|\vec k|^2}}}+\sum_s\alpha_s\bigg)\boxed{\rho^{\ast}(\vec k)}+\boxed{\textcolor{red}{\dfrac12\dfrac{4\pi(\sum_sZ_s)^2}{\Omega|\vec k|^2}}}\bigg]\\
+		&+\boxed{\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_{s^{\prime}}|}-\lim_{\vec k\rightarrow0}\textcolor{red}{\dfrac12\dfrac{4\pi(\sum_sZ_s)^2}{\Omega|\vec k|^2}}}\\
+		=&\sum_s\alpha_s\sum_sZ_s+\textcolor{magenta}{E_{\mathrm{Ewald}}}
+	\end{aligned}
+	\label{eq:V_ext_exp2}
+\end{equation}
+其中离子间排斥势采用\textrm{Ewald~}方法得到\upcite{Born-Huang,R.Martin}:~对于形如点电荷形式的静电势$\dfrac{e^2}r$，可引入\textrm{Gauss~}误差函数\upcite{Grosso-Parravicini}
+\begin{equation}
+	\begin{aligned}
+		&\mathrm{erf}(x)=\dfrac2{\sqrt{\pi}}\int_0^{x}\mathrm{e}^{-t^2}\mathrm{d}t\\
+		&\mathrm{erfc}(x)=\dfrac2{\sqrt{\pi}}\int_x^{\infty}\mathrm{e}^{-t^2}\mathrm{d}t\\
+		\mbox{满足}\quad&\mathrm{erf}(x)+\mathrm{erfc}(x)=1
+	\end{aligned}
+	\label{eq:err_fun}
+\end{equation}
+得到恒等式(见图\ref{Error_Function}):
+\begin{equation}
+	\dfrac{e^2}r\equiv\dfrac{e^2}r\mathrm{erf}(\sqrt{\eta}r)+\dfrac{e^2}r\mathrm{erfc}(\sqrt{\eta}r)
+	\label{eq:err_fun_comp}
+\end{equation}
+\begin{figure}[h!]
+\centering
+\vspace*{-0.10in}
+\includegraphics[height=2.55in,width=5.8in,viewport=0 0 1100 455,clip]{Ewald_method.png}
+\caption{\small \textrm{Decomposition of the potential $-e^2/r$ (singular at the origin and of long-range nature) into a contribution $-(e^2/r)\mathrm{erf}(\sqrt{\eta}r)$(regular at the origin of long-range) and a contribution $-(e^2/r)\mathrm{erfc}(\sqrt{\eta}r)$ (singular at the origin and of short-range nature). Here $\sqrt{\eta}=1 (\mathrm{Bohr radius unit})$ is chosen.}\upcite{Grosso-Parravicini}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Error_Function}
+\end{figure}
+
+	\begin{equation}
+		\begin{aligned}
+			E_{\textrm{Ewald}}=&\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_{s^{\prime}}|}-\lim_{\vec k\rightarrow0}\dfrac12\times\dfrac{4\pi(\sum_sZ_s)^2}{\Omega|\vec k|^2}\\
+			=&\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_{s^{\prime}}|}-\dfrac1{2\Omega}\sum_{s,s^{\prime}}\int\mathrm{d}\vec r\dfrac{Z_sZ_{s^{\prime}}}r\\
+			=&\sum_{s,s^{\prime}}Z_sZ_{s^{\prime}}\bigg\{\dfrac{2\pi}{\Omega}\sum_{\vec k\neq 0}\cos[\vec k\cdot(\vec r_s-\vec r_{s^{\prime}})]\dfrac{\mathrm{e}^{-|\vec k|^2/4\eta}}{|\vec k|^2}\\
+			&-\dfrac{\pi}{2\eta\Omega}+\dfrac14\sum_{\vec R}\dfrac{\mathrm{erf}(\sqrt{\eta}x)}x\bigg|_{\vec R+\vec r_s-\vec r_s^{\prime}\neq0}-\sqrt{\dfrac{\eta}{\pi}}\delta_{s,s^{\prime}}\bigg\}
+		\end{aligned}
+		\label{eq:Ewald_ENE}
+	\end{equation}
+	$\mathrm{erf}(x)$是误差函数，$\sqrt{\eta}$原则上是任意参数。$\alpha_s$由$v_{ext}^s(\vec r)$确定:~
+	\begin{equation}
+		\alpha_s=\lim_{\vec k\rightarrow0}\bigg[v_{ext}^s(\vec k)+\dfrac{4\pi Z_s}{\Omega|\vec k|^2}\bigg]=\dfrac1{\Omega}\int\mathrm{d}\vec r\bigg[v_{ext}^s(\vec r)+\dfrac{Z_s}r\bigg]
+		\label{eq:alpha_s}
+	\end{equation}
+由此得到的总能量表达式是:
+\begin{equation}
+	\begin{aligned}
+		E_T=&\sum_i\varepsilon_i-\dfrac{\Omega}2\sum_{\vec k\neq0}\rho^{\ast}(\vec k)V_{\mathrm{Coul}}(\vec k)\\
+		&+\Omega\sum_{\vec k}\rho^{\ast}(\vec k)[\epsilon_{\mathrm{XC}}(\vec k)-V_{\mathrm{XC}}(\vec k)]\\
+		&+\sum_s\alpha_s\sum_sZ_s+E_{\mathrm{Ewald}}
+	\end{aligned}
+	\label{eq:TOT_ENE_Finial}
+\end{equation}
+
+\textrm{VASP~}软件的总能量计算即遵照式\eqref{eq:TOT_ENE_Finial}计算的。图\ref{TOTEN_VASP}给出就是\textrm{VASP~}总能计算的输出形式:~
+\begin{figure}[h!]
+\centering
+\vspace*{-0.18in}
+\includegraphics[height=3.85in,width=4.2in,viewport=0 0 600 495,clip]{VASP_Total_ENE.png}
+\caption{\small \textrm{The Total-E calculated by VASP.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{TOTEN_VASP}
+\end{figure}
+
+%根据\textrm{Ewald}的势能计算方法，$\boxed{\dfrac12\dfrac{4\pi(\sum_sZ_s)^2}{\Omega|\vec k|^2}}$表示的电子势能在$\vec k=0$处的贡献，可分为
+%	\begin{itemize}
+%		\item \textcolor{purple}{对应于实空间电子势能的长程可收敛部分:~}式\eqref{eq:Ewald_ENE}中第三项
+%			\begin{displaymath}
+%				-(\sum\limits_{s,s^{\prime}}Z_sZ_{s^{\prime}})\dfrac14\sum_{\vec R}\dfrac{\mathrm{erf}(\sqrt{\eta}x)}x\bigg|_{\vec R+\vec r_s-\vec r_s^{\prime}\neq0}
+%			\end{displaymath}
+%		\item \textcolor{purple}{对应于实空间电子势能的短程发散部分:~}式\eqref{eq:Ewald_ENE}中第二项
+%			\begin{displaymath}
+%				(\sum_{s,s^{\prime}}Z_sZ_{s^{\prime}})\dfrac{\pi}{2\eta\Omega}
+%			\end{displaymath}
+%		\textcolor{red}{注意:~实际计算中，因为误差函数的参数$\sqrt{\eta}$不为零，因此该发散部分表示为一个大数而不是$\infty$}。
+%	\end{itemize}
+%	类似地，不难看出，式\eqref{eq:Ewald_ENE}中\textcolor{blue}{第一项}和\textcolor{magenta}{第四项}分别对应离子-电子的\textrm{Coulomb}相互作用
+%	\begin{displaymath}
+%		\boxed{\dfrac12\sum_{\vec R,s}\sideset{}{^{\prime}}\sum_{\vec R^{\prime},\vec s^{\prime}}\dfrac{Z_sZ_{s^{\prime}}}{|\vec R+\vec r_s-\vec R^{\prime}-\vec r_{s^{\prime}}|}}
+%	\end{displaymath}
+%	的\textcolor{blue}{长程收敛}和\textcolor{magenta}{短程发散}部分。
+%
+%以\textrm{FCC-Al}为例，采用\textrm{VASP~}计算得到有关数值如下:~
+%\begin{displaymath}
+%	\begin{aligned}
+%	&\mathrm{E-fermi}:~&7.4406\\
+%	&\sum\alpha_iZ_i:~&-0.1949\\
+%	&\mathrm{Ewald-Energy}:~&-72.4621\\
+%	&\mathrm{XC(G=0)}:~&-10.00040 \\
+%	\end{aligned}
+%\end{displaymath}
+%将\textrm{VASP~}计算中的\textrm{Ewald-Energy}按式\eqref{eq:Ewald_ENE}分解，各部分对应的数值为:~
+%\begin{displaymath}
+%	\begin{aligned}
+%	&\mathrm{Part-1}:~&1.320907 \\
+%	&\mathrm{Part-2}:~&-50.176618 \\ 
+%	&\mathrm{Part-3}:~&1.481905 \\
+%	&\mathrm{Part-4}:~&-25.088309 \\
+%	\end{aligned}
+%\end{displaymath}
+%\textcolor{red}{不难看出，这里第二项和第四项分别代表两部分势能在$\vec k=0$的发散项贡献，因此数值的绝对值比另外两项大得多。}
+
+\subsection{能量零点移动对能量本征态的影响}
+根据上述讨论，因为能量零点的平移，周期体系计算的能量本征值$\varepsilon_i$的数值一般不绝对为负值。习惯上在能带和态密度表示时，常常将\textrm{Fermi~}能设置成零。
+
+参照总能计算中能量零点移动的讨论，可以计算\textrm{Kohn-Sham~}方程中势能零点引起的能量本征值的移动，%根据检索\textrm{VASP~}的代码发现:~\textcolor{red}{\textrm{VASP~}程序在构造\textrm{Fock~}矩阵的时候，已经包括了$V_{\mathrm{XC}}(\vec k=0)$的贡献~}，即\textcolor{purple}{$\mathrm{XC(G=0)}$}对应的数值(见图\ref{TOTEN_VASP});~
+$V_{\mathrm{Coul}}(\vec k=0)$和$V_{ext}[\rho(\vec k=0)]$。
+即
+\begin{equation}
+	\lim_{\vec k\rightarrow0}\bigg[V_{\mathrm{Coul}}(\vec k)+\sum_sv_{ext}^s(\vec k)\bigg]
+	\label{eq:part_diver-term}
+\end{equation}
+式\eqref{eq:part_diver-term}\textbf{势的移动}并不简单对应式\eqref{eq:diver-term}中\textbf{能量移动}的发散项求和。
+
+在$\vec k=0$附近，将式\eqref{eq:V_ext}和\eqref{eq:rho_ext}代入式\eqref{eq:part_diver-term}，去掉高次项，可有
+\begin{equation}
+	\begin{aligned}
+		&\lim_{\vec k\rightarrow 0}\bigg[\dfrac{4\pi\rho^{\ast}(\vec k)}{|\vec k|^2}+\bigg(-\dfrac{4\pi\sum_sZ_s}{\Omega|\vec k|^2}+\sum_s\alpha_s\bigg)\bigg]\\
+		=&\lim_{\vec k\rightarrow 0}\bigg[\boxed{\dfrac{4\pi}{\Omega}\dfrac{\sum_sZ_s}{|\vec k|^2}}+4\pi\beta\boxed{-\dfrac{4\pi\sum_sZs}{\Omega|\vec k^2|}}+\sum_s\alpha_s\bigg]\\
+		=&\sum_s\alpha_s+4\pi\beta
+	\end{aligned}
+	\label{eq:V_shift-term}
+\end{equation}
+式\eqref{eq:V_shift-term}对应\textrm{VASP~}软件中给出的\textcolor{purple}{$\mathrm{alpha+bet}$}的数值，见图\ref{TOTEN_VASP}(在\textrm{VASP~}中，\textcolor{purple}{bet}项对应式\eqref{eq:V_shift-term}的$4\pi\beta$)。
+
+上述推导也验证了赝势理论的基本思想:~对于电中性的周期体系，在倒空间中，电子\textrm{Coulomb~}势与原子核的吸引势相互抵消后，净的作用可近似为高阶奇点和一个平缓的势函数。\textrm{VASP~}软件中，$\alpha_s$和$\beta$的数值计算方式如下:~
+\begin{itemize}
+	\item \textcolor{blue}{$\alpha_s$取原子赝势在径向的第一个点(即离$\vec k=0$最近)的数值}
+	\item \textcolor{blue}{$\beta$由各原子赝电荷密度前5个点(即离$\vec k=0$足够近)的数值两阶差分后求和得到}
+\end{itemize}
+
+传统的求解\textrm{Kohn-Sham~}方程计算能量本征值时，将势函数中包括核-电子吸引和电子间排斥排斥势的全部$\vec k=0$部分的贡献扣除。如果考虑补偿函数式\eqref{eq:V_shift-term}的贡献，则利用了上述两项的奇点能量部分抵消的特性，保留了势能零点在无穷远时的部分特征(\textcolor{red}{注意:~采用该能量补偿方案，高阶奇点仍然存在!})。
+
+综上所述，在\textrm{VASP~}中，如果考虑周期体系的势能零点移动，则\textrm{Fermi~}的数值可取为\textbf{两项之和}:~
+\begin{displaymath}
+	\mathrm{E_{fermi}}=\textcolor{blue}{\mathrm{E-fermi}}+\textcolor{purple}{\mathrm{alpha+bet}}
+\end{displaymath}
+这就是排除高阶奇点后的\textrm{Fermi~}能，与传统的分子、原子中能量计算结果相近。
+%\subsection{一点讨论}
+%我们对\textrm{FCC-Al}的计算表明，
+%\begin{displaymath}
+%	\begin{aligned}
+%	&\mathrm{E-fermi}:~&7.4406\\
+%	&\sum\alpha_iZ_i:~&-0.1949\\
+%	&\mathrm{Ewald-Energy}:~&-72.4621\\
+%	&\mathrm{XC(G=0)}:~&-10.00040 \\
+%	&\mathrm{alpha+bet}:~-&14.2459\\
+%	\end{aligned}
+%\end{displaymath}
+%因此考虑势能零点移动修正的\textrm{Fermi}能应为(\textcolor{blue}{包含\textbf{OUTCAR}中$\mathrm{alpha+bet}$项}):
+%\begin{displaymath}
+%	7.4406-14.2459=-6.80\;\mathrm{eV}
+%\end{displaymath}
+%$\ast$注:上述计算验证~
+%\begin{itemize}
+%	\item 在\textrm{VASP~}计算中，$\mathrm{alpha+bet\mbox{项}}<0$恒成立
+%	\item \textrm{VASP~}中$|\mathrm{E-Fermi}|<|\mathrm{alpha+bet}|$成立
+%\end{itemize}
+
+\section{\rm{VASP}软件的特点}
+\textrm{VASP}软件\upcite{VASP_manual}是维也纳大学(Universit\"at Wien)\textrm{G. Kresse}等开发的第一原理模拟软件包。\textrm{VASP}采用的\textrm{PAW~(Projector Augmented-Wave)}方法\upcite{PRB50-17953_1994,PRB59-1758_1999}，平衡了传统赝势方法和全电子计算优点，兼顾了计算的精度和效率。特别是实空间优化的投影函数\textrm{(Projector)}的思想，将主要的计算任务变换到实空间完成，大大节省了基组的维度，保证了计算精度和效率。在此基础上，\textrm{VASP}通过引入多样的优化算法，提高了矩阵对角化和电荷密度搜索的效率;~在程序并行计算中，通过\textrm{FFT~(Fast Fourier Transformation)}计算网格与并行计算的计算格点的分配平衡，提升了软件的并行效率。相比于其他第一原理计算软件，\textrm{VASP}从物理思想与方法、优化算法和并行计算实现等多个方面都有更为出色的性能。有关\textrm{VASP}软件实现的文献，主要如下:~
+\begin{enumerate}
+	\item 物理思想与方法:~\textrm{PAW}赝势方法:~参阅文献\cite{PRB50-17953_1994,PRB59-1758_1999};~投影函数的实空间优化，参阅\cite{JPCM6-8245_1994,PRB44-13063_1991,PRB44-8503_1991}
+	\item 优化算法:~参阅文献\cite{CMS6-15_1996,PRB54-11169_1996}
+	\item 高效的并行计算:~ \textrm{FFT}网格与计算格点的分配:~参阅\textrm{VASP}源代码的\textbf{mgrid.F}
+\end{enumerate}
+
+\subsection{\rm{PAW}方法与实空间投影}
+\textrm{PAW}方法是\textrm{Bl\"ochl}于1994年独立提出来的一种计算方法\upcite{PRB50-17953_1994}，该方法同时结合了赝势方法和APW方法的优点，达到平衡计算效率和精度的目的。\textrm{PAW}方法刚提出来的时候并未引起注意，直到1999年\textrm{Kresse}讨论了\textrm{PAW}方法和超软赝势\textrm{(Ultra-Soft Pseudo-Potential, USPP)}方法的密切关联，指出\textrm{USPP}方法的计算程序简单改造就能引入\textrm{PAW}方法，才推动了\textrm{PAW}方法的广泛应用。\upcite{PRB59-1758_1999}现在\textrm{PAW}方法已经成为最主要的可支持第一原理分子动力学\textrm{(Ab initio Molecular Dynamics, AIMD)}的计算方法。
+
+\subsubsection{PAW方法的基本思想}
+与一般赝势方法不同，\textrm{PAW}方法的目标是全电子\textrm{(all-electron)}波函数\footnote{注意，“全电子”在\textrm{Bl\"ochl}原始文献\cite{PRB50-17953_1994}中与“真实电子波函数”意义相近，强调电子在原子核附近的振荡行为，但并未严格区分价电子与芯电子;~而在\textrm{Kresse}的文献\cite{PRB59-1758_1999}中则是明确指价电子波函数。%强调价电子波函数因与芯层电子正交而在原子核附近振荡;
+此外，与“全电子”概念密切关联的是“全势(full-potential)”，两者在具体语境中有一定的区别，“全势”强调的是重现价电子感受到的势函数的效果。}，体系中全部电子构成\textrm{Hilbert}空间，价电子与芯层态彼此正交，使得波函数在\textrm{Muffin-tin}球内振荡。
+\textrm{Bl\"ochl}假设全电子波函数$|\Psi\rangle$与赝波函数$|\tilde\Psi\rangle$满足线性变换，即满足：
+\begin{equation}
+	|\Psi\rangle=\mathbf{\tau|}\tilde\Psi\rangle
+	\label{eq:PAW-Blochl-01}
+\end{equation}
+%	$$\tau=\mathbf{1}+\sum_{\mathrm R}\hat\tau_{\mathrm R}$$
+在原子核附近的$r_c$范围内\footnote{习惯上这个区域称为缀加区(\textrm{Augmentation region}).}，除了平面波，还引入原子分波函数展开来表示波函数：
+\begin{equation}
+	|\Psi\rangle=|\tilde\Psi\rangle+\sum_i(|\phi_i\rangle-|\tilde\phi_i\rangle)\langle\tilde p_i|\tilde\Psi\rangle
+	\label{eq:PAW-Blochl-02}
+\end{equation}
+在$r_c$外$|\tilde\Psi\rangle$与$|\Psi\rangle$变换前后保持不变，因此线性变换$\mathbf{\tau}$可表示为：
+\begin{equation}
+	\mathbf{\tau}=\mathbf{1}+\sum_i(|\phi_i\rangle-|\tilde\phi_i\rangle)\langle\tilde p_i|
+	\label{eq:PAW-Blochl-03}
+\end{equation}
+其中$|\tilde p_i\rangle$是\textrm{MT}球内的投影函数，$i$表示原子位置$\vec R$、原子轨道($l,m$)和能级$\epsilon_k$的指标。\textrm{PAW}的波函数与赝波函数的关系，可以用图\ref{PAW_basic}表示。
+\begin{figure}[h!]
+\centering
+\includegraphics[height=2.35in,width=4.1in,viewport=0 0 1280 745,clip]{PAW-baseset.png}
+%\includegraphics[height=1.8in,width=4.in,viewport=30 210 570 440,clip]{PAW_projector.eps}
+\caption{\small \textrm{The analysis of PAW basic function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{PAW_basic}
+\end{figure}
+
+\textrm{Kresse}等注意到了\textrm{PAW}方法与\textrm{USPP}方法的密切关系，指出如果投影函数$\tilde p_i$相同，\textrm{PAW}方法和\textrm{USPP}方法计算得到的总电荷密度完全等价，只是实际计算时，\textrm{USPP}方法直接赝化补偿电荷。\footnote{严格地说，\textrm{Kresse}等提出的\textrm{PAW}方法是一种冻芯近似的全电子方法。}
+
+为了揭示\textrm{PAW}方法与\textrm{USPP}的关联，\textrm{Kresse}将\textrm{Bl\"ochl}方案中的电荷密度分解方式由“原子核+电子”改变为“离子实+价电子”形式(冻芯近似(\textrm{frozen core approximation})):~
+\begin{equation}
+	\begin{aligned}
+		n_T=n+n_{Zc}\equiv&\underbrace{(\tilde n+\hat n+\tilde n_{Zc})}\\
+				 		&\quad\qquad\tilde n_T\\
+				  &+\underbrace{(n^1+\hat n+n_{Zc})}-\underbrace{(\tilde n^1+\hat n+\tilde n_{Zc})}\\
+				                  &\quad\qquad n_T^1\qquad\qquad\qquad\tilde n_T^1
+	\end{aligned}
+	\label{eq:PAW_Kresse_02}
+\end{equation}
+这里$\tilde n$、$\tilde n^1$和$n^1$仅限于描述价电子电荷密度。对于芯电荷与核电荷，引入$n_c$、$\tilde n_c$和$n_{\mathrm{Z}c}$和$\tilde n_{\mathrm{Z}c}$，其中$n_c$和$\tilde n_c$是动芯近似下的芯层电荷密度，$n_{\mathrm{Z}c}$是核电荷(点核电$n_{\mathrm Z}$)和冻芯电荷$n_c$的和
+\begin{displaymath}
+	n_{\mathrm{Z}c}=n_{\mathrm{Z}}+n_c
+\end{displaymath}
+构造的赝芯电荷$n_{\mathrm{Z}c}$满足
+\begin{equation}
+	\int_{\Omega_r}n_{\mathrm{Z}c}(\vec r)\mathrm{d}^3\vec r=\int_{\Omega_r}\tilde n_{\mathrm{Z}c}(\vec r)\mathrm{d}^3\vec r
+	\label{eq:PAW_Kresse_01}
+\end{equation}
+这里积分$\int_{\Omega_r}$表示对缀加区径向积分;~对$n_{\mathrm{Z}c}$和$\tilde n_{\mathrm{Z}c}$的积分满足电中性要求，即积分区的总电荷为$-Z_{\mathrm{ion}}$。%在具体计算中，在平面波表示区，电荷密度是所有原子电荷密度的叠加，局域原子附近的缀加区，只考虑当前原子的电荷密度贡献。
+
+\textrm{Kresse}方案中，补偿电荷$\hat n$要求满足$\tilde n^1+\hat n$与$n^1$在缀加区有相同的多极矩，即约束条件满足 
+\begin{equation}
+	\int_{\Omega_c}(n^1-\tilde n^1-\hat n)|\vec r-\vec R|^lY_{lm}^{\ast}(\widehat{\vec r-\vec R})\mathrm{d}\vec r=0
+	\label{eq:PAW_Kresse_11}
+\end{equation}
+定义电荷密度差
+\begin{equation}
+	Q_{ij}(\vec r)=\phi_i^{\ast}(\vec r)\phi_j(\vec r)-\tilde\phi_i^{\ast}(\vec r)\tilde\phi_j(\vec r)
+	\label{eq:PAW_Kresse_12}
+\end{equation}
+$Q_{ij}(\vec r)$对应的多极矩为
+\begin{equation}
+	q_{ij}^L(\vec r)=\int_{\Omega_r}Q_{ij}(\vec r)|\vec r-\vec R|^lY_{lm}^{\ast}(\widehat{\vec r-\vec R})\mathrm{d}\vec r
+	\label{eq:PAW_Kresse_13}
+\end{equation}
+因此满足约束条件式\eqref{eq:PAW_Kresse_11}的补充电荷的计算形式为:~
+\begin{equation}
+	\begin{aligned}
+		\hat n=\sum_{(i,j),L}\sum_n f_n\langle\tilde\Psi_n|\tilde p_i\rangle\langle\tilde p_j|\Psi_n\rangle\hat Q_{ij}^L(\vec r)\\
+		\hat Q_{ij}^L(\vec r)=q_{ij}^Lg_l(|\vec r-\vec R|)Y_{lm}(\widehat{\vec r-\vec R})
+	\end{aligned}
+	\label{eq:PAW_Kresse_14}
+\end{equation}
+%与\textrm{LAPW}方法的主要区别是，式\eqref{eq:PAW_Kresse_14}中$g(r)$的具体形式，将留待在下一节“\textrm{PAW}的原子数据集”中讨论。
+
+不难看出，\textrm{Kresse}方案通过电荷密度的分解和补偿电荷的构造，沟通了\textrm{USPP}和\textrm{Blochl}的经典\textrm{PAW}方法:
+\begin{itemize}
+	\item \textrm{Kresse}方案和\textrm{USPP}方法的核心差别是对补偿电荷的处理不同:~\textrm{Kresse}方案的补偿电荷，不再局限于原子轨道本身(式\eqref{eq:PAW_Kresse_14})，因此比\textrm{USPP}原子电荷密度补偿电荷可以更平缓;~反之，如果\textrm{USPP}方法中提高补偿电荷的赝化函数的构造方式，将有可能系统地提升\textrm{USPP}的计算精度。
+	\item \textrm{Kresse}方案从电荷密度分解的思想(式\eqref{eq:PAW_Kresse_02})出发，在\textrm{USPP}近似基础上，引入各原子的在位(\textrm{on-site})修正(主要来自补偿电荷部分)，得到\textrm{PAW}方法下的计算方案。
+\end{itemize}
+
+\subsubsection{\rm{PAW~}原子数据集}
+\textrm{Kresse}方案中将与原子分波有关的数据称为原子数据集(\textrm{PAW Datasets})，这是\textrm{VASP}的主要计算文件\textrm{POTCAR}的数据构建方式，主要包括:~
+\begin{enumerate}
+	\item 全电子分波函数$\phi_i$和赝分波函数$\tilde\phi_i$
+	\item 投影函数$\tilde p_i$
+	\item 芯电荷密度$n_c$ 、局域离子赝势$v_{\mathrm H}[\tilde n_{Zc}]$(赝化离子实电荷密度$\tilde n_{Zc}$仅出现在$v_{\mathrm H}[\tilde n_{Zc}]$中，因此直接构造$v_{\mathrm H}[\tilde n_{Zc}]$)和赝芯电荷密度$\tilde n_c$
+	\item 补偿电荷构造函数$g_l(r)$
+\end{enumerate}
+
+其赝原子分波函数和投影函数的构造，主要参考文献\cite{JPCM6-8245_1994}:~首先计算原子的全电子分波函数$\phi_i(\vec r)$，为构造形如
+	\begin{equation}
+		\tilde\phi_{i=Lk}(\vec r)=Y_L(\widehat{\vec r-\vec R}~)\tilde\phi_{lk}(|\vec r-\vec R|)
+	\end{equation}
+	的赝分波函数，应用\textrm{RRKJ}赝波函数方法\upcite{PRB41-1227_1990}，径向赝分波函数由球\textrm{Bessel}函数线性组合
+	\begin{equation}
+		\tilde\phi_{lk}(r)=\left\{
+		\begin{aligned}
+			&\sum_{i=1}^2\alpha_ij_l(q_ir)\quad &r<r_c^l\\
+			&\phi_{lk}(r)\quad&r>r_c^l
+		\end{aligned}
+		\right.
+	\end{equation}
+调节系数$\alpha_i$和$q_i$赝分波函数$\phi_{lk}(r)$在截断半径$r_c^l$处两阶连续可微。
+
+投影波函数$\tilde p_i$由前面介绍的\textrm{Vanderbilt}超软赝势中投影子构造方法\upcite{PRB41-7892_1990}或\textrm{Bl\"ochl}方案的\textrm{Gram-Schmidt}正交化方法\upcite{PRB50-17953_1994}得到，这两种方法得到的\textrm{PAW}投影函数完全相同。
+%$\langle\tilde p_i|\tilde\phi_j\rangle=\delta_{ij}$确定
+
+\textrm{Kresse}方案中的局域离子赝势$v_{\mathrm H}[\tilde n_{Zc}]$，只要求其在缀加区外与真实离子势$v_{\mathrm H}[n_{Zc}]$相同，先构造局域原子赝势$\tilde v_{\mathrm{eff}}^a$，再去按有效离子势去屏蔽方式得到$v_{\mathrm H}[\tilde n_{Zc}]$。在截断半径$r_{loc}$内定义原子局域赝势$\tilde v_{eff}^a$为
+$$\tilde v_{eff}^a=A\dfrac{\sin(q_{loc}r)}r\quad r<r_{loc}$$
+这里$q_{loc}$和$A$的取值要求是使得局域赝势在截断半径$r_{loc}$处连续到一阶。
+
+\textrm{Kresse}方案中赝芯电荷密度$\tilde n_c$的定义为:~在截断半径$r_{pc}$内，用两个\textrm{Bessel}函数$j_0$展开$\tilde n_c$
+$$\sum_{i=1,2}B_i\dfrac{\sin(q_ir)}r\quad r<r_{pc}$$
+类似地，要求截断半径$r_{pc}$外，$\tilde n_c$与全电子芯电荷密度$n_c$相同，系数$q_i$和$B_i$可使得赝芯电荷密度$\tilde n_c(r)$在$r_{pc}$处连续到两阶。
+
+局域离子赝势$v_H[\tilde n_{Zc}]$可由原子局域赝势$\tilde v_{\mathrm{eff}}^a$去屏蔽得到
+$$v_{\mathrm H}[\tilde n_{Zc}]=\tilde v_{\mathrm{eff}}^a-v_{\mathrm H}[\tilde n_a^1+\hat n_a]-v_{\mathrm{XC}}[\tilde n_a^1+\hat n_a+\tilde n_c]$$
+%	在\textrm{VASP}的\textrm{POTCAR}生成过程中，
+\textrm{Kresse}建议的各截断半径的参考条件:~$r_{\mathrm{rad}}=\max({r_c^l})$,$r_{pc}\approx r_{\mathrm{rad}}/1.2$,$r_{\mathrm{loc}}<r_{rad}/1.2$
+
+最后，介绍\textrm{Kresse}方案中每个原子球内用两个球\textrm{Bessel}函数展开的补偿电荷构造函数$g_l(r)$
+$$g_l(r)=\sum_{i=1}^2\alpha_i^lj_l(q_i^lr)$$
+调节系数$q_i^l$和$\alpha_i^l$使得补偿电荷构造函数$g_l(r)$在截断半径$r_{\mathrm{comp}}$处的数值和前两阶导数值都是0，因此可以选择$q_i^l$使得多极矩满足:~
+$$\int_0^{r_{\mathrm{comp}}}g_l(r)r^{l+2}\mathrm{d}r=1$$
+实际上这一条件并不难实现，只要选择$q_i^l$满足约束条件
+$$\dfrac{\mathrm{d}}{\mathrm{d}r}j_l(q_i^lr)\bigg|_{r_{\mathrm{comp}}}=0$$
+并且要求$\alpha_i^l$可使得$g_l(r_{\mathrm{comp}})=0$，即可实现。在此，\textrm{Kresse}建议的截断半径取值参考条件是:~$r_{\mathrm{comp}}=r_{\mathrm{rad}}/1.3\sim r_{\mathrm{rad}}/1.2$，主要考虑尽可能让补偿电荷局域在缀加区，防止出现\textrm{Bl\"ochl}方案中芯层区重叠。
+
+近年来，\textrm{Marsman}等突破了\textrm{Kresse}方案的“冻芯近似”，在自洽迭代计算中允许芯层电荷参与。迭代过程中要求确保价电子和芯电子的正交化，这其中的关键是(1)迭代过程中保持投影函数不变，(2)在每个自洽步中更新赝分波函数。具体可参阅文献\cite{JCP125-104101_2006}。
+
+\subsubsection{投影函数的实空间表示}
+由\textrm{PAW}的基本定义式\eqref{eq:PAW-Blochl-02}不难看出，投影函数$\tilde p_i$是关联在位原子分波($\phi_i$和$\tilde\phi_i$)和倒空间表示的赝波函数$\tilde\Psi$的枢纽。因为原子分波局域在离子实附近，显然，如果投影函数可以在实空间表示，将有效地提高计算效率。回顾赝势理论，因为构造赝波函数时，截断半径$R_l$和能量参数$E_l$都是可调的，因此可以通过参数调节，优化赝波函数、投影函数和赝势。
+
+当平面波截断$G_{\mathrm{max}}$确定条件下，投影函数在实空间的表示，实际上也就是投影函数的优化:~
+\begin{itemize}
+	\item 确定平面波截断参数$G_{\mathrm{max}}$
+	\item 投影函数正空间表示与倒空间表示满足条件
+		\begin{equation}
+			\tilde p_l(q)=\int_0^{\infty}r^2\tilde p_l(r)j_l(qr)\mathrm{d}r
+			\label{eq:projector_G_R}
+		\end{equation}
+		这里$j_l$是球\textrm{Bessel}函数。
+	\item 调节$\tilde p_l(q)$，以最小化积分
+		\begin{equation}
+			I=\int_{G_{\mathrm{max}}}^{\infty}[q\tilde p_l(q)]^2\mathrm{d}q
+			\label{eq:projector_Int}
+		\end{equation}
+		由此可确定$\tilde p_l(r)$在实空间优化的函数表示。
+\end{itemize}
+\textrm{VASP}软件中正是利用这一思想，得到优化的正空间投影函数，将物理量的计算尽可能地限制在实空间内完成，必要时再通过\textrm{FFT}变换到倒空间。这样既保留了计算的精度，又有效地降低了计算量。
+%上述讨论中主要围绕\textrm{PAW}方法对于电子结构计算的方法，没有从第一原理分子动力学\textrm{(Ab initio Molecular Dynamics, AIMD)}角度讨论体系中原子和离子的受力运动，基于平面波基组的\textrm{AIMD}计算方法的一般概念和\textrm{PAW}方法中有关原子受力问题的讨论，可参阅文献\cite{PRB47-10142_1993,PRB50-17953_1994,PRB59-1758_1999,Comput_Phys}。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=4.5in,width=3.6in,viewport=0 0 480 630,clip]{VASP_procedure.png}
+%\includegraphics[height=1.8in,width=4.in,viewport=30 210 570 440,clip]{PAW_projector.eps}
+\caption{\small \textrm{The Flow of calculation for KS-ground state in VASP.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{PAW_procedure}
+\end{figure}
+\subsection{\rm{VASP}中的优化算法}
+\textrm{VASP}的主要任务是根据\textrm{DFT}理论迭代求解\textrm{Kohn-Sham}方程，获得电子的本征态波函数，进而获得电子基态能量。主要的计算流程如图\ref{PAW_procedure}所示。\textrm{VASP}中的迭代求解基态电子密度，本质上是采用数值优化的过程。根据计算对象的不同，主要是两类优化问题:
+\begin{itemize}
+	\item 能量泛函变分在基态密度时取极小:~$\mathrm{Min}\{E[\rho(\vec r)]\}$
+	\item 迭代对角化求解\textrm{Kohn-Sham}方程本征值
+\end{itemize}
+表观上，这两类计算差别比较大，但是从数值计算的角度考虑，这两类优化本质上都可以归结为“不动点问题”\upcite{Numerical-Analysis}，因此\textrm{VASP}中应用的计算算法类似，包括最陡下降\textrm{(Steepest Descent, ST)}、共轭梯度\textrm{(Conjugate Gradient, CG)}和\textrm{RMM-DIIS~(Residual Minimization Method-Direct Inversion in the Iterative Subspace)}等。其中最有特色的是\textrm{RMM-DIIS}方法。
+
+方程迭代求解过程中，定义残量
+	\begin{displaymath}
+		(\mathbf{H}-\varepsilon^n\mathbf{S})|\psi^n\rangle=|R[\psi^n]\rangle
+	\end{displaymath}
+近似地，如果体系本征态的逼近量与残量满足线性关系，有
+\begin{displaymath}
+	|\delta\psi^{n+1}\rangle=\mathbf{K}|R[\psi^n]\rangle
+\end{displaymath}
+这里$\mathbf{K}$代表了函数优化的方向。可定义$\mathbf{K}$
+\begin{equation}
+	\mathbf{K}=\sum_{\vec q}\dfrac{|\vec q\rangle\langle\vec q|}{\langle\vec q|\mathbf{H}-\varepsilon\mathbf{S}|\vec q\rangle}
+	\label{eq:Predict}
+\end{equation}
+在\textrm{VASP}中，$\mathbf{K}$的取值为:
+\begin{displaymath}
+	\mathbf{K}=-\sum_q\dfrac{2|\vec q\rangle\langle\vec q|}{E^{\mathrm{kin}}(R)}\times\dfrac{27+18x+12x^2+8x^3}{27+18x+12x^2+8x^3+16x^4}
+\end{displaymath}
+这里$x=\dfrac{\hbar^2}{2m_e}\dfrac{q^2}{\frac32E^{\mathrm{kin}}(R)}$，$E^{\mathrm{kin}}(R)$表示残矢动能。
+
+\subsection{\rm{FFT}的并行实现}
+\textrm{VASP}计算中要处理大量的\textrm{FFT}变换。一般\textrm{FFT}计算网格数较多，为了提高计算效率，\textrm{VASP}实现了\textrm{FFT}网格计算的并行化。主要通过\textrm{VASP}的子程序\textbf{mgrid.F}实现。子程序\textbf{mgrid.F}建立了\textrm{FFT}网格和并行计算网格的映射。假设有8个计算节点，按照$2\times4$排列，则8个节点依次编号为$0~(0,1)/1~(0,2)/2~(0,3)\cdots7~(3,1)$，如果有四个平面波函数，则可以按下表分配:~
+\begin{table}[h!]
+%\tabcolsep 0pt \vspace*{-12pt}
+\caption{The topology of the Wave and the nodes.}
+\label{Table-Gpoint-Nodes}
+\begin{minipage}{\textwidth}
+%\begin{center}
+\centering
+\def\temptablewidth{0.54\textwidth}
+\rule{\temptablewidth}{1pt}
+\begin{tabular*} {\temptablewidth}{@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c}
+%-------------------------------------------------------------------------------------------------------------------------
+\textrm{Plane-Wave}  & \multicolumn{2}{c}{\textrm{multi-cores}}   \\ \hline
+%-------------------------------------------------------------------------------------------------------------------------
+\textrm{Wave~1} &0~(0,0) &1~(0,1)   \\% \cline{3-7}
+\textrm{Wave~2} &2~(1,0) &3~(1,1)   \\% \cline{3-7}
+\textrm{Wave~3} &4~(2,0) &5~(2,1)   \\% \cline{3-7}
+\textrm{Wave~4} &6~(3,0) &7~(3,1)   \\% \cline{3-7}
+%-------------------------------------------------------------------------------------------------------------------------
+\end{tabular*}
+\rule{\temptablewidth}{1pt}
+\end{minipage}%{\textwidth}
+\end{table}
+通过建立这样的映射关系，可建立平面波与计算节点的对应关系，可以方便地实施\textrm{FFT}变换，提高计算效率。
+
+综上所述，\textrm{VASP}通过对物理思想和方法、计算算法和编程过程的综合考虑，均衡计算精度和效率，成为第一原理计算高效能软件的典型代表。对\textrm{VASP~}代码的梳理和分析，也使得我们更深入地理解了\textrm{PAW~}方法的第一原理计算的方法和算法，为开发和拓展有关软件的功能提供了必要的支持。
+\section{小结}
+基于\textrm{VASP}软件，我们针对材料电子计算的基本问题如晶体结构空间群表示理论、电子基态总能计算和\textrm{Fermi~}能等展开一些讨论，重点分析了
+\begin{itemize}
+	\item 空间群与点群和平移/滑移对应关系，开发出适用于\textrm{VASP}软件的空间群分析模块;
+	\item 针对电子基态总能计算中的奇点排除问题，讨论了在高阶奇点下的\textrm{Fermi~}能表示(可与分子、原子体系对应);~
+	\item 通过对\textrm{VASP~}基本理论和程序实现的分析，指出了\textrm{VASP}软件能在第一原理计算软件中以优异的效能脱颖而出的原因。
+\end{itemize}
+上述工作，加深了我们对相关软件的理论、算法和程序代码的理解，加强了对复杂材料开展研究的能力。
+
