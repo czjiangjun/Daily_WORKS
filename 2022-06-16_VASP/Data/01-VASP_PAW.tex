@@ -1,7 +1,7 @@
-
+\section{VASP的PAW方法实现}
 \textrm{PAW}方法是\textrm{Bl\"ochl}于1994年独立提出来的一种计算方法\upcite{PRB50-17953_1994}，该方法的基本思想与\textrm{OPW}很相似，但同时结合了赝势方法和\textrm{APW}方法的优点，达到平衡计算效率和精度的目的。\textrm{PAW}方法刚提出来的时候并未引起注意，直到1999年\textrm{Kresse}指明了\textrm{PAW}方法和超软赝势(\textrm{USPP})方法的密切关联，\textrm{USPP}方法的计算程序只要经过简单改造就能扩展为\textrm{PAW}方法，有力地推动了\textrm{PAW}方法的广泛应用\upcite{PRB59-1758_1999}。现在\textrm{PAW}方法已经成为最主要的可支持第一原理分子动力学\textrm{(Ab initio Molecular Dynamics, AIMD)}。
 
-\section{\rm{PAW}方法的基本思想}
+\subsection{PAW方法的基本思想}
 与一般赝势方法不同，\textrm{PAW}方法的目标是全电子(\textrm{all-electron})波函数\footnote{注意，“全电子”在\textrm{Bl\"ochl}原始文献\cite{PRB50-17953_1994}中与“真实电子波函数”意义相近，强调电子在原子核附近的振荡行为，但并未严格区分价电子与芯电子;~而在\textrm{Kresse}的文献\cite{PRB59-1758_1999}中则是明确指价电子波函数。%强调价电子波函数因与芯层电子正交而在原子核附近振荡;
 此外，与“全电子”概念密切关联的是“全势(\textrm{full-potential})”，两者在具体语境中有一定的区别，“全势”强调的是重现价电子感受到的势函数的效果。}，体系中全部电子构成\textrm{Hilbert}空间，价电子与芯层态彼此正交，使得波函数在\textrm{Muffin-tin}球内振荡。
 \textrm{Bl\"ochl}假设全电子波函数$|\Psi\rangle$与赝波函数$|\tilde\Psi\rangle$满足线性变换，即满足：
@@ -29,7 +29,7 @@
 \label{PAW_basic}
 \end{figure}
 
-\section{PAW表示下的能量表示与补偿电荷}
+\subsubsection{PAW表示下的能量表示与补偿电荷}
 \textrm{PAW}方法通过投影算符和赝波函数实现全电子波函数计算，因此完整的\textrm{PAW}方法下，一般算符的期望值计算为
 \begin{equation}
 	\langle A \rangle=\langle\Psi|\mathbf{A}|\Psi\rangle=\langle\tilde\Psi|\mathbf{\tau}^{\dag}\mathbf{A}\mathbf{\tau}|\tilde\Psi\rangle=\langle\tilde\Psi|\tilde{\mathrm{A}}|\tilde\Psi\rangle
@@ -127,7 +127,7 @@ $f_n$是占据态的电子数。注意，这里的$n^1$和$\tilde n^1$中包含�
 	$$U_{R,R^{\prime}}=\dfrac12\int\mathrm{d}r\int\mathrm{d}r^{\prime}\dfrac{\hat n_R(r)\hat n_{R^{\prime}}(r^{\prime})-\hat n_R^{\prime}(r)\hat n_{R^{\prime}}^{\prime}(r^{\prime})}{|r-r^{\prime}|}$$
 这一项可以通过\textrm{Ewald}求和方法计算。
 
-\section{PAW方法的Kohn-Sham方程与原子分波、投影函数}
+\subsubsection{PAW表示下的Kohn-Sham方程与原子分波、投影函数}
 在\textrm{DFT}框架下，应用\textrm{PAW}方法，除了总能量的表示外，还要考虑\textrm{Kohn-Sham}方程。根据式\eqref{eq:PAW-Blochl-05}，平面波基表示的重叠算符可以写成:
 \begin{equation}
 	\tilde O=\mathbf{1}+\sum_{i,j}|\tilde p_i\rangle\bigg[\langle\phi_i|\phi_j\rangle-\langle\tilde\phi_i|\tilde\phi_j\rangle\bigg]\langle\tilde p_j|
@@ -223,123 +223,7 @@ $f_n$是占据态的电子数。注意，这里的$n^1$和$\tilde n^1$中包含�
 	\label{eq:PAW-Blochl-17}
 \end{equation}
 
-\textrm{PAW}方法除了采用平面波作为基函数，在每个原子核附近$r_c$范围内的缀加区，还保留了原子波函数和以平面波表示的赝波函数，它们构成\textrm{PAW}方法的基函数的一部分，%在\textrm{PAW}方法中，将与原子分波展开所有相关的数据统称原子数据集(data set)，
-也是\textrm{PAW}计算的基础。
-
-\textrm{PAW}与原子分波展开所有相关的数据主要包括:~
-	\begin{itemize}
-		\item 原子分波信息:~原子分波函数$\phi_i$、赝分波函数$\tilde\phi_i$和投影波函数$p_i$
-		\item 电荷密度信息:~$r_c$内的电荷密度$n^1$、赝电荷密度$\tilde n^1$和补充电荷$\hat n$
-		\item 赝势信息:~原子局域赝势$\tilde v_{\mathrm{loc}}(\vec r)$
-	\end{itemize}
-\textrm{PAW}方法的原子分波与赝势方法相似，一套原子数据集将用于各种化学环境下的\textrm{PAW}计算，即要求原子数据集有良好的可移植性;~与赝势方法不同之处在于\textrm{PAW}原子集中除了赝原子的信息，还包含了真实原子的信息。
-
-原子分波函数由原子\textrm{Schr\"odinger}方程确定
-\begin{equation}
-	\bigg(-\dfrac12\nabla^2+v_{at}-\varepsilon_i^1\bigg)|\phi_i\rangle=0
-	\label{eq:PAW-Blochl-18}
-\end{equation}
-根据\textrm{Bl\"ochl}的建议，为确定分波函数$\phi_i$，一般通过适当选择$\varepsilon_i^1$(原子价电子能量附近)，并要求在缀加区与芯层分波函数正交。实际应用中，还可以类似\textrm{LAPW}方法，对每个分波引入多个(一般是两个)分波函数。
-
-对于赝原子分波，\textrm{Bl\"ochl}建议的赝化方案与传统赝势构造类似\upcite{PRL43-1494_1979,PRB26-4199_1982,PRB40-2089_1989}:
-通过引入局域赝势:%$$w_i(r)=\tilde v_{at}(r)+c_ik(r)=\tilde v_{at}(0)\mathrm{e}^{-(r/r_k)^{\lambda}}+[1-k(r)]v_{at}(r)+c_i\mathrm{e}^{-(r/r_k)^{\lambda}}$$
-\begin{equation}
-	w_i(r)=\tilde v_{\mathrm{at}}(0)\mathrm{e}^{-(r/r_k)^{\lambda}}+[1-\mathrm{e}^{-(r/r_k)^{\lambda}}]v_{\mathrm{at}}(r)+c_i\mathrm{e}^{-(r/r_k)^{\lambda}}
-	\label{eq:PAW-Blochl-19}
-\end{equation}
-其中$\tilde v_{\mathrm{at}}$是用多项式近似的原子赝势，参数$r_k$和$\lambda$由条件在$r_c$外赝势与原子势相等确定。赝分波函数由方程
-\begin{equation}
-	\bigg(-\dfrac12\nabla^2+w_i(r)-\varepsilon_i^1\bigg)|\tilde\phi_i\rangle=0
-	\label{eq:PAW-Blochl-20}
-\end{equation}
-确定。式\eqref{eq:PAW-Blochl-19}的系数$c_i$根据赝分波函数$\tilde\phi_i$与分波函数$\phi_i$在$r_c$外相等确定。
-\begin{figure}[h!]
-\centering
-\includegraphics[height=2.6in,width=3.2in,viewport=0 0 570 545,clip]{PAW-partical.png}
-\caption{\small \textrm{The partical-wave of Fe atom.}}%(与文献\upcite{EPJB33-47_2003}图1对比)
-\label{PAW_partical_Fe}
-\end{figure}
-
-按照\textrm{Bl\"ochl}建议的投影函数的构造方案，初始形式与超软赝势的辅助函数计算类似:
-\begin{equation}
-	|\tilde p_i\rangle=\bigg(-\dfrac12\nabla^2+\tilde v_{at}-\varepsilon_i^1\bigg)|\tilde\phi_i\rangle
-	\label{eq:PAW-Blochl-21}
-\end{equation}
-考虑到投影函数与赝分波函数的正交性$\langle\tilde p_i|\tilde\phi_j\rangle=\delta_{ij}$，对于给定下标的投影函数$\tilde p_i$，要求与所有$j<i$的赝分波函数正交，因此\textrm{Bl\"ochl}采用\textrm{Gram-Schmidt}正交化方法，得到正交的投影函数
-$$|\tilde p_i\rangle=|\tilde p_i\rangle-\sum_{j=1}^{i-1}|\tilde p_j\rangle\langle\tilde\phi_j|\tilde p_i\rangle$$
-%	$$|\phi_i\rangle=|\phi_i\rangle-\sum_{j=1}^{i-1}|\phi_j\rangle\langle\tilde p_j|\tilde\phi_i\rangle$$
-%	$$|\tilde\phi_i\rangle=|\tilde\phi_i\rangle-\sum_{j=1}^{i-1}|\tilde\phi_j\rangle\langle\tilde p_j|\tilde\phi_i\rangle$$
-在此基础上，分波函数与赝分波函数也分别与投影函数正交
-$$|\phi_i\rangle=|\phi_i\rangle-\sum\limits_{j=1}^{i-1}|\phi_j\rangle\langle\tilde p_j|\tilde\phi_i\rangle$$
-$$|\tilde\phi_i\rangle=|\tilde\phi_i\rangle-\sum\limits_{j=1}^{i-1}|\tilde\phi_j\rangle\langle\tilde p_j|\tilde\phi_i\rangle$$
-最终作为基函数的$\phi_i$、$\tilde\phi_i$、$\tilde p_i$是通过迭代得到的。
-%\begin{figure}[h!]
-%\centering
-%\vspace*{-0.4in}
-%\includegraphics[height=1.5in,width=2.3in,viewport=0 0 1100 745,clip]{PAW_projector-2.png}
-%\caption{\small \textrm{The projector of PAW.}}%(与文献\upcite{EPJB33-47_2003}图1对比)
-%\label{PAW_projector}
-%\end{figure}
-%\begin{itemize}
-%	\item 与分波具有相同的角动量$l$
-%	\item 局域在缀加区域(Augmentation region)
-%	\item 节点依次增加
-%\end{itemize}
-
-与赝势的去屏蔽过程类似，%在得到赝势$\tilde v_{\mathrm{at}}$的基础上，可以计算
-缀加区的局域势表示形式为:
-\begin{equation}
-	\bar v(r)=\tilde v_{at}(r)-\int\mathrm{d}r^{\prime}\dfrac{\tilde n(r^{\prime})+\hat n(r^{\prime})}{|r-r^{\prime}|}-\mu_{xc}[\tilde n(r)]
-	\label{eq:PAW-Blochl-22}
-\end{equation}
-注意到在缀加区，式\eqref{eq:PAW-Blochl-22}由束缚态计算得到，计算电子的\textrm{Coulomb}相互作用、交换-相关势的贡献时，赝电荷密度$\tilde n(r)$包括赝芯电荷密度$\tilde n^c$和赝价电子密度。其中赝芯电荷的构造与赝势方法相同，价电子密度来自束缚态赝分波函数$|\tilde\Psi_j\rangle$，它由方程\upcite{PRB50-17953_1994}
-%中的赝电荷密度$\tilde n(r)$由赝分波波函数$|\tilde\Psi_j\rangle$确定。对于束缚态，
-\begin{equation}
-	\bigg[-\dfrac12\nabla^2+\tilde v_{at}-\varepsilon+\sum_{(i,j)}|\tilde p_i\rangle\big(\mathrm{d}H_{ij}-\varepsilon\mathrm{d}O_{ij}\big)\langle\tilde p_j|\bigg]|\tilde\Psi_j\rangle=0
-	\label{eq:PAW-Blochl-23}
-\end{equation}
-确定，式\eqref{eq:PAW-Blochl-23}中$\mathrm{d}H_{ij}$和$\mathrm{d}O_{ij}$分别是
-$$\mathrm{d}H_{ij}=\langle\phi_i|-\dfrac12\nabla^2+v_{at}|\phi_j\rangle-\langle\tilde\phi_i|-\dfrac12\nabla^2+\tilde v_{at}|\tilde\phi_j\rangle$$
-$$\mathrm{d}O_{ij}=\langle\phi_i|\phi_j\rangle-\langle\tilde\phi_i|\tilde\phi_j\rangle$$
-式\eqref{eq:PAW-Blochl-23}的求解，参见文献\cite{PRB50-17953_1994}。
-
-上述讨论不难看出，\textrm{PAW}方法的原子信息计算与赝势方法很相似，其中包括
-\begin{itemize}
-	\item 缀加局域区截断半径$r_c$
-	\item 芯电荷密度$n^c$和赝芯电荷密度$\tilde n^c$
-	\item (价)电子分波函数$|\phi_i\rangle$和赝分波函数$|\tilde\phi_i\rangle$
-	\item 矩阵元$\langle\phi_i|-\dfrac12\nabla^2|\phi_j\rangle-\langle\tilde\phi_i|-\dfrac12\nabla^2|\tilde\phi_j\rangle$和$\langle\phi_i|\phi_j\rangle-\langle\tilde\phi_i|\tilde\phi_j\rangle$
-\end{itemize}
-%如果解$$|\tilde\Psi\rangle=|u\rangle+\sum_i|w_i\rangle c_i$$
-%其中$|u\rangle$和$|w_i\rangle$的定义分别为
-%$$\big(-\frac12\nabla^2+\tilde v-\varepsilon\big)|u\rangle=0$$
-%$$\big(-\frac12\nabla^2+\tilde v-\varepsilon\big)|w_i\rangle=|\tilde p_i\rangle$$
-%因此可以得到
-%$$c_i=-\sum_{j,l}\bigg[\delta_{ij}+\sum_k\mathrm{d}H_{ik}-\varepsilon\mathrm{d}O_{ik}\langle\tilde p_k|w_j\rangle\bigg]^{-1}\big(\mathrm{d}H_{jl}-\varepsilon\mathrm{d}O_{jl}\big)\langle p_l|u\rangle$$
-
-%\frame
-%{
-%%	\frametitle{\textrm{PAW}原子数据集}
-%	\frametitle{\textrm{PAW Augmentation}}
-%\begin{figure}[h!]
-%\centering
-%\includegraphics[height=2.3in,width=4.0in,viewport=0 0 1280 745,clip]{Figures/PAW-baseset.png}
-%\caption{\small \textrm{The Augmentation of PAW.}}%(与文献\upcite{EPJB33-47_2003}图1对比)
-%\label{PAW_baiseset}
-%\end{figure}
-%}
-
-%\frame
-%{
-%	\frametitle{\textrm{PAW Augmentation}}
-%\begin{figure}[h!]
-%\centering
-%\includegraphics[height=2.3in,width=4.0in,viewport=0 0 1100 745,clip]{Figures/PAW-projector.png}
-%\caption{\small \textrm{The projector of PAW.}}%(与文献\upcite{EPJB33-47_2003}图1对比)
-%\label{PAW_projector}
-%\end{figure}
-%}
-\subsection{\rm{PAW}方法与\rm{USPP}的内在联系}
+\subsection{PAW方法与USPP的内在联系}
 %\begin{figure}[h!]
 %\centering
 %\includegraphics[height=2.3in,width=4.0in,viewport=0 0 1280 745,clip]{PAW-baseset.png}
@@ -630,8 +514,126 @@ $$D_{ij}^1=\dfrac{\partial E^1}{\partial\rho_{ij}}=\langle\phi_i|-\dfrac12\nabla
 	$$E=\sum_nf_n\langle\tilde\Psi_n|H|\tilde\Psi_n\rangle+\tilde E_{dc}+E_{dc}^1-\tilde E_{dc}^1+U(\vec R,Z_{\mathrm{ion}})$$
 \textrm{USPP}计算中，$\tilde E_{dc}^1$和$E_{dc}^1$是常数，只需要在赝势生成时计算一次即可。
 
-\subsection{\rm{PAW~}原子数据集}
-\textrm{Kresse}方案中将与原子分波有关的数据称为原子数据集(\textrm{PAW Datasets})，主要包括:~
+\subsection{PAW~中原子核附近的原子轨道基函数}
+\textrm{PAW}方法除了采用平面波作为基函数，在每个原子核附近$r_c$范围内的缀加区，还保留了原子波函数和以平面波表示的赝波函数，它们构成\textrm{PAW}方法的基函数的一部分，%在\textrm{PAW}方法中，将与原子分波展开所有相关的数据统称原子数据集(data set)，
+也是\textrm{PAW}计算的基础。
+
+\textrm{PAW}与原子分波展开所有相关的数据主要包括:~
+	\begin{itemize}
+		\item 原子分波信息:~原子分波函数$\phi_i$、赝分波函数$\tilde\phi_i$和投影波函数$p_i$
+		\item 电荷密度信息:~$r_c$内的电荷密度$n^1$、赝电荷密度$\tilde n^1$和补充电荷$\hat n$
+		\item 赝势信息:~原子局域赝势$\tilde v_{\mathrm{loc}}(\vec r)$
+	\end{itemize}
+\textrm{PAW}方法的原子分波与赝势方法相似，一套原子数据集将用于各种化学环境下的\textrm{PAW}计算，即要求原子数据集有良好的可移植性;~与赝势方法不同之处在于\textrm{PAW}原子集中除了赝原子的信息，还包含了真实原子的信息。
+
+原子分波函数由原子\textrm{Schr\"odinger}方程确定
+\begin{equation}
+	\bigg(-\dfrac12\nabla^2+v_{at}-\varepsilon_i^1\bigg)|\phi_i\rangle=0
+	\label{eq:PAW-Blochl-18}
+\end{equation}
+根据\textrm{Bl\"ochl}的建议，为确定分波函数$\phi_i$，一般通过适当选择$\varepsilon_i^1$(原子价电子能量附近)，并要求在缀加区与芯层分波函数正交。实际应用中，还可以类似\textrm{LAPW}方法，对每个分波引入多个(一般是两个)分波函数。
+
+对于赝原子分波，\textrm{Bl\"ochl}建议的赝化方案与传统赝势构造类似\upcite{PRL43-1494_1979,PRB26-4199_1982,PRB40-2089_1989}:
+通过引入局域赝势:%$$w_i(r)=\tilde v_{at}(r)+c_ik(r)=\tilde v_{at}(0)\mathrm{e}^{-(r/r_k)^{\lambda}}+[1-k(r)]v_{at}(r)+c_i\mathrm{e}^{-(r/r_k)^{\lambda}}$$
+\begin{equation}
+	w_i(r)=\tilde v_{\mathrm{at}}(0)\mathrm{e}^{-(r/r_k)^{\lambda}}+[1-\mathrm{e}^{-(r/r_k)^{\lambda}}]v_{\mathrm{at}}(r)+c_i\mathrm{e}^{-(r/r_k)^{\lambda}}
+	\label{eq:PAW-Blochl-19}
+\end{equation}
+其中$\tilde v_{\mathrm{at}}$是用多项式近似的原子赝势，参数$r_k$和$\lambda$由条件在$r_c$外赝势与原子势相等确定。赝分波函数由方程
+\begin{equation}
+	\bigg(-\dfrac12\nabla^2+w_i(r)-\varepsilon_i^1\bigg)|\tilde\phi_i\rangle=0
+	\label{eq:PAW-Blochl-20}
+\end{equation}
+确定。式\eqref{eq:PAW-Blochl-19}的系数$c_i$根据赝分波函数$\tilde\phi_i$与分波函数$\phi_i$在$r_c$外相等确定。
+\begin{figure}[h!]
+\centering
+\includegraphics[height=2.6in,width=3.2in,viewport=0 0 570 545,clip]{PAW-partical.png}
+\caption{\small \textrm{The partical-wave of Fe atom.}}%(与文献\upcite{EPJB33-47_2003}图1对比)
+\label{PAW_partical_Fe}
+\end{figure}
+
+按照\textrm{Bl\"ochl}建议的投影函数的构造方案，初始形式与超软赝势的辅助函数计算类似:
+\begin{equation}
+	|\tilde p_i\rangle=\bigg(-\dfrac12\nabla^2+\tilde v_{at}-\varepsilon_i^1\bigg)|\tilde\phi_i\rangle
+	\label{eq:PAW-Blochl-21}
+\end{equation}
+考虑到投影函数与赝分波函数的正交性$\langle\tilde p_i|\tilde\phi_j\rangle=\delta_{ij}$，对于给定下标的投影函数$\tilde p_i$，要求与所有$j<i$的赝分波函数正交，因此\textrm{Bl\"ochl}采用\textrm{Gram-Schmidt}正交化方法，得到正交的投影函数
+$$|\tilde p_i\rangle=|\tilde p_i\rangle-\sum_{j=1}^{i-1}|\tilde p_j\rangle\langle\tilde\phi_j|\tilde p_i\rangle$$
+%	$$|\phi_i\rangle=|\phi_i\rangle-\sum_{j=1}^{i-1}|\phi_j\rangle\langle\tilde p_j|\tilde\phi_i\rangle$$
+%	$$|\tilde\phi_i\rangle=|\tilde\phi_i\rangle-\sum_{j=1}^{i-1}|\tilde\phi_j\rangle\langle\tilde p_j|\tilde\phi_i\rangle$$
+在此基础上，分波函数与赝分波函数也分别与投影函数正交
+$$|\phi_i\rangle=|\phi_i\rangle-\sum\limits_{j=1}^{i-1}|\phi_j\rangle\langle\tilde p_j|\tilde\phi_i\rangle$$
+$$|\tilde\phi_i\rangle=|\tilde\phi_i\rangle-\sum\limits_{j=1}^{i-1}|\tilde\phi_j\rangle\langle\tilde p_j|\tilde\phi_i\rangle$$
+最终作为基函数的$\phi_i$、$\tilde\phi_i$、$\tilde p_i$是通过迭代得到的。
+%\begin{figure}[h!]
+%\centering
+%\vspace*{-0.4in}
+%\includegraphics[height=1.5in,width=2.3in,viewport=0 0 1100 745,clip]{PAW_projector-2.png}
+%\caption{\small \textrm{The projector of PAW.}}%(与文献\upcite{EPJB33-47_2003}图1对比)
+%\label{PAW_projector}
+%\end{figure}
+%\begin{itemize}
+%	\item 与分波具有相同的角动量$l$
+%	\item 局域在缀加区域(Augmentation region)
+%	\item 节点依次增加
+%\end{itemize}
+
+与赝势的去屏蔽过程类似，%在得到赝势$\tilde v_{\mathrm{at}}$的基础上，可以计算
+缀加区的局域势表示形式为:
+\begin{equation}
+	\bar v(r)=\tilde v_{at}(r)-\int\mathrm{d}r^{\prime}\dfrac{\tilde n(r^{\prime})+\hat n(r^{\prime})}{|r-r^{\prime}|}-\mu_{xc}[\tilde n(r)]
+	\label{eq:PAW-Blochl-22}
+\end{equation}
+注意到在缀加区，式\eqref{eq:PAW-Blochl-22}由束缚态计算得到，计算电子的\textrm{Coulomb}相互作用、交换-相关势的贡献时，赝电荷密度$\tilde n(r)$包括赝芯电荷密度$\tilde n^c$和赝价电子密度。其中赝芯电荷的构造与赝势方法相同，价电子密度来自束缚态赝分波函数$|\tilde\Psi_j\rangle$，它由方程\upcite{PRB50-17953_1994}
+%中的赝电荷密度$\tilde n(r)$由赝分波波函数$|\tilde\Psi_j\rangle$确定。对于束缚态，
+\begin{equation}
+	\bigg[-\dfrac12\nabla^2+\tilde v_{at}-\varepsilon+\sum_{(i,j)}|\tilde p_i\rangle\big(\mathrm{d}H_{ij}-\varepsilon\mathrm{d}O_{ij}\big)\langle\tilde p_j|\bigg]|\tilde\Psi_j\rangle=0
+	\label{eq:PAW-Blochl-23}
+\end{equation}
+确定，式\eqref{eq:PAW-Blochl-23}中$\mathrm{d}H_{ij}$和$\mathrm{d}O_{ij}$分别是
+$$\mathrm{d}H_{ij}=\langle\phi_i|-\dfrac12\nabla^2+v_{at}|\phi_j\rangle-\langle\tilde\phi_i|-\dfrac12\nabla^2+\tilde v_{at}|\tilde\phi_j\rangle$$
+$$\mathrm{d}O_{ij}=\langle\phi_i|\phi_j\rangle-\langle\tilde\phi_i|\tilde\phi_j\rangle$$
+式\eqref{eq:PAW-Blochl-23}的求解，参见文献\cite{PRB50-17953_1994}。
+
+上述讨论不难看出，\textrm{PAW}方法的原子信息计算与赝势方法很相似，其中包括
+\begin{itemize}
+	\item 缀加局域区截断半径$r_c$
+	\item 芯电荷密度$n^c$和赝芯电荷密度$\tilde n^c$
+	\item (价)电子分波函数$|\phi_i\rangle$和赝分波函数$|\tilde\phi_i\rangle$
+	\item 矩阵元$\langle\phi_i|-\dfrac12\nabla^2|\phi_j\rangle-\langle\tilde\phi_i|-\dfrac12\nabla^2|\tilde\phi_j\rangle$和$\langle\phi_i|\phi_j\rangle-\langle\tilde\phi_i|\tilde\phi_j\rangle$
+\end{itemize}
+%如果解$$|\tilde\Psi\rangle=|u\rangle+\sum_i|w_i\rangle c_i$$
+%其中$|u\rangle$和$|w_i\rangle$的定义分别为
+%$$\big(-\frac12\nabla^2+\tilde v-\varepsilon\big)|u\rangle=0$$
+%$$\big(-\frac12\nabla^2+\tilde v-\varepsilon\big)|w_i\rangle=|\tilde p_i\rangle$$
+%因此可以得到
+%$$c_i=-\sum_{j,l}\bigg[\delta_{ij}+\sum_k\mathrm{d}H_{ik}-\varepsilon\mathrm{d}O_{ik}\langle\tilde p_k|w_j\rangle\bigg]^{-1}\big(\mathrm{d}H_{jl}-\varepsilon\mathrm{d}O_{jl}\big)\langle p_l|u\rangle$$
+
+%\frame
+%{
+%%	\frametitle{\textrm{PAW}原子数据集}
+%	\frametitle{\textrm{PAW Augmentation}}
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[height=2.3in,width=4.0in,viewport=0 0 1280 745,clip]{Figures/PAW-baseset.png}
+%\caption{\small \textrm{The Augmentation of PAW.}}%(与文献\upcite{EPJB33-47_2003}图1对比)
+%\label{PAW_baiseset}
+%\end{figure}
+%}
+
+%\frame
+%{
+%	\frametitle{\textrm{PAW Augmentation}}
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[height=2.3in,width=4.0in,viewport=0 0 1100 745,clip]{Figures/PAW-projector.png}
+%\caption{\small \textrm{The projector of PAW.}}%(与文献\upcite{EPJB33-47_2003}图1对比)
+%\label{PAW_projector}
+%\end{figure}
+%}
+
+\subsubsection{VASP~中的原子数据集}
+\textrm{Kresse}方案中将与原子分波有关的数据称为原子数据集(\textrm{PAW Datasets})，这是\textrm{VASP}的主要计算文件\textrm{POTCAR}的数据构建方式，主要包括:~
 \begin{enumerate}
 	\item 全电子分波函数$\phi_i$和赝分波函数$\tilde\phi_i$
 	\item 投影函数$\tilde p_i$
@@ -677,6 +679,104 @@ $$\int_0^{r_{\mathrm{comp}}}g_l(r)r^{l+2}\mathrm{d}r=1$$
 实际上这一条件并不难实现，只要选择$q_i^l$满足约束条件
 $$\dfrac{\mathrm{d}}{\mathrm{d}r}j_l(q_i^lr)\bigg|_{r_{\mathrm{comp}}}=0$$
 并且要求$\alpha_i^l$可使得$g_l(r_{\mathrm{comp}})=0$，即可实现。在此，\textrm{Kresse}建议的截断半径取值参考条件是:~$r_{\mathrm{comp}}=r_{\mathrm{rad}}/1.3\sim r_{\mathrm{rad}}/1.2$，主要考虑尽可能让补偿电荷局域在缀加区，防止出现\textrm{Bl\"ochl}方案中芯层区重叠。
+
+近年来，\textrm{Marsman}等突破了\textrm{Kresse}方案的“冻芯近似”，在自洽迭代计算中允许芯层电荷参与。迭代过程中要求确保价电子和芯电子的正交化，这其中的关键是(1)迭代过程中保持投影函数不变，(2)在每个自洽步中更新赝分波函数。具体可参阅文献\cite{JCP125-104101_2006}。
+
+\subsubsection{投影函数的实空间表示}
+%\textrm{PAW}方法是\textrm{Bl\"ochl}于1994年独立提出来的一种计算方法\upcite{PRB50-17953_1994}，该方法同时结合了赝势方法和\textrm{APW}方法的优点，达到平衡计算效率和精度的目的。\textrm{PAW}方法刚提出来的时候并未引起注意，直到1999年\textrm{Kresse}讨论了\textrm{PAW}方法和超软赝势\textrm{(Ultra-Soft Pseudo-Potential, USPP)}方法的密切关联，指出\textrm{USPP}方法的计算程序简单改造就能引入\textrm{PAW}方法，才推动了\textrm{PAW}方法的广泛应用。\upcite{PRB59-1758_1999}现在\textrm{PAW}方法已经成为最主要的可支持第一原理分子动力学\textrm{(Ab initio Molecular Dynamics, AIMD)}的计算方法。
+由\textrm{PAW}的基本定义式\eqref{eq:PAW-Blochl-02}不难看出，投影函数$\tilde p_i$是关联在位原子分波($\phi_i$和$\tilde\phi_i$)和倒空间表示的赝波函数$\tilde\Psi$的枢纽。因为原子分波局域在离子实附近，显然，如果投影函数可以在实空间表示，将有效地提高计算效率。回顾赝势理论，因为构造赝波函数时，截断半径$R_l$和能量参数$E_l$都是可调的，因此可以通过参数调节，优化赝波函数、投影函数和赝势。
+
+当平面波截断$G_{\mathrm{max}}$确定条件下，投影函数在实空间的表示，实际上也就是投影函数的优化:~
+\begin{itemize}
+	\item 确定平面波截断参数$G_{\mathrm{max}}$
+	\item 投影函数正空间表示与倒空间表示满足条件
+		\begin{equation}
+			\tilde p_l(q)=\int_0^{\infty}r^2\tilde p_l(r)j_l(qr)\mathrm{d}r
+			\label{eq:projector_G_R}
+		\end{equation}
+		这里$j_l$是球\textrm{Bessel}函数。
+	\item 调节$\tilde p_l(q)$，以最小化积分
+		\begin{equation}
+			I=\int_{G_{\mathrm{max}}}^{\infty}[q\tilde p_l(q)]^2\mathrm{d}q
+			\label{eq:projector_Int}
+		\end{equation}
+		由此可确定$\tilde p_l(r)$在实空间优化的函数表示。
+\end{itemize}
+\textrm{VASP}软件中正是利用这一思想，得到优化的正空间投影函数，将物理量的计算尽可能地限制在实空间内完成，必要时再通过\textrm{FFT}变换到倒空间。这样既保留了计算的精度，又有效地降低了计算量。
+%上述讨论中主要围绕\textrm{PAW}方法对于电子结构计算的方法，没有从第一原理分子动力学\textrm{(Ab initio Molecular Dynamics, AIMD)}角度讨论体系中原子和离子的受力运动，基于平面波基组的\textrm{AIMD}计算方法的一般概念和\textrm{PAW}方法中有关原子受力问题的讨论，可参阅文献\cite{PRB47-10142_1993,PRB50-17953_1994,PRB59-1758_1999,Comput_Phys}。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=4.5in,width=3.6in,viewport=0 0 480 630,clip]{VASP_procedure.png}
+%\includegraphics[height=1.8in,width=4.in,viewport=30 210 570 440,clip]{PAW_projector.eps}
+\caption{\small \textrm{The Flow of calculation for KS-ground state in VASP.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{PAW_procedure}
+\end{figure}
+
+\subsection{VASP~中的优化算法}
+\textrm{VASP}的主要任务是根据\textrm{DFT}理论迭代求解\textrm{Kohn-Sham}方程，获得电子的本征态波函数，进而获得电子基态能量。主要的计算流程如图\ref{PAW_procedure}所示。\textrm{VASP}中的迭代求解基态电子密度，本质上是采用数值优化的过程。根据计算对象的不同，主要是两类优化问题:
+\begin{itemize}
+	\item 能量泛函变分在基态密度时取极小:~$\mathrm{Min}\{E[\rho(\vec r)]\}$
+	\item 迭代对角化求解\textrm{Kohn-Sham}方程本征值
+\end{itemize}
+表观上，这两类计算差别比较大，但是从数值计算的角度考虑，这两类优化本质上都可以归结为“不动点问题”\upcite{Numerical-Analysis}，因此\textrm{VASP}中应用的计算算法类似，包括最陡下降\textrm{(Steepest Descent, ST)}、共轭梯度\textrm{(Conjugate Gradient, CG)}和\textrm{RMM-DIIS~(Residual Minimization Method-Direct Inversion in the Iterative Subspace)}等。其中最有特色的是\textrm{RMM-DIIS}方法。
+
+方程迭代求解过程中，定义残量
+	\begin{displaymath}
+		(\mathbf{H}-\varepsilon^n\mathbf{S})|\psi^n\rangle=|R[\psi^n]\rangle
+	\end{displaymath}
+近似地，如果体系本征态的逼近量与残量满足线性关系，有
+\begin{displaymath}
+	|\delta\psi^{n+1}\rangle=\mathbf{K}|R[\psi^n]\rangle
+\end{displaymath}
+这里$\mathbf{K}$代表了函数优化的方向。可定义$\mathbf{K}$
+\begin{equation}
+	\mathbf{K}=\sum_{\vec q}\dfrac{|\vec q\rangle\langle\vec q|}{\langle\vec q|\mathbf{H}-\varepsilon\mathbf{S}|\vec q\rangle}
+	\label{eq:Predict}
+\end{equation}
+在\textrm{VASP}中，$\mathbf{K}$的取值为:
+\begin{displaymath}
+	\mathbf{K}=-\sum_q\dfrac{2|\vec q\rangle\langle\vec q|}{E^{\mathrm{kin}}(R)}\times\dfrac{27+18x+12x^2+8x^3}{27+18x+12x^2+8x^3+16x^4}
+\end{displaymath}
+这里$x=\dfrac{\hbar^2}{2m_e}\dfrac{q^2}{\frac32E^{\mathrm{kin}}(R)}$，$E^{\mathrm{kin}}(R)$表示残矢动能。
+
+\subsection{FFT~并行实现}
+\textrm{VASP}计算中要处理大量的\textrm{FFT}变换。一般\textrm{FFT}计算网格数较多，为了提高计算效率，\textrm{VASP}实现了\textrm{FFT}网格计算的并行化。主要通过\textrm{VASP}的子程序\textbf{mgrid.F}实现。子程序\textbf{mgrid.F}建立了\textrm{FFT}网格和并行计算网格的映射。假设有8个计算节点，按照$2\times4$排列，则8个节点依次编号为$0~(0,1)/1~(0,2)/2~(0,3)\cdots7~(3,1)$，如果有四个平面波函数，则可以按下表分配:~
+\begin{table}[h!]
+%\tabcolsep 0pt \vspace*{-12pt}
+\caption{The topology of the Wave and the nodes.}
+\label{Table-Gpoint-Nodes}
+\begin{minipage}{\textwidth}
+%\begin{center}
+\centering
+\def\temptablewidth{0.54\textwidth}
+\rule{\temptablewidth}{1pt}
+\begin{tabular*} {\temptablewidth}{@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c}
+%-------------------------------------------------------------------------------------------------------------------------
+\textrm{Plane-Wave}  & \multicolumn{2}{c}{\textrm{multi-cores}}   \\ \hline
+%-------------------------------------------------------------------------------------------------------------------------
+\textrm{Wave~1} &0~(0,0) &1~(0,1)   \\% \cline{3-7}
+\textrm{Wave~2} &2~(1,0) &3~(1,1)   \\% \cline{3-7}
+\textrm{Wave~3} &4~(2,0) &5~(2,1)   \\% \cline{3-7}
+\textrm{Wave~4} &6~(3,0) &7~(3,1)   \\% \cline{3-7}
+%-------------------------------------------------------------------------------------------------------------------------
+\end{tabular*}
+\rule{\temptablewidth}{1pt}
+\end{minipage}%{\textwidth}
+\end{table}
+通过建立这样的映射关系，可建立平面波与计算节点的对应关系，可以方便地实施\textrm{FFT}变换，提高计算效率。
+
+综上所述，\textrm{VASP}通过对物理思想和方法、计算算法和编程过程的综合考虑，均衡计算精度和效率，成为第一原理计算高效能软件的典型代表。对\textrm{VASP~}代码的梳理和分析，也使得我们更深入地理解了\textrm{PAW~}方法的第一原理计算的方法和算法，为开发和拓展有关软件的功能提供了必要的支持。
+
+\subsection{小结}
+基于\textrm{VASP}软件，我们针对材料电子计算的基本问题如晶体结构空间群表示理论、电子基态总能计算和\textrm{Fermi~}能等展开一些讨论，重点分析了
+\begin{itemize}
+	\item 空间群与点群和平移/滑移对应关系，开发出适用于\textrm{VASP}软件的空间群分析模块;
+	\item 针对电子基态总能计算中的奇点排除问题，讨论了在高阶奇点下的\textrm{Fermi~}能表示(可与分子、原子体系对应);~
+	\item 通过对\textrm{VASP~}基本理论和程序实现的分析，指出了\textrm{VASP}软件能在第一原理计算软件中以优异的效能脱颖而出的原因。
+\end{itemize}
+上述工作，加深了我们对相关软件的理论、算法和程序代码的理解，加强了对复杂材料开展研究的能力。
+
 
 近年来，\textrm{Marsman}等突破了\textrm{Kresse}方案的“冻芯近似”，在自洽迭代计算中允许芯层电荷参与。迭代过程中要求确保价电子和芯电子的正交化，这其中的关键是(1)迭代过程中保持投影函数不变，(2)在每个自洽步中更新赝分波函数。具体可参阅文献\cite{JCP125-104101_2006}。
 

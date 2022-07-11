@@ -1,0 +1,263 @@
+\section{高效并行与并发式自动流程算法实现} \label{chap:parallel_Concurrent}
+高性能计算(\textrm{High~performance~computing, HPC})是计算机科学的一个分支，最早起源可追溯到20世纪70年代，其经历了从早期的巨型计算机到向量机，再到大规模并行处理的\textrm{MPP}~计算机和集群处理的超级计算机的发展历程。高性能计算机通过各种互联技术将多个标准计算机系统或者多个高度专用的硬件连接在一起，构成一个计算机集群系统(\textrm{computer cluster})，使用大量处理器、内存和存储设备结合大规模专业软件组成的综合计算能力，主要用于解决大型计算问题。
+
+%完整的计算集群从基本层次上可划分为:~计算单元、管理系统、网络系统、共享存储系统、集群软件和应用软件等部分，其中计算单元包含：双路和多路计算单元；管理系统包含：管理结点和登陆结点；网络系统包含：管理网络、计算网络；共享存储系统包含：\textrm{I/O}~节点、存储设备、集群文件系统；集群软件包含：操作系统、集群管理软件、作业调度、编译环境、并行计算中间件、数学函数库等；
+随着信息化社会和大数据的快速发展，%人类对科技创新、信息处理能力的要求越来越高，不仅在生物、工程、石油勘探、气象预报、航天国防、科学研究等领域得到了广泛的使用，而且在金额、政府信息化、教育、企业、网络游戏等领域的应用也取得了迅速发展。
+高性能计算技术作为工具，为各学科、行业提供越来越重要的支持，大大促进了社会的生产和创新能力。从材料科学的分子动力学模拟、气象科学的数值模拟、生命科学中的基因分析、分子成像到汽车碰撞安全、电子家电乃至航空航天等领域都越来越倚重高性能计算；石油天然气与地球科学、建筑工程、媒体娱乐等行业，都需要专业的图形渲染能力，有强烈的计算可视化需求。
+
+%随着模拟精度的提高、处理问题的深入和处理对象复杂程度的增大，对计算资源和计算机性能也提出越来越高的需求。基于模拟仿真的工程科学结合传统工程领域的知识技术与高性能计算，提供经济高效地设计与实践方法，例如新材料的研发制备过程需要多重复杂流动物理现象模拟、纳米技术领域的复合材料结构分析和功能预测、新材料的发明都需要进行高性能计算进行实验模拟验证。
+
+进入20世纪90年代，伴随着理论化学、计算物理方法的快速发展以及计算机软硬件技术不断升级和更新，计算材料科学获得了空前发展，它与物理、化学、工程力学以及应用数学等诸多基础和应用学科日益交叉并融合，逐渐成为一门新兴学科，在材料研究中发挥越来越重要的作用\upcite{NatMat3-429_2004,App-CataA254-5_2003,JACS125-4306_2003,JCombChem5-472_2003,Meas_Sci-Tech16-1_2005,Nature392-694_1998}。尤其值得注意的是，近年来，得益于高精度的多尺度计算方法和高性能并行计算技术的突破\upcite{PRL88-255506_2002,Nano-Lett3-1183_2003}，高通量(\textrm{high~throughput})材料计算\footnote{材料研究领域的高通量\upcite{Nature410-643_2001}，最先借鉴自药物合成中的组合合成与筛选\textrm{(combinatorial synthesis and screening)}的思想而出现的，组合与筛选研究兴起于1990年代中期\upcite{Science268-1738_1995}，在21世纪最初十年，逐渐扩展到计算材料研究领域，形成“高通量材料计算”的理念。}在创新发展新材料、发现新现象方面显现出强大的能力，借助机器学习技术进行材料性能预测，加速材料属性改善、优化和提升，是近年来的研究热点，前景广阔。
+
+针对材料计算的特点，为适应材料科学软件的运行特点而搭建的分布式计算环境称为计算材料集群，其拓扑结构(\textrm{topological structure})如图\ref{Fig:HPC_Cluster}所示。
+\begin{figure}[h!]
+\centering
+\includegraphics[height=2.1in,width=4.3in,viewport=0 0 400 210,clip]{HPC_Material-Cluster.png}%}
+\caption{计算材料集群的基本拓扑结构.}%
+\label{Fig:HPC_Cluster}
+\end{figure}
+和通用的高性能计算集群相比，计算材料集群有其自身的一些特色:~比如集群主要面向不同应用场景下的材料模拟和计算任务，因此将集成更多的并行编程工具和应用中间件，以支撑不同尺度下的材料计算软件的运行环境；当前材料模拟的主要计算需求来自微观尺度的第一原理和分子动力学部分，因此需要更大的并行规模和更灵活的调度策略；计算材料软件运行过程中需要处理大量的微分方程迭代求解问题，要求集群支持更多多路计算设备和更大内存计算设备；近年来，随着\textrm{GPU}加速计算的流行，对集群支持异构计算\textrm{(Heterogeneous Computing)}的需求日益强烈，因此具备专业的\textrm{GPU}协处理器加速，并可支持\textrm{CUDA}的开发环境的计算集群也越来越流行；计算材料科学领域的研究软件有相当部分是开源的自由软件，要求集群提供更为自由、开放和灵活的运行环境等等。\upcite{NatMat12-191_2013}
+
+%因为材料计算学的数据特征，导致材料计算需要高性能计算来实现。传统的材料设计主要有以下几个模块。优化模块接收模块；知识获取模块以及计算模块。在高性能计算模式逐渐转化成为网络系统之后，这些模块的识别和人工智能的神经网络为基础的专家系统成为了主流，目前在处理材料科学记录中，越来越多的应用在处理规律不明显，组分变量多，非线性方法问题复杂的特殊性能的情况下，这种系统的优越性凸显出来，并且可以通过对数学模型以及计算结果的验证进行分析和处理。
+
+进入21世纪以后，欧洲、日本、美国等发达国家先后启动了以多尺度模拟、研发和科学设计为手段，提升材料设计成功率，缩短材料开发周期为目的的多种类型的国家级科研专项，其中以美国的“材料基因组计划\textrm{(Materials Genome Initiative， MGI)}”\upcite{MGI_USA}最为著名。该计划的根本目的是通过增效集成各个尺度的材料模拟工具、高效实验手段和数据库，把材料研发从传统经验式试错提升到有科学理论指导的理性设计，以期大幅缩短材料的研发周期。我国也于2016年起启动了国家重点研发计划“材料基因工程关键技术与支撑平台”，推动我国在相关领域的研究和跟进。
+
+实现材料物性设计与模拟计算的高通量自动运行是“材料基因组”计划的核心内涵之一， 已在能源材料预测\upcite{PRL108-068701_2012}、拓扑绝缘体发现\upcite{RMP82-3045_2010}、热电材料\upcite{JACS128-12140_2006}、催化材料\upcite{ACIE46-6016_2007}、轻质镁合金研究\upcite{PRB84-084101_2011}、超导材料\upcite{PRL105-217003_2010}、磁性材料\upcite{NatMat10-158_2011,JPD40-R337_2007}，复杂多组元化合物表面设计\upcite{Science316-732_2007,ACSNano5-247_2011}，对二元或三元化合物结构稳定性判断\upcite{PRB85-144116_2012}，以及高强高温合金等体系中有广泛的成功应用和尝试。因为不同尺度下的材料组成基本单元服从不同的物理规律，使用的模拟与计算软件也千差万别，因此从应用软件组织的角度说，高通量自动流程主要面向材料模拟和计算过程的文件组织、软件提交和数据分析过程的自动实现，重点围绕以下问题:~
+\begin{itemize}
+	\item 材料计算和模拟软件\textrm{I/O}数据生成、传递的自动化;
+	\item 计算和模拟作业提交、控制及执行的自动化;
+	\item 计算中间结果和最终结果的解析和可视化展示的自动化。
+\end{itemize}
+伴随着高通量的新材料计算、设计和优化实现过程，一大批开放型材料物性数据库也应运而生。随着材料数据的不断积累、丰富和充实，辅之以数据挖掘(\textrm{data mining})技术，有望加快材料设计、优选的进程。
+
+\subsection{高效并行与并发环境下的实时自动流程}
+在讨论材料计算的自动流程之前，首先明确一下并行(\textrm{parallel})和并发(\textrm{concurrent})的区别:~计算机学科中，并行和并发是两个既关联又有区别的概念，并行与串行(\textrm{serial})相对，侧重于强调某一任务执行过程中有可能被分解成多个独立的部分，分别提交到多个处理器上同时执行;~并发与顺序(\textrm{sequential})相对，更多是从用户角度描述，可同时向处理器提交多个任务，但对处理器而言，实际是通过分时(\textrm{time-sharing})技术分别来完成这些并发任务的，并非像并行那样真正做到“同时”处理。\textrm{ Joe Armstrong}曾用排队接咖啡的漫画(图\ref{Fig:Current_and_Parallel})形象地说明了并发和并行的区别。
+\begin{figure}[h!]
+\centering
+\includegraphics[height=3.1in,width=4.3in,viewport=0 0 600 450,clip]{concurrent_and_parallel.jpg}%}
+\caption{\textrm{Joe Armstrong}用排队接咖啡的漫画形象地说明了并发和并行的区别.}%
+\label{Fig:Current_and_Parallel}
+\end{figure}
+
+通用的计算机集群都配备管理调度系统，负责对硬件、用户和计算资源进行有效分配、组织和管理，其中作业管理系统支持用户队列产生的作业提交、调度和监控，这些都是并发处理的。具体到材料模拟计算过程，自动流程也会对计算作业的提交、计算软件的组织和运行产生一定的影响。与通用的作业调度最重要的区别在于，前者主要通过提供、组织材料计算核心软件所需的文件，调度材料计算核心软件的运行所要求的资源，确定计算优先级和运行模式，确保完整的材料模拟计算过程在集群上稳定执行。换言之，作业调度更多侧重于计算机软硬件层面的资源管理，计算流程更多负责提供和调控材料模拟所需物理信息。
+
+对一个材料计算作业来说，在完成计算核心软件所需控制文件和参数传递后，一旦作业被提交，计算进程就由作业管理系统接管，自动流程一般不会对进程进行干预，但对计算过程的产生的文件和输出会保持监控，直到核心计算软件进程结束，自动流程再从作业管理系统处接管作业的控制权，通过必要判断——如检测计算进程是否属于正常结束、后续计算控制参数是否正确产生——然后决定是否继续启动后续作业进程。材料计算核心软件一般都可以并行执行，如流行的第一原理计算软件\textrm{VASP}\upcite{VASP_manual}、\textrm{ABINIT}\upcite{CMS25-478_2002,CPC180-2175_2009}、\textrm{Siesta}\upcite{JPCM14-2745_2002,JCP152-204108_2020}以及量子化学软件\textrm{Gaussian}\upcite{Gaussian-UG_2004}、\textrm{ADF}\upcite{ADF-UG_1995}等，都有较好的\textrm{MPI}并行能力；分子动力学软件如\textrm{LAMMPS}\upcite{JCP117-1_1995}、\textrm{Gromacs}\upcite{JCC26-1701_2005}等不仅可以具备\textrm{MPI}并行能力，近年来利用\textrm{GPU}加速，计算能力得到进一步的提升。
+
+当前材料计算的自动流程主要以支持原子、分子尺度等微观模拟计算为主，目标是实现材料电子结构、分子动力学和热力学物理量计算流程的自动化，并建立相应的数据库。一般材料计算的自动流程和数据库的示意简图如\ref{Fig:MP_data_flow}所示。
+\begin{figure}[h!]
+\centering
+\includegraphics[height=3.1in,width=4.3in,viewport=0 0 800 650,clip]{MP_data_flow.png}%}
+\caption{一般材料计算自动流程中的数据流示意(引自文献\upcite{CMS49-299_2010}).}%
+\label{Fig:MP_data_flow}
+\end{figure}
+%\section{材料基因组的基本思想}
+
+近年来国际上涌现的知名高效材料计算自动流程软件主要有:~\textrm{Automatic Flow(AFLOW)}\upcite{CMS49-299_2010}，\textrm{Materials Project(MP)}\upcite{CMS50-2295_2011}，\textrm{Quantum Materials Informatics Project (QMIP)}\upcite{QMIP_URL}，\textrm{Clean Energy Project (CEP)}\upcite{JPCL2-2241_2011}，\textrm{Atomic Simulation Environment (ASE)}\upcite{JPCM29-273002_2017}以及我国中科院计算机网络信息中心杨小渝等开发的\textrm{Matcloud}\upcite{CMS146-319_2018}等。这些软件主要通过集成密度泛函理论\textrm{(DFT)}为基础的第一原理和分子动力学程序，如\textrm{VASP}、\textrm{Quantum ESPRESSO (QE)}\upcite{JPCM21-395502_2009}、\textrm{ABINIT}\upcite{CPC180-2582_2009}、\textrm{Gaussian}、\textrm{LAMMPS}、\textrm{CP2k}\upcite{JCP152-194103_2020}等，完成材料的微观电子结构和相关物性计算。与传统的材料计算不同，高通量自动流程的最终目标之一是建立系统的材料数据库，高通量计算的结果在自动流程的终端将存储到对应的材料数据库中。
+
+%\section{主要高通量材料计算自动流程软件与实现}
+材料计算的自动流程实现了对传统材料计算与模拟过程的完全自动化与程序化，而高通量计算主要解决材料计算大规模数据生成和筛选的问题。目前的高通量材料计算以支持第一原理\textrm{DFT}计算为主，少数可支持跨尺度/多尺度\textrm{(DFT-MD)}计算。考虑材料计算过程的一般特点，不难发现，自动流程主体结构主要包括: 
+\begin{enumerate}
+	\item 结构建模自动化、计算流程参数控制;
+	\item 计算任务生成与提交，计算进程监控与修正;
+	\item 计算结果数据分析、可视化;
+	\item 材料数据的传输与数据库管理。
+\end{enumerate}
+不同软件的主要区别在于，程序主体结构实现采用的编程语言和支持框架不同，主体结构之间的耦合程度不同。以下将简要介绍各种高通量材料模拟自动流程软件的结构和程序实现。
+
+\subsubsection{\rm{AFLOW}}
+\begin{figure}[h!]
+\centering
+\includegraphics[height=2.4in,width=3.2in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
+%\includegraphics[height=1.2in,width=1.7in,viewport=0 0 670 530,clip]{MP_comp_infrastructure.png}%}
+%\includegraphics[height=1.2in,width=1.7in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
+%\includegraphics[height=1.2in,width=1.6in,viewport=0 0 1020 730,clip]{CEP_structure_flow.png}%}
+\caption{\textrm{AFLOW}的执行界面.}%
+\label{Auto_Flow_Platform-1}
+\end{figure}
+\textrm{AFLOW}是由美国\textrm{Duke}大学材料系~\textrm{S. Curtarolo}~等开发的高通量计算流程框架\upcite{CMS49-299_2010,NatMat12-191_2013}，程序主体部分用\textrm{C++}编写，代码量超过\textrm{150,000}行。\textrm{AFLOW}主要用于无机材料、无机化合物、合金材 料设计等研究领域。\textrm{AFLOW}转变了传统电子结构和物性计算的模式，通过设计自动流程来完成材料物性系列计算。\textrm{AFLOW}框架中集成的第一原理计算程序包为\textrm{VASP}。除此之外，\textrm{AFLOW}主体程序分为两部分，前处理部分主要是计算对象的结构文件转换和对称性分析模块，后处理程序\textrm{APENNSY}是数据分析与可视化模块。这些功能模块结构清晰，既可以整合使用，也可拆分独立工作，非常灵活。\textrm{AFLOW}的最重要的成果之一是其庞大的数据库\textrm{AFLOWLIB}，涵盖二元合金数据库、电子结构数据库、\textrm{Heusler}金属间化合物数据库和元素数据库等。同时\textrm{AFLOWLIB}也成为高通量自动流程的重要支撑，提升了软件的建模和分析能力。
+
+\subsubsection{\rm{MP}}
+\textrm{MP}最初是美国\textrm{MIT}材料科学与工程系\textrm{G. Ceder}等为加速$\mathrm{Li}^+$、$\mathrm{Na}^+$电池研发进程而开发的无机材料化合物的物性数据库生成工具\upcite{ECC12-427_2010,JECS158-A309_2011,CMS97-209_2015}。%目前其数据库已经建立涵盖~80,000~多种无机化合物的物性。 
+\textrm{MP}是用\textrm{Python}开发的，具有很好的可移植性、通用性和扩展性。主要功能模块包括:~前后处理模块\textrm{Python Materials Genomics (Pymatgen)}\upcite{CMS68-314_2013}、进程管理模块\textrm{FireWorks}和自纠错模块\textrm{Custodian}。
+
+与\textrm{AFLOW}不同， \textrm{MP}通过\textrm{FireWorks}将高通量计算全部流程也纳入\textrm{MongoDB}数据库统一管理，相比于其他流程控制模式，\textrm{FireWorks}的流程管理要灵活、方便得多。此外，\textrm{MP}中的\textrm{Custodian}模块提供了软件的容错机制，允许用户定义简单的自动判断和纠错规则。
+\begin{figure}[h!]
+\centering
+%\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
+\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{MP_comp_infrastructure.png}%}
+%\includegraphics[height=1.2in,width=1.7in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
+%\includegraphics[height=1.2in,width=1.6in,viewport=0 0 1020 730,clip]{CEP_structure_flow.png}%}
+\caption{\textrm{Materials Project (MP)}的基本构架(引自文献\upcite{CMS97-209_2015}).}%
+\label{Auto_Flow_Platform-2}
+\end{figure}
+
+\subsubsection{\rm{QMIP}}
+\textrm{QMIP}是丹麦技术大学、美国\textrm{Argonne}国家实验室和\textrm{Stanford}大学合作开发中的高通量催化材料数据库生成工具\upcite{QMIP_URL}。\textrm{QMIP}主要由\textrm{Computational Materials Repository (CMR)}和\textrm{CatApp}两大功能模块构成。其中\textrm{CMR}由丹麦技术大学用\textrm{Python}开发的催化材料计算与数据库高通量计算与管理模块\upcite{CMR_URL}，用于计算钙钛矿吸收谱及其能带电子性质。\textrm{CatApp}是\textrm{Stanford}大学化工系\textrm{J.~K.~N{\o}rskov}等开发应用于表面化学和非均相催化的网页版高通量应用程序\upcite{ACIE51-272_2012}，主要针对高通量框架下表面化学反应活化能数据计算，用\textrm{JavaScript}、\textrm{SVG}和\textrm{html}语言实现。\textrm{QMIP}的数据库是以催化材料为特色，目前计算并提供的各类异质结构催化数据库， 包括:\textrm{2D}材料、\textrm{Van der Waals}异质结构、有机金属卤化物钙钛矿、基于卟啉染料、新型捕光材料、裂解水钙钛矿材料、低对称钙钛矿等; 此外数据库还为各种不同软件和方法提供用于“标定结果”的参照算例，这是其他高通量计算软件不具备的特色，标定对象主要面向\textrm{DFT}软件(如\textrm{FHI-aims}\upcite{CPC180-2175_2009}、\textrm{VASP}、\textrm{QE}、\textrm{Atomistix ToolKit~(ATK)}\upcite{JPCM32-015901_2020}、\textrm{ABINIT}、\textrm{CASTEP}\upcite{ZFK220-567_2005}、GPAW\upcite{JPCM22-253202_2010}等)、局域和杂化泛对含对3\,\textit{d} 电子处理效果、原子\textrm{O}和\textrm{C}在~\textit{fcc}~结构的[111]面上的 吸附能、高通量计算的赝势等。不过目前\textrm{QMIP}的数据库容量还比较小，仍在开发和扩充中。
+\begin{figure}[h!]
+\centering
+%\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
+%\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{MP_comp_infrastructure.png}%}
+\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
+%\includegraphics[height=1.2in,width=1.6in,viegwport=0 0 1020 730,clip]{CEP_structure_flow.png}%}
+\caption{\textrm{QMIP}的基本构架.}%
+\label{Auto_Flow_Platform-3}
+\end{figure}
+
+\subsubsection{\rm{CEP}}
+\textrm{CEP}是\textrm{Harvard}大学化学与化学生物系\textrm{Al{\'a}n Aspuru-Guzik}等最初为寻找高效有机光电材料设计的高通量计算化学软件\upcite{JPCL2-2241_2011}，也是用\textrm{Python}开发的，其软件结构见图\ref{Auto_Flow_Platform-4}。\textrm{CEP}目前广泛应用于多种有机高分子材料的研发应用，如筛选有机太阳能电池、有机半导体、燃料电池中的高分子膜材料等。\textrm{CEP}的计算方案中，结合了传统材料模拟方案和现代药物研发模式，通过集成\textrm{MOPAC}\upcite{JCAMD4-1_1990}， \textrm{Q-Chem}\upcite{PCCP8-3172_2006}等量子化学软件，系统计算并建立了覆盖$\sim1,000,000$种电子结构的候选光电材料数据库(\textrm{MySOL}，\textrm{Django}形式)。在此基础上，\textrm{CEP}希望借助化学信息学和数据挖掘技术，更高效、快速地筛选合适的光电材料。化学信息学辅助的机器学习是\textrm{CEP}的显著技术特色。 但\textrm{CEP}的大部分功能模块都只是部分完成或还在研发中，其代码也未开源，因此\textrm{CEP}的完善程度远不如其他几类软件平台，目前主要在完成数据库的积累。 
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
+%\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{MP_comp_infrastructure.png}%}
+%\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
+\includegraphics[height=2.4in,width=3.2in,viewport=0 0 1020 730,clip]{CEP_structure_flow.png}%}
+\caption{\textrm{Clean Energy Project (CEP)}的结构与流程图(引自文献\upcite{JPCL2-2241_2011}).}
+\label{Auto_Flow_Platform-4}
+\end{figure}
+
+\subsubsection{\rm{ASE}}
+\textrm{ASE}是由丹麦技术大学物理系\textrm{K.~W.~Jacobsen}等用\textrm{Python}开发的多尺度计算自动流程框架\upcite{JPCM29-273002_2017}。与上述自动流程相比，\textrm{ASE}的功能模块最大的优势是计算模块提供了足够多的软件接口，可以支持第一原理-分子动力学跨尺度计算; \textrm{ASE}支持的结构建模与分析模块，允许用户根据需要任意地组装原子、分子、界面和块体等多相结构，大大提升了软件对建模的自主性和灵便性的支持。另一方面，\textrm{ASE}对多任务作业的支持和管理与\textrm{AFLOW}和\textrm{MP}不同，主要依赖\textrm{Python}对脚本和接口软件的支持。
+\begin{figure}[h!]
+\centering
+%\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
+%\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{MP_comp_infrastructure.png}%}
+%\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
+\includegraphics[height=2.4in]{ASE_Python_lib.png}%}
+\caption{\textrm{ASE}的\textrm{Python}模块关系(引自文献\upcite{ASE_URL}).}
+\label{Auto_Flow_Platform-5}
+\end{figure}
+
+\subsubsection{\rm{MatCloud}}
+\textrm{MatCloud}是由中国科学院计算机网络信息中心材料基因实验室杨小渝等开发的，可使用\textrm{VASP}开展计算的高通量计算和数据管理平台\upcite{CMS146-319_2018}，前端用户界面采用\textrm{JavaScript}开发，作业生成、运行与管理采用\textrm{.NETCore}框架开发，后台数据管理采用\textrm{MogonDB}。相比于国外的各 类高通量自动流程软件，\textrm{MatCloud}的数据集成度高。\textrm{MatCloud}的界面友好，方便使用和作业提交，数据管理和集成的机器学习功能也有一定的特色，但目前提供的核心软件接口主要支持\textrm{VASP}。
+
+\begin{figure}[h!]
+\centering
+%\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
+%\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{MP_comp_infrastructure.png}%}
+%\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
+\includegraphics[height=2.4in]{Matcloud.jpg}%}
+\caption{\textrm{MatCloud}的结构与流程图(引自文献\upcite{CMS146-319_2018}).}
+\label{Auto_Flow_Platform-6}
+\end{figure}
+
+各种高通量材料计算自动流程软件功能的对比列于表\ref{Table-Cost}。
+\begin{table}[!h]
+\tabcolsep 0pt \vspace*{-5pt}
+\begin{minipage}{0.95\textwidth}
+%\begin{center}
+\centering
+\caption{各种高通量材料计算自动流程软件概况}\label{Table-Cost}
+\def\temptablewidth{0.92\textwidth}
+\renewcommand\arraystretch{0.8} %表格宽度控制(普通表格宽度的两倍)
+\rule{\temptablewidth}{1pt}
+\begin{tabular*} {\temptablewidth}{@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c}
+%-------------------------------------------------------------------------------------------------------------------------
+	&\multirow{2}{*}{\fontsize{9.2pt}{7.2pt}\selectfont{编程语言}}	&\fontsize{9.2pt}{7.2pt}\selectfont{建模} &\multicolumn{2}{|c|}{\fontsize{9.2pt}{7.2pt}\selectfont{任务提交与管理}} &\multirow{2}{*}{\fontsize{9.2pt}{7.2pt}\selectfont{后处理}} &\multirow{2}{*}{\fontsize{9.2pt}{7.2pt}\selectfont{数据组织管理}} \\\cline{4-5}
+	&	&\fontsize{9.2pt}{7.2pt}\selectfont{功能} &\multicolumn{1}{|c|}{\fontsize{9.2pt}{7.2pt}\selectfont{~~软件接口~~}} &\multicolumn{1}{c|}{\fontsize{9.2pt}{7.2pt}\selectfont{运行容错~~~}} & & \\\hline
+	\fontsize{9.2pt}{7.2pt}\selectfont{{\textrm{AFLOW}}} &\fontsize{9.2pt}{7.2pt}\selectfont{\textrm{C++}} &\checkmark &$\triangle$ &$\star$ &$\star$ &\fontsize{9.2pt}{7.2pt}\selectfont{{\textrm{Django}}} \\
+	\fontsize{9.2pt}{7.2pt}\selectfont{{\textrm{MP}}} &\fontsize{9.2pt}{7.2pt}\selectfont{\textrm{Python}} &\checkmark &\checkmark &$\star$ &$\star$ &\fontsize{9.2pt}{7.2pt}\selectfont{{\textrm{MongoDB}}} \\
+	\multirow{2}{*}{\fontsize{9.2pt}{7.2pt}\selectfont{{\textrm{QMIP}}}} &\fontsize{9.2pt}{7.2pt}\selectfont{\textrm{JavaScript/SVG}} &\multirow{2}{*}{\checkmark} &\multirow{2}{*}{\checkmark} &\multirow{2}{*}{--} &\multirow{2}{*}{\checkmark} &\multirow{2}{*}{--} \\
+	&\fontsize{9.2pt}{7.2pt}\selectfont{\textrm{+html/Python}} & & & & & \\
+	\fontsize{9.2pt}{7.2pt}\selectfont{{\textrm{CEP}}} &\fontsize{9.2pt}{7.2pt}\selectfont{\textrm{Python}} &\checkmark &\checkmark &-- &\checkmark &\fontsize{9.2pt}{7.2pt}\selectfont{{\textrm{Django/MySQL}}} \\
+	\fontsize{9.2pt}{7.2pt}\selectfont{{\textrm{ASE}}} &\fontsize{9.2pt}{7.2pt}\selectfont{\textrm{Python}} &$\star$ &$\star$ &-- &$\triangle$ &-- \\
+	\multirow{2}{*}{\fontsize{9.2pt}{7.2pt}\selectfont{{\textrm{MatCloud}}}} &\fontsize{9.2pt}{7.2pt}\selectfont{\textrm{JavaScript}} &\multirow{2}{*}{\checkmark} &\multirow{2}{*}{$\triangle$} &\multirow{2}{*}{\checkmark} &\multirow{2}{*}{\checkmark} &\multirow{2}{*}{\fontsize{9.2pt}{7.2pt}\selectfont{{\textrm{MongoDB}}}} \\
+	&\fontsize{9.2pt}{7.2pt}\selectfont{\textrm{+.NETCore}} & & & & &
+\end{tabular*}
+\rule{\temptablewidth}{1pt}
+\fontsize{8.2pt}{5.2pt}\selectfont{
+%\begin{description}
+%	\item[$\star$]~表示该功能较突出
+%	\item[\checkmark]~表示该功能基本满足需求
+%	\item[$\triangle$]~表示该功能存在不足
+%\end{description}
+	\begin{itemize}
+		\item $\star$~表示该功能较突出;~\checkmark~表示该功能基本满足需求;~$\triangle$~表示该功能存在不足
+	\end{itemize}}
+\end{minipage}
+%\end{center}
+\end{table}
+
+对比上述各类流程软件，当前主要支持电子结构第一原理计算和分子动力学计算过程，电子结构计算求解\textrm{Kohn-Sham}方程，主要以矩阵对角化和密度迭代优化为主，这类计算会涉及大量的矩阵-向量乘和矩阵变换，特别需要强大的并行计算支持;~分子动力学计算的任务是模拟大量遵守\textrm{Newton}方程的粒子的运动轨迹，适合采用并发式计算，也正因此\textrm{GPU}支持的异质架构越来越成为处理分子动力学问题的有力武器。计算流程的主要任务包括:
+\begin{itemize}
+	\item 指定所需计算资源
+	\item 为核心计算过程准备输入文件
+	\item 传递计算中间数据
+	\item 提取和处理计算结果
+\end{itemize}
+在算法层面上，将上述任务以适当的方式排列组合，就构成了完整的计算流程。在上述流程软件中，实现计算流程主要有两种思路:~一种是将分解的计算任务用程序语言(\textrm{C++}、\textrm{Python}或\textrm{JavaScript})直接写成代码，依次执行。这样实现的计算流程简洁、直观，执行高效，但是一般不能支持复杂的计算流程。\textrm{AFLOW}、\textrm{QMIP}、\textrm{CEP}和\textrm{ASE}等都是采用这一方案，这些流程软件主要支持的是第一原理计算中“弛豫-基态物性”计算模式或分子动力学计算。另一种是利用数据库技术，将计算流程中每一步执行所需的数据或输入文件、核心计算软件和计算资源都以数据库中的元素形式存放，这样做的好处是可以灵活地设计、组织复杂的计算流程，包括完整的跨尺度计算，而且通过数据库保存计算流程，实现流程与核心计算软件的剥离，计算流程成为半独立的通用模块，大大方便了流程开发，这对新材料设计有着很重要的意义，但是也因为计算流程本身需要数据库的支持，流程的执行效率将有所降低，而运行过程中一旦出现错误，对错误出现位置的确定也会更艰难，目前只有\textrm{MP}采用了这种数据库支持的计算流程。不过从长远看，两类数据库支持的计算流程设计思想各有所长。在可以预见的未来，这两类计算流程在新材料研究和设计领域，有着各自深远的应用场景。
+%都无法给出完善的解决方案，因此有必要在充分调研计算流程软件研发状况的基础上,针对催化燃烧计算任务的特点，开发面向适合$\mathrm{CH}_4$催化材料研究的高通量计算流程软件。
+
+%\section{批量作业生成、并发式自动流程计算和工作流程设计}\label{chap:workflow} 
+\subsection{高通量第一原理计算数据的自动处理}\label{chap:database} 
+第一原理计算，特别是基于高通量的\textrm{DFT}计算已经成为电子结构和原子尺度材料设计最重要的方法。由高性能计算支持的第一原理计算产生了成千上万的材料数据记录。随着计算材料数据指数级别的增长，有必要开发功能强大的材料数据库来支持数据的管理、存储、检索、展示和操作。本节讨论材料设计所需的最主要的第一原理数据库并比较其优劣。\footnote{本节的数据库部分主要参考了文献\upcite{MPC4-148_2015}}
+
+%\subsection{高通量第一原理自动流程}
+高通量的概念最初出现在实验领域，早期材料研究和制药研究，一般通过大量备选材料试错，最终才得到合适的材料或药物主要功能成分，这就可以视为是一种高通量筛选。需要明确的是，在文献中常会提到“高通量”和“组合方法”(\textrm{Combinational approach})的概念，但很少区分着两者的区别，这里明确一下，所谓“高通量”是用户产生或处理的数据量极大，没有计算机自动处理是无法完成的;~而“组合方法”是针对影响研究对象的各种可能自由度的分门别类研究。换言之，高通量考虑的是利用计算机“一视同仁”地自动化式处理海量数据，而组合方法更强调对特定影响因素的筛查和组合研究，这是这两个概念内涵的主要区别。
+
+高通量计算流程主要包括三方面的任务:
+\begin{itemize}
+	\item 增加材料模拟的计算数据:~包括采用热力学、电子结构计算获得的材料数据;
+	\item 存储合理的材料数据:~将材料数据系统地保存起来，用以构建材料数据库;
+	\item 表征和筛选材料数据:~为了获得更好的材料或提升材料的特定性能，可实现对材料数据的检索和分析。
+\end{itemize}
+第一原理高通量计算流程就是具体实现上述三个流程开发的计算任务，高通量计算流程的主要目标之一是构建材料数据库(可以是一般的通用材料数据库或特定目标的材料数据库)，所以高通量计算软件与相应的数据库有着密不可分的关联。如前所述，著名的高通量计算流程都有相应的数据库，如\textrm{AFLOW}的数据库为\textrm{AFLOWLIB}\upcite{CMS58-227_2012,AFLOWORG_URL}，\textrm{MP}的数据库为同名的\textrm{Materials Project}\upcite{CMS50-2295_2011,MP_URL}，\textrm{ASE}的数据库为\textrm{CMR~(The Computational Materials Repository)}\upcite{CSE14-51_2012,CMR_URL}。中科院物理所也拥有一个通用的材料科学数据库\textrm{Atomly}\upcite{ATOMLY_URL}。
+
+虽然高通量计算流程包括三个方面，但是由于第一原理材料计算的成本较高，构建一个相对完善的材料数据库需要耗费相当的计算资源和人力。因此当前发展的各种自动处理流程的重点主要集中在收集材料模拟的计算数据和实现计算结果自动入库为主。自动流程面向的对象是数据，鉴于能完成材料第一原理计算的软件有很多，相应的输出文件的格式也是千差万别，因此要实现材料计算过程的自动处理，首先需要解决的是数据格式的规范化问题。习惯的数据处理方案有两种:~一种是面向各类第一原理软件数据的规范化，通过程序语言实现材料计算过程的自动化，不妨称为数据标准化型自动流程;~一种是面向典型的材料计算软件，开发数据库支持的材料自动化计算流程，不妨称为流程标准化型自动流程。这两种策略各有利弊:~前者可以利用数据的规范化，根据计算软件的特色组织丰富多样的材料物性计算，灵活性较好，但一般只支持相对简单的计算流程;~后者可利用数据库技术将自动流程组织得更复杂多样，并作为数据库条目存储下来，稳定性较好，但计算的材料物性受软件能力的限制较多。因为\textrm{Python}\upcite{Python_URL}的模块化组织和灵活性，主要的自动流程都采用\textrm{Python}来实现。
+
+数据规范化型的自动处理以\textrm{ASE/CMR}为典型代表，通过构建各类\textrm{Python}模块，支持多种成熟的\textrm{DFT}计算软件的\textrm{Kohn-Sham}方程求解过程。根据图\ref{Auto_Flow_Platform-5}可知，\textrm{ASE}的核心模块主要包括\textrm{Atoms}(原子、分子建模)、\textrm{Calculator}(各类计算软件运行支持与控制)和物性计算、功能分析和结果可视化模块。
+
+\textrm{Atoms}是材料计算建模的主要模块，功能包括:
+\begin{itemize}
+	\item 生成各种计算软件所需的结构模型，包括原子、分子、晶体、表面和界面等;
+	\item 读入各种格式的结构模型文件，包括\texttt{xyz}、\textrm{POSCAR}、\texttt{cif}等65种格式;
+	\item 可将各类结构模型统一以\texttt{traj}或\texttt{json}格式写入数据库，实现计算模型数据的标准化。
+\end{itemize}
+
+\textrm{Calculator}是支持各类\textrm{DFT}计算软件运行的主要模块，封装了\textrm{DFT}计算的过程，依次执行以下步骤:
+\begin{enumerate}
+	\item 生成\textrm{DFT}计算软件所需的输入(控制)文件;
+	\item 启动\textrm{DFT}软件，以子进程方式开始计算过程;
+	\item 模块守候直至\textrm{DFT}计算子进程结束;
+	\item 根据要求解析\textrm{DFT}计算软件生成文件，并可将计算结果以\texttt{json}格式写入数据库。
+\end{enumerate}
+类似地，物性计算、功能分析模块通过集成全局结构搜索算法(\textrm{Base-hopping}和\textrm{minima-hopping}算法)、反应动力学模拟\textrm{NEB}算法和势能面鞍点搜索算法、分子动力学模拟算法、几何结构优化算法和分子振动与声子振动分析算法，可完成材料物性的自动化计算，得到的材料物性数据仍将以标准化形式存入数据库。
+
+这样设计的自动处理结构最大的好处是，\textrm{Python}模块与\textrm{DFT}计算软件的交互简单，无须改变\textrm{DFT}计算的任何代码;~只是\textrm{Python}执行过程中会有较多的\textrm{I/O}处理，脚本运行效率不高。
+
+为了增加自动流程的可控和灵活性，\textrm{ASE}引入\textrm{checkpointing}模块，可以协助用户排查计算中的错误定位和重启计算。\textrm{checkpointing}大大增加了\textrm{ASE}对计算流程的控制能力。
+
+和\textrm{ASE}相应的材料数据库\textrm{CMR}采用关系型数据库管理系统\textrm{MySQL}，延续了\textrm{ASE}的思路，先将标准化数据转成数据库文件(称为\textit{cmr}-文件)，要求数据库中的文件名尽可能与原始文件名保持一致，由此用户可以不进入数据库即可对材料数据进行检验。\textrm{CMR}在存储材料数据时也有了更大的兼容性。
+
+流程标准化型的自动处理以\textrm{MP}的流程控制\textrm{FireWorks}为代表。\textrm{FireWorks}是一款开源的通用工作流定义、管理和执行软件，可以支持\textrm{Python}实现与执行，复杂的工作流可以数据形式保存到\textrm{MongoDB}数据库中，用\textrm{FireWorks}设计的工作流具有较高的稳定性。\textrm{FireWorks}的架构如图\ref{FireWorks_FW}左所示，包括流程发布(称为\textrm{LachPad})和流程执行(称为\textrm{FireWorkers})，换言之\textrm{FireWorks}的自动流程是中心化的“发布-执行”模式。\textrm{LaunchPad}是工作流的主管者，主要负责自动流程的定义、分发、排队、增删和对工作流的反馈与响应;~\textrm{FireWorkers}是工作流的执行者，包括一个或多个计算资源(个人计算机、小型工作站、超级计算机等)。\textrm{FireWorkers}从\textrm{LaunchPad}处获得计算任务，执行完毕后再将计算结果返回到\textrm{LaunchPad}。
+
+\textrm{FireWorks}的这种“发布-执行”结构使得计算任务与软件、硬件高度解耦，用户可根据需要随时向\textrm{LaunchPad}添加新的工作流，承担计算任务的\textrm{FireWorkers}彼此也可以是完全异构的，具有很好的机动性。
+\begin{figure}[h!]
+\centering
+\vspace*{-0.1in}
+\includegraphics[height=1.6in]{MP_fireworks.png}
+\hskip 5pt
+\includegraphics[height=1.6in]{MP_multiple_fw.png}
+\hskip 5pt
+\includegraphics[height=1.6in]{MP_Fireworks_fwactions.png}
+\caption{\textrm{FireWorks}的架构(左)、工作流组成(中)和单元组间数据传递与处理(右)示意.图片引自文献\upcite{FireWorks_URL}.}%
+\label{FireWorks_FW}
+\end{figure} 
+\textrm{FireWorks}发布的工作流成如图\ref{FireWorks_FW}中所示，由三层嵌套结构组成:
+\begin{itemize}
+	\item \textrm{Firetask}:~基本执行单元，是执行计算的最基本脚本命令或\textrm{Python}命令。
+	\item \textrm{Firework}:~组织基本执行单元构成任务单元组，并指定各基本执行单元所需的参数。
+	\item \textrm{Workflow}:~彼此相关联的任务单元组构成完整的工作流程:\\
+		\textrm{FireWork}之间的数据传递、任务执行序列等由\textrm{FWAction}完成。
+\end{itemize}
+对于材料第一原理计算自动流程而言，一个\textrm{DFT}计算过程就是一个\textrm{Firework}，可以分解为:
+\begin{enumerate}
+	\item 指定计算控制参数(参数在数据库中\texttt{Json}存储，由\textrm{Spec}传入)
+	\item 计算控制文件生成(每个\textrm{Firetask}生成一个控制文件)
+	\item \textrm{DFT}计算作业提交(一个\textrm{Firetask})
+\end{enumerate}
+在此基础上，可以通过\textrm{FWAction}修改控制参数，将\textrm{DFT}计算单元组组织成完整的材料第一原理计算流程，并将最终结果直接导入材料计算数据库。
+
+可见，\textrm{FireWorks}是以任务单元组为基本组成的来实现工作流程的，任务单元组之间依靠数据传递相关联，流程执行完毕也将返回数据，因此\textrm{FWAction}模块主要负责任务单元组之间的数据传递和任务分配。图\ref{FireWorks_FW}右示意了工作流中\textrm{FWAction}的工作模式。不难看出，\textrm{FWAction}允许用户根据需要设计和更改流程参数、增添、删减和改变流程(子)单元组，这一模块大大增加了\textrm{FireWorks}工作流的灵活性。
+
+数据库技术支持的\textrm{FireWorks}解耦了\textrm{DFT}计算软件与计算流程，允许用户根据需要设计出稳定、复杂的材料物性模拟与设计流程。由于不同\textrm{DFT}计算软件的计算控制文件格式存在较大的差别，目前\textrm{FireWorks}流程设计只对特定计算软件(如\textrm{VASP})设计了最常用的计算流程模块(如结构弛豫、基态总能计算、能带和态密度计算等)。更丰富的计算流程有待应用研究中不断开发。
