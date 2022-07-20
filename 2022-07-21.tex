@@ -1,8 +1,17 @@
-\textrm{VASP}的电荷密度
-电荷密度差定义为：
+\textrm{VASP}中保存体系电荷密度的文件为\textrm{CHGCAR}，该文件中存储的内容包括
+\begin{itemize}
+	\item 计算体系重复单元(晶胞)的晶格矢量
+	\item 计算体系所含原子的分数坐标
+	\item 计算体系的平面波贡献的电荷密度与晶体体积乘积$\rho(\vec r)\cdot V_{\mathrm{cell}}$在倒空间网格中的分布
+	\item 计算体系中每个原子在缀加原子球内的电荷密度$\rho(\vec r)$径向分布
+\end{itemize}
 
-delta_RHO = RHO_sc - RHO_atom
+不难看出，要分析构成晶体的各组分与其原子态的电荷密度变化(电荷密度差)定义为:
 
-1. 自洽得到总的电荷密度(RHO_sc)
+\begin{displaymath}
+	\delta\rho = \rho_{\mathrm{sc}} - \rho_{\mathrm{atom}}
+\end{displaymath}
 
-2. 仍然用原来自洽计算时的四个输入文件，但INCAR中需要设置ICHARG=12，NSW=1，和NELM=0，其他设置不变，得到原子的电荷密度(RHO_atom)
+上式中$\rho_{\mathrm{sc}}$为自洽得到总的电荷密度
+
+需要指出的是，在计算电荷密度变化时，仍用原来自洽计算时的四个输入文件，但\textrm{INCAR}中需要将有关参数设置为{\textbf{ICHARG=12}}，{\textbf{NSW=1}}和{\textbf{NELM=0}}，其他设置不变，以便得到原子的电荷密度($\rho_{\mathrm{atom}})
