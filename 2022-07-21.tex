@@ -1,0 +1,8 @@
+\textrm{VASP}的电荷密度
+电荷密度差定义为：
+
+delta_RHO = RHO_sc - RHO_atom
+
+1. 自洽得到总的电荷密度(RHO_sc)
+
+2. 仍然用原来自洽计算时的四个输入文件，但INCAR中需要设置ICHARG=12，NSW=1，和NELM=0，其他设置不变，得到原子的电荷密度(RHO_atom)
