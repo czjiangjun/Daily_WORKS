@@ -11,9 +11,10 @@
 #%									%
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-xelatex $1
-bibtex $1
-xelatex $1
-xelatex $1
-rm -rf $1.aux $1.bak $1.log $1.bbl $1.blg $1.dvi $1.blg $1.out $1.nav $1.thm $1.snm $1.toc $1.*.xml *.*~ *~ .$1.*.swp *.aux *.bbl *.blg
+xelatex Latex_2020-Template
+bibtex Latex_2020-Template
+xelatex Latex_2020-Template
+xelatex Latex_2020-Template
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .Latex_2020-Template.*.swp *.aux *.bbl *.blg
+mv Latex_2020-Template.pdf $1.pdf
 evince $1.pdf
