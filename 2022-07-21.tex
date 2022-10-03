@@ -1,17 +1,31 @@
-\textrm{VASP}中保存体系电荷密度的文件为\textrm{CHGCAR}，该文件中存储的内容包括
+\textrm{VASP}中保存体系电荷密度的文件为\textrm{CHGCAR}，一个\textrm{VASP}计算完成，\textrm{CHGCAR}文件中存储的信息将包括:
 \begin{itemize}
 	\item 计算体系重复单元(晶胞)的晶格矢量
 	\item 计算体系所含原子的分数坐标
-	\item 计算体系的平面波贡献的电荷密度与晶体体积乘积$\rho(\vec r)\cdot V_{\mathrm{cell}}$在倒空间网格中的分布
-	\item 计算体系中每个原子在缀加原子球内的电荷密度$\rho(\vec r)$径向分布
+	\item 计算体系的平面波贡献的电荷密度与晶体体积乘积~$\rho(\vec r)\cdot V_{\mathrm{cell}}$~在倒空间网格中的分布
+	\item 计算体系中每个原子在缀加原子球内的电荷密度的径向分布函数~$\rho(\vec r)$
 \end{itemize}
+因此\textrm{CHGCAR}中存储的是晶体结构信息和价电子的电子密度的分布函数两部分内容，主要以价电子的电子密度分布函数为主。
 
-不难看出，要分析构成晶体的各组分与其原子态的电荷密度变化(电荷密度差)定义为:
+不难看出，要分析构成晶体的各组分与其原子态的价电荷密度变化(电荷密度差)定义为:
 
 \begin{displaymath}
-	\delta\rho = \rho_{\mathrm{sc}} - \rho_{\mathrm{atom}}
+	\Delta\rho(\vec r) = \rho_{\mathrm{sc}}(\vec r) - \rho_{\mathrm{atom}}(\vec r)
 \end{displaymath}
 
 上式中$\rho_{\mathrm{sc}}$为自洽得到总的电荷密度
 
-需要指出的是，在计算电荷密度变化时，仍用原来自洽计算时的四个输入文件，但\textrm{INCAR}中需要将有关参数设置为{\textbf{ICHARG=12}}，{\textbf{NSW=1}}和{\textbf{NELM=0}}，其他设置不变，以便得到原子的电荷密度($\rho_{\mathrm{atom}})
+需要指出的是，在计算电荷密度变化时，仍用原来自洽计算时的四个输入文件，但\textrm{INCAR}中需要将有关参数设置为{\textbf{ICHARG=12}}，{\textbf{NSW=1}}和{\textbf{NELM=0}}，其他设置不变，以便得到原子的电荷密度($\rho_{\mathrm{atom}}$)
+
+类似地，通过计算不同状态下的电荷密度并求其差值，还可以得到体系在不同状态差分电荷密度。
+
+\textrm{CHGCAR}文件和相应的差值数据可以直接用于绘制差分电荷密度的图形。
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=2.45in,width=3.05in,viewport=10 10 580 480,clip]{Ni_C_N.jpg}
+\caption{\small The Charge difference of \ch{NiCN}.}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Charge_Diffence}
+\end{figure}
+
+图\ref{Charge_Diffence}就是一个典型的差分电荷密度图，其中青蓝色部分表示电荷密度减小，黄色部分表示电荷密度增加。
