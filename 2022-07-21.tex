@@ -16,6 +16,7 @@
 上式中$\rho_{\mathrm{sc}}$为自洽得到总的电荷密度
 
 需要指出的是，在计算电荷密度变化时，仍用原来自洽计算时的四个输入文件，但\textrm{INCAR}中需要将有关参数设置为{\textbf{ICHARG=12}}，{\textbf{NSW=1}}和{\textbf{NELM=0}}，其他设置不变，以便得到原子的电荷密度($\rho_{\mathrm{atom}}$)
+%<<<<<<< Updated upstream
 
 类似地，通过计算不同状态下的电荷密度并求其差值，还可以得到体系在不同状态差分电荷密度。
 
@@ -29,3 +30,5 @@
 \end{figure}
 
 图\ref{Charge_Diffence}就是一个典型的差分电荷密度图，其中青蓝色部分表示电荷密度减小，黄色部分表示电荷密度增加。
+%=======
+%>>>>>>> Stashed changes
