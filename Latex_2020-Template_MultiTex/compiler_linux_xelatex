@@ -13,6 +13,7 @@
 
 touch 01_Latex_Template/.tmp 
 test -s 01_Latex_Template/Content-2-Main.tex && sed 's/^\\input/%\\input/g' 01_Latex_Template/Content-2-Main.tex  > 01_Latex_Template/.tmp || echo "%Main_File"  > 01_Latex_Template/.tmp
+test -e 01_Latex_Template/Content-2-Main.tex && echo "%Main_File"  > 01_Latex_Template/.tmp
 sed '$a%%%%%%%%%%  '"$1"'   %%%%%%%%%%  \n\\\input{'"$1"'}' 01_Latex_Template/.tmp  > 01_Latex_Template/Content-2-Main.tex 
 rm 01_Latex_Template/.tmp 
 

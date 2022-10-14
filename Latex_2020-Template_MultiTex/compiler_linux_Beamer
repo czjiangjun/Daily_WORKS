@@ -12,7 +12,8 @@
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 touch 02_Beamer_Template/.tmp 
-test -s 02_Beamer_Template/Beamer_2-Main.tex && sed 's/^\\input/%\\input/g' 02_Beamer_Template/Beamer_2-Main.tex  > 02_Beamer_Template/.tmp || echo "%Main_File"  > 02_Beamer_Template/.tmp
+# test -s 02_Beamer_Template/Beamer_2-Main.tex && sed 's/^\\input/%\\input/g' 02_Beamer_Template/Beamer_2-Main.tex  > 02_Beamer_Template/.tmp || echo "%Main_File"  > 02_Beamer_Template/.tmp
+test -e 02_Beamer_Template/Beamer_2-Main.tex && echo "%Main_File"  > 02_Beamer_Template/.tmp
 sed '$a%%%%%%%%%%  '"$1"'   %%%%%%%%%%  \n\\\input{'"$1"'}' Beamer_Template/.tmp  > Beamer_Template/Beamer_2-Main.tex 
 rm 02_Beamer_Template/.tmp 
 
