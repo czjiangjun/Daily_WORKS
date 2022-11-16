@@ -33,7 +33,8 @@ class Example(wx.Frame):
         sizer = wx.GridBagSizer(5, 5)
         self.sizer = sizer
 
-        icon = wx.StaticBitmap(panel, bitmap=wx.Bitmap('/home/jun_jiang/Documents/Latex_art_beamer/Presentation_Beamer/Figures/BCC_logo-2.jpg'))
+#        icon = wx.StaticBitmap(panel, bitmap=wx.Bitmap('/home/jun_jiang/Documents/Latex_art_beamer/Presentation_Beamer/Figures/BCC_logo-2.jpg'))
+        icon = wx.StaticBitmap(panel, bitmap=wx.Bitmap('/home/jun_jiang/Documents/Latex_Beamer/Figures/BCC_logo-2.jpg'))
         sizer.Add(icon, pos=(1, 1), flag=wx.TOP|wx.RIGHT|wx.ALIGN_RIGHT,
             border=1)
 
@@ -565,8 +566,8 @@ class App(wx.App):
 def main():
 
     app = App()
-#    ex = Example(None, title="Model_Creative_TEST")
-#    ex.Show()
+    ex = Example(None, title="Model_Creative_TEST")
+    ex.Show()
     app.MainLoop()
 
 if __name__ == '__main__':
