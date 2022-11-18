@@ -1,0 +1,542 @@
+\documentclass[10pt,a4paper]{article}
+%\documentclass[10pt, twoside, a4paper]{article}      % Specifies the document class
+
+%%%%%%%%%%%%%%%%% CJK 中文版面控制  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{CJK} % CTEX-CJK 中文支持                            %
+\usepackage{xeCJK} % CTEX-CJK 中文支持                            %
+\usepackage{CJKutf8} % Texlive 中文支持                          %
+\usepackage{CJKnumb} %中文序号                                   %
+\usepackage{indentfirst} % 中文段落首行缩进                      %
+%\setlength\parindent{22pt}       % 段落起始缩进量               %
+\renewcommand{\baselinestretch}{1.2} % 中文行间距调整            %
+\setlength{\textwidth}{16cm}                                     %
+\setlength{\textheight}{24cm}                                    %
+\setlength{\topmargin}{-1cm}                                     %
+\setlength{\oddsidemargin}{0.1cm}                                %
+\setlength{\evensidemargin}{\oddsidemargin}                      %
+\usepackage{fancyhdr}           %使用页眉-页脚                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{authblk}					 %作者地址和E-mail
+\usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
+\usepackage{mathrsfs}                                    %英文花体
+\usepackage{xcolor}                                        %使用默认允许使用颜色
+%\usepackage{hyperref} 
+\usepackage{graphicx}
+\usepackage{subfigure}           %图片跨页
+\usepackage{animate}		 %插入动画
+\usepackage{caption}
+\captionsetup{font=footnotesize}
+
+%\usepackage[version=3]{mhchem}		%化学公式
+\usepackage{chemformula}
+\usepackage{chemfig}		%化学公式
+
+\usepackage{fontspec} % use to set font
+\setCJKmainfont{SimSun}
+\XeTeXlinebreaklocale "zh"  % Auto linebreak for chinese
+\XeTeXlinebreakskip = 0pt plus 1pt % Auto linebreak for chinese
+
+\usepackage{longtable}                                   %使用长表格
+\usepackage{multirow}
+\usepackage{makecell}		%允许单元格内换行
+
+\usepackage{arydshln}
+\newcommand{\adots}{\mathinner{\mkern2mu%
+\raisebox{0.1em}{.}\mkern2mu\raisebox{0.4em}{.}%
+\mkern2mu\raisebox{0.7em}{.}\mkern1mu}}
+%%%%%%%%%%%%%%%%%%%%%%%%%  参考文献引用 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%尽量使用 BibTeX(含有超链接，数据库的条目URL即可)                %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[numbers,sort&compress]{natbib} %紧密排列             %
+\usepackage[sectionbib]{chapterbib}        %每章节单独参考文献   %
+%\usepackage{footbib}			   %脚注列出参考文献　   %
+\usepackage{hypernat}                                                                         %
+%\usepackage[dvipdfm,bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
+\usepackage[bookmarksopen=true,pdfstartview=FitH,CJKbookmarks]{hyperref}              %
+\hypersetup{bookmarksnumbered,colorlinks,linkcolor=green,citecolor=blue,urlcolor=red}         %
+%参考文献含有超链接引用时需要下列宏包，注意与natbib有冲突        %
+%\usepackage[dvipdfm]{hyperref}                                  %
+%\usepackage{hypernat}                                           %
+\newcommand{\upcite}[1]{\hspace{0ex}\textsuperscript{\cite{#1}}} %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\AtBeginDvi{\special{pdf:tounicode GBK-EUC-UCS2}} %CTEX用dvipdfmx的话，用该命令可以解决      %
+%						   %pdf书签的中文乱码问题		      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%  % EPS 图片支持  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\graphicspath{{../../Presentation_Beamer/}}                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+\title{会议记录}
+%\author[a]{Author A}									     %
+\author[ ]{}									     %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     %
+%\author[b]{Author D}									     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+\affil[ ]{清华大学~材料加工研究所~A213}
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+\renewcommand\Authfont{\small\rm } % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\rm} % 修改机构名称的字体与大小			     %
+%\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号						     %
+\date{2020.12.30-31} % 去掉日期									     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\pagestyle{fancy}    %与文献引用超链接style有冲突
+%\lhead{\bfseries Result} %页眉左边位置内容，并加粗 
+%\chead{} % 页眉中间位置内容
+\rhead{\includegraphics[scale=0.20]{Figures/BCC_logo-1.png}}%在此处插入logo.pdf图片 图片靠右
+%\lfoot{}  %页脚
+%\cfoot{}
+%\rfoot{}
+%%%%%%%%%%%%%%%%%  % pagestyleR常用格式  %%%%%%%%%%%%%%%%%%%%%%%%%
+%% empty 无页眉页脚
+%% plain 无页眉，页脚为居中页码
+%% headings 页眉为章节标题，无页脚
+%% myheadings 页眉内容可自定义，无页脚
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{CJK}{UTF8}{gbsn} %针对文字编码为unix
+%\begin{CJK}{GBK}{hei}	%针对文字编码为doc
+%\begin{CJK}{GBK}{hei}	 %针对文字编码为doc
+%\CJKindent     %在CJK环境中,中文段落起始缩进2个中文字符
+%\indent
+%
+\renewcommand{\abstractname}{\small{\CJKfamily{hei} 摘\quad 要}} %\CJKfamily{hei} 设置中文字体，字号用\big \small来设
+\renewcommand{\refname}{\centering\CJKfamily{hei} 参考文献}
+%\renewcommand{\figurename}{\CJKfamily{hei} 图.}
+\renewcommand{\figurename}{{\bf Fig}.}
+%\renewcommand{\tablename}{\CJKfamily{hei} 表.}
+\renewcommand{\tablename}{{\bf Tab}.}
+%\renewcommand{\thesubfigure}{\roman{subfigure}}  \makeatletter %子图标记罗马字母
+%\renewcommand{\thesubfigure}{\tiny(\alph{subfigure})}  \makeatletter　%子图标记英文字母
+%\renewcommand{\thesubfigure}{}  \makeatletter　%子图无标记
+
+%将图表的Caption写成 图(表) Num. 格式
+\makeatletter
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{#1. #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1. #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+\makeatother
+
+\newcommand{\keywords}[1]{{\hspace{0\ccwd}\small{\CJKfamily{hei} 关键词:}{\hspace{2ex}{#1}}\bigskip}}
+
+%%%%%%%%%%%%%%%%%%中文字体设置%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%默认字体 defalut fonts \TeX 是一种排版工具 \\		%
+%{\bfseries 粗体 bold \TeX 是一种排版工具} \\		%
+%{\CJKfamily{song}宋体 songti \TeX 是一种排版工具} \\	%
+%{\CJKfamily{hei} 黑体 heiti \TeX 是一种排版工具} \\	%
+%{\CJKfamily{kai} 楷书 kaishu \TeX 是一种排版工具} \\	%
+%{\CJKfamily{fs} 仿宋 fangsong \TeX 是一种排版工具} \\	%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\addcontentsline{toc}{section}{Bibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Paper-----------------------------------------%
+%\title{2020.12.29-30~会议记录}
+%----------------------------------------------------------------------------------------------%
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+%\author{
+%作者:
+%\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+%\small
+%(The Address，City Post code)						%Address	       %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+
+%-------------------------------------------------------------------------------The Abstract and the keywords of The Paper----------------------------------------------------------------------------%
+%\begin{abstract}
+%The content of the abstract
+%\end{abstract}
+
+%\keywords {Keyword1; Keyword2; Keyword3}
+
+%-------------------------------------------------------------------------------The Content----------------------------------------------------------------------------------------------------------------------%
+%\tableofcontents %% 制作目录(目录是根据标题自动生成的)
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+%\newpage	        % 每个新的/newpage 即可有新的\thispagestyle 引领      %
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+%----------------------------------------------------------------------------------------The Body Of The Paper----------------------------------------------------------------------------------------%
+%Introduction
+%\setcounter{section}%{-1}
+2020.12.30
+\section{项目年度报告-1}
+\subsection{课题1:~上海大学~张武:~高通量材料计算平台简介}
+软件平台
+\begin{itemize}
+	\item 项目总体进展情况
+	\item 取得的重要进展及成果
+	\item 项目人员及经费投入使用情况
+	\item 项目配套支撑情况
+\end{itemize}
+
+\subsection{课题1:~上海交通大学~孔令体:~\rm{MP}和具体计算}
+\begin{itemize}
+	\item \textrm{ATOMATE}的修正方案:~方案1\textrm{.VS.}方案2\\
+		\textrm{ATOMATE}~的串行与\textrm{VASP}~的并行
+	\item 元素择优问题:~置换能的计算
+	\item 界面附近的空位扩散
+\end{itemize}
+\subsection{课题1:~北京市计算中心~姜骏:~对称性模块和并行分析}
+
+王崇愚院士点评:~
+\begin{itemize}
+	\item 标准化语言设计
+	\item “单线程”计算提升30\%的问题
+	\item 关于初始猜测的\textrm{Generator}
+	\item “材料基因组”的战略提升，要把材料基因组的基本理念体现在各个方面
+	\item 高通量计算材料设计:~大量的并发式的必要性
+	\item 并发任务量级$10^2$和$10^3$的问题:~作业和无锡超算的匹配(效率问题)
+	\item 元素择优的考虑:~431个作业(88页说明):~(1)~没有很好地考虑元素组态/(2)~元素在界面的转移(界面的界定)/(3)界面附近的空位扩散:~重点放在元素上
+	\item 对空间群分析的工作:~基础性工作和具体的工作的结合(结合材料基因组的思想)
+	\item 结合\textrm{generator}和并行的提升:~将\textrm{VASP}吃透，\textcolor{red}{创新~!创新~!创新~!}
+\end{itemize}
+许庆彦教授点评:~
+\begin{itemize}
+	\item 高通量、并发式计算平台的知识产权
+	\item “标准化语言”:~标准化的问题
+	\item 知识产权:~应用高温合金算例
+	\item \textbf{软件开发体现材料基因的理念}
+\end{itemize}
+施思齐教授点评:~
+\begin{itemize}
+	\item 软件开发与平台整合:~(1)公用的平台/(2)专用的\textrm{VASP}代码
+	\item
+\end{itemize}
+
+\section{项目年度报告-2}
+\subsection{课题2:~九所~李孜:~高通量}
+\begin{itemize}
+	\item 经费拨付情况:~严格按照任务书
+	\item 经费使用情况:~要加紧
+	\item 主要研究进展
+		\begin{enumerate}
+			\item 热力学和动力学模拟:~上海大学~鲁晓刚组
+			\item 分子动力学模拟:~力学所~王云江组~:大规模分子动力学和\ch{Re}的协同效应
+			\item \textrm{ReaxFF}模拟:~上海大学~刘轶组~晶格常数
+			\item 第一原理电子结构:~上海大学~刘轶组~:双位点、三位点
+			\item 原子扩散过程:~九所~李孜
+			\item 声子谱反折叠方法:~九所~郑法伟:~掺杂后的频率/掺入\ch{Re}后过渡态的消失
+			\item 基于\textrm{ABC}的动力学模拟:~北京交大:~汤笑之
+			\item 计算方法的发展:九所~郑法伟:~MagGene
+			\item 计算方法:~九所~吴国清:~MDanalysis
+			\item 机器学习:~上海大学~施思齐、刘悦
+		\end{enumerate}
+\end{itemize}
+
+\subsection{课题2:~上海大学~鲁晓刚}
+\begin{itemize}
+	\item 成分~工艺~组织~性能关系:\\
+		\ch{Ni-Al-Mo}:~\ch{Mo}富集于$\gamma$相，点阵常数:~$\gamma^{\prime}<\gamma$\\
+		热力学计算和相图、错配度\\
+		针对结构材料的集成计算模拟平台:~热力学计算-相场模拟-数据挖掘
+\end{itemize}
+\subsection{课题2:~上海大学~刘轶}
+\begin{itemize}
+	\item 没有考虑界面
+	\item 最近邻三位点置换原子模型
+	\item \ch{Ni}基单晶高温合金机器学习:~提取结构特征
+	\item \textrm{ReaxFF}$_{\ch{Ni}}$-\textrm{S}20力场分子动力学
+\end{itemize}
+王崇愚院士点评:~
+\begin{itemize}
+	\item 对刘轶:~\textrm{ReaxFF}
+	\item 六元系元素以上和以下的区别很大
+	\item 对李孜:~经费的使用
+\end{itemize}
+
+\subsection{课题2:~北京交大~汤笑之}
+
+\subsection{课题2:~北京理工~郭伟}
+
+\subsection{课题2:~数学所:~黄记祖}
+
+\newpage
+2020.12.31
+\section{项目年度报告-3}
+\subsection{课题3:~六二一所~岳晓岱:~合金}
+
+\subsection{课题3:~钢研院~于涛}
+\begin{itemize}
+	\item 三维原子探针(\textrm{3DAP})实验:\ch{W}在两相中弥散分布
+	\item 化学相(相分析)实验
+	\item 扫描和透射高分辨电子显微镜:~四元系
+	\item 热暴露实验:~原子\ch{Re}和\ch{W}的协同效应
+\end{itemize}
+
+\subsection{课题3:~清华~许庆彦}
+\begin{itemize}
+	\item 定向凝固研究:~相场算法和二维模拟(\textrm{GPU}加速)
+	\item 合金力学性能研究、测试和分析:~\textrm{HAADF}电镜和影响筏化的原因分析
+\end{itemize}
+
+李家荣总工程师点评:~
+\begin{itemize}
+	\item 立项时过于理想化
+	\item 项目总结时，架构要调整，要如何怎样调整
+	\item 叶片合格率的问题:~难度大、成本高\\
+		美国\textrm{F22}-四代发动机\\
+		评判叶片合格率的科学统计条件
+		\begin{enumerate}
+			\item 设计(包括尺寸)和工艺(热处理、定向凝固等)定型
+			\item 叶片达到一定数量(千量级):~手工工艺稳定
+			\item 连续三年稳定
+		\end{enumerate}
+	\item 对材料问题的看法
+		\begin{enumerate}
+			\item 一代、二代材料和工艺问题已经解决
+			\item 三代、四代对材料而言:~(1)\textcolor{red}{不稳定性问题}~(2)成本问题，加\ch{Re}和\ch{Rh}~(3)密度问题~(4)性能问题\\
+				\begin{enumerate}
+					\item 通冷却空气降温
+					\item 精密铸造
+				\end{enumerate}
+			\item 二代单晶广泛应用，三代在欧美刚刚开始应用，四代还没有开始应用
+			\item 装备需求(飞机设计-发动机-叶片，指标层层分级)
+			\item 技术推动和储备(先设计叶片，再设计发动机)
+			\item 航空发动机叶片在不同温度条件下都有指标要求，所以某些材料在某些温度下指标性能超多\ch{Ni}-基单晶，但是总的性能(蠕变、高温疲劳、低温疲劳等等)没有一个超过\ch{Ni}-基单晶
+		\end{enumerate}
+\end{itemize}
+
+王崇愚院士点评:~
+\begin{itemize}
+	\item 高温合金属于比较简单，但问题较多
+	\item 筏化并非单层原子的问题
+	\item 合金的枝金问题
+	\item 位错的问题
+\end{itemize}
+
+\subsection{课题3:~清华~王崇愚:~高通量并发式计算材料设计新原理与新方法}
+标题说明
+\begin{itemize}
+	\item 高通量计算:~大量的并行计算
+	\item 合金难点:~化学成分:~整体成分和局部成分(计算材料设计)
+	\item 物理与算法$\rightarrow$新原理新方法:~
+\end{itemize}
+背景说明:~Driving(驱动和牵引)
+\begin{itemize}
+	\item 材料研发周期挑战性:~发现到商业化，历时15-20年， \textrm{Technology~Review~98(2),~42,~1995}\\
+		传统方法:~\textrm{Try-and-Error}不适合
+	\item 计算能力的发展:~1970年以来，计算能力增长了$10^7\sim10^9$
+	\item 人民福祉、国家安全和能源需求
+\end{itemize}
+基本理念和目标
+\begin{itemize}
+	\item 材料基因组理念:~\textrm{Reform~and~Merging}
+	\item 基本和本征性问题:~物质性和传递性
+	\item 基本目标:~周光召:~实现材料的按需设计，是人类几千年来的梦想(1995)
+\end{itemize}
+理论基础与基本算法
+\begin{itemize}
+	\item 基本理论:~\textrm{DFT}和高等量子力学和固体理论(多电子问题)\\
+		王竹溪说:~不学群论也会做
+	\item 基本算法:~
+		\begin{enumerate}
+			\item 多尺度:~物理参量解析传递算法
+			\item 线性标度算法
+			\item 能量的新表述:~格位能表示的能量~实现:~静电能也表示在格位上\\
+			吴文俊:~一切的问题都可以归结为数学问题，一切的数学问题都可以归结为方程组问题，一切的方程组问题都可以归结为线性方程组问题
+			\item 欠定方程组(undetermined equations)的问题
+			\item 时间优化算法:~子体系的选择
+			\item 高通量并发计算算法
+		\end{enumerate}
+	\item 高通量并发式计算模型设计和方法($10^3$量级):~392个原子(\ch{Al56Ta11Re1W12Co33Ru6Cr24})\\
+		\textrm{2002-2004~PRB，化学势用结合能代替}\\
+		化学元素的空间和几何局域位置的影响
+\end{itemize}
+关键科学问题和挑战性问题:~
+\begin{itemize}
+	\item 按需设计(实践的考验)
+	\item 认识到每一个原子的作用
+	\item 回答一个电子的差别，导致性能差别如此大
+	\item \textrm{Spin-orbital-coupling}
+	\item 相(\textrm{Phase})因子的问题
+\end{itemize}
+%\begin{equation}
+%\end{equation}
+%-------------------The Figure Of The Paper------------------
+%\begin{figure}[h!]
+%\centering
+%\includegraphics[height=3.35in,width=2.85in,viewport=0 0 400 475,clip]{PbTe_Band_SO.eps}
+%\hspace{0.5in}
+%\includegraphics[height=3.35in,width=2.85in,viewport=0 0 400 475,clip]{EuTe_Band_SO.eps}
+%\caption{\small Band Structure of PbTe (a) and EuTe (b).}%(与文献\cite{EPJB33-47_2003}图1对比)
+%\label{Pb:EuTe-Band_struct}
+%\end{figure}
+
+%-------------------The Equation Of The Paper-----------------
+%\begin{equation}
+%\varepsilon_1(\omega)=1+\frac2{\pi}\mathscr P\int_0^{+\infty}\frac{\omega'\varepsilon_2(\omega')}{\omega'^2-\omega^2}d\omega'
+%\label{eq:magno-1}
+%\end{equation}
+
+%\begin{equation} 
+%\begin{split}
+%\varepsilon_2(\omega)&=\frac{e^2}{2\pi m^2\omega^2}\sum_{c,v}\int_{BZ}d{\vec k}\left|\vec e\cdot\vec M_{cv}(\vec k)\right|^2\delta [E_{cv}(\vec k)-\hbar\omega] \\
+% &= \frac{e^2}{2\pi m^2\omega^2}\sum_{c,v}\int_{E_{cv}(\vec k=\hbar\omega)}\left|\vec e\cdot\vec M_{cv}(\vec k)\right|^2\dfrac{dS}{\nabla_{\vec k}E_{cv}(\vec k)}
+% \end{split}
+%\label{eq:magno-2}
+%\end{equation}
+
+%-------------------The Table Of The Paper----------------------
+%\begin{table}[!h]
+%\tabcolsep 0pt \vspace*{-12pt}
+%\caption{The representative $\vec k$ points contributing to $\sigma_2^{xy}$ of interband transition in EuTe around 2.5 eV.}
+%\label{Table-EuTe_Sigma}
+%\begin{minipage}{\textwidth}
+%%\begin{center}
+%\centering
+%\def\temptablewidth{1.01\textwidth}
+%\rule{\temptablewidth}{1pt}
+%\begin{tabular*} {\temptablewidth}{@{\extracolsep{\fill}}cccccc}
+
+%-------------------------------------------------------------------------------------------------------------------------
+%&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
+%Components\footnote{波函数主要成分后的括号中，$5s$、$5p$和$5p$、$4f$、$5d$分别指碲和铕的原子轨道。} &Gap (eV)   \\ \hline
+%-------------------------------------------------------------------------------------------------------------------------
+%&2.35       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%&       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%-------------------------------------------------------------------------------------------------------------------------
+
+%\end{tabular*}
+%\rule{\temptablewidth}{1pt}\\
+%%\end{center}
+%\end{minipage}
+%\end{table}
+
+%-------------------The Long Table Of The Paper--------------------
+%\begin{small}
+%%\begin{minipage}{\textwidth}
+%%\begin{longtable}[l]{|c|c|cc|c|c|} %[c]指定长表格对齐方式
+%\begin{longtable}[c]{|c|c|p{1.9cm}p{4.6cm}|c|c|}
+%\caption{Assignment for the peaks of EuB$_6$}
+%\label{tab:EuB6-1}\\ %\\长表格的caption中换行不可少
+%\hline
+%%
+%--------------------------------------------------------------------------------------------------------------------------------
+%\multicolumn{2}{|c|}{\bfseries$\sigma_1(\omega)$谱峰}&\multicolumn{4}{c|}{\bfseries部分重要能带间电子跃迁\footnotemark}\\ \hline
+%\endfirsthead
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%\multicolumn{6}{r}{\it 续表}\\
+%\hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%标记 &峰位(eV) &\multicolumn{2}{c|}{有关电子跃迁} &gap(eV)  &\multicolumn{1}{c|}{经验指认} \\ \hline
+%\endhead
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%\multicolumn{6}{r}{\it 续下页}\\
+%\endfoot
+%\hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%%\hlinewd{0.5$p$t}
+%\endlastfoot
+%--------------------------------------------------------------------------------------------------------------------------------
+%%
+%% Stuff from here to \endlastfoot goes at bottom of last page.
+%%
+%--------------------------------------------------------------------------------------------------------------------------------
+%标记 &峰位(eV)\footnotetext{见正文说明。} &\multicolumn{2}{c|}{有关电子跃迁\footnotemark} &gap(eV) &\multicolumn{1}{c|}{经验指认\upcite{PRB46-12196_1992}}\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%
+%     &0.07 &\multicolumn{2}{c|}{电子群体激发$\uparrow$} &--- &电子群\\ \cline{2-5}
+%\raisebox{2.3ex}[0pt]{$\omega_f$} &0.1 &\multicolumn{2}{c|}{电子群体激发$\downarrow$} &--- &体激发\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%
+%     &1.50 &\raisebox{-2ex}[0pt][0pt]{20-22(0,1,4)} &2$p$(10.4)4$f$(74.9)$\rightarrow$ &\raisebox{-2ex}[0pt][0pt]{1.47} &\\%\cline{3-5}
+%     &1.50$^\ast$ & &2$p$(17.5)5$d_{\mathrm E}$(14.0)$\uparrow$ & &4$f$$\rightarrow$5$d_{\mathrm E}$\\ \cline{3-5}
+%     \raisebox{2.3ex}[0pt][0pt]{$a$} &(1.0$^\dagger$) &\raisebox{-2ex}[0pt][0pt]{20-22(1,2,6)} &\raisebox{-2ex}[0pt][0pt]{4$f$(89.9)$\rightarrow$2$p$(18.7)5$d_{\mathrm E}$(13.9)$\uparrow$}\footnotetext{波函数主要成分后的括号中，2$s$、2$p$和5$p$、4$f$、5$d$、6$s$分别指硼和铕的原子轨道；5$d_{\mathrm E}$、5$d_{\mathrm T}$分别指铕的(5$d_{z^2}$，5$d_{x^2-y^2}$和5$d_{xy}$，5$d_{xz}$，5$d_{yz}$)轨道，5$d_{\mathrm{ET}}$(或5$d_{\mathrm{TE}}$)则指5个5$d$轨道成分都有，成分大的用脚标的第一个字母标示；2$ps$(或2$sp$)表示同时含有硼2$s$、2$p$轨道成分，成分大的用第一个字母标示。$\uparrow$和$\downarrow$分别标示$\alpha$和$\beta$自旋电子跃迁。} &\raisebox{-2ex}[0pt][0pt]{1.56} &激子跃迁。 \\%\cline{3-5}
+%     &(1.3$^\dagger$) & & & &\\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+
+%     & &\raisebox{-2ex}[0pt][0pt]{19-22(0,0,1)} &2$p$(37.6)5$d_{\mathrm T}$(4.5)4$f$(6.7)$\rightarrow$ & & \\\nopagebreak %\cline{3-5}
+%     & & &2$p$(24.2)5$d_{\mathrm E}$(10.8)4$f$(5.1)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.78} &a、b、c峰可能 \\ \cline{3-5}
+%     & &\raisebox{-2ex}[0pt][0pt]{20-29(0,1,1)} &2$p$(35.7)5$d_{\mathrm T}$(4.8)4$f$(10.0)$\rightarrow$ & &包含有复杂的\\ \nopagebreak%\cline{3-5}
+%     &2.90 & &2$p$(23.2)5$d_{\mathrm E}$(13.2)4$f$(3.8)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.92} &强激子峰。$^{\ast\ast}$\\ \cline{3-5}
+%$b$  &2.90$^\ast$ &\raisebox{-2ex}[0pt][0pt]{19-22(0,1,1)} &2$p$(33.9)4$f$(15.5)$\rightarrow$ & &B2$s$-2$p$的价带 \\ \nopagebreak%\cline{3-5}
+%     &3.0 & &2$p$(23.2)5$d_{\mathrm E}$(13.2)4$f$(4.8)$\uparrow$ &\raisebox{2ex}[0pt][0pt]{2.94} &顶$\rightarrow$B2$s$-2$p$导\\ \cline{3-5}
+%     & &12-15(0,1,2) &2$p$(39.3)$\rightarrow$2$p$(25.2)5$d_{\mathrm E}$(8.6)$\downarrow$ &2.83 &带底跃迁。\\ \cline{3-5}
+%     & &14-15(1,1,1) &2$p$(42.5)$\rightarrow$2$p$(29.1)5$d_{\mathrm E}$(7.0)$\downarrow$ &2.96 & \\\cline{3-5}
+%     & &13-15(0,1,1) &2$p$(40.4)$\rightarrow$2$p$(28.9)5$d_{\mathrm E}$(6.6)$\downarrow$ &2.98 & \\ \hline
+%--------------------------------------------------------------------------------------------------------------------------------
+%%\hline
+%%\hlinewd{0.5$p$t}
+%\end{longtable}
+%%\end{minipage}{\textwidth}
+%%\setlength{\unitlength}{1cm}
+%%\begin{picture}(0.5,2.0)
+%%  \put(-0.02,1.93){$^{1)}$}
+%%  \put(-0.02,1.43){$^{2)}$}
+%%\put(0.25,1.0){\parbox[h]{14.2cm}{\small{\\}}
+%%\put(-0.25,2.3){\line(1,0){15}}
+%%\end{picture}
+%\end{small}
+
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+%-------------------------------------------------------------------------Thanks------------------------------------------------------------------------------------------------
+%\newpage %%
+%\newpage %%
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+%\section{致谢}
+%致谢内容
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+%--------------------------------------------------------------------------The Biblography of The Paper-----------------------------------------------------------------%
+%\newpage																				%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+%\begin{thebibliography}{99}																		%
+%%\bibitem{PRL58-65_1987}H.Feil, C. Haas, {\it Phys. Rev. Lett.} {\bf 58}, 65 (1987).											%
+%	\bibitem{kp-method} \textrm{Zhenxi Pan, Yong Pan, Jun Jiang$^{\ast}$, Liutao Zhao}, \textrm{High-Throughput Electronic Band Structure Calculations for Hexaborides}, \textit{Intelligent Computing}, \textbf{Springer}, \textbf{P.386-395}, (2019).%
+%	\bibitem{PAW-dataset} \textrm{姜骏}，\textrm{PAW原子数据集的构造与检验}, \textit{中国化学会第十二届全国量子化学会议论文摘要集}，\textbf{太原}，(2014).
+%\end{thebibliography}																			%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+\phantomsection\addcontentsline{toc}{section}{Bibliography} %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正	%
+\bibliography{ref/Myref}																			%
+\bibliographystyle{ref/mybib} %% 接近ieeert样式
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%      \bibliographystyle         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%      LaTeX 参考文献标准选项及其样式共有以下8种：                                %%%%%%%%
+% plain，按字母的顺序排列，比较次序为作者、年度和标题.
+% unsrt，样式同plain，只是按照引用的先后排序.
+% alpha，用作者名首字母+年份后两位作标号，以字母顺序排序.
+% abbrv，类似plain，将月份全拼改为缩写，更显紧凑.
+% ieeetr，国际电气电子工程师协会期刊样式.
+% acm，美国计算机学会期刊样式.
+% siam，美国工业和应用数学学会期刊样式.
+% apalike，美国心理学学会期刊样式.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  \nocite{*}																				%
+%-----------------------------------------------------------------------------------------------------------------------------------------------------------------------%
+
+\clearpage     %\end{CJK} 前加上\clearpage是CJK的要求
+%\end{CJK*}
+\end{document}
