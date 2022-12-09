@@ -130,10 +130,110 @@
 %\end{small}
 %-------------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-------------%
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  绘制流程图  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=3cm,minimum height=1cm,text centered,text width =3cm, draw=black,fill=red!30]
+%\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
+%\tikzstyle{process} = [rectangle,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=orange!30]
+%\tikzstyle{decision} = [diamond,aspect = 3,text centered,draw=black,fill=green!30]
+%\tikzstyle{arrow} = [thick,->,>=stealth]
+%\tikzstyle{straightline} = [line width = 1pt,-]
+%\tikzstyle{point}=[coordinate]
+%
+%\begin{tikzpicture}[node distance=2cm]
+%\node (start) [startstop] {开始};
+%\node (input1) [io,below of=start] {输入聚类的个数 $k$ 和最大迭代次数 $n$ };
+%\node (process1) [process,below of=input1] {初始化 $k$ 个聚类中心};
+%\node (process2) [process,below of=process1] {分配各数据对象到距离最近的类中};
+%\node (decision1) [decision,below of=process2,yshift=-0.5cm] {是否收敛或迭代次数达到 $n$ };
+%\node (stop) [startstop,below of=decision1,node distance=3cm] {输出聚类结果};
+%\node(point1)[point,left of=input1,node distance=5cm]{};
+%
+%\draw [arrow] (start) -- (input1);
+%\draw [arrow] (input1) -- (process1);
+%\draw [arrow] (process1) -- (process2);
+%\draw [arrow] (process2) -- (decision1);
+%\draw [arrow] (decision1) -- node[anchor=east] {是} (stop);
+%\draw [straightline] (decision1) -|  (point1);
+%\draw [arrow] (point1) -- node[anchor=south] {否} (input1);
+%\end{tikzpicture}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  绘制流程图  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{figure}
+%\scriptsize
+%\tikzstyle{format}=[rectangle,draw,thin,fill=white]
+%%定义语句块的颜色,形状和边
+%\tikzstyle{test}=[diamond,aspect=2,draw,thin]
+%%定义条件块的形状,颜色
+%\tikzstyle{point}=[coordinate,on grid,]
+%%像素点,用于连接转移线
+%\begin{tikzpicture}%[node distance=10mm,auto,>=late',thin,start chain=going below,every join/.style={norm},]
+%%start chain=going below指明了流程图的默认方向,node distance=8mm则指明了默认的node距离。这些可以在定义node的时候更改,比如说
+%%\node[point,right of=n3,node distance=10mm] (p0){};
+%%这里声明了node p0,它在node n3 的右边,距离是10mm。
+%\node[format] (start){Start};
+%\node[format,below of=start,node distance=7mm] (define){Some defines};
+%\node[format,below of=define,node distance=7mm] (PCFinit){PCF8563 Initialize};
+%\node[format,below of=PCFinit,node distance=7mm] (DS18init){DS18 Initialize};
+%\node[format,below of=DS18init,node distance=7mm] (LCDinit){LCD Initialize};
+%\node[format,below of=LCDinit,node distance=7mm] (processtime){Processtime};
+%\node[format,below of=processtime,node distance=7mm] (keyinit){Key Initialize};
+%\node[test,below of=keyinit,node distance=15mm](setkeycheck){Check Set Key};
+%\node[point,left of=setkeycheck,node distance=18mm](point3){};
+%\node[format,below of=setkeycheck,node distance=15mm](readtime){Read Time};
+%\node[point,right of=readtime,node distance=15mm](point4){};
+%\node[format,below of=readtime](processtime1){Processtime};
+%\node[format,below of=processtime1](gettemp){Get Temperature};
+%\node[format,below of=gettemp](display){Display All Data};
+%\node[format,right of=setkeycheck,node distance=40mm](setsetflag){Set SetFlag=1};
+%\node[format,below of=setsetflag](setinit){Set Mode Initialize};
+%\node[format,below of=setinit](checksetting){Checksetting()};
+%\node[test,below of=checksetting,node distance=15mm](savecheck){Check Save Key};
+%\node[format,below of=savecheck,node distance=15mm](clearsetflag){Clear SetFlag=0};
+%\node[format,below of=clearsetflag](settime){Set Time};
+%\node[point,below of=display,node distance=7mm](point1){};
+%\node[point,below of=settime,node distance=7mm](point2){};
+%%\node[format] (n0) at(4,4){A}; 直接指定位置
+%%定义完node之后进行连线,
+%%\draw[->] (n0.south) -- (n1); 带箭头实线
+%%\draw[-] (n0.south) -- (n1); 不带箭头实线
+%%\draw[&lt;->] (n0.south) -- (n1.north);   双箭头
+%%\draw[&lt;-,dashed] (n1.south) -- (n2.north); 带箭头虚线 
+%%\draw[&lt;-] (n0.south) to node{Yes} (n1.north);  带字,字在箭头方向右边
+%%\draw[->] (n1.north) to node{Yes} (n0.south);  带字,字在箭头方向左边
+%%\draw[->] (n1.north) to[out=60,in=300] node{Yes} (n0.south);  曲线
+%%\draw[->,draw=red](n2)--(n1);  带颜色的线
+%\draw[->] (start)--(define);
+%\draw[->] (define)--(PCFinit);
+%\draw[->](PCFinit)--(DS18init);
+%\draw[->](DS18init)--(LCDinit);
+%\draw[->](LCDinit)--(processtime);
+%\draw[->](processtime)--(keyinit);
+%\draw[->](keyinit)--(setkeycheck);
+%\draw[->](setkeycheck)--node[above]{Yes}(setsetflag);
+%\draw[->](setkeycheck) --node[left]{No} (readtime);
+%\draw[->](readtime)--(processtime1);
+%\draw[->](processtime1)--(gettemp);
+%\draw[->](gettemp)--(display);
+%\draw[-](display)--(point1);
+%\draw[-](point1)-|(point3);
+%\draw[->](point3)--(setkeycheck.west);
+%\draw[->](setsetflag)--(setinit);
+%\draw[->](setinit)--(checksetting);
+%\draw[->](checksetting)--(savecheck);
+%\draw[->](savecheck)--node[left]{Yes}(clearsetflag);
+%\draw[->](savecheck.west)|-node[left]{No}(checksetting);
+%\draw[->](clearsetflag)--(settime);
+%\draw[-](settime)--(point2);
+%\draw[-](point2)-|(point4);
+%\draw[->](point4)--(readtime.east);
+%\end{tikzpicture}
+%\end{figure}
 %-----%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-----直-接-插-入-文-件-----%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------%
 %\textcolor{red}{\textbf{直接插入文件}}:\verbatiminput{/home/jun_jiang/Documents/Latex_art_beamer/Daily_WORKS/Report-2020_model.tex} %为保险:~选用文件名绝对路径
 %\textcolor{red}{\textbf{备忘录}}:\verbatiminput{/home/jun_jiang/Documents/备忘录.txt}
 %--------------------------------------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%----------------------------------%
+
 
 %-----------------------------------------------The Bibliography of The Papart------------------------------------%
 %%%%%% 没有 \chapterbib 时仍然可以每个章节都出现参考文献~(\thebibliography 模式)~，但意义不大
