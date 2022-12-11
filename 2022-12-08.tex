@@ -48,43 +48,66 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \maketitle
 %\thispagestyle{fancy}   % 首页插入页眉页脚 
-\textrm{VASP}中
+\textrm{VASP}软件中，波函数(\textrm{wave function})、电荷密度(\textrm{charge density})和势函数(\textrm{potential})
+\begin{figure}
 %\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=3cm,minimum height=1cm,text centered,text width =3cm, draw=black,fill=red!30]
 %\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
-\tikzstyle{process} = [rectangle,minimum width=7cm,minimum height=1cm,text centered,text width =7cm,draw=black,fill=orange!30]
+\tikzstyle{process1} = [rectangle,minimum width=5cm,minimum height=1cm,text centered,text width =5cm,draw=black,fill=orange!30]
+\tikzstyle{process2} = [rectangle,minimum width=4cm,minimum height=1cm,text centered,text width =4cm,draw=black,fill=blue!30]
+\tikzstyle{process3} = [rectangle,minimum width=5cm,minimum height=1cm,text centered,text width =5cm,draw=black,fill=red!30]
 %\tikzstyle{decision} = [diamond,aspect = 3,text centered,draw=black,fill=green!30]
 \tikzstyle{arrow} = [thick,->,>=stealth]
 \tikzstyle{straightline} = [line width = 1pt,-]
+\tikzstyle{dashedline} = [dashed, line width = 1pt,-]
 \tikzstyle{point}=[coordinate]
 
 \begin{tikzpicture}[node distance=2cm]
 %\node (start) [startstop] {开始};
 %\node (input1) [io,below of=start] {输入聚类的个数 $k$ 和最大迭代次数 $n$ };
-	\node (process1) [process] {电荷密度、势函数的\textrm{FFT}变换};
-	\node (process2) [process,below of=process1, xshift= -4cm] {子程序\textrm{GEN\_RC\_GRID}、\textrm{GEN\_SUB\_GRID\_}和\textrm{SET\_RL\_GRID}(文件\textrm{mgrid.f90})};
-	\node (process3) [process,below of=process2] {子程序\textrm{INIT\_MPI}确定\textrm{VASP}并行网格通信的初始构造(文件\textrm{main\_mpi.f90})};
-	\node (process4) [process,below of=process3] {\textrm{MODULE~mympi}定义\textrm{MPI}的网格通信模式(文件\textrm{mpi.f90})};
-	\node (process5) [process,below of=process1, xshift= 4cm] {子程序\textrm{FFT3D\_MPI}(文件\textrm{fftmpi.f90}和\textrm{fftmpiw.f90})};
-	\node (process6) [process,below of=process5] {\textrm{FFTW}库函数接口和\textrm{VASP}自带的\textrm{fftlib.f90}};
-	\node (process7) [process,below of=process4, xshift=4cm] {通用\textrm{FFTW}库};
+	\node (process1) [process1] {电荷密度、势函数的\textrm{FFT}变换:\\调用子程序\textrm{FFT3D}完成};
+	\node (process2) [process2,right of=process1, xshift= 3cm] {波函数的\textrm{FFT}变换:\\调用子程序\\\textrm{FFTWAV}完成};
+	\node (process3) [process3,below of=process1, xshift= -2cm,yshift=-2cm] {模块\textrm{mgrid}定义了\textrm{VASP}的\textrm{FFT}变换的网格规范，主要功能由子程序\textrm{GEN\_RC\_GRID}、\textrm{GEN\_SUB\_GRID\_}和\textrm{SET\_RL\_GRID}完成\\\textcolor{blue}{\textbf{是解析的重点}}(文件\textrm{mgrid.f90})};
+	\node (process4) [process3,below of=process3,yshift=-1.0cm] {子程序\textrm{INIT\_MPI}确定\textrm{VASP}并行网格通信的初始构造(文件\textrm{main\_mpi.f90})};
+	\node (process5) [process3,below of=process4] {\textrm{MODULE~mympi}定义\textrm{MPI}的网格通信模式(文件\textrm{mpi.f90})};
+	\node (process6) [process1,below of=process1, xshift= 4cm] {子程序\textrm{FFT3D\_MPI}(文件\textrm{fftmpi.f90}和\textrm{fftmpiw.f90})};
+	\node (process7) [process2,below of=process6, xshift= 5cm] {文件\textrm{fftw3d.F}提供\textrm{VASP}和\textrm{FFTW}的等价接口};
+	\node (process8) [process1,below of=process6, yshift=-2cm] {通用\textrm{FFTW}库，提供诸如\\\textrm{dfftw\_plan\_many\_dft}等\\通用\textrm{FFTW}库函数};
+	\node (process9) [process2,below of=process7, yshift=-2cm] {\textrm{VASP}自带\textrm{FFT}库\\(文件\textrm{fftlib.f90})};
 
 %\node (decision1) [decision,below of=process2,yshift=-0.5cm] {是否收敛或迭代次数达到 $n$ };
 %\node (stop) [startstop,below of=decision1,node distance=3cm] {输出聚类结果};
-%\node(point1)[point,left of=input1,node distance=5cm]{};
+	\node(point1)[point,left of=process3 ,xshift =-1cm]{};
+	\node(point2)[point,above of=process2]{};
+	\node(point3)[point,left of=process1, xshift =-3cm]{};
+	\node(point4)[point,left of=process6, xshift =-4cm]{};
 
 %\draw [arrow] (start) -- (input1);
 %\draw [arrow] (input1) -- (process1);
-\draw [arrow] (process1) -- (process2);
-\draw [arrow] (process2) -- (process3);
+\draw [arrow] (process1) -- (process6);
+\draw [arrow] (process2) -- (process6);
 \draw [arrow] (process3) -- (process4);
-\draw [arrow] (process1) -- (process5);
-\draw [arrow] (process5) -- (process6);
-\draw [arrow] (process6) -- (process7);
-\draw [arrow] (process2) -- (process5);
+\draw [dashedline] (process3.west) -- (point1);
+\draw [dashedline] (point1) -- (point3);
+\draw [dashedline] (point3) -- (process1.west);
+\draw [dashedline] (process3) -- (point1);
+\draw [dashedline] (point1) |- (point2);
+\draw [dashedline] (point2) -- (process2.north);
+\draw [dashedline] (process7.west) -- (process3.east);
+\draw [dashedline] (process3.north) -- (point4);
+\draw [dashedline] (point4) -- (process6.west);
+\draw [arrow] (process4) -- (process5);
+\draw [arrow] (process2.east) -| (process7.north);
+\draw [arrow] (process6) -- (process8);
+\draw [arrow] (process7.west) -| (process8);
+%\draw [arrow] (process8) -- node[anchor=south] {否} (process9);
+\draw [arrow] (process7) -- (process9);
 %\draw [arrow] (decision1) -- node[anchor=east] {是} (stop);
 %\draw [straightline] (decision1) -|  (point1);
 %\draw [arrow] (point1) -- node[anchor=south] {否} (input1);
 \end{tikzpicture}
+\caption{\textrm{The Flow of FFT in VASP.}}
+\label{Fig:MPI_FLOW}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  绘制流程图  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=3cm,minimum height=1cm,text centered,text width =3cm, draw=black,fill=red!30]
 %\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
