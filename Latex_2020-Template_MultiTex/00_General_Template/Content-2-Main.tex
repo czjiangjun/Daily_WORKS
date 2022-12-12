@@ -229,6 +229,31 @@
 %\draw[->](point4)--(readtime.east);
 %\end{tikzpicture}
 %\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  绘制流程图(跨页)  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{lrbox}{\mysavebox}%
+%\begin{tikzpicture}[red,thick]
+% \draw (0,0) rectangle (-.9\textwidth,-2.8\textheight);
+% \draw (0,0) -- (-.9\textwidth,-2.8\textheight);
+% \draw (-.9\textwidth,0) -- (0,-2.8\textheight);
+% \path (-1mm,-1mm);
+% \path (current bounding box.north east) +(1mm,1mm);
+%\end{tikzpicture}%
+%\end{lrbox}%
+%%
+%\ifdim\ht\mysavebox>\textheight
+%    \setlength{\myrest}{\ht\mysavebox}%
+%    \loop\ifdim\myrest>\textheight
+%        \newpage\par\noindent
+%        \clipbox{0 {\myrest-\textheight} 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+%        \addtolength{\myrest}{-\textheight}%
+%    \repeat
+%    \newpage\par\noindent
+%    \clipbox{0 0 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+%\else
+%    \usebox{\mysavebox}%
+%\fi
+
 %-----%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-----直-接-插-入-文-件-----%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%------%
 %\textcolor{red}{\textbf{直接插入文件}}:\verbatiminput{/home/jun_jiang/Documents/Latex_art_beamer/Daily_WORKS/Report-2020_model.tex} %为保险:~选用文件名绝对路径
 %\textcolor{red}{\textbf{备忘录}}:\verbatiminput{/home/jun_jiang/Documents/备忘录.txt}
