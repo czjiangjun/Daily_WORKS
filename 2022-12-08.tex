@@ -48,7 +48,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \maketitle
 %\thispagestyle{fancy}   % 首页插入页眉页脚 
-\textrm{VASP}软件中，波函数(\textrm{wave function})、电荷密度(\textrm{charge density})和势函数(\textrm{potential})
+\textrm{VASP}软件中
+\begin{itemize}
+	\item 波函数(\textrm{wave function})的\textrm{Fouriier}变换主要调用子程序\textrm{FFTWAV}完成(根据文件\textrm{symbol.inc}的宏定义，源代码\textrm{.F}中，\textrm{FFTWAV}在串行版表示\textrm{FFTWAV}，并行版表示\textrm{FFTWAV\_MPI})。
+	\item 电荷密度(\textrm{charge density})和势函数(\textrm{potential})的\textrm{Fouriier}变换主要调用子程序\textrm{FFT3D}完成(根据文件\textrm{symbol.inc}的宏定义，源代码\textrm{.F}中，\textrm{FFT3D}在串行版表示\textrm{FFT3D}，并行版表示\textrm{FFT3D\_MPI})。
+\end{itemize}
+各部分代码的依赖关系如图\ref{Fig:MPI_FLOW}所示。在\textrm{VASP}软件中的\textrm{FFT}变换(串行和并行，主要是并行)所需的网格点由模块\textrm{mgrid}生成，变换过程则由\textrm{FFTD}和\textrm{FFTWAV}子程序完成。
+
 \begin{figure}
 %\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=3cm,minimum height=1cm,text centered,text width =3cm, draw=black,fill=red!30]
 %\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
@@ -66,13 +72,13 @@
 %\node (input1) [io,below of=start] {输入聚类的个数 $k$ 和最大迭代次数 $n$ };
 	\node (process1) [process1] {电荷密度、势函数的\textrm{FFT}变换:\\调用子程序\textrm{FFT3D}完成};
 	\node (process2) [process2,right of=process1, xshift= 3cm] {波函数的\textrm{FFT}变换:\\调用子程序\\\textrm{FFTWAV}完成};
-	\node (process3) [process3,below of=process1, xshift= -2cm,yshift=-2cm] {模块\textrm{mgrid}定义了\textrm{VASP}的\textrm{FFT}变换的网格规范，主要功能由子程序\textrm{GEN\_RC\_GRID}、\textrm{GEN\_SUB\_GRID\_}和\textrm{SET\_RL\_GRID}完成\\\textcolor{blue}{\textbf{是解析的重点}}(文件\textrm{mgrid.f90})};
+	\node (process3) [process3,below of=process1, xshift= -2cm,yshift=-2cm] {模块\textrm{mgrid}定义了\textrm{VASP}的\textrm{FFT}变换的网格规范，主要功能\\由子程序\textrm{GEN\_RC\_GRID}、\textrm{GEN\_SUB\_GRID\_}和\textrm{SET\_RL\_GRID}完成\\\textcolor{blue}{\textbf{是解析的重点}}(文件\textrm{mgrid.f90})};
 	\node (process4) [process3,below of=process3,yshift=-1.0cm] {子程序\textrm{INIT\_MPI}确定\textrm{VASP}并行网格通信的初始构造(文件\textrm{main\_mpi.f90})};
 	\node (process5) [process3,below of=process4] {\textrm{MODULE~mympi}定义\textrm{MPI}的网格通信模式(文件\textrm{mpi.f90})};
 	\node (process6) [process1,below of=process1, xshift= 4cm] {子程序\textrm{FFT3D\_MPI}(文件\textrm{fftmpi.f90}和\textrm{fftmpiw.f90})};
 	\node (process7) [process2,below of=process6, xshift= 5cm] {文件\textrm{fftw3d.F}提供\textrm{VASP}和\textrm{FFTW}的等价接口};
-	\node (process8) [process1,below of=process6, yshift=-2cm] {通用\textrm{FFTW}库，提供诸如\\\textrm{dfftw\_plan\_many\_dft}等\\通用\textrm{FFTW}库函数};
-	\node (process9) [process2,below of=process7, yshift=-2cm] {\textrm{VASP}自带\textrm{FFT}库\\(文件\textrm{fftlib.f90})};
+	\node (process8) [process2,below of=process6, yshift=-2cm] {\textrm{VASP}自带\textrm{FFT}库\\(文件\textrm{fftlib.f90})};
+	\node (process9) [process1,below of=process7, yshift=-2cm] {通用\textrm{FFTW}库，提供诸如\\\textrm{dfftw\_plan\_many\_dft}等\\通用\textrm{FFTW}库函数};
 
 %\node (decision1) [decision,below of=process2,yshift=-0.5cm] {是否收敛或迭代次数达到 $n$ };
 %\node (stop) [startstop,below of=decision1,node distance=3cm] {输出聚类结果};
@@ -80,6 +86,7 @@
 	\node(point2)[point,above of=process2]{};
 	\node(point3)[point,left of=process1, xshift =-3cm]{};
 	\node(point4)[point,left of=process6, xshift =-4cm]{};
+	\node(point5)[point,left of=process9, xshift =-6cm]{};
 
 %\draw [arrow] (start) -- (input1);
 %\draw [arrow] (input1) -- (process1);
@@ -98,12 +105,15 @@
 \draw [arrow] (process4) -- (process5);
 \draw [arrow] (process2.east) -| (process7.north);
 \draw [arrow] (process6) -- (process8);
-\draw [arrow] (process7.west) -| (process8);
+\draw [arrow] (process6) |- (process7);
+\draw [arrow] (process7) |- (process8.east);
 %\draw [arrow] (process8) -- node[anchor=south] {否} (process9);
 \draw [arrow] (process7) -- (process9);
 %\draw [arrow] (decision1) -- node[anchor=east] {是} (stop);
 %\draw [straightline] (decision1) -|  (point1);
+\draw [straightline] (process6) -|  (point5);
 %\draw [arrow] (point1) -- node[anchor=south] {否} (input1);
+\draw [arrow] (point5) -- (process9);
 \end{tikzpicture}
 \caption{\textrm{The Flow of FFT in VASP.}}
 \label{Fig:MPI_FLOW}
@@ -206,3 +216,64 @@
 %\draw[->](point4)--(readtime.east);
 %\end{tikzpicture}
 %\end{figure}
+\section{\rm{FFT}变换的实现过程}\label{label:Section-1}
+1.~子程序\textrm{FFT3D}\\
+子程序格式为:~\textrm{FFT3D~(CR,~GRID,~ISIGN)}，其参数含义\\
+\begin{itemize}
+	\item \textrm{CR}:~核心输入/输出参数，\textrm{FFT}变换对象
+	\item \textrm{GRID}:~执行\textrm{FFT}变换的网格
+	\item \textrm{ISIGN}:~-1实空间$\rightarrow$倒空间-变换/+1倒空间$\rightarrow$实空间-变换
+\end{itemize}
+\textrm{}
+
+2.~子程序\textrm{FFTWAV}\\
+子程序格式为:~\textrm{FFTWAV~(NPL,~NINDPW,~CR,~C,~GRID)}，其参数含义\\
+\begin{itemize}
+	\item \textrm{NPL}:~用来展开波函数的平面波总数
+	\item \textrm{NINDPW}:~用以波函数的平面波在\textrm{FFT}变换中对应关系
+	\item \textrm{CR}:~实空间波函数
+	\item \textrm{C}:~倒空间波函数
+	\item \textrm{GRID}:~执行\textrm{FFT}变换的网格
+\end{itemize}
+\textcolor{red}{\textrm{FFTWAV}最终还是通过调用\textrm{FFT3D}完成变换}
+
+因此解析\textrm{VASP}的\textrm{FFT}变换的核心就是解析\textrm{FFT3D}子程序(见\textrm{fftw3d.F}文件——文件编译中产生\textrm{fftw3d.f90}文件，该\textrm{.f90}文件包含了\textrm{fftw3d.F}和\textrm{fftw3dsimple.F}两部分)。
+
+\begin{itemize}
+	\item \textrm{FFT3D}通过调用子程序\textrm{FFTBAS}，达到调用通用\textrm{FFT}库接口\textrm{dfftw\_plan\_dft\_3d}等的目的
+	\item \textrm{FFT3D}通过调用\textrm{FFTBRC}达到调用\textrm{VASP}自带\textrm{FFT}库的目的
+\end{itemize}
+
+此外，\textrm{VASP}的主程序(\textrm{main.F}文件)中通过调用子程序\textrm{FFTMAKEPLAN}(类似地，有宏定义为\textrm{FFTMAKEPLAN\_MPI}，分别在\textrm{fftmpi.F}文件和\textrm{fftmpiw.F}文件)，可以调用子程序\textrm{FFTMAKEPLAN}(\textrm{fftw3d.f90}文件),达到通用\textrm{FFT}库接口\textrm{dfftw\_plan\_dft\_3d}等的目的
+
+从上述梳理不难看出，图\ref{Fig:MPI_FLOW}右侧给出了\textrm{VASP}的\textrm{FFT}变换的主要函数(模块)调用关系。具体的并行\textrm{FFT}变换实施，则将涉及到\textrm{FFT}网格点在各节点的分配，这部分主要由图\ref{Fig:MPI_FLOW}的左侧完成。以下作必要说明。
+
+\section{\rm{FFT}变换的网格分配与通信}
+\textrm{VASP}软件除了在模块\textrm{mpimy}(\textrm{mpi.F}文件)中规定了一般并行节点的通信基本规则(包括主节点和各节点的通信，以及定义的二维\textrm{topology}~$\mathrm{NCPU}\times\mathrm{NPARA}$~通信)，还对\textrm{FFT}网格作了一些特别的处理，保证了\textrm{FFT}变换过程中网格点的负载均衡，主要实现过程参见子程序\textrm{GEN\_RC\_GRID}、\textrm{GEN\_SUB\_GRID\_}和\textrm{SET\_RL\_GRID}(\textrm{mgrid.F}文件)，这一网格分布以模块\textrm{mgrid}形式贯穿\textrm{FFT}变换(图\ref{Fig:MPI_FLOW}的虚线)主要思路包括两个方面
+\begin{itemize}
+	\item 倒空间-实空间的\textrm{FFT}变换
+	\item 实空间的数据与网格分配
+\end{itemize}
+
+\textrm{VASP}计算中有大量的实空间-倒空间变换和运算，为了维持计算中的高精度，\textrm{VASP}的\textrm{FFT}变换使用了两套网格:~密网格(\textrm{supergrid})和疏网格(\textrm{subgrid})。两套网格的三维网格点(\textrm{GX},~\textrm{GY},~\textrm{GZ})遵守的格点分布模式如图\ref{Fig:MPI-FFT}的上图所示，即粗网格和密网格向对应的平面映射到同一计算节点上，并保留变换列表(轮询对称算法)，由此保证了倒空间-实空间\textrm{FFT}变换的负载均衡，这一网格分布形式由子程序\textrm{GEN\_RC\_GRID}和子程序\textrm{GEN\_SUB\_GRID\_}实现。
+\begin{figure}[h!]
+\centering
+%\includegraphics[height=2.7in,width=4.0in,viewport=0 0 1180 875,clip]{Figures/dual_grid.png}
+\includegraphics[height=1.5in,width=6.0in,viewport=0 0 1500 450,clip]{VASP_FFT-MPI_Reciprocal.png}
+\vskip 0.5pt
+\includegraphics[height=1.2in,width=5.0in,viewport=0 0 730 150,clip]{VASP_FFT-MPI_Real.png}
+\caption{\textrm{VASP:~ Reciprocal-Real space layout for grids in MPI.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Fig:MPI-FFT}
+\end{figure} 
+针对\textrm{VASP}计算中的二维\textrm{topology}网格，在完成倒空间-实空间变换后，数据将会存于主节点带内通信节点内(此处称为原始网格)，然后经过子程序\textrm{SET\_RL\_GRID}，将数据映射到并行各节点内(此处称为目标网格)，允许全部节点内的通信，如图\ref{Fig:MPI-FFT}的下图所示，这样就是实现了变换后实空间数据在计算节点上的均衡负载。
+
+\section{小结}
+\textrm{VASP}中的基函数是平面波，但主要计算都是在实空间完成的，所以程序中充满了大量的倒空间-实空间的\textrm{FFT}变换，程序在实现过程中为了兼顾计算软件的特点，在实现\textrm{FFT}变换中应用了大量的独特设计，而不是简单地利用通用\textrm{FFTW}库中的函数支持。在解析\textrm{VASP}的\textrm{FFT}变换实现代码中，重点解析的代码包括
+\begin{itemize}
+	\item \textrm{MPI}通信规则主要由\textrm{mpimy}模块(\textrm{mpi.f90}文件)确定，二维\textrm{topology}通信规范的设计，主要在\textrm{main\_mpi.F}文件中设计完成
+	\item \textrm{FFT}网格分布和通信模式设计，主要是\textrm{mgrid.F}文件，特别是其中的疏密网格分配及对应的映射关系，主要是子程序:~\textrm{GEN\_SUB\_GRID\_}
+	\item \textrm{FFT}变换的实现，主要是\textrm{fftw3d.f90}文件(涵盖了\textrm{fft3dsimple.F}和\textrm{ffw3d.F}文件)
+\end{itemize}
+\textcolor{red}{注意}:~因为这部分子程序传递的变量和参数基本上都是描述网格/子网格的映射和变换关系，与\textrm{VASP}的物理变量关系不大，所以未作专门说明。在主体程序中，\textrm{FFT}变换是通过调用\textrm{FFT3D/FFT3D\_MPI}来完成的，\textrm{FFT3D}的变量和参数解析见\ref{label:Section-1}部分。
+
+以上，是\textrm{VASP}中\textrm{FFT}变换的总体实现思想，具体细节后续讨论
