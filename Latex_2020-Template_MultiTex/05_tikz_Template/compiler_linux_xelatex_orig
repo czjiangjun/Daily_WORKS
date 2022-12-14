@@ -15,6 +15,6 @@ xelatex $1
 bibtex $1
 xelatex $1
 xelatex $1
-rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .Latex_2020-Template.*.swp *.aux *.bbl *.blg
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.vrb *.toc *.xml *.*~ *~ .Latex_2020-Template.*.swp *.aux *.bbl *.blg
 # mv Latex_2020-Template.pdf $1.pdf
 evince $1.pdf
