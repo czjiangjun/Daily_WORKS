@@ -1,0 +1,34 @@
+\documentclass{article}
+
+\usepackage{tikz}
+\usepackage{adjustbox}
+
+\newsavebox{\mysavebox}
+\newlength{\myrest}
+\begin{document}
+
+\begin{lrbox}{\mysavebox}%
+\begin{tikzpicture}[red,thick]
+ \draw (0,0) rectangle (-.9\textwidth,-2.8\textheight);
+ \draw (0,0) -- (-.9\textwidth,-2.8\textheight);
+ \draw (-.9\textwidth,0) -- (0,-2.8\textheight);
+ \path (-1mm,-1mm);
+ \path (current bounding box.north east) +(1mm,1mm);
+\end{tikzpicture}%
+\end{lrbox}%
+%
+\ifdim\ht\mysavebox>\textheight
+    \setlength{\myrest}{\ht\mysavebox}%
+    \loop\ifdim\myrest>\textheight
+        \newpage\par\noindent
+        \clipbox{0 {\myrest-\textheight} 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+        \addtolength{\myrest}{-\textheight}%
+    \repeat
+    \newpage\par\noindent
+    \clipbox{0 0 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+\else
+    \usebox{\mysavebox}%
+\fi
+
+\end{document}
+

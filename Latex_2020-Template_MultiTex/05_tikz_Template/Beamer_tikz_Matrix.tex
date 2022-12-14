@@ -1,0 +1,68 @@
+\documentclass[handout, hyperref={pdfpagelabels=false}]{beamer}
+\usetheme{Madrid} 
+\let\Tiny=\tiny
+\usecolortheme{whale} 
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usefonttheme{professionalfonts}  
+\usenavigationsymbolstemplate{} 
+\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{frametitle}[default][center]
+\setbeamersize{text margin left=2em,text margin right=2em}
+\usepackage[export]{adjustbox}
+\usepackage{graphicx}
+\usepackage{chemfig} 
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows.meta}
+\usetikzlibrary{matrix}
+\usepackage{ragged2e}
+
+\AtBeginSection[]
+{%
+\begin{frame}
+    \frametitle{Tabla de contenidos}
+    \tableofcontents[currentsection]
+\end{frame}
+}
+
+\begin{document}
+\section{Metodología}
+\subsection{Consideraciones termodinámicas}
+\begin{frame}[fragile]{Title} % fragile otherwise you can't use % in matrix
+\pagestyle{empty}
+% Define block styles
+\tikzset{% use tikzset instead of tikzstyle
+    block/.style ={rectangle, draw, fill=blue!20, 
+        text width=4.7em, text centered, rounded corners, font={\scriptsize}, minimum height=7ex},
+    line/.style ={draw, -Stealth},
+    cloud/.style ={draw, ellipse,fill=red!20},
+}
+\begin{tikzpicture}
+    % Place nodes
+    \matrix[row sep=2ex,column sep=1em] {% 
+        \node[block] (react) {Reactantes};&&&&[.8pt]\\
+        \node[block] (myc) {Generar microespecies y conformeros}; &
+        \node[block] (opt1) {Optimización (MOPAC)}; &
+        \node[block] (solv) {Solvatación (programas)}; &
+        \node[block] (opt2) {Optimización (MOPAC)}; \\
+        &&& \node[block] (termo) {Cálculo termodinámico}; \\
+        &&& \node[block] (exp) {Contraste experiental}; \\
+        \node[block] (metodo) {Revisar metodología};
+        &&& \node[block] (decide) {¿Resultado aceptable?}; & 
+        \node[ellipse, draw, fill=blue!20, font={\scriptsize}] (stop) {stop};\\
+    };
+    % Draw edges
+    \path [line] (react) -- (myc);
+    \path [line] (myc) -- (opt1);
+    \path [line] (opt1) -- (solv);
+    \path [line] (solv) -- (opt2);
+    \path [line] (opt2) -- (termo);
+    \path [line] (termo) -- (exp);
+    \path [line] (exp) -- (decide);
+    \path [line] (decide) -- node[very near start, above, font={\scriptsize}] {no} (metodo);
+    \path [line] (decide) -- node[above, font={\scriptsize}] {sí} (stop);
+    \path [line] (metodo) -- (myc);
+\end{tikzpicture}
+\end{frame}
+\end{document}
+
