@@ -55,9 +55,47 @@
 \end{itemize}
 
 在模块\textrm{WAVE}中，首先定义的是与波函数有关的数组开辟、复制和清空等操作:\\
-子程序\textrm{ALLOCWDES}
-
-
-
-除了常规的与波函数有关的数组开辟、复制和清空等操作，
+子程序\textrm{ALLOCWDES}:~开辟描述波函数的数组~(\textrm{WDES}表示描述波函数的描述参数)\\
+子程序\textrm{DEALLOCWDES}:~清空描述波函数的数组\\
+子程序\textrm{COPYWDES(WDES\_OLD, WDES\_NEW, LEXTEND)}:~将波函数\textrm{WDES\_OLD}原有信息清空，加载\textrm{WDES\_NEW}的信息\\
+子程序\textrm{INIT\_KPOINT\_WDES}:~给出与波函数有关的$\vec k$点的信息(如$\vec k$点数目、\textrm{Brillouin-zone}的$\vec k$点和$\vec k$点积分权重等)\\
+子程序\textrm{WDES\_SET\_NPRO}:~完成波函数中用于投影函数的描述项的初始化，在并行版本中，指定每个\textrm{node}上处理的投影函数数目，将每一类元素方法一个\textrm{local node}上
+函数\textrm{NI\_LOCAL}和函数\textrm{NI\_GLOBAL}:\\
+分别给出原子的序号标记在当前节点和全局中的对应表\\
+子程序\textrm{CREATE\_KPOINT\_WDES(WDES\_ORIG, WDES, NK)}:~给出具体某个指定$\vec k$点(\textrm{NK})的波函数\\
+子程序\textrm{ALLOCW(WDES, W, WUP, WDW)}:~初始化波函数\textrm{W}，波函数参数清零，指定波函数描述参数\\
+子程序\textrm{ALLOCW\_NOPLANEWAVE(WDES, W, WUP, WDW)}:~初始化波函数\textrm{W}，指定波函数描述参数，波函数本身不清零\\
+子程序\textrm{DEALLOCW}:~清空内存中的波函数\textrm{W}\\
+子程序\textrm{DEALLOCW\_CW}:~清空内存中的波函数\textrm{W}，但保留全局数组中的能量本征值和\textrm{Fermi}能积分权重\\
+子程序\textrm{SETWDES(WDES, WDES1, NK)}:~指定$\vec k$点(\textrm{NK})，指定波函数描述参数\textrm{WDES1}与\textrm{WDES}一致\\
+子程序\textrm{SETWGRID\_OLD(WDES1,GRID)}:~指定波函数描述参数\textrm{WDES1\%GRID}为\textrm{GRID}\\
+子程序\textrm{NEWWAV(W1, WDES1, ALLOC\_REAL, ISTAT)}:~为波函数\textrm{W1}开内存，描述参数为\textrm{WDES1}\\
+子程序\textrm{NEWWAV\_R(W1, WDES1)}:~为实空间波函数\textrm{W1}开内存，描述参数为\textrm{WDES1}\\
+函数\textrm{DELWAV}和函数\textrm{DELWAV\_R}:\\
+清空内存中的波函数\textrm{W}全部波函数有关的存储空间，保留描述参数
+子程序\textrm{SETWAV(W, W1, WDES1, NB, ISP)}:~指定$\vec k$点(\textrm{WDES\%NK})，指定能带\textrm{(NB)}的波函数\textrm{W1}，与\textrm{W}对应部分一致\\
+子程序\textrm{SETW\_SPIN(W, W1, ISPIN)}:~指定波函数\textrm{W1}与\textrm{W}对应自旋部分一致\\
+子程序\textrm{WVREAL}:~针对纯$\gamma$点计算($\vec k=0$)，构造实数型波函数(避免复数计算的复杂性)
+函数\textrm{NB\_LOCAL}:~当某个能带\textrm{NB}计算分配到多个处理器，将返回当前存储的存储\textrm{Index}\\
+{\hei 子程序}\textbf{WFINIT}\textrm{(WDES, W, ENINI, NBANDS)}:~波函数\textrm{W}的初始化，能量本征值和\textrm{Fermi}能积分权重等全部清零，并用随机数产生波函数的组合系数\\
+\textcolor{blue}{该子程序是波函数初始化的重要部分}\\
+子程序\textrm{WFZERO(W)}:~如果波函数(\textrm{W})中能量本征值较高部分，能量本征值直接设为极高($10^4$)，波函数展开系数设为0\\
+子程序\textrm{WFSET\_HIGH\_CELEN(W)}:~与\textrm{WFZERO}类似，如果波函数(\textrm{W})中能量本征值较高部分，能量本征值直接设为极高($10^4$)，波函数展开系数设为0\\
+{\hei 子程序}\textbf{GEN\_LAYOUT}
+\begin{itemize}
+	\item \textcolor{red}{确定并行计算中构成波函数的平面波(\textrm{FFT}网格)的分配方案}
+	\item 确定倒空间网格分配参数\textrm{GRID\%RC}(顺便也可以确定实空间网格分配参数\textrm{GRID\%RL})以及中间层网格分布\textrm{GRID\%IN}
+	\item 根据确定的平面波数据，确定波函数描述平面波的参数\textrm{WDES\%NPLWKP}
+\end{itemize}
+\textcolor{blue}{该子程序是波函数在并行时分配平面波(\textrm{FFT}网格点)的重要部分}\\
+子程序\textrm{SORT\_REDIS}和子程序\textrm{SORT\_REDIS\_ASC}分别是按降序和升序排列输入数组\\
+子程序\textrm{COUNT\_ROWS}(略)\\
+子程序\textrm{REPAD\_INDEX\_ARRAY}(略)\\
+{\hei 子程序}\textbf{GEN\_INDEX}
+\begin{itemize}
+	\item 指标数组\textrm{INIDPW}，方便在\textrm{3d-FFT}时，连续的平面波系数\textrm{CW}数组分解成多段\textrm{(column wise)}数组的寻址
+	\item 必要时(\textrm{LSETUP=.TRUE.})，开辟描述动能和平面波的数组
+	\item 并行运算中，构造数组\textrm{PL\_INDEX}和\textrm{PL\_COL}并存入数据
+\end{itemize}
+\textcolor{blue}{该子程序是并行计算时分配网格地址和存储波函数描述信息的重要部分}
 
