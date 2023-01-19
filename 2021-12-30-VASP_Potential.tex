@@ -163,8 +163,8 @@
 %\affil[a]{作者单位-1 \authorcr 地址}    %\authorcr表示换行
 %\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
 %\affil[b]{作者单位-2}			     %
-\author[]{姜骏\thanks{E-mal:~czjiangjun@gmail.com}}   %
-\affil[]{天宁问道斋 \authorcr 北京市西城区}    %\authorcr表示换行
+%\author[]{姜骏\thanks{E-mal:~czjiangjun@gmail.com}}   %
+%\affil[]{天宁问道斋 \authorcr 北京市西城区}    %\authorcr表示换行
 											     %
 %%% 使用 \thanks 定义通讯作者								     %
 %%\affil命令后的{}中的内容，如果觉得需要换行的话，换行命令是\authorcr（不是\\）。
@@ -302,27 +302,92 @@
 \end{itemize}
 %\section{Introduction}
 \section{变量表达式}
-原子价电子径向波函数$\phi_i(r)$与价电子密度:
+原子价电子波函数积分
 \begin{equation}
-	\int|\phi_i(r)|^2\mathrm{d}r =4\pi\int\rho_v\mathrm{d}r
-	\label{eq:wave-charge}
+	\begin{aligned}
+		\int\psi_{lm}(\vec r)|\psi_{l^{\prime}m^{\prime}}(\vec r)\mathrm{d}\vec r=&\underbrace{\int\phi_l(r)\phi_{l^{\prime}}(r)\mathrm{d}r}&\underbrace{\int Y_{lm}(\theta,\varphi)Y_{l^{\prime}m^{\prime}}(\theta,\varphi)\mathrm{d}\Omega} \\%=4\pi\int\rho_v\mathrm{d}r
+		&\mbox{径向部分积分} &\mbox{角度部分积分}
+	\end{aligned}
+	\label{eq:wave-integral}
 \end{equation}
-变量$\rho$
+这里$\int\mathrm{d}\Omega$表示角度部分的积分微元(单位立体角)的积分$\int\sin\theta\mathrm{d}\theta\mathrm{d}\varphi$
+%原子价电子径向波函数$\phi_i(r)$与价电子密度:
+%\begin{equation}
+%	\int|\phi_i(r)|^2\mathrm{d}r =4\pi\int\rho_v\mathrm{d}r
+%	\label{eq:wave-charge}
+%\end{equation}
+对于角度部分，当前的被积函数$Y_{lm}(\theta,\varphi)Y_{l^{\prime}m^{\prime}}(\theta,\varphi)$不包含总角动量信息，称为\textcolor{magenta}{非耦合表象}，可记作$|l,m;l^{\prime},m^{\prime}\rangle$。如果考虑角动量耦合产生总的角动量的贡献，称为\textcolor{magenta}{耦合表象}，记作$|l,l^{\prime};L,M\rangle$。\footnote{两种表象都包含四个量子数，这里不能确定六个量子数。但因为有$L_z=l_z+l_z^{\prime}$，因此$M=m+m^{\prime}$在两种表象下都成立}
+
+\subsection{\rm{CG}系数}
+耦合表象$|l,l^{\prime};L,M\rangle$可以用非耦合表象$|l,m;l^{\prime},m^{\prime}\rangle$的线性组合表示
 \begin{equation}
-	\rho(r)=\rho
+	|l,l^{\prime};L,M\rangle=\sum_{mm^{\prime}}C_{lm,l^{\prime}m^{\prime}}^{LM}|l,m;l^{\prime},m^{\prime}\rangle \qquad(m+m^{\prime}=M)
+	\label{eq:couple_vs_uncouple}
+\end{equation}
+这里系数$C_{lm,l^{\prime}m^{\prime}}^{LM}$称为\textrm{Clebsch-Gordan~(CG)}系数。
+
+\textrm{CG}系数与\textrm{Wignerr~3-j}符号有密切关系
+\begin{equation}
+	\begin{pmatrix}l &l^{\prime} &L\\m &m^{\prime} &M\end{pmatrix}\equiv\dfrac{(-1)^{l-l^{\prime}-M}}{2L+1}\langle l,m;l^{\prime},m^{\prime}|L,-M\rangle
+	\label{eq:CG-vs-Wigner_3-j}
+\end{equation}
+
+\subsection{\rm{CG}系数与球谐函数}
+\textrm{CG}系数常用于计算球谐函数乘积的积分
+\begin{equation}
+	\begin{aligned}
+		&\int Y_{lm}^{\ast}(\theta,\varphi)Y_{l^{\prime}m^{\prime}}(\theta,\varphi)^{\ast}Y_{LM}(\theta,\varphi)\mathrm{d}\Omega\\
+		=&(-1)^M\sqrt{\dfrac{(2l+1)(2l^{\prime}+1)}{4\pi(2L+1)}}\begin{bmatrix}l &l^{\prime} &L\\0 &0 &0\end{bmatrix}\begin{bmatrix}l &l^{\prime} &L\\m &m^{\prime} &-M\end{bmatrix}\\
+			=&\sqrt{\dfrac{(2l+1)(2l^{\prime}+1)(2L+1)}{4\pi}}\langle l0l^{\prime}0|L0\rangle\langle lml^{\prime}m^{\prime}|LM\rangle\\
+			=&\sqrt{\dfrac{(2l+1)(2l^{\prime}+1)(2L+1)}{4\pi}}\begin{pmatrix}l &l^{\prime} &L\\ 0 &0 &0\end{pmatrix}\begin{pmatrix}l &l^{\prime} &L\\m &m^{\prime} &M\end{pmatrix}
+	\end{aligned}
+	\label{CG-spherical_harmonics}
+\end{equation}
+因此典型的三个球谐函数乘积的积分可以表示为两个\textrm{CG}系数或\textrm{Wigner~3-j}符号相乘。
+
+由式\eqref{CG-spherical_harmonics}和球谐函数的正交归一性
+\begin{equation}
+	\int Y_{l^{\prime}m^{\prime}}^{\ast}(\theta,\varphi)Y_{lm}(\theta,\varphi)\mathrm{d}\Omega=\delta_{ll^{\prime}}\delta_{mm^{\prime}}
+	\label{SH-orthonormality}
+\end{equation}
+可得出结论:~两个球谐函数的乘积用另一个球谐函数展开时，展开系数可用\textrm{CG}系数表示
+\begin{equation}
+	Y_{lm}(\theta,\varphi)Y_{l^{\prime}m^{\prime}}(\theta,\varphi)=\sum_{LM}\sqrt{\dfrac{(2l+1)(2l^{\prime}+1)}{4\pi(2L+1)}}\langle l0l^{\prime}0|L0\rangle\langle lml^{\prime}m^{\prime}|LM\rangle Y_{LM}(\theta,\varphi)
+	\label{eq:CG-spherical_harmonics_expand}
+\end{equation}
+
+\subsection{电荷密度的计算}
+应用\textrm{CG}系数，可以将价电子密度的\textcolor{red}{分波表示}
+\begin{equation}
+	\begin{aligned}
+		\rho^{LM}(r)=\sum_{ll^{\prime}}&\underbrace{\sum_{mm^{\prime}}n_{lm,l^{\prime}m^{\prime}}C_{lm,l^{\prime}m^{\prime}}^{LM}}\phi_l(r)\phi_{l^{\prime}}(r)\\
+		&\mbox{变量\textrm{RHOLM}的计算}
+	\end{aligned}
+	\label{eq:rho_LM}
+\end{equation}
+这里$\rho^{LM}(r)$对应变量\textrm{RHO(:,:,1)}，用$C_{lm,l^{\prime}m^{\prime}}^{LM}$表示\textrm{CG}系数。
+
+体系的密度$\rho$
+\begin{equation}
+	\rho(r)=\sum_{LM}\rho^{LM}(r)
 	\label{eq:density}
 \end{equation}
 
-变量\textrm{POTAE}理论上应该遵照表达式
+变量\textrm{POTAE}遵照表达式
 \begin{equation}
 	\mathrm{POTAE} = V_{\mathrm{H}}[n_v]+V_{\mathrm{XC}}[n_v+n_c]
 	\label{eq:POTAE}
 \end{equation}
-计算，但实际上，\textcolor{red}{用于\textrm{POTAE}的价电子密度应该不是由原子波函数$\phi(r)$得到的!}
+计算。
+
+为构造局域有效势，文献建议，\textcolor{red}{由全电子势\textrm{POTAE}“截断”(取$L=0$)获得}
 
 理论上，有效势$V_{\mathrm{eff}}(r)$的计算表达式为
 \begin{equation}
-	V_{\mathrm{eff}}(r) = V_{\mathrm{H}}[n_v+n_{Zc}]+V_{\mathrm{XC}}[\rho_v+\rho_c]
+	\begin{aligned}
+		V_{\mathrm{eff}}(r) =& A\dfrac{\sin(q_{loc}r)}r\\
+		\Rightarrow & V_{\mathrm{H}}[n_v+n_{Zc}]+V_{\mathrm{XC}}[\rho_v+\rho_c]
+	\end{aligned}
 	\label{eq:POT_EFF}
 \end{equation}
 
@@ -333,13 +398,33 @@
 \end{equation}
 计算。
 
-关于变量\textrm{POTPSC}，从数据上看
-
-\subsection{实空间变量\textrm{POTPSC}与倒变量变量\textrm{PSP}}
-根据代码\textrm{setlocalpp.F}中，子程序\textrm{POTTORHO}的描述，
+变量\textrm{POTPSC}，即去屏蔽的可移植赝势
 \begin{equation}
-		\mathrm{POTPSC} = V_{\mathrm{H}}[\tilde{n}_c](r)+V_{\mathrm{H}}[Z](r)
+	\begin{aligned}
+		\mathrm{POTPSC} =& V_{\mathrm{eff}}(r)-\mathrm{POTPS}\\
+		=&V_{\mathrm{eff}}(r)-(V_{\mathrm{H}}[\tilde{n}_v+\hat{n}_v]+V_{\mathrm{XC}}[\tilde{n}_v+\hat{n}_v+\tilde{n}_c])
+	\end{aligned}
 	\label{eq:POTPSC}
+\end{equation}
+
+\subsection{实空间变量$\tilde V_{\mathrm{eff}}^{\mathrm{ion}}(r)$与倒变量变量\textrm{PSP}}
+在冻芯近似下，离子球形势表示为
+\begin{equation}
+	\mathrm{POTAEC} = V_{\mathrm{H}}[n_{Zc}](r)= V_{\mathrm{H}}[n_c](r)+V_{\mathrm{H}}[Z](r) 
+	\label{eq:POTAEC}
+\end{equation}
+根据代码\textrm{setlocalpp.F}中，子程序\textrm{POTTORHO}的描述，
+%\begin{equation}
+%		\mathrm{POTPSC} = V_{\mathrm{H}}[\tilde{n}_c](r)+V_{\mathrm{H}}[Z](r)
+%	\label{eq:POTPSC}
+%\end{equation}
+代码中$\tilde V_{\mathrm{eff}}^{\mathrm{ion}}(r)$选用\textrm{POTAEC}的0阶球函数的表示
+\begin{equation}
+	\begin{aligned}
+		\tilde V_{\mathrm{eff}}^{\mathrm{ion}}(r)=&A\dfrac{\sin(q_{loc}r)}r\\
+		\Rightarrow & V_{\mathrm{H}}[n_v+n_{Zc}]+V_{\mathrm{XC}}[\rho_v+\rho_c]
+	\end{aligned}
+	\label{eq:POT_ION}
 \end{equation}
 定义核电荷中价电荷部分贡献势的误差函数
 \begin{equation}
