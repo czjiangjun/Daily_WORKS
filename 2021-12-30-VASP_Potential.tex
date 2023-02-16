@@ -270,14 +270,14 @@
 
 实际实施\textrm{FFT}变换的部分是(\textcolor{magenta}{这是赝势的核心本质!!})
 \begin{displaymath}
-	\boxed{\mbox{冻芯原子电荷抵消:~正空间表示}}\stackrel{\mathrm{FFT}}{\Rightarrow}\boxed{\mbox{冻芯原子电荷抵消:~倒空间表示}}
+	\boxed{\mbox{冻芯原子电荷抵消:~正空间表示}}\stackrel{\mathrm{FFT}}{\Longrightarrow}\boxed{\mbox{冻芯原子电荷抵消:~倒空间表示}}
 \end{displaymath}
 注意:~\textrm{VASP}程序中对$\tilde{V}^{\mathrm{ion}}_{\mathrm{loc}}(r)$\textcolor{red}{取负值}，$\boxed{\mbox{冻芯原子电荷抵消:~正空间表示}}$的表达式的正确书写
 
 \section{倒空间的赝电荷表示}
 \subsection{赝芯电荷的倒空间表示}
 \begin{displaymath}
-	\mathrm{PSPCOR}:~\tilde{n}_c(q) \stackrel{\mathrm{FFT}}{\Leftarrow}\dfrac{\boxed{\mathrm{RHOPS}}}{r^2}\times\dfrac1{\mathrm{SCALE}}
+	\mathrm{PSPCOR}:~\tilde{n}_c(q) \stackrel{\mathrm{FFT}}{\Longleftarrow}\dfrac{\boxed{\mathrm{RHOPS}}}{r^2}\times\dfrac1{\mathrm{SCALE}}
 \end{displaymath}
 上式中\textrm{SCALE}表示$2\sqrt{\pi}$是因为\textrm{VASP}实现中对$l=0$的值表示时
 \begin{displaymath}
@@ -286,7 +286,7 @@
 \subsection{赝价电荷的倒空间表示}
 与芯电荷类似，赝价电子密度的倒空间表示
 \begin{displaymath}
-		\mathrm{PSPRHO}:~\tilde{n}_v(q) \stackrel{\mathrm{FFT}}{\Leftarrow}\dfrac{\boxed{RHOPS00}}{r^2}\times\dfrac1{\mathrm{SCALE}}
+		\mathrm{PSPRHO}:~\tilde{n}_v(q) \stackrel{\mathrm{FFT}}{\Longleftarrow}\boxed{RHOPS00}\times\dfrac1{\mathrm{SCALE}}
 \end{displaymath}
 上式中\textrm{SCALE}表示$2\sqrt{\pi}$是因为\textrm{VASP}实现中对$l=0$的值表示时
 \begin{displaymath}
