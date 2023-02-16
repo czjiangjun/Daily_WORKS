@@ -71,7 +71,7 @@
 		表示$2e^2$的单位换算关系
 \end{itemize}
 %\section{Introduction}
-\section{变量表达式}
+\section{实空间电荷密度的计算表达式}
 原子价电子波函数积分
 \begin{equation}
 	\begin{aligned}
@@ -143,99 +143,214 @@
 	\label{eq:density}
 \end{equation}
 
-变量\textrm{POTAE}遵照表达式
+\section{实空间的势函数计算}
+\subsection{价电子的势函数}
+精确冻芯条件下价电子势\textrm{POTAE}遵照表达式
 \begin{equation}
 	\mathrm{POTAE} = V_{\mathrm{H}}[n_v]+V_{\mathrm{XC}}[n_v+n_c]
 	\label{eq:POTAE}
 \end{equation}
 计算。
 
-为构造局域有效势，文献建议，\textcolor{red}{由全电子势\textrm{POTAE}“截断”(取$L=0$)获得}
+精确冻芯的原子芯势\textrm{POTAEC}遵照表达式
+\begin{equation}
+	\mathrm{POTAEC} = V_{\mathrm{H}}[n_c]-\dfrac{Z~e}r
+	\label{eq:POTAEC}
+\end{equation}
 
-理论上，有效势$V_{\mathrm{eff}}(r)$的计算表达式为
+为构造局域有效势$V_{\mathrm{eff}}(r)$，文献建议，\textcolor{red}{由冻芯价电子势\textrm{POTAE}“截断”(取$L=0$)获得}
+
+理论上，有效势\textcolor{red}{局域赝势}$V_{\mathrm{eff}}(r)$的计算表达式为
 \begin{equation}
 	\begin{aligned}
 		V_{\mathrm{eff}}(r) =& A\dfrac{\sin(q_{loc}r)}r\\
-		\Rightarrow & V_{\mathrm{H}}[n_v+n_{Zc}]+V_{\mathrm{XC}}[\rho_v+\rho_c]
+		\Rightarrow & V_{\mathrm{H}}[n_v+n_{Zc}]+V_{\mathrm{XC}}[n_v+n_c]
 	\end{aligned}
 	\label{eq:POT_EFF}
 \end{equation}
 
-变量\textrm{POTPS}严格遵照表达式
+构造赝势时$\tilde{V}_{\mathrm{loc}}(r)$，衔接半径$r_{\mathrm{vloc}}$与赝化波函数的截断半径$r_c$不同($r_{\mathrm{vloc}}$比$r_cs$小)
+赝波函数引起的屏蔽势\textrm{POTPS}严格遵照表达式
 \begin{equation}
-	\mathrm{POTPS} = V_{\mathrm{H}}[\tilde{n}_v+\hat{n}_v]+V_{\mathrm{XC}}[\tilde{n}_v+\hat{n}_v+\tilde{n}_c]
+	\mathrm{POTPS}:~\tilde{V}_{\mathrm{loc}}(r) = V_{\mathrm{H}}[\tilde{n}_v+\hat{n}_v]+V_{\mathrm{XC}}[\tilde{n}_v+\hat{n}_v+\tilde{n}_c]
 	\label{eq:POTPS}
 \end{equation}
 计算。
 
-变量\textrm{POTPSC}，即去屏蔽的可移植赝势
+\textcolor{blue}{去屏蔽的}\textcolor{blue}{可移植}\textcolor{red}{局域赝势}\textrm{POTPSC}的构造方案
+
+\subsubsection{可移植局域赝势的构造(1)}
+有限赝势去屏蔽，即可获得可移植局域赝势(离子势)
 \begin{equation}
 	\begin{aligned}
-		\mathrm{POTPSC} =& V_{\mathrm{eff}}(r)-\mathrm{POTPS}\\
+		\mathrm{POTPSC}:~\tilde{V}^{\mathrm{ion}}_{\mathrm{loc}}(r) =& V_{\mathrm{eff}}(r)-V_{\mathrm{loc}}\\
 		=&V_{\mathrm{eff}}(r)-(V_{\mathrm{H}}[\tilde{n}_v+\hat{n}_v]+V_{\mathrm{XC}}[\tilde{n}_v+\hat{n}_v+\tilde{n}_c])
 	\end{aligned}
-	\label{eq:POTPSC}
+	\label{eq:POTPSC-unsreen}
 \end{equation}
+优点:~无需引入额外参数
 
-\subsection{实空间变量$\tilde V_{\mathrm{eff}}^{\mathrm{ion}}(r)$与倒变量变量\textrm{PSP}}
-在冻芯近似下，离子球形势表示为
-\begin{equation}
-	\mathrm{POTAEC} = V_{\mathrm{H}}[n_{Zc}](r)= V_{\mathrm{H}}[n_c](r)+V_{\mathrm{H}}[Z](r) 
-	\label{eq:POTAEC}
-\end{equation}
-根据代码\textrm{setlocalpp.F}中，子程序\textrm{POTTORHO}的描述，
-%\begin{equation}
-%		\mathrm{POTPSC} = V_{\mathrm{H}}[\tilde{n}_c](r)+V_{\mathrm{H}}[Z](r)
-%	\label{eq:POTPSC}
-%\end{equation}
-代码中$\tilde V_{\mathrm{eff}}^{\mathrm{ion}}(r)$选用\textrm{POTAEC}的0阶球函数的表示
+\subsubsection{可移植局域赝势的构造(2)}
+去屏蔽的可移植离子赝势，可以考虑由冻芯原子芯势\textrm{POTAEC}的“截断”(取$L=0$)获得
 \begin{equation}
 	\begin{aligned}
-		\tilde V_{\mathrm{eff}}^{\mathrm{ion}}(r)=&A\dfrac{\sin(q_{loc}r)}r\\
-		\Rightarrow & V_{\mathrm{H}}[n_v+n_{Zc}]+V_{\mathrm{XC}}[\rho_v+\rho_c]
+		\mathrm{POTPSC}:~\tilde{V}^{\mathrm{ion}}_{\mathrm{loc}}(r) =& A\dfrac{\sin(q_{\mathrm{ion}}r)}r\\
+		\Rightarrow & V_{\mathrm{H}}[n_{Zc}]=V_{\mathrm{H}}[n_c]-\dfrac{Z~e}r
 	\end{aligned}
-	\label{eq:POT_ION}
+	\label{eq:POTPSC-sine}
 \end{equation}
-定义核电荷中价电荷部分贡献势的误差函数
-\begin{equation}
-	\Delta V_{\mathrm{H}}[\tilde{Z}_v](r)=\dfrac{Z_v\mathrm{ERF}(r/\alpha)}r\times2e^2
-	\label{eq:Delta_Z_valence}
-\end{equation}
-由此确定，\textrm{FFT}变换中与实空间对应部分的表达式是
-\begin{displaymath}
-	\mathrm{POTPSC} \textcolor{red}{-} \Delta V_{\mathrm{H}}[Z_v](r) = V_{\mathrm{H}}[\tilde{n}_c](r)+V_{\mathrm{H}}[Z](r) \textcolor{red}{-} \Delta V_{\mathrm{H}}[Z_v](r)
-\end{displaymath}
 
-在倒空间，\textrm{FFT}变换部分表示为
-\begin{displaymath}
-	\mathrm{PSP} \textcolor{blue}{+} V_{\mathrm{H}}[Z_v](\vec{q}) \textcolor{blue}{-} \Delta V_{\mathrm{H}}^{\prime}[\tilde{Z}_v](\vec q)
-\end{displaymath}
-其中
+构造离子赝势时$V_{\mathrm{ion}}(r)$，需指定衔接半径$r_{\mathrm{vion}}$与有效局域赝势的衔接半径比较接近\textcolor{blue}{($r_{\mathrm{vion}}$可以比$r_{\mathrm{vloc}}$略大)}
+
+
+\section{倒空间的势函数计算}
+\subsection{径向函数的\rm{Fourier}变换}
+用$\sin$函数表示静电相互作用势的\textrm{Fourier}变换:
 \begin{displaymath}
 	\begin{aligned}
-		V_{\mathrm{H}}[Z_v](\vec q)=&\dfrac{4\pi Z_v}{\vec q^2}\times2e^2\\
-		\Delta V_{\mathrm{H}}^{\prime}[\tilde{Z}_v](\vec q)=&\dfrac{4\pi Z_v}{\vec q^2}\mathrm{e}^{-(\vec q/2\alpha)^2}\times2e^2
+		V(q)=&e^2\int\dfrac{\mathrm{d}r^3}r\mathrm{e}^{\mathrm{i}\vec q\dot\vec r}\\
+		=&2\pi e^2\int_0^{\infty}r\mathrm{d}r\int_{-1}^{+1}\mathrm{d}(\cos\theta)\mathrm{e}^{\mathrm{i}qr\cos\theta}\\
+		=&\dfrac{2\pi~e^2}{\mathrm{i}q}\int_0^{\infty}\mathrm{d}r(\mathrm{e}^{\mathrm{i}qr}-\mathrm{e}^{-\mathrm{i}qr})\\
+		=&\dfrac{4\pi~e^2}{q}\int_0^{\infty}\mathrm{d}r\sin{qr}\\
+		=&\dfrac{4\pi~e^2}{q^2}\bigg(1-\lim\limits_{r\rightarrow\infty}\cos(qr)\bigg)
 	\end{aligned}
+\end{displaymath}
+该积分在$r\rightarrow\infty$时出现振荡，假设振荡可以忽略，则有
+\begin{equation}
+	V(q)=\dfrac{4\pi~e^2}{q^2}
+	\label{eq:V-reciprocal}
+\end{equation}
+因此点电荷在倒空间产生的电势表示为
+\begin{displaymath}
+		V(q)=\dfrac{4\pi~Z~e^2}{q^2}
+\end{displaymath}
+电荷密度$n(q)$在倒空间产生的电势表示为
+\begin{displaymath}
+		V(q)=\dfrac{4\pi~n(q)~e^2}{q^2}
 \end{displaymath}
 
-\textbf{由FFT变换对应于$V_{\mathrm{H}}[\tilde{n}_c]+V_{\mathrm{H}}[\tilde{Z}]$}(\textcolor{red}{这是赝势的核心本质!!})，可推定\textrm{PSP}相当于倒空间表示的
+\subsection{实空间变量$\tilde V_{\mathrm{loc}}^{\mathrm{ion}}(r)$与倒变量变量$V_{loc}^{ion}(G)$的对应}
+在冻芯近似下，实空间局域离子赝势可以分解为三部分贡献
 \begin{equation}
 	\begin{aligned}
-		\mathrm{PSP}&=V_{\mathrm{H}}[\tilde{n}_c](\vec q)+V_{\mathrm{H}}[Z](q)-V_{\mathrm{H}}[Z_v](q)-\Delta V_{\mathrm{H}}[Z_v](q)+\Delta V_{\mathrm{H}}^{\prime}[Z_v](q)\\
-		&=V_{\mathrm{H}}[\tilde{n}_c](\vec q)+V_{\mathrm{H}}[Z_c](\vec q)-\Delta V_{\mathrm{H}}[Z_v](q)+\Delta V_{\mathrm{H}}^{\prime}[Z_v](q)
+		\tilde{V}^{\mathrm{ion}}_{\mathrm{loc}}(r)=&\underbrace{\boxed{Z_{\mathrm{core}}e/r-\tilde{V}_{\mathrm{H}}[n_c]}}+\textcolor{red}{\dfrac{Z_{\mathrm{val}}^{\ast}~e}{r}}\\
+		&\mbox{冻芯原子的电荷抵消}
 	\end{aligned}
-	\label{eq:PSP}
+	\label{eq:POTAEC-real-devided}
 \end{equation}
-根据\textrm{Ewald}求和规则，
+其中$Z_{\mathrm{val}^{\ast}}$表示被屏蔽的核电荷(价)部分(实空间):
 \begin{displaymath}
-	\Delta V_{\mathrm{H}}[Z_v](q)-\Delta V_{\mathrm{H}}^{\prime}[Z_v](q)
+	Z_{\mathrm{val}}^{\ast}=Z_{\mathrm{val}}\times\mathrm{ERFC}(r/\mathrm{\AA})
 \end{displaymath}
-抵消。\\
-因此\textrm{PSP}对应的势是
+
+根据代码\textrm{setlocalpp.F}中，子程序\textrm{POTTORHO}的描述，冻芯原子的电荷抵消部分(实空间常数势)与倒空间常数势的\textrm{Fourier}变换关系
+利用变换关系
 \begin{displaymath}
-	\mathrm{PSP} = V_{\mathrm{H}}[\tilde{n}_c](\vec q)+V_{\mathrm{H}}[Z_c](\vec q)
+	\delta~q=2\pi\int_0^{\infty}\sin(qr)\mathrm{d}r
 \end{displaymath}
-这是真正可以平移的赝势。
+实空间和倒空间的\textrm{Fourier}变换的关系为
+\begin{equation}
+	\begin{aligned}
+		F(q)\cdot q=4\pi\int\sin(qr)f(r)r\mathrm{d}r\\
+		G(r)\cdot r=\dfrac1{2\pi^2}\int\sin(qr)g(q)q\mathrm{d}q
+	\end{aligned}
+	\label{eq:Fourier-Transform}
+\end{equation}
+因此倒空间局域赝势的表示分为两部分
+\begin{equation}
+	\mathrm{PSP}:~\tilde{V}^{\mathrm{ion}}_{\mathrm{loc}}(q)=\boxed{\mbox{冻芯原子的电荷抵消:~倒空间表示}}+\textcolor{red}{\dfrac{4\pi~Z_{\mathrm{val}}^{\ast}~e^2}{q^2}}
+	\label{eq:POTAEC-reciprocal-devided}
+\end{equation}
+其中$Z_{\mathrm{val}^{\ast}}$表示被屏蔽的核电荷(价)部分(倒空间):
+\begin{displaymath}
+	Z_{\mathrm{val}}^{\ast}=Z_{\mathrm{val}}\times\bigg[1-\mathrm{e}^{-\dfrac{}4\big(\dfrac{q}{\mathrm{\AA}^{-1}}\big)^2}\bigg]
+\end{displaymath}
+
+子程序{\textrm{FOURPOT\_TO\_Q\_CHECK}}完成局域离子赝势$\tilde{V}^{\mathrm{ion}}_{\mathrm{loc}}(r)$向$\tilde{V}^{\mathrm{ion}}_{\mathrm{loc}}(q)$的变换
+
+实际实施\textrm{FFT}变换的部分是(\textcolor{magenta}{这是赝势的核心本质!!})
+\begin{displaymath}
+	\boxed{\mbox{冻芯原子电荷抵消:~正空间表示}}\stackrel{\mathrm{FFT}}{\Rightarrow}\boxed{\mbox{冻芯原子电荷抵消:~倒空间表示}}
+\end{displaymath}
+注意:~\textrm{VASP}程序中对$\tilde{V}^{\mathrm{ion}}_{\mathrm{loc}}(r)$\textcolor{red}{取负值}，$\boxed{\mbox{冻芯原子电荷抵消:~正空间表示}}$的表达式的正确书写
+
+\section{倒空间的赝电荷表示}
+\subsection{赝芯电荷的倒空间表示}
+\begin{displaymath}
+	\mathrm{PSPCOR}:~\tilde{n}_c(q) \stackrel{\mathrm{FFT}}{\Leftarrow}\dfrac{\boxed{\mathrm{RHOPS}}}{r^2}\times\dfrac1{\mathrm{SCALE}}
+\end{displaymath}
+上式中\textrm{SCALE}表示$2\sqrt{\pi}$是因为\textrm{VASP}实现中对$l=0$的值表示时
+\begin{displaymath}
+	\mathrm{RHOPS}:~\tilde{n}_c(r) = 2\sqrt{\pi}\times\tilde{n}(r)\cdot r^2
+\end{displaymath}
+\subsection{赝价电荷的倒空间表示}
+与芯电荷类似，赝价电子密度的倒空间表示
+\begin{displaymath}
+		\mathrm{PSPRHO}:~\tilde{n}_v(q) \stackrel{\mathrm{FFT}}{\Leftarrow}\dfrac{\boxed{RHOPS00}}{r^2}\times\dfrac1{\mathrm{SCALE}}
+\end{displaymath}
+上式中\textrm{SCALE}表示$2\sqrt{\pi}$是因为\textrm{VASP}实现中对$l=0$的值表示时
+\begin{displaymath}
+	\mathrm{RHOPS00}:~\tilde{n}_v(r) = 2\sqrt{\pi}\times\tilde{n}(r)
+\end{displaymath}
+
+\subsection{\textcolor{magenta}{由赝芯电荷表示可移植局域赝势}}
+考虑可移植局域赝势的倒空间表示的分解(\textcolor{blue}{电荷在倒空间无法直接作芯-价电子分割})
+\begin{itemize}
+	\item 冻芯原子的电荷抵消:~倒空间表示$V(q)=0$
+	\item 被屏蔽的核电荷(价)部分
+\begin{equation}
+	\begin{aligned}
+		\tilde{V}_{\mathrm{eff}}^{\mathrm{ion}(1)}(q) =& A\dfrac{\sin(qr_{loc})}r\\
+		\Rightarrow & \dfrac{4\pi~Z_{\mathrm{val}}^{\ast}~e^2}{q^2} = \dfrac{4\pi~Z_{\mathrm{val}}~e^2}{q^2}\times\bigg[1-\mathrm{e}^{-\dfrac{}4\big(\dfrac{q}{\mathrm{\AA}^{-1}}\big)^2}\bigg] 
+	\end{aligned}
+	\label{eq:POT_G_core-EFF}
+\end{equation}
+构造赝势时$\tilde{V}_{\mathrm{eff}}^{\mathrm{ion}}(q)$，需要指定衔接半径$q_{\mathrm{ion}}$
+	\item 芯电荷在倒空间的贡献
+		\begin{equation}
+			\tilde{V}_{\mathrm{eff}}^{\mathrm{ion}(2)}(q) = -\dfrac{4\pi\tilde{n}_c(q)e^2}{q^2}\times\bigg[1-\mathrm{e}^{-\dfrac{}4\big(\dfrac{q}{\mathrm{\AA}^{-1}}\big)^2}\bigg] 
+			\label{eq:POT_G_core}
+		\end{equation}
+\end{itemize}
+在倒空间，可直接表示局域可移植赝势
+\begin{displaymath}
+	\tilde{V}_{\mathrm{eff}}^{\mathrm{ion}}(q) = \tilde{V}_{\mathrm{eff}}^{\mathrm{ion}(1)}(q) - \dfrac{4\pi\tilde{n}_c(q)e^2}{q^2}\times\bigg[1-\mathrm{e}^{-\dfrac{}4\big(\dfrac{q}{\mathrm{\AA}^{-1}}\big)^2}\bigg] 
+\end{displaymath}
+
+\section{投影函数的构造}
+
+\section{离子修正项$D_{ij}^{\mathrm{ion}}$的计算}
+\begin{equation}
+	\begin{aligned}
+		\mathrm{D}_{ij}^{\mathrm{ion}}=&\langle\phi_i|\mathbf{T}+V_{\mathrm{eff}}|\phi_j\rangle - \langle\tilde{\phi}_i|\mathbf{T}+\tilde{V}_{\mathrm{eff}}|\tilde{\phi}_j\rangle\\
+		-&\int\hat{Q}_{ij}^{00}(r)\tilde{V}_{\mathrm{eff}}(r)\mathrm{d}r
+	\end{aligned}
+	\label{eq:DION}
+\end{equation}
+这里的各项可分解为
+\begin{itemize}
+	\item 算符$\mathbf{T}$的定义为
+\begin{equation}
+	\mathbf{T}|\psi_i\rangle=\bigg[-\nabla^2-\dfrac{l(l+2)}2\bigg]|\psi_i\rangle
+	\label{eq:Kinetic}
+\end{equation}
+\item 贡献$\mathrm{D}_{ij}$的定义为
+	\begin{equation}
+		\mathrm{D}_{ij} = \langle\phi_i|\mathbf{T}+V_{\mathrm{eff}}|\phi_j\rangle - \langle\tilde{\phi}_i|\mathbf{T}+\tilde{V}_{\mathrm{eff}}|\tilde{\phi}_j\rangle
+		\label{eq:DIJ}
+	\end{equation}
+\item \textrm{PAW}电量差
+	\begin{equation}
+		\hat{Q}_{\mathrm{PAW}}=\int(\phi_i\phi_j-\tilde{\phi}_i\tilde{\phi}_j)r^Lr^2\mathrm{d}r
+		\label{eq:Q-PAW}
+	\end{equation}
+\item 去屏蔽项贡献
+	\begin{equation}
+		-\int\hat{Q}^{00}_{ij}(r)\tilde{V}_{\mathrm{eff}}(r)\mathrm{d}r
+		\label{eq:unsreened}
+	\end{equation}
+\end{itemize}
+
 %\section{正文章节}
 %参考文献的引用方式1\upcite{QCQC_2014}
 %-------------------The Figure Of The Paper------------------
