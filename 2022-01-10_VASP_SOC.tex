@@ -138,7 +138,7 @@
 \newcommand{\qihao}{\fontsize{5.25pt}{\baselineskip}\selectfont}    %七号  
 
 %%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\graphicspath{{/home/jun_jiang/Documents/Latex_art_beamer/Presentation_Beamer/Figures/}}                            %
+\graphicspath{{/home/jun-jiang/Documents/Latex_Beamer/Figures/}}                            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{verbatim}			%Verbatim 宏包重新实现了 Verbatim 环境，并且提供一个命令可以导入一个 ASCII 文件到文档中
@@ -398,31 +398,25 @@ $\mathbf{s}$和$\mathbf{l}$的表达式为
 \end{itemize}
 以下就每一部分的内容详细说明:
 \subsection{子程序\bf{SETUP\_LS}}
-对于给定的角动量$l~(l=1,2,3)$，为了计算$\mathbf{l}\cdot\mathbf{s}$，即
+对于给定的角动量$l~(l=1,2,3)$和自选角动量$s$，算符$\mathbf{l}\cdot\mathbf{s}$主要作用于波函数的角度和自旋部分，即
 \begin{displaymath}
 	LS_{m_1,m_2,\sigma_1,\sigma_2,L}=\langle\sigma_1|\langle y_{l,m_1}|\hat l\hat s|y_{l,m_2}\rangle|\sigma_2\rangle=\langle y_{l,m_1}|\hat l|y_{l,m_2}\rangle\langle\sigma_1|\hat s|\sigma_2\rangle
 \end{displaymath}
-分别计算$\langle y_{l,m_1}|\hat l|y_{l,m_2}\rangle$和$\langle\sigma_1|\hat s|\sigma_2\rangle$:
+因此须分别计算$\langle y_{l,m_1}|\hat l|y_{l,m_2}\rangle$和$\langle\sigma_1|\hat s|\sigma_2\rangle$:
+
 \subsubsection{角动量部分的贡献}
 利用升降算符与复数表示的球谐函数的关系
 \begin{displaymath}
 	\begin{aligned}
-		\hat{L}_-y_{l,m}=&\hbar\sqrt{l(l+1)-m(m-1)}y_{l,m-1}\\
-		\hat{L}_+y_{l,m}=&\hbar\sqrt{l(l+1)-m(m+1)}y_{l,m+1}
+		\hat{L}_-y_{l,m}=&\hbar\sqrt{l(l+1)-m(m-1)}y_{l,m-1}=&\hbar\sqrt{(l+m)(l-m+1)}y_{l,m-1}\\
+		\hat{L}_+y_{l,m}=&\hbar\sqrt{l(l+1)-m(m+1)}y_{l,m+1}=&\hbar\sqrt{(l-m)(l+m+1)}y_{l,m+1}
 	\end{aligned}
 \end{displaymath}
 这里$y_{l,m}$表示复数表示的球谐函数。
 
-得到实数表示的升降算符($\hbar$是单位)
+由此可导出在直角坐标系中用升降算符表示的、作用于复数球谐函数的角动量算符:~
 \begin{displaymath}
-	\begin{aligned}
-		\hat{L}_-=&\hbar\sqrt{(l-m)(l+m+1)}/2\\
-		\hat{L}_+=&\hbar\sqrt{(l+m)(l-m+1)}/2
-	\end{aligned}
-\end{displaymath}
-得到复空间表示的球谐函数在直角坐标系中的算符表示
-\begin{displaymath}
-	|y_{l,m_1}\rangle\hat{L}_C^{k}\langle y_{l,m_2}|=|y_{l,m_1}\rangle\hat{L}_{m_1,m_2}^{C_k}\langle y_{l,m_2}| \quad (k=x,y,z)
+	|y_{l,m_1}\rangle\hat{L}_C^{k}\langle y_{l,m_2}|=|y_{l,m_1}\rangle\hat{L}_{m_1,m_2}^{\pm}\langle y_{l,m_2}| \quad (k=x,y,z)\quad (\textcolor{blue}{m_1,m_2\mbox{允许差1}})
 \end{displaymath}
 即
 \begin{displaymath}
@@ -439,38 +433,59 @@ $\mathbf{s}$和$\mathbf{l}$的表达式为
 \begin{displaymath}
 	U_{R2C}(m_1,m_2)=\langle y_{l,m_1}|Y_{l,m_2}\rangle
 \end{displaymath}
-这里$Y_{l,m}$表示实数表示的球谐函数。
+这里$Y_{l,m}$表示实空间表示的球谐函数。
 
 构造复空间向实空间的球谐函数变换矩阵
 \begin{displaymath}
 	U_{C2R}(m_1,m_2)=\langle Y_{l,m_1}|y_{l,m_2}\rangle
 \end{displaymath}
-
-在此基础上构造实空间球鞋函数在直角坐标系中的算算符表示
-\begin{displaymath}
-	|Y_{l,m_1}\rangle\hat{L}_R^{k}\langle Y_{l,m_2}|=|Y_{l,m_1}\rangle\hat{L}_{m_1,m_2}^{R_k}\langle Y_{l,m_2}| \quad (k=x,y,z)
-\end{displaymath}
-可有
+利用变换矩阵，可以将作用于复数球谐函数的角动量算符变换到实空间表示:~
 \begin{displaymath}
 	\hat{L}_{m_1,m_2}^{R_k}=\sum_{i,j}U_{C2R}(m_1,i)\hat{L}_{i,j}^{C_k}U_{R2C}(j,m_2) \quad(k=x,y,z)
 \end{displaymath}
+变换后的角动量算符$\textcolor{magenta}{\hat{L}_{m_1,m_2}^{R_k}}$(这样写着重突出其\textcolor{blue}{本质上是出自升降算符表示})，习惯上也记作$\textcolor{magenta}{\hat{L}_R^{k}}$，它可直接作用于实数球谐函数:
+\begin{displaymath}
+	|Y_{l,m_1}\rangle\textcolor{magenta}{\hat{L}_R^{k}}\langle Y_{l,m_2}|=|Y_{l,m_1}\rangle\textcolor{magenta}{\hat{L}_{m_1,m_2}^{R_k}}\langle Y_{l,m_2}| \quad (k=x,y,z)
+\end{displaymath}
 
 \subsubsection{\rm{spin}沿$z$向的$\mathbf{l}\cdot\mathbf{s}$贡献}
-将电子自旋分为$|\alpha\rangle=\dfrac12\sigma$和$|\beta\rangle=-\dfrac12\sigma$，当电子自旋与$z$方向平行时，$\mathbf{l}\cdot\mathbf{s}$将分解为
+将电子自旋分为$|\alpha\rangle=\dfrac12\sigma$和$|\beta\rangle=-\dfrac12\sigma$，与轨道角动量类似，自旋角动量的升降算符为
+\begin{displaymath}
+	\begin{aligned}
+		\hat S_-=&\hat S_x-\mathrm{i}\hat S_y\\
+		\hat S_+=&\hat S_x+\mathrm{i}\hat S_y
+	\end{aligned}
+\end{displaymath}
+因此直角坐标系下的自旋算符用升降算符表示为
+\begin{displaymath}
+	\begin{aligned}
+		\hat S_x_=&\dfrac12(\hat S_++\hat S_-)\\
+		\hat S_y=&\dfrac1{2\mathrm{i}}(\hat S_+-\hat S_-)
+	\end{aligned}
+\end{displaymath}
+
+根据上述讨论，$\mathbf{l}\cdot\mathbf{s}$可表示为:
 \begin{displaymath}
 	\mathbf{l}\cdot\mathbf{s}_{\mathrm{orig}}=
 	\begin{pmatrix}
-		\langle\alpha|\mathrm{SO}|\alpha\rangle &\langle\alpha|\mathrm{SO}|\beta\rangle \\
-		\langle\beta|\mathrm{SO}|\alpha\rangle &\langle\beta|\mathrm{SO}|\beta\rangle
+		\langle\alpha|\mathrm{LS}|\alpha\rangle &\langle\alpha|\mathrm{LS}|\beta\rangle \\
+		\langle\beta|\mathrm{LS}|\alpha\rangle &\langle\beta|\mathrm{LS}|\beta\rangle
 	\end{pmatrix}
 \end{displaymath}
-不难看出，各部分的贡献(单位是$\hbar^2$)为
+这里$\mathrm{LS}$略去角动量下标，表示将$\vec s\cdot\vec l$展开后的形式
+
+根据升降算符的关系，不难看出
+\begin{enumerate}
+	\item \textcolor{blue}{电子自旋$z$方向分量，对矩阵的对角元有贡献}
+	\item \textcolor{magenta}{电子自旋在$x$与$y$方向分量，将对矩阵的非对角元有贡献}
+\end{enumerate}
+具体地，各矩阵元的贡献(单位是$\hbar^2$)为(\textclor{red}{考虑自旋的升降算符作用后})
 \begin{displaymath}
 	\begin{aligned}
-		\langle\alpha|\mathrm{SO}|\alpha\rangle =& \hat{L}_{m_1,m_2}^{R_z}/2\\
-		\langle\alpha|\mathrm{SO}|\beta\rangle =& \hat{L}_{m_1,m_2}^{R_x}/2+\mathrm{i}\hat{L}_{m_1,m_2}^{R_y}/2\\
-		\langle\beta|\mathrm{SO}|\alpha\rangle =& \hat{L}_{m_1,m_2}^{R_x}/2-\mathrm{i}\hat{L}_{m_1,m_2}^{R_y}/2\\
-		\langle\beta|\mathrm{SO}|\beta\rangle =& -\hat{L}_{m_1,m_2}^{R_z}/2
+		\langle\alpha|\mathrm{SO}|\alpha\rangle =& \hat{L}_{m_1,m_2}^{R_z}/2~\Leftarrow(\textcolor{blue}{\mbox{来自}\Delta m_s=0, \Delta m=0\mbox{贡献}})\\
+		\langle\alpha|\mathrm{SO}|\beta\rangle =& \hat{L}_{m_1,m_2}^{R_x}/2+\mathrm{i}\hat{L}_{m_1,m_2}^{R_y}/2~\Leftarrow(\textcolor{blue}{\mbox{来自}|\Delta m_s|=1, |\Delta m|=1\mbox{贡献}})\\
+		\langle\beta|\mathrm{SO}|\alpha\rangle =& \hat{L}_{m_1,m_2}^{R_x}/2-\mathrm{i}\hat{L}_{m_1,m_2}^{R_y}/2~\Leftarrow(\textcolor{blue}{\mbox{来自}|\Delta m_s|=1, |\Delta m|=1\mbox{贡献}})\\
+		\langle\beta|\mathrm{SO}|\beta\rangle =& -\hat{L}_{m_1,m_2}^{R_z}/2~\Leftarrow(\textcolor{blue}{\mbox{来自}\Delta m_s=0, \Delta m=0\mbox{贡献}})
 	\end{aligned}
 \end{displaymath}
 
@@ -478,13 +493,13 @@ $\mathbf{s}$和$\mathbf{l}$的表达式为
 如果电子自旋与$z$轴呈一定的夹角(用\textrm{Euler}角$\theta$和$\phi$表示)，如图\ref{Fig:Euler_Angle}所示。
 \begin{figure}[h!]
 \centering
-\vspace{-0.3in}
+\vspace{-0.15in}
 \includegraphics[height=1.95in,width=4.85in,viewport=0 0 700 275,clip]{Spin_Euler_angle.jpg}
 \caption{\small\textrm{The Schematic of Euler angle for spin.}.}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:Euler_Angle}
 \end{figure}
 
-构造旋转矩阵
+考虑自旋转动的情形下，自旋角动量是二维复矢量的幺正群，用\textrm{SU(2)}群表示，其生成元用由\textrm{Euler}角表示的旋转矩阵
 \begin{displaymath}
 	\mathbf{ROT}=
 	\begin{pmatrix}
@@ -492,10 +507,11 @@ $\mathbf{s}$和$\mathbf{l}$的表达式为
 		\sin\dfrac{\theta}2\mathrm{e}^{\mathrm{i}\dfrac{\phi}2} &\cos\dfrac{\theta}2\mathrm{e}^{\mathrm{i}\dfrac{\phi}2}
 	\end{pmatrix}
 \end{displaymath}
+表示。
 
-一般的$\mathbf{l}\cdot\mathbf{s}$的表达式为
+因此，一般地，$\mathbf{l}\cdot\mathbf{s}$的表达式为
 \begin{displaymath}
-	\mathbf{l}\cdot\mathbf{s}= \mathbf{ROT}^{-1}\mathbf{l}\cdot\mathbf{s}_{\mathrm{orig}}\mathbf{ROT}
+	\mathbf{l}\cdot\mathbf{s}= \mathbf{ROT}^{-1}\textcolor{red}{\mathbf{l}\cdot\mathbf{s}_{\mathrm{orig}}}\mathbf{ROT}
 \end{displaymath}
 最后，指定角动量$l$的$\mathbf{l}\cdot\mathbf{s}$的结果存入变量\textrm{LS(m1,m2,1:4,L)}，(当前\textrm{VASP}计算$l=1,2,3$)。
 
