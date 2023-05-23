@@ -1,0 +1,12 @@
+#! /bin/bash
+#
+# upgrade_ubuntu
+sudo sed -i 's/bionic/focal/g' /etc/apt/sources.list
+sudo apt update && sudo apt -y dist-upgrade
+
+# monitor the process
+watch -n 1 'ps -aux --sort -pcpu,+pmem | head -6'
+
+
+#kill all Defunct process
+ps -A -o stat,ppid,pid,cmd | grep -e '^[Zz]' | awk '{print $2}' | xargs kill -9
