@@ -10,3 +10,7 @@ watch -n 1 'ps -aux --sort -pcpu,+pmem | head -6'
 
 #kill all Defunct process
 ps -A -o stat,ppid,pid,cmd | grep -e '^[Zz]' | awk '{print $2}' | xargs kill -9
+
+
+# update_with_pip
+python3 -m pip install -jun-jjun-jiang@junjiang:~/BCC/2023-SynFuels_China$ python3 -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple/ html5lib
