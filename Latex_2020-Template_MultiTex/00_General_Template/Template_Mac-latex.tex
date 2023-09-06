@@ -1,0 +1,192 @@
+\documentclass[11pt,a4paper]{article}
+% \documentclass[11pt,a4paper]{report}
+% \documentclass[11pt,a4paper]{book}
+\def\mathfamilydefault{\rmdefault}
+
+% 设置页面
+%==================================================
+\linespread{1}                         %行距
+% \usepackage[top=1in,bottom=1in,left=1.25in,right=1.25in]{geometry}
+% \headsep=2cm
+% \textwidth=16cm \textheight=24.2cm
+%==================================================
+
+% 使用中文xeCJK宏包
+%==================================================
+\usepackage{fontspec,xltxtra,xunicode}
+\usepackage[slantfont,boldfont,CJKnumber,CJKtextspaces]{xeCJK}
+%==================================================
+
+% 其它需要使用的宏包
+%==================================================
+\usepackage[colorlinks,linkcolor=blue,anchorcolor=red,citecolor=green,urlcolor=blue]{hyperref}  
+\usepackage{tabularx}
+\usepackage{authblk}                   % 作者信息
+\usepackage{algorithm}                 % 算法排版
+\usepackage{amsmath} % 数学符号与公式
+\usepackage{amsfonts} % 数学符号与字体
+\usepackage{graphics}
+\usepackage{color}
+\usepackage{fancyhdr} % 设置页眉页脚
+\usepackage{fancyvrb} % 抄录环境
+\usepackage{float} % 管理浮动体
+\usepackage{geometry}                  % 定制页面格式
+\usepackage{hyperref}                  % 为PDF文档创建超链接
+\usepackage{lineno}                    % 生成行号
+\usepackage{listings}                  % 插入程序源代码
+\usepackage{multicol} % 多栏排版
+\usepackage{natbib} % 管理文献引用
+\usepackage{rotating} % 旋转文字，图形，表格
+\usepackage{subfigure} % 排版子图形
+\usepackage{titlesec} % 改变章节标题格式
+\usepackage{moresize} % 更多字体大小
+\usepackage{anysize}
+\usepackage{indentfirst} % 首段缩进
+\usepackage{booktabs} % 使用\multicolumn
+\usepackage{multirow} % 使用\multirow
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{xcolor}
+\usepackage{titlesec} % 改变标题样式
+\usepackage{enumitem}
+%==================================================
+
+% 将默认的英文目录等改为中文，设置图号和公式号与章节对应，缩进大小
+%==================================================
+% \titleformat{\part}[display]{\centering\Huge}{\textbf{第~\thepart~部分}}{0.2cm}{\textbf}
+% \titleformat{\chapter}[hang]{\huge}{\textbf{第~\thechapter~章}}{0.2cm}{\textbf}
+% \renewcommand{\contentsname}{目 \quad 录}
+% \renewcommand{\abstractname}{摘 \quad 要}
+% \renewcommand{\appendixname}{附 \quad 录}
+% \renewcommand{\theequation}{\arabic{section}.\arabic{equation}} %公式号与章节对应
+% \renewcommand{\figurename}{\normalsize{图 \arabic{section}.\arabic{figure}}} %改figure为图
+% \renewcommand{\refname}{参考文献}
+% \renewcommand{\bibname}{参考文献}
+% \makeatletter
+% \renewcommand{\fnum@figure}[1]{\textbf{\figurename~}\hspace{10pt} \sffamily} %图号与章节对应
+% \makeatother
+\setlength{\parindent}{2em} %设置缩进为两个大写M的宽度，大约为两个汉字的宽度
+%==================================================
+
+% 设置页眉页脚
+%==================================================
+\renewcommand{\headrulewidth}{0.4pt} 
+\renewcommand{\footrulewidth}{0.4pt}
+
+\pagestyle{headings}
+% \pagestyle{fancy}
+% \lhead{}
+% \chead{}
+% \rhead{}
+% \lfoot{}
+% \cfoot{}
+% \rfoot{}
+%==================================================
+
+% 加入VBA代码高亮
+%==================================================
+\lstdefinelanguage{VBA}{morekeywords={And, As, Byte, Call, Case, Compare, CDbl, Datebase, Date, Dim, Else, ElseIf, End, Error, Exit, Explicit, False, Function, GoTo, If, IIF, Integer, Not, Nothing, Null, Object, On, Option, Or, Private, Resume, String, Single, Select, Set, Static, Sub, Then, True, To,},    
+sensitive=false,    
+morecomment=[l]Rem,    
+morecomment=[l]',    
+morestring=[b]",
+emph={acFormBar, acEditMenu, acCurrent, acEntire, acMenuVer70, acSaveYes, acViewNormal, acForm, acDataErrAdded, acNewRec, acDataErrContinue, Cancel, CancelEvent, Close, CurrentDb, DefaultValue, DateValue, DAO, Description, DoCmd, DoMenuItem, Err, Error, Error$, $, Execute, FindRecord, Forms, FindFirst, IsNull, Me, MsgBox, GoToControl, GoToRecord, NewData, Nz, Maximize, Number, OpenForm, Parent, Recordset, Requery, Response, SetFocus, stDocName, stLinkCriteria, Value, vbExclamation, vbOK, vbOKCancel, vbInformation, vbYes, vbNo, vbYesNo, vbCancel, vbQuestion, vbYesNoCancel, Visible,}, 
+emphstyle=\color{blue!100!}}
+%==================================================
+\lstset{basicstyle=\ttfamily,breaklines,numberstyle=\tiny,
+keywordstyle=\color{red}, stringstyle=\color{green!100!},commentstyle=\color{red!20!green!20!blue!20},
+frame=single,
+rulesepcolor=\color{red!20!green!20!blue!20},numbers=left, numberstyle=\tiny}
+%==================================================
+
+% 设置中文字体
+%==================================================
+%\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}\setCJKmainfont[BoldFont={Adobe Heiti Std}, ItalicFont={Adobe Kaiti Std}]{Adobe Song Std}
+%\setCJKmainfont[BoldFont={STHeiti}, ItalicFont={STKaiti}]{STSong}
+
+%\setCJKsansfont{SimHei}
+\setCJKsansfont{Adobe Heiti Std} 
+%\setCJKsansfont{STHeiti} 
+%\setCJKmonofont{FangSong}
+\setCJKmonofont{Adobe Fangsong Std}
+%\setCJKmonofont{STFangsong}
+
+%-------------------------------------------------
+
+%\setCJKfamilyfont{zhsong}{SimSun}
+\setCJKfamilyfont{zhsong}{Adobe Song Std}
+%\setCJKfamilyfont{zhsong}{STSong}
+
+%\setCJKfamilyfont{zhhei}{SimHei}
+\setCJKfamilyfont{zhhei}{Adobe Heiti Std}
+%\setCJKfamilyfont{zhhei}{STHeiti}
+
+%\setCJKfamilyfont{zhfs}{FangSong}
+\setCJKfamilyfont{zhfs}{Adobe FangSong Std}
+%\setCJKfamilyfont{zhfs}{STSong}
+
+%\setCJKfamilyfont{zhkai}{KaiTi}
+\setCJKfamilyfont{zhkai}{Adobe Kaiti Std}
+%\setCJKfamilyfont{zhkai}{STKaiti}
+%-------------------------------------------------
+
+\newcommand*{\songti}{\CJKfamily{zhsong}} % 宋体
+\newcommand*{\heiti}{\CJKfamily{zhhei}} % 黑体
+\newcommand*{\kaishu}{\CJKfamily{zhkai}} % 楷书
+\newcommand*{\fangsong}{\CJKfamily{zhfs}} % 仿宋
+
+% ！使用如下命令：{\songti 宋体} 可以临时使用宋体（要加大括号）
+%==================================================
+
+% 设置英文字体
+%==================================================
+%\defaultfontfeatures{Scale=MatchLowercase} % 这个参数保证 serif、sans-serif 和 monospace 字体在小写时大小匹配
+\setmainfont[Mapping=tex-text]{CMU Serif} % 使用 XeTeX 的 text-mapping 方案，正确显示 LaTeX 样式的双引号（`` ''）
+% \setmainfont[Mapping=tex-text]{Palatino Linotype}
+\setsansfont[Mapping=tex-text]{CMU Sans Serif}
+% \setsansfont[Mapping=tex-text]{DejaVu Sans YuanTi}
+\setmonofont{Courier New}
+% \setmonofont{Monaco}
+% \setmonofont{DejaVu Sans YuanTi}
+%==================================================
+
+% 题目，作者，日期
+%==================================================
+\title{}
+% Style 1
+% -------------------------------
+\author[*]{author1}
+\affil[*]{affil1}
+\author[**]{author2}
+\affil[**]{affil2}
+% Style 2
+% -------------------------------
+%\author{author1}
+%\affilaffil{affil1}
+%\author{author2}
+%\affil{affil2}
+\date{}
+%==================================================
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 正文
+%==================================================
+\begin{document}
+% \pagenumbering{Roman} %页码为大写罗马数字
+% \pagenumbering{arabic} %页码为阿拉伯数字
+\maketitle
+
+\newpage
+\tableofcontents
+
+\newpage
+ 正文 \textrm{Mac}
+%\begin{displaymath}
+%	\int f(x)\mathrm{d}x=F(x)
+%\end{displaymath}
+
+
+\end{document}
+%==================================================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
