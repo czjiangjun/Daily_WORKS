@@ -1,0 +1,26 @@
+#!/bin/bash
+# 关于 texlive/xelatex 的中文输入
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#%只要有相应的字体文档，不需要使用CJKutf8，直接由 xelatex 产生pdf文档	%
+#%检索安装字体用命令 fc-list | grep'字体名' 即可知道可用字体		%
+#%									%
+#\usepackage{fontspec}							%
+#\setmainfont[Mapping=tex-text]{LiSu}					%
+#%\setmainfont[Mapping=tex-text]{Adobe 宋体 Std}	%article用字体	%
+#%\setsansfont[Mapping=tex-text]{Adobe 黑体 Std}	 %Beamer用字体	%
+#%									%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+touch 02_Beamer_Template/.tmp 
+# test -s 02_Beamer_Template/Beamer_2-Main.tex && sed 's/^\\input/%\\input/g' 02_Beamer_Template/Beamer_2-Main.tex  > 02_Beamer_Template/.tmp || echo "%Main_File"  > 02_Beamer_Template/.tmp
+test -e 02_Beamer_Template/Beamer_2-Main.tex && echo "%Main_File"  > 02_Beamer_Template/.tmp
+gsed '$a%%%%%%%%%%  '"$1"'   %%%%%%%%%%  \n\\\input{'"$1"'}' Beamer_Template/.tmp  > Beamer_Template/Beamer_2-Main.tex 
+rm 02_Beamer_Template/.tmp 
+
+xelatex Beamer-Template_Main
+bibtex Beamer-Template_Main
+xelatex Beamer-Template_Main
+xelatex Beamer-Template_Main
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .Beamer-Template_Main.*.swp *.aux *.bbl *.blg
+mv Beamer-Template_Main.pdf $1.pdf
+#evince $1.pdf
