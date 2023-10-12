@@ -5,7 +5,7 @@
 %\title{More than one Author with different Affiliations}				     %
 %\title{\rm{VASP}的电荷密度存储文件\rm{CHGCAR}}
 %\title{面向高温合金材料设计的计算模拟软件中的几个主要问题}
-\title{化学化工知识图谱的建设与应用}
+\title{化学-化工知识图谱的建设与应用}
 \author[ ]{北京市计算中心~云平台事业部}   %
 %\author[ ]{姜~骏\thanks{jiangjun@bcc.ac.cn}}   %
 %\affil[ ]{北京市计算中心}    %
@@ -164,11 +164,38 @@
 \end{figure}
 
 \subsection{反应复杂性研究}
-很多化学反应和自组装过程都是由亚稳的简单分子前驱体(化学物种)引发的，对化学反应过程的模拟和反应机理的理解需要考虑热力学和动力学因素。为通过语义学研究化学反应的物种，\textrm{M.~Kraft}开发了\textrm{OntoKin}和\textrm{OntoCompChem}\upcite{JCIM59-3154_2019}，如图\ref{Fig:Automated-linking-between-OntoSpecies-Kin-CompChem}所示。
+很多化学反应和自组装过程都是由亚稳的简单分子前驱体(化学物种)引发的，对化学反应过程的模拟和反应机理的理解需要考虑热力学和动力学因素。为通过语义学研究化学反应的物种，\textrm{M.~Kraft}开发了\textrm{OntoKin}和\textrm{OntoCompChem}\upcite{JCIM59-3154_2019}，如图\ref{Fig:Automated-linking-between-OntoSpecies-Kin-CompChem}所示。\textrm{OntoKin}是用于计算机辅助设计的标准命名下表示反应机理的算法的\textrm{ontology}，化学反应过程中，反应机理由成比例的化学物种表示。在\textrm{OntoKin}中，化学反应由反应物和产物描述，反应物和产物由\textrm{OntoSpecoes~IRIs}的热力学和输运模型标签。在\textrm{OntoKin}中还会标记反应发生的形式(如气相、表面等)。每个化学反应的速度由\textrm{Arrhenius}模型表示，可通过调节温度、压力来控制气相反应动力学(即计算反应速率)。描述一个化学反应可能涉及很多反应步骤，所以\textrm{OntoKin}结合\textrm{OntoSpecies}就可以提供数据和模型，并可与文献中报导的动力学、热力学或输运模型对比\upcite{ACSO5-18342_2020}。所以这样的知识图谱框架可用于评估专家经验判断的可靠程度。\textrm{OntoCompChem}目前主要关注分子，图谱用密度泛函理论\textrm{(DFT)}的输入输出表示\upcite{JCIM59-3154_2019}。\textrm{OntoCompChem}是基于由\textrm{CompChem}规定的\textrm{CML~(Chemical Markup Language)}\upcite{JCI4-15_2012}的语义概念发展起来的。\textrm{OntoCompCHem}中对计算的描述包括:
+\begin{itemize}
+	\item 计算对象(单点计算，几何结构优化和频率计算)
+	\item 使用的计算软件(如\textrm{Gaussian~16})
+	\item 计算中采用的方法，包括泛函和基组(如\textrm{B3LYP,6-31G(d)})
+	\item 电荷与自旋的极化
+\end{itemize}
+图谱中也纪录了前线轨道\textrm{frontier orbitals}和收敛的自洽迭代能量。对几何结构优化，纪录最终优化的几何结构；而频率计算，纪录的是零点能的校正和几何结构对应的完整的振动频率。
+
+利用衔接软件，可以将化合物、化学反应和\textrm{DFT}衔接在一起\upcite{CCE137-106813_2020}。因为\textrm{OntoKin}中可能涉及到成千上万的化学物种和化学反应，所以这样的衔接软件是非常必要的\upcite{ACSM5-18342_2020}。衔接软件可以追索每个反应。图\ref{Fig:Automated-linking-between-OntoSpecies-Kin-CompChem}给出火箭推进的氢燃料燃烧反应涉及的10种化学物种和40个基元反应，其中有一个是\ch{H2O2}~+\ch{*OH}~$\rightleftharpoons$~\ch{H2O}~+\ch{*OOH}。
 \begin{figure}[h!]
 \centering
 \includegraphics[height=3.40in,width=4.05in,viewport=0 0 1010 750,clip]{Automated-linking-between-OntoSepcies-Kin-CompChem.png}
 \caption{\small\textrm{Automated linking between OntoSpecies, OntoKin and OntoCompChem. cite from\cite{ACR56-128_2023}}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:Automated-linking-between-OntoSpecies-Kin-CompChem}
 \end{figure}
+\subsection{合理的自组装材料的自动化设计}
+金属有机多面体\textrm{(Metal-organic polyhedra, MOPs)}是由有机的和金属的化学单元\textrm{(Chemical Building Units, CBUs)}组装，并重构成规则的多面体\upcite{CR120-8987_2020}。金属有机多面体和其它的笼状结构过去主要由领域行业专家设计的，为了设计新的金属有机多面体，专家必须考虑化学的和空间组成的影响，但小朋友搭玩具模型时并不具备多面体的几何知识背景，可见直觉想象力是参与推理的。如图\ref{Fig:OntoMOPs-MOPs}所示，在\textrm{OntoMOPs}中，将组装模型\textrm{(Assembly Models, AMs)}的概念和通用组装单元\textrm{(Generic Building Units, GBUs)}引入到\textrm{MOPs}的合理设计。而\textrm{MOPs}的化学单元也用\textrm{OntoSpecies}标注，并在图谱中标注该\textrm{MOPs}最初的出处文献。而\textrm{MOP}发现软件的算法思路是设置规定\textrm{CBUs}的允许组合，又不能有太大的应力。
+\begin{figure}[h!]
+\centering
+\includegraphics[height=2.70in,width=5.05in,viewport=0 0 1330 700,clip]{Key_concepts-in-OntoMOPs-and-designed-MOPs.png}
+\caption{\small\textrm{Key concepts in OntoMOPs (left) and examples of newly rationally designed MOPs (right). cite from\cite{ACR56-128_2023}}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Fig:OntoMOPs-MOPs}
+\end{figure}
+\subsection{界面友好的\rm{TWA}知识图谱}
+问答式知识图谱用的查询语言(如\textrm{SPARQL})并需要了解知识图谱中如何组织知识，因此对于缺少知识图谱基本了解的用户，缺乏使用知识图谱的动力，所以界面友好的知识图谱的需求非常迫切。在\textrm{TWA}项目中，化学-化工类的知识图谱中，问答模块\textrm{Marie}就是允许用户用自然语言提问，在后台问题描述的场景会转换成机器可读的问答形式\upcite{DCE3-100032_2022}。为了实现这些功能，\textrm{Marie}使用自然语言处理和网络软件来确定主题、问题类型和用户提问的实体。一旦问题被理清，软件会将相关信息提交给查询软件，查询软件会将信息转递到\textrm{SPARQL}软件，\textrm{SPARQL}软件查询知识图谱并向用户返回信息。图\ref{Fig:TWA-KG-Marie}给出典型的用户提问\textrm{Marie}要求展示芳香\ch{C-H}化合物模型。
+\begin{figure}[h!]
+\centering
+\includegraphics[height=3.70in,width=3.35in,viewport=0 0 750 790,clip]{TWA-KG-Marie.png}
+\caption{\small\textrm{Marie's back-end operations involved in querying information that is in TWA KG and one that it is generated through agent operation. Printed results of queries are adapted with permission from (i) ref \cite{JCIM61-3868_2021}. cite from\cite{ACR56-128_2023}}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Fig:TWA-KG-Marie}
+\end{figure}
+为了节约知识存储的成本，很多知识可通过推演或计算得到。所以如果\textrm{Marie}在知识图谱中没有找到答案，它会采取另外的技术路线:~通过激活发现软件，该软件会寻找适合问题的软件，合适的软件再向知识图谱查询并计算相关结果。一个典型的例子是用户提问查询\ch{CO2}的热容时，软件\textrm{Thermo}会在诸如\textrm{OntoCompChem}中计算\ch{CO2}的热容。
 \section{小结}
+知识图谱结合处理软件可以实现复杂决策并通过计算、新的属性和自主的实验产生新的知识\upcite{JACSAu2-292_2022}。因此可以预见，在不远的将来，通过软件和知识图谱的复杂的组合会发现和创造新的分子或材料。因此如果化学知识形成的生态系统，将会通过化学知识空间的探索，有效地发现更多的新知识。
