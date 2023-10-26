@@ -23,4 +23,15 @@ xelatex Latex_2020-Template
 xelatex Latex_2020-Template
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .Latex_2020-Template.*.swp *.aux *.bbl *.blg
 mv Latex_2020-Template.pdf $1.pdf
+cd 00_General_Template/
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+cd ../01_Latex_Template/
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+#cd ../02_Beamer_Template/
+#rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+cd ../03_Meet_Conference/
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+cd ../04_BCC_Report/
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+cd ..
 # evince $1.pdf

@@ -4,12 +4,12 @@
 %\documentclass[10pt, oneside, a4paper]{book}      % Specifies the document class
 %AutoFakeBold 克服汉字加粗问题
 
-%---------%%%%%%%%%%%%%%%%--------xeCJK下设置中文字体-----------%%%%%%%%%%%%%%%%%%-----------%  
-\include{00_General_Template/Template_Preamble}                                                                  %
+%---------%%%%%%%%%%%%%%%%----------xeCJK下设置环境-------------%%%%%%%%%%%%%%%%%%-----------%  
+\input{00_General_Template/Template_Preamble}                                                                  %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %---------%%%%%%%%%%%%%%%%--------xeCJK下设置中文字体-----------%%%%%%%%%%%%%%%%%%-----------%  
-\include{00_General_Template/Template_Fonts}                                                                     %
+\input{00_General_Template/Template_Fonts}                                                                     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -19,27 +19,28 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{00_General_Template/Template_Fancy}					  %
-%\include{04_BCC_Report/Template_BCC_Fancy}			  %
-%\include{03_Meet_Conference/Template_Meet_Fancy}			  %
+\input{00_General_Template/Template_Fancy}		 %% 普通页眉-页脚
+%\include{03_Meet_Conference/Template_Meet_Fancy}	 %% 会议纪录用页眉-页脚 (单位信笺格式) 
+%\include{04_BCC_Report/Template_BCC_Fancy}	 	 %% 报告用页眉-页脚 (单位信笺格式)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%    The Title of The Paper    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\include*{01_Latex_Template/Author_Title}								    	     %
-%\include*{03_Meet_Conference/Content-Meet-Info}      	      %
-%\include*{04_BCC_Repoart/Author_Title_BCC}				    	     	     %
-%\include*{03_Meet_Conference/Title_Recoder_MeetInfo}				    	     %
+%\include{00_General_Template/Author_Title}	  	   %% 测试用文本:~标题-作者-单位     %
+%%\include*{01_Latex_Template/Author_Title}	  	   %% 普通文本:~标题-作者 (可选)     %
+%\include*{03_Meet_Conference/Title_Recoder_MeetInfo}	   %% 会议纪录:~标题-地点-记录员     %
+%\include*{04_BCC_Repoart/Author_Title_BCC}		   %% 报告信息:~标题-报告人   	     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
 %
 %%%%------The Abstract and the keywords of The Paper-------%%%%
-%\include*{01_Latex_Template/Content-0-Abstract}                        	      %
-%\include*{03_Meet_Conference/Content-Meet-Meberstyle}      	      %
-%\include*{04_BCC_Report/Content-BCC-Abstract}                   %
+%\include{00_General_Template/Content-0-Abstract}             %% 测试用论文:~摘要       	      %
+%\include*{01_Latex_Template/Content-0-Abstract}             %% 普通论文:~摘要 (可选)  	      %
+%\include*{03_Meet_Conference/Content-Meet-Meberstyle}      %% 会议纪录:~到会人员信息	      %
+%\include*{04_BCC_Report/Content-BCC-Abstract}              %% 报告内容摘要		      %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
@@ -47,30 +48,32 @@
 %----------------The Body Of The Paper------------------------%
 %
 %-----%%%%%%%------- Introduction ---------%%%%%%%%%%---------%
-%\include*{01_Latex_Template/Content-1-Introduction}    		              %
+%\include{00_General_Template/Content-1-Introduction}	    %% 测试用论文:~引言		      %
 %--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
 %-------------------------------------------------------------%
 %
 %-----%%%%%%%----Main Body of The Paper----%%%%%%%%%%---------%
-%\include*{03_Meet_Conference/Content_MeetRecord}    	      %
-%\include*{04_BCC_Report/Template_Report_Author}    	      %
-\include*{01_Latex_Template/Content-2-Main}                            	      %
-%\include{01_Latex_Template/Content-2-Main}                            	      %
+%\include{00_General_Template/Content-2-Main}			%% 测试用文本	  	     	 %
+\include*{01_Latex_Template/Content-2-Main}			%% 普通文本:~不分页   	     	 %
+%\include{01_Latex_Template/Content-2-Main}			%% 普通文本:~分页    	     	 %
+%\include*{03_Meet_Conference/Content_MeetRecord}		%% 会议纪录:~会议内容	 	 %
+%\include*{04_BCC_Report/Template_Report_Author}		%% 报告内容:~报告人简历-报告内容 %
 %--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
 %
 %----%%%%%%%%%%%%%%%%----Acknowledge----%%%%%%%%%%%%%%%%%-----%
-%\include*{01_Latex_Template/Content-3-Acknowledge}                      	      %
-%\include{01_Latex_Template/Content-3-Acknowledge}                      	      %
+%\include{00_General_Template/Content-3-Acknowledge}       	%% 测试用文本:~致谢    	      %
+\include*{01_Latex_Template/Content-3-Acknowledge}       	%% 普通文本:~致谢      	      %
+%\include{01_Latex_Template/Content-3-Acknowledge}       	%% 普通文本:~致谢      	      %
 %--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
 %
 %----%%%%%%%%%%%%----The Bibliographyge----%%%%%%%%%%%%%%-----%
-\include*{01_Latex_Template/Content-4-Bibliography}                    	      %
-%\include{01_Latex_Template/Content-4-Bibliography}                    	      %
+\include*{01_Latex_Template/Content-4-Bibliography}             %% 普通论文:~参考文献 	      %
+%\include{01_Latex_Template/Content-4-Bibliography}             %% 普通论文:~参考文献 	      %
 %--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%

@@ -8,15 +8,15 @@
 \def\headrule{\color{blue}{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
 \hrule\@height 0.5pt \@width\headwidth\vskip1pt %上面线为0.5pt粗
 \hrule\@height 3.0pt\@width\headwidth  %下面3pt粗
-\vskip-2\headrulewidth\vskip-1pt}      %两条线的距离1pt
-  \vspace{6mm}}     %双线与下面正文之间的垂直间距
+\vskip -2\headrulewidth\vskip -1pt}      %两条线的距离1pt
+}
 \makeatother
 
 %\renewcommand{\footrulewidth}{3pt} %页脚线宽(默认黑色)，设为0可以去页脚线
 \makeatletter % 双线页眉
 \def\footrule{{\color{blue}{\if@fancyplain\let\footrulewidth\plainfootrulewidth\fi%
 \hrule\@height 3.0pt \@width\headwidth}}
-  \vspace{2mm}}
+}
 \makeatother
 
 \pagestyle{fancy}    %与文献引用超链接style有冲突
@@ -36,3 +36,5 @@
 %% myheadings 页眉内容可自定义，无页脚
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\setlength{\headsep}{50pt}           % 文本距离页眉的距离                      %
+%\setlength{\footskip}{30pt}          % 文本距离页脚的距离                      %
