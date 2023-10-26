@@ -23,7 +23,7 @@
 \renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
 %\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
 \renewcommand\Authands{ , } % 将 and 换成逗号					     %
-\date{} % 去掉日期									     %
+%\date{2023.11} % 去掉日期									     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -32,15 +32,16 @@
 %-----------------------------------------------------------------------------
 
 %----------------------The Authors and the address of The Paper--------------------------------%
-%\author{
+\author{
 %\small
 %Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
-%\small
+\small
 %(The Address，City Post code)						%Address	       %
-%}
+北京低碳清洁能源研究院~(NICE)
+}
 %\affil[$\dagger$]{清华大学~材料加工研究所~A213}
 %\affil{清华大学~材料加工研究所~A213}
-%\date{}					%if necessary					       %
+\date{}					%if necessary					       %
 %----------------------------------------------------------------------------------------------%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \maketitle
@@ -95,12 +96,14 @@
 \tabcolsep 0pt \vspace*{-12pt}
 %\caption{The representative $\vec k$ points contributing to $\sigma_2^{xy}$ of interband transition in EuTe around 2.5 eV.}
 \label{Table-EuTe_Sigma}
-\begin{minipage}{\textwidth}
+\begin{minipage}{0.95\textwidth}
 %\begin{center}
 \centering
-\def\temptablewidth{\textwidth}
+\def\temptablewidth{0.88\textwidth}
 \rule{\temptablewidth}{1pt}
-\begin{tabular*} {\temptablewidth}{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}l|}
+\begin{tabular*} 
+	{\temptablewidth}
+	{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}l|}
 
 %-------------------------------------------------------------------------------------------------------------------------
 %&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
@@ -110,47 +113,45 @@
 %&       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
 %-------------------------------------------------------------------------------------------------------------------------
 
-日期　&时间　&\;\;内容\\\hline
-第一天&9:30-11:30 & 量子力学基础\\
-&&\textrm{H-F}与\textrm{DFT}\\
-&&\textrm{K-S}方程与交换-相关泛函\\
+\;\;\;\;日\;\;\;\;\;\;\;期\;\;\;　&\;\;\;\;\;\;\;时\;\;\;\;\;\;\;间\;\;\;　&\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;内\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;容\;\;\;\;\;\\\hline
+&09:30-11:30 & 量子力学基础\\
+&&\textrm{Hartree-Fock}与\textrm{DFT}\\
 %&&ABINIT输入文件中的参数设置\\
+&&\textrm{Kohn-Sham}方程与交换-相关泛函\\
 \cline{2-3}
-&13:30-17:00& 固体能带理论\\
+~第一天~&13:30-16:30& 固体能带理论\\
 &&固体能带计算方法:\\
 &&(1)赝势\textrm{(PP)}方法\\
 &&(2)投影子缀加波\textrm{(PAW)}方法\\
 \hline
-第二天&9:00-11:30 &~\textrm{PAW}方法与\textrm{VASP}软件\\
+&09:30-11:30 &~\textrm{PAW}方法与\textrm{VASP}软件\\
 &&~\textrm{VASP}的计算特色\\
-&&(3)\textrm{LAPW}与\textrm{LMTO}方法\\
+~第二天~&&(3)\textrm{LAPW}与\textrm{LMTO}方法\\
 %&&金属(导体)与非金属(半导体、绝缘体)的能带结构\\
 \cline{2-3}
-&13:30-17:00&$\vec k$空间布点与积分方法:\\
-&&~(1)$\vec k$-空间布点\\
-&&~(2)$\vec k$-空间积分:~特殊点方案\\
-&&~(3)$\vec k$-空间积分:~四面体方案 \\
+&13:30-16:30&$\vec k$空间布点与积分方法:\\
+&&固体光学性质计算\\
 \hline
-第四天&9:00-11:30 & PAW方法的基本思想与程序实现 \\
-&&由超软赝势到PAW方法 \\
-&&全势方法与PAW方法的内在关联 \\
+&09:30-11:30 &\textrm{LDA}+$U$与电子相关\\
+&&旋-轨耦合相互作用\\
 \cline{2-3}
-&13:30-17:00 &上机实习: 分子动力学过程模拟\\
-&&(1)isokinetic系综下Al的分子动力学模拟\\
-&&(2)$k$点与晶胞参数对分子动力学模拟的影响\\
-&&(3)给定压力下Al的熔化行为模拟\\
+~第三天~&13:30-16:30&电子自旋与磁性\\
+&&晶格振动与分子动力学\\
+&&电子相关\\
 \hline
-第五天&9:00-11:30 & 关联电子的LDA$+U$与{\it GW}较正 \\
-&&含{\it d}电子体系的LDA$+U$校正\\
-&&{\it U}值的物理意义\\
-&&{\it GW}方法处理关联电子体系\\\cline{2-3}
-&13:30-17:00 &上机实习: 关联电子体系的物性计算\\
-&&(1)NiO的基态计算与{\it U}值的确定\\
-&&(2)闪锌矿型GaAs材料的光学性质计算\\
-&&(3)Si基态电子结构的{\it GW}校正\\
-&&综合计算练习\\\hline
-
- 
+&9:30-11:30 &分子动力学基础\\
+&&分子动力学力场与算法\\
+\cline{2-3}
+~第四天~&13:30-16:30&热力学与统计系综\\
+&&分子动力学模拟\\
+&&经典分子动力学与第一原理分子动力学\\
+\hline
+&9:30-11:30 &\textrm{LAMMPS}软件介绍\\
+&&\textrm{LAMMPS}算例介绍\\
+\cline{2-3}
+~第五天~&13:30-16:30&\textrm{VASP}软件介绍\\
+&&\textrm{VASP}算例介绍\\
+\hline
 \end{tabular*}
 \rule{\temptablewidth}{1pt}\\
 %\end{center}
