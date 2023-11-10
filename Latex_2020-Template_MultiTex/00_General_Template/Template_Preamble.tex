@@ -17,9 +17,30 @@
 \usepackage{authblk}					 %作者地址和E-mail
 \usepackage{amsmath,amsthm,amsfonts,amssymb,bm}          %数学公式
 \usepackage{mathrsfs}                                    %英文花体
+\usepackage{ifthen}
+
+
+\usepackage[subpreambles=true]{standalone} % 启用 standalone 宏包，subpreambles=true 启用独立导言区
+
 \usepackage{tikz}					 %绘制平面图形
-\usetikzlibrary{arrows,shapes,chains}
+\usetikzlibrary{%
+  decorations,arrows,chains,snakes,
+  shapes, shadows, patterns, calc,
+  decorations.shapes,
+  decorations.fractals,
+  decorations.markings,
+  decorations.pathmorphing
+}
+
+\usepgfmodule{shapes}
+\usepgfmodule{plot}
+
+\usepackage{pgf}
+\usepackage{pgffor}
+
 \usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
 \usepackage{adjustbox}                                   %绘制跨页流程图形
 \newsavebox{\mysavebox}                                  %绘制跨页流程图形
 \newlength{\myrest}                                      %绘制跨页流程图形
@@ -85,6 +106,11 @@
 
 \usepackage{verbatim}			%Verbatim 宏包重新实现了 Verbatim 环境，并且提供一个命令可以导入一个 ASCII 文件到文档中
 %\verbatiminput{filename}
+
+\usepackage{calligra}
+
+\colorlet{bodycolor}{black!35!gray!60!brown!98!green}   %设置颜色
+\colorlet{bellycolor}{yellow!70!white!92!green}         %设置颜色
 
 %在beamer里面使用verbatim环境，可以通过在frame的参数里面添加 containsverbatim / fragile来解决，不过 containsverbatim 会导致pause失效
 %\begin{frame}[containsverbatim] %也可以用 \begin{frame}[fragile]
