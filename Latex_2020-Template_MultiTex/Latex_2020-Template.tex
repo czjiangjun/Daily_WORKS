@@ -1,7 +1,14 @@
-\documentclass[12pt, oneside, a4paper]{article}      % Specifies the document class
-%\documentclass[10pt, oneside, AutoFakeBold, a4paper]{article}      % Specifies the document class
-%\documentclass[10pt, twoside, a4paper]{article}      % Specifies the document class
-%\documentclass[10pt, oneside, a4paper]{book}      % Specifies the document class
+\documentclass[%
+	12pt, oneside, a4paper,
+%       10pt, oneside, AutoFakeBold, a4paper
+%       10pt, twoside, a4paper
+%       10pt, oneside, a4paper
+%       tikz,11pt,class=main,crop=false
+       tikz,svgnames,border={0 2}
+]{article}      % Specifies the document class
+%]{book}        % Specifies the document class
+%]{stanalone}
+%]{standalone}
 %AutoFakeBold 克服汉字加粗问题
 
 %---------%%%%%%%%%%%%%%%%----------xeCJK下设置环境-------------%%%%%%%%%%%%%%%%%%-----------%  
@@ -10,6 +17,10 @@
 
 %---------%%%%%%%%%%%%%%%%--------xeCJK下设置中文字体-----------%%%%%%%%%%%%%%%%%%-----------%  
 \input{00_General_Template/Template_Fonts}                                                                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%---------%%%%%%%%%%%%%%%%--------xeCJK下设置评论文字-----------%%%%%%%%%%%%%%%%%%-----------%  
+\input{00_General_Template/Template_Comment}                                                                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
