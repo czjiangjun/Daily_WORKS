@@ -21,7 +21,7 @@ xelatex Latex_2020-Template
 bibtex Latex_2020-Template
 xelatex Latex_2020-Template
 xelatex Latex_2020-Template
-rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .Latex_2020-Template.*.swp *.aux *.bbl *.blg
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.sta *.snm *.toc *.xml *.*~ *~ .Latex_2020-Template.*.swp *.aux *.bbl *.blg 
 mv Latex_2020-Template.pdf $1.pdf
 cd 00_General_Template/
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
