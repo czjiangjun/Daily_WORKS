@@ -28,6 +28,7 @@
 \usepackage{xcolor}                                        %使用默认允许使用颜色
 %\usepackage{hyperref} 
 \usepackage{graphicx}
+\usepackage{float}               %将图片定死在某一个位置用(主要支持[htbp!]中的h)
 \usepackage{subfigure}           %图片跨页
 \usepackage{animate}		 %插入动画
 \usepackage{caption}
@@ -45,6 +46,11 @@
 \usepackage{longtable}                                   %使用长表格
 \usepackage{multirow}
 \usepackage{makecell}		%允许单元格内换行
+
+\usepackage{booktabs}           %修改表格线段的粗细，可以自定义修改线段粗细
+%\toprule[2pt]                   %表格顶端线粗细设置
+%\midrule[1pt]                   %表格中间线粗细设置
+%\bottomrule[1.8pt]              %表格底端线粗细设置
 
 \usepackage{arydshln}
 \newcommand{\adots}{\mathinner{\mkern2mu%
@@ -337,20 +343,19 @@ The content of the abstract
 %\centering
 %\def\temptablewidth{0.84\textwidth}
 %%\rule{\temptablewidth}{1pt}
-%\toprule        %% 绘制顶端线
 %\begin{tabular*} {\temptablewidth}{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}l|}
-
+%\toprule[2pt]         %% 绘制顶端线,粗细设置
 %-------------------------------------------------------------------------------------------------------------------------
 %&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
 %Components\footnote{波函数主要成分后的括号中，$5s$、$5p$和$5p$、$4f$、$5d$分别指碲和铕的原子轨道。} &Gap (eV)   \\ %\hline
 %-------------------------------------------------------------------------------------------------------------------------
-%\midrule        %% 绘制中间线
+%\midrule[1pt]         %% 绘制中间线,粗细设置
 %&2.35       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
 %&       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
 %-------------------------------------------------------------------------------------------------------------------------
+%\bottomrule[1.8pt]    %%绘制底部线,粗细设置
 %\end{tabular*}
 %%\rule{\temptablewidth}{1pt}
-%\bottomrule     %%绘制底部线
 %\end{minipage}{\textwidth}
 %\end{table}
 
