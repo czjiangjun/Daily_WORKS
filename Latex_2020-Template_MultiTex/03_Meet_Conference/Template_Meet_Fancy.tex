@@ -8,7 +8,7 @@
 \def\headrule{\color{blue}{\if@fancyplain\let\headrulewidth\plainheadrulewidth\fi%
 \hrule\@height 0.5pt \@width\headwidth\vskip1pt %上面线为0.5pt粗
 \hrule\@height 3.0pt\@width\headwidth  %下面3pt粗
-\vskip-2\headrulewidth\vskip-1pt}     %两条线的距离1pt
+\vskip -2\headrulewidth\vskip -1pt}      %两条线的距离1pt
 }
 \makeatother
 
@@ -17,7 +17,6 @@
 \def\footrule{{\color{blue}{\if@fancyplain\let\footrulewidth\plainfootrulewidth\fi%
 \hrule\@height 3.0pt \@width\headwidth}}
 }
-
 \makeatother
 
 \pagestyle{fancy}    %与文献引用超链接style有冲突
@@ -26,11 +25,15 @@
 \chead{} % 页眉中间位置内容
 \rhead{}
 \lfoot{\hei{地址:~~北京市海淀区丰贤中路7号北科产业3号楼 ~~~~ 邮编:~~100094\\
-电话:~~010-59341997/98 ~~~~~~~ 传真:~~010-59341888 ~~~~~~\!网址:~~www.bcc.ac.cn}}  %页脚
+	电话:~~010-59341997/98 ~~~~~~~ 传真:~~010-59341888 ~~~~~~~\!网址:~~\url{www.bcc.ac.cn}}}  %页脚
 %\rule{\temptablewidth}{1pt}
 %\cfoot{}
 %\rfoot{}
+
+%\usepackage{lastpage}
 \fancyfoot[C]{} %保留页脚时去掉页码
+%\fancyfoot[C]{\fontsize{8.2pt}{6.2pt}\selectfont{\vspace*{-28pt}\textrm{第~\thepage~页/共~\pageref{LastPage}~页}}}      %设置 第x页/共y页 格式
+%\fancyfoot[C]{\fontsize{8.2pt}{6.2pt}\selectfont{\vspace*{-28pt}\textrm{No.\thepage of \pageref{Lastpage}}}}      %设置 第x页/共y页 格式
 
 %%%%%%%%%%%%%%%%%  % pagestyleR常用格式  %%%%%%%%%%%%%%%%%%%%%%%%%
 %% empty 无页眉页脚
