@@ -100,10 +100,9 @@
 %\begin{center}
 \centering
 \def\temptablewidth{0.88\textwidth}
-\rule{\temptablewidth}{1pt}
-\begin{tabular*} 
-	{\temptablewidth}
-	{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}l|}
+\rule{\temptablewidth}{2.0pt}
+\begin{tabular*}{\temptablewidth}{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}l|}
+%	\toprule[2pt]        %% 绘制顶端线,粗细设置
 
 %-------------------------------------------------------------------------------------------------------------------------
 %&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
@@ -114,6 +113,7 @@
 %-------------------------------------------------------------------------------------------------------------------------
 
 \;\;\;\;日\;\;\;\;\;\;\;期\;\;\;　&\;\;\;\;\;\;\;时\;\;\;\;\;\;\;间\;\;\;　&\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;内\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;容\;\;\;\;\;\\\hline
+%	\midrule[1pt]        %% 绘制中间线,粗细设置
 &09:30-11:30 & 量子力学基础\\
 &&\textrm{Hartree-Fock}与\textrm{DFT}\\
 %&&ABINIT输入文件中的参数设置\\
@@ -150,10 +150,10 @@
 &&\textrm{LAMMPS}算例介绍\\
 \cline{2-3}
 ~第五天~&13:30-16:30&\textrm{VASP}软件介绍\\
-&&\textrm{VASP}算例介绍\\
-\hline
+&&\textrm{VASP}算例介绍\\ %\hline
+%	\bottomrule[1.8pt]     %%绘制底部线,粗细设置
 \end{tabular*}
-\rule{\temptablewidth}{1pt}\\
+\rule{\temptablewidth}{1.8pt}
 %\end{center}
 \end{minipage}
 \end{table}
