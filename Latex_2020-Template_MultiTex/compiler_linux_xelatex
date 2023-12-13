@@ -13,9 +13,13 @@
 PATH_Local=`pwd` && cp Latex_2020-Template.tex Latex_2020-Template_tmp
 cd ../../Latex_Beamer && PATH_Figure=`pwd`
 # echo $PATH_Figure
-cd $PATH_Figure && sed -e "s#\$PATHPWD#`pwd`#" $PATH_Local/Latex_2020-Template_tmp  > $PATH_Local/Latex_2020-Template.tex
-cd $PATH_Local
-# exit
+cd $PATH_Local && sed -e "s#\$PATHPWD#`echo $PATH_Figure`#" Latex_2020-Template_tmp  > Latex_2020-Template.tex
+
+cd ../../Reference && PATH_Reference=`pwd`
+cd $PATH_Local && cp 00_General_Template/Content-4-Bibliography.tex 00_General_Template/Content-4-Bibliography_tmp && cp 01_Latex_Template/Content-4-Bibliography.tex 01_Latex_Template/Content-4-Bibliography_tmp
+	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 00_General_Template/Content-4-Bibliography_tmp > 00_General_Template/Content-4-Bibliography.tex
+	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 01_Latex_Template/Content-4-Bibliography_tmp > 01_Latex_Template/Content-4-Bibliography.tex
+#exit
 
 touch 01_Latex_Template/.tmp 
 test -s 01_Latex_Template/Content-2-Main.tex && sed 's/^\\input/%\\input/g' 01_Latex_Template/Content-2-Main.tex  > 01_Latex_Template/.tmp || echo "%Main_File"  > 01_Latex_Template/.tmp
@@ -33,8 +37,10 @@ mv Latex_2020-Template_tmp Latex_2020-Template.tex
 # cp Latex_2020-Template_tmp Latex_2020-Template.tex && rm Latex_2020-Template_tmp
 cd 00_General_Template/
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+mv Content-4-Bibliography_tmp Content-4-Bibliography.tex
 cd ../01_Latex_Template/
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+mv Content-4-Bibliography_tmp Content-4-Bibliography.tex
 #cd ../02_Beamer_Template/
 #rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
 cd ../03_Meet_Conference/

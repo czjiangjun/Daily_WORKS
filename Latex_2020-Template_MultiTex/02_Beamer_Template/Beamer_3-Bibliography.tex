@@ -1,25 +1,16 @@
 \appendix
-%--------------------------------------------Bibliography-Model-1-------------------------------------------------------------------------------%
-%\begin{thebibliography}{99}
-%\frame[allowframebreaks]
-%{
-%\frametitle{主要参考文献}
-%{\small
-%\bibitem{Singh_Book}\textrm{D. J. Singh. \textit{Plane Wave, PseudoPotential and the LAPW method} (Kluwer Academic, Boston,USA, 1994)}		%
-%% \nocite{*}																	%
-%}
-%\end{thebibliography}
-%-----------------------------------------------------------------------------------------------------------------------------------------------%
-
-%------------------------------------------------------Bibliography-Model-2----------------------------------------------------------------------
+%------------------------------------------------------------------------Reference----------------------------------------------------------------------------------------------
+%-----------------------------------------------------------Beamer下不建议使用bib,因为涉及分页--------------------------------------------------------------------------%
 \frame[allowframebreaks]
 {
 \frametitle{主要参考文献}
 {\tiny\textrm{
 %\phantomsection\addcontentsline{toc}{section}{Bibliography}	 %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正	%
 %\phantomsection\addcontentsline{toc}{section}{主要参考文献}	 %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正	%
-\bibliography{Ref_2020-03-04}%
-\bibliographystyle{../ref/mybib}%
+	\bibliography{$PATHPWD/Myref}				%%$PATH用于脚本指定图片路径
+%	\bibliography{../ref/Myref}%
+\bibliographystyle{$PATHPWD/mybib}				%%$PATH用于脚本指定图片路径
+%\bibliographystyle{../ref/mybib}%
 }}
 %\nocite{*}%
 }
