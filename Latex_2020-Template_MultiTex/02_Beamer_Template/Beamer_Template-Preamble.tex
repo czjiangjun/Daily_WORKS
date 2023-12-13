@@ -60,12 +60,12 @@
 \usepackage{multirow}
 \usepackage{makecell}		%允许单元格内换行
 
+%\pgfpagesuselayout{1 on 1 with notes landscape}[a4paper,border shrink=5mm]
+
 \usepackage{booktabs}           %修改表格线段的粗细，可以自定义修改线段粗细
 %\toprule[2pt]                   %表格顶端线粗细设置
 %\midrule[1pt]                   %表格中间线粗细设置
 %\bottomrule[1.8pt]              %表格底端线粗细设置
-
-%\pgfpagesuselayout{1 on 1 with notes landscape}[a4paper,border shrink=5mm]
 
 %%%%%%%%%%%%%%%%%%%%%%BIBTEX 引用参考文献%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\usepackage{filecontents}
@@ -115,8 +115,9 @@
 %\beamersetaveragebackground{gray}                          %设置背景颜色(单一色) 
 \beamertemplateshadingbackground{green!10}{red!5}         %设置背景颜色(渐变色)
 
-\graphicspath{{/home/jun-jiang/Documents/Latex_Beamer/Figures/}}
-%\graphicspath{{/home/jiangjun/Documents/Latex_Beamer/Figures/}}
+\graphicspath{{$PATHPWD/Figures/}}                           %$PATH用于脚本指定图片路径
+%\graphicspath{{/home/jun-jiang/Documents/Latex_Beamer/Figures/}}   %直接指定图片绝对路径
+%\graphicspath{{/home/jiangjun/Documents/Latex_Beamer/Figures/}}   %直接指定图片绝对路径
 
 %i放置单位logo
 %\logo{\includegraphics[width=1.6cm,height=0.35cm]{Figures/BCC_logo-1.png}}	%简单设置logo
@@ -127,8 +128,8 @@
 %在指定位置精确放置logo
 \usepackage{beamerfoils}
 \usepackage{pgf}
-%\logo{\pgfputat{\pgfxy(11.68,0.15)}{\includegraphics[height=1.01cm,viewport=0 0 140 120,clip]{Figures/BCC_logo-1.png}}\pgfputat{\pgfxy(10.502,-0.218)}{\includegraphics[height=0.369cm,viewport=140 0 540 120,clip]{Figures/BCC_logo-1.png}}}
-\logo{\pgfputat{\pgfxy(11.68,0.15)}{\includegraphics[height=0.95cm,viewport=0 0 510 360,clip]{Figures/Logo_Gainstrong.png}}\pgfputat{\pgfxy(10.333,-0.195)}{\includegraphics[height=0.35cm,viewport=530 70 1100 218,clip]{Figures/Logo_Gainstrong.png}}}
+\logo{\pgfputat{\pgfxy(11.68,0.15)}{\includegraphics[height=1.01cm,viewport=0 0 140 120,clip]{Figures/BCC_logo-1.png}}\pgfputat{\pgfxy(10.502,-0.218)}{\includegraphics[height=0.369cm,viewport=140 0 540 120,clip]{Figures/BCC_logo-1.png}}}
+%\logo{\pgfputat{\pgfxy(11.68,0.15)}{\includegraphics[height=0.95cm,viewport=0 0 510 360,clip]{Figures/Logo_Gainstrong.png}}\pgfputat{\pgfxy(10.333,-0.195)}{\includegraphics[height=0.35cm,viewport=530 70 1100 218,clip]{Figures/Logo_Gainstrong.png}}}
 %\logo{\pgfputat{\pgfxy(10.28,0.00)}{\includegraphics[height=0.95cm,viewport=0 0 1100 360,clip]{Figures/Logo_Gainstrong.png}}}
 %\logo{\pgfputat{\pgfxy(11.68,0.15)}{\includegraphics[height=0.95cm,viewport=0 0 510 360,clip]{Figures/Logo_Gainstrong.png}}\pgfputat{\pgfxy(10.333,-0.195)}{\includegraphics[height=0.35cm,viewport=530 70 1100 218,clip]{Figures/Logo_Gainstrong.png}}}
 %\logo{\pgfputat{\pgfxy(10.68,0.00)}{\includegraphics[height=1.20cm,viewport=0 15 400 430,clip]{Figures/seal_Jiang-2.jpg}}
