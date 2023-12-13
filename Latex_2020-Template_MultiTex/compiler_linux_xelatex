@@ -10,14 +10,15 @@
 #%\setsansfont[Mapping=tex-text]{Adobe 黑体 Std}	 %Beamer用字体	%
 #%									%
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-PATH_Local=`pwd` && cp Latex_2020-Template.tex Latex_2020-Template_tmp
+PATH_Local=`pwd` && test -s Latex_2020-Template.tex && cp Latex_2020-Template.tex Latex_2020-Template_tmp
 cd ../../Latex_Beamer && PATH_Figure=`pwd`
 # echo $PATH_Figure
 cd $PATH_Local && sed -e "s#\$PATHPWD#`echo $PATH_Figure`#" Latex_2020-Template_tmp  > Latex_2020-Template.tex
 
-cd ../../Reference && PATH_Reference=`pwd`
-cd $PATH_Local && cp 00_General_Template/Content-4-Bibliography.tex 00_General_Template/Content-4-Bibliography_tmp && cp 01_Latex_Template/Content-4-Bibliography.tex 01_Latex_Template/Content-4-Bibliography_tmp
+cd ../../Reference && PATH_Reference=`pwd` && cd $PATH_Local
+test -s 00_General_Template/Content-4-Bibliography.tex && cp 00_General_Template/Content-4-Bibliography.tex 00_General_Template/Content-4-Bibliography_tmp 
 	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 00_General_Template/Content-4-Bibliography_tmp > 00_General_Template/Content-4-Bibliography.tex
+test -s 01_Latex_Template/Content-4-Bibliography.tex && cp 01_Latex_Template/Content-4-Bibliography.tex 01_Latex_Template/Content-4-Bibliography_tmp
 	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 01_Latex_Template/Content-4-Bibliography_tmp > 01_Latex_Template/Content-4-Bibliography.tex
 #exit
 
