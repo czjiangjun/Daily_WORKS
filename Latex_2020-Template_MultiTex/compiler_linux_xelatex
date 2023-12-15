@@ -28,6 +28,7 @@ if [[ "$3" ]]; then
 	if [ -d $References ]; then
 #		cd $Figures && pwd
 		References=$References
+#		echo $References
 	else
 		echo "There is NO References_Dir"
 		exit
@@ -44,7 +45,6 @@ test -s 00_General_Template/Content-4-Bibliography.tex && cp 00_General_Template
 	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 00_General_Template/Content-4-Bibliography_tmp > 00_General_Template/Content-4-Bibliography.tex
 test -s 01_Latex_Template/Content-4-Bibliography.tex && cp 01_Latex_Template/Content-4-Bibliography.tex 01_Latex_Template/Content-4-Bibliography_tmp
 	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 01_Latex_Template/Content-4-Bibliography_tmp > 01_Latex_Template/Content-4-Bibliography.tex
-#exit
 
 touch 01_Latex_Template/.tmp 
 test -s 01_Latex_Template/Content-2-Main.tex && sed 's/^\\input/%\\input/g' 01_Latex_Template/Content-2-Main.tex  > 01_Latex_Template/.tmp || echo "%Main_File"  > 01_Latex_Template/.tmp
@@ -58,14 +58,14 @@ xelatex Latex_2020-Template
 xelatex Latex_2020-Template
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.sta *.snm *.toc *.xml *.*~ *~ .Latex_2020-Template.*.swp *.aux *.bbl *.blg 
 mv Latex_2020-Template.pdf $1.pdf
-mv Latex_2020-Template_tmp Latex_2020-Template.tex
-# cp Latex_2020-Template_tmp Latex_2020-Template.tex && rm Latex_2020-Template_tmp
+# mv Latex_2020-Template_tmp Latex_2020-Template.tex
+cp Latex_2020-Template_tmp Latex_2020-Template.tex && rm Latex_2020-Template_tmp
 cd 00_General_Template/
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
-mv Content-4-Bibliography_tmp Content-4-Bibliography.tex
+cp Content-4-Bibliography_tmp Content-4-Bibliography.tex && rm Content-4-Bibliography_tmp
 cd ../01_Latex_Template/
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
-mv Content-4-Bibliography_tmp Content-4-Bibliography.tex
+cp Content-4-Bibliography_tmp Content-4-Bibliography.tex && rm Content-4-Bibliography_tmp 
 #cd ../02_Beamer_Template/
 #rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
 cd ../03_Meet_Conference/

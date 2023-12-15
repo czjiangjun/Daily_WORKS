@@ -28,12 +28,13 @@ if [[ "$3" ]]; then
 	if [ -d $References ]; then
 #		cd $Figures && pwd
 		References=$References
+		echo $References
 	else
 		echo "There is NO References_Dir"
 		exit
 	fi
 fi
-
+exit
 PATH_Local=`pwd`
 test -s Beamer_Template/Beamer_Template-Preamble.tex && cp Beamer_Template/Beamer_Template-Preamble.tex  Beamer_Template/Beamer_Template-Preamble_tmp
 sed -e "s#\$PATHPWD#`echo $PATH_Local`#" Beamer_Template/Beamer_Template-Preamble_tmp > Beamer_Template/Beamer_Template-Preamble.tex
@@ -59,8 +60,8 @@ xelatex Beamer-Template_Main
 rm -rf *.aux  *.bbl  *.dvi *.blg *.bcf *.out *.log *.nav *.thm *.snm *.toc *.*.xml *.*~ *~ .*.*.swp
 cd Beamer_Template/
 rm -rf *.aux  *.bbl  *.dvi *.blg *.bcf *.out *.log *.nav *.thm *.snm *.toc *.*.xml *.*~ *~ .*.*.swp
-mv Beamer_Template-Preamble_tmp Beamer_Template-Preamble.tex
-mv Beamer_3-Bibliography_tmp Beamer_3-Bibliography.tex
+cp Beamer_Template-Preamble_tmp Beamer_Template-Preamble.tex && rm Beamer_Template-Preamble_tmp
+cp Beamer_3-Bibliography_tmp Beamer_3-Bibliography.tex && rm Beamer_3-Bibliography_tmp
 
 cd ..
 mv Beamer-Template_Main.pdf $1.pdf
