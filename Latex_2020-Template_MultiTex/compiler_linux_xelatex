@@ -65,6 +65,7 @@ rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.a
 cp Content-4-Bibliography_tmp Content-4-Bibliography.tex && rm Content-4-Bibliography_tmp
 cd ../01_Latex_Template/
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+#cat Content-4-Bibliography_tmp 
 cp Content-4-Bibliography_tmp Content-4-Bibliography.tex && rm Content-4-Bibliography_tmp 
 #cd ../02_Beamer_Template/
 #rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
