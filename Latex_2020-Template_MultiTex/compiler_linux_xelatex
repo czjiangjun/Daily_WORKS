@@ -12,6 +12,14 @@
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # echo $1
 Figures=../../Latex_Beamer/Figures
+# echo "The Directory of Figures"
+# read var_Fig_Dir var_Bib_Dir
+# if [[ "$var_Fig_Dir" && "$var_Bib_Dir" ]]; then
+#       echo $var_Fig_Dir $var_Bib_Dir
+# else
+#	echo No
+# fi
+# exit
 if [[ "$2" ]]; then
 	Figures=`echo $2 | awk -F "=" '{print $2}'`
 	if [ -d $Figures ]; then
