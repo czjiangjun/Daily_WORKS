@@ -12,8 +12,8 @@
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 # echo $1
 Figures=../../Latex_Beamer/Figures
-# echo "The Directory of Figures"
-# read var_Fig_Dir var_Bib_Dir
+# # echo "The Directory of Figures"
+# read -p "The Directory of Figures: " var_Fig_Dir var_Bib_Dir
 # if [[ "$var_Fig_Dir" && "$var_Bib_Dir" ]]; then
 #       echo $var_Fig_Dir $var_Bib_Dir
 # else
