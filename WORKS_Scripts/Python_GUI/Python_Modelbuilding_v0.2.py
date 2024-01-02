@@ -11,6 +11,10 @@ website: www.zetcode.com
 last modified: July 2020
 """
 
+import os
+import subprocess
+import time
+ 
 import wx
 import wx.lib.scrolledpanel as scrolled
 
@@ -100,6 +104,7 @@ class Example(wx.Frame):
         
         self.Bind(wx.EVT_BUTTON, self.printout, button3)
         self.Bind(wx.EVT_BUTTON, self.clear, button4)
+        return
 
     def Get_atoms_num(self, event):
 
@@ -186,6 +191,7 @@ class Example(wx.Frame):
 #        print('TEST1')
 #        self.Bind(wx.EVT_BUTTON, self.Get_atoms_num, button_Genatom)
         self.Bind(wx.EVT_BUTTON, self.setposition_atoms, button_POSCAR)
+        return
 
     def printout(self, event):
 
@@ -193,7 +199,7 @@ class Example(wx.Frame):
            print(self.file)
         else:
 
-           print(self.Model_Name)
+#           print(self.Model_Name)
 
            atom_positions = []
            atom_positions_all = []
@@ -242,8 +248,8 @@ class Example(wx.Frame):
 #               param_y = float(self.param_y.GetValue())
 #               param_z = float(self.param_z.GetValue())
 #               self.param = (param_x, param_y, param_z)
-               param= float(self.param.GetValue())
-               self.param = (param)
+               param = float(self.param.GetValue())
+               self.parameter = (param)
 
                x_x = float(self.tc_xx.GetValue())
                x_y = float(self.tc_xy.GetValue())
@@ -264,11 +270,9 @@ class Example(wx.Frame):
 #               print (self.elements, self.numbers)
 #               print(self.prime_cell)
 
-#               self.save_POSCAR()
-               self.save_ATOMATE2()
-
-
-           exit()
+#       self.save_POSCAR()
+        self.save_ATOMATE2()
+        return True
 
     def clear(self,event):
         exit()
@@ -471,7 +475,8 @@ class Example(wx.Frame):
         
 #        print('TEST2')
         self.Bind(wx.EVT_BUTTON, self.printout, button6)
-        self.Bind(wx.EVT_BUTTON, self.clear, button7)
+#        self.Bind(wx.EVT_BUTTON, self.clear, button7)
+#        time.sleep(5)
 #        exit()
 
         return 
@@ -541,7 +546,7 @@ class Example(wx.Frame):
 #        for i in self.param:
 #            parameter_i = parameter_i + str(i) + ' '
 #        file.writelines(parameter_i + '\n')
-        parameter = str(self.param)
+        parameter = str(self.parameter)
         file.writelines(parameter + '\n')
 
         for i in range(3):
@@ -567,6 +572,7 @@ class Example(wx.Frame):
                 position_i = position_i + str(j) + ' '
             file.write(position_i+'\n')
         file.close()
+        return
 
 
     def save_ATOMATE2(self):
@@ -575,7 +581,10 @@ class Example(wx.Frame):
 
         file = open(Model_Name, 'w')
 
-        import_module="from atomate2.vasp.flows.core import RelaxBandStructureMaker\nfrom jobflow import run_locally \nfrom pymatgen.core import Structure \n\n# construct a Model structure\n "
+        import_module="from atomate2.vasp.flows.core import RelaxBandStructureMaker\nfrom jobflow import run_locally \nfrom pymatgen.core import Structure \n\n# construct a Model structure "
+
+        Model_structure=self.Model_Name+"_structure"+"=Structure("
+#        print(Model_structure)
 
         lattice ="     lattice=["#+self.prime_cell[1]+"],["+self.prime_cell[2]+"],["+self.prime_cell[3]+"]]"
         for i in range(3):
@@ -595,15 +604,52 @@ class Example(wx.Frame):
             else:
                 lattice=lattice+"]"
         lattice=lattice+"],"
-        print(lattice)
+#        print(lattice)
 
-        Model_structure=self.Model_Name+"_structure"+"=Structure(\n"
-        print(Model_structure)
+        elements ="     species=[" 
+        k=0
+        for i in self.elements:
+            k=k+1
+            if k<len(self.elements):
+                elements = elements + '"'+i + '", '
+            else:
+                elements = elements + '"'+i +'"'
+        elements=elements+"],"
+#        print(elements)
 
-        run_command=")\n\n# make a band structure flow to optimise the structure and obtain the band structure\nbandstructure_flow = RelaxBandStructureMaker().make(mgo_structure)\n\n# run the job\n\nrun_locally(bandstructure_flow, create_folders=True) "
+        positions ="     coords=["
+        for i in range(self.tot_num):
+
+            positions = positions+"["
+            k = 0
+#            position_i = ''
+
+            for j in self.atom_positions[i]:
+                k = k+1
+                positions=positions+str(j)
+                if k< len(self.atom_positions[i]):
+                    positions=positions+", "
+#                position_i = position_i + str(j) + ' '
+            if i< self.tot_num-1:
+                positions=positions+"], "
+            else:
+                positions=positions+"]"
+
+        positions=positions+"],"
+#        print(positions)
+
+        run_command=")\n\n# make a band structure flow to optimise the structure and obtain the band structure\nbandstructure_flow = RelaxBandStructureMaker().make("+self.Model_Name+"_structure)\n\n# run the job\nrun_locally(bandstructure_flow, create_folders=True) "
+
         file.writelines(import_module + '\n')
 
+        file.writelines(Model_structure+'\n')
+
+        file.writelines(lattice+'\n')
+        file.writelines(elements+'\n')
+        file.write(positions+'\n')
+
         file.writelines(run_command + '\n')
+
 #        parameter_i = ''
 #        for i in self.param:
 #            parameter_i = parameter_i + str(i) + ' '
@@ -635,13 +681,20 @@ class Example(wx.Frame):
 #                position_i = position_i + str(j) + ' '
 #            file.write(position_i+'\n')
         file.close()
+        time.sleep(10)
+        self.Close()
+#        exit()
+        execu_file = self.Model_Name+"-ATOMATE2_Relax2"
+#        subprocess.call(["python3", execu_file+".py"])
+        os.system("python3 "+execu_file+".py")
+        return
 #
 
 
 
 class App(wx.App):
-    def __init__(self):
-        wx.App.__init__(self)
+#    def __init__(self):
+#        wx.App.__init__(self)
 
     def OnInit(self):
         self.frame = Example(None, title="Model_Creative_TEST")
@@ -655,8 +708,8 @@ class App(wx.App):
 def main():
 
     app = App()
-    ex = Example(None, title="Model_Creative_TEST")
-    ex.Show()
+#    ex = Example(None, title="Model_Creative_TEST")
+#    ex.Show()
     app.MainLoop()
 
 if __name__ == '__main__':
