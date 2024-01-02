@@ -13,6 +13,8 @@ last modified: July 2020
 
 import os
 import subprocess
+import shutil
+
 import time
  
 import wx
@@ -49,7 +51,7 @@ class Example(wx.Frame):
 #        icon = wx.StaticBitmap(panel, bitmap=wx.Bitmap('/home/jun_jiang/Documents/Latex_art_beamer/Presentation_Beamer/Figures/BCC_logo-2.jpg'))
 #        icon = wx.StaticBitmap(panel, bitmap=wx.Bitmap('/home/jun-jiang/Documents/Latex_Beamer/Figures/BCC_logo-2.jpg'))
 #        icon = wx.StaticBitmap(panel, bitmap=wx.Bitmap('/home/jun-jiang/Downloads/791763113.jpg').ConvertToImage().Scale(200,200))
-        icon = wx.StaticBitmap(panel, wx.ID_ANY, FigSize('/home/jun-jiang/Documents/Latex_Beamer/Figures/Logo_BCC-BCU.png', 410, 200))
+        icon = wx.StaticBitmap(panel, wx.ID_ANY, FigSize('/home/jiangjun/Documents/Latex_Beamer/Figures/Logo_BCC-BCU.png', 410, 200))
         sizer.Add(icon, pos=(1, 2), flag=wx.TOP|wx.RIGHT|wx.ALIGN_RIGHT,
             border=1)
 
@@ -127,7 +129,7 @@ class Example(wx.Frame):
         sizer1.Add(self.text2, pos=(1, 2), flag=wx.TOP|wx.CENTER|wx.BOTTOM,
             border=15)
 
-        print(type_nums)
+#        print(type_nums)
         self.types = type_nums
 
         self.ele_i = []
@@ -326,7 +328,7 @@ class Example(wx.Frame):
 #        sizer2.Add(self.Model_Name, pos=(1, 1), span=(1, 1), flag=wx.TOP|wx.EXPAND)
 
         k = self.tot_num
-        print(k)
+#        print(k)
         self.addatom = k
 #        if (not self.addatom):
         for i in range(k):
@@ -577,7 +579,8 @@ class Example(wx.Frame):
 
     def save_ATOMATE2(self):
 
-        Model_Name = self.Model_Name+"-ATOMATE2_Relax2.py"
+#        Model_Name = self.Model_Name+"-ATOMATE2_Relax2.py"
+        Model_Name = "ATOMATE2_Relax2.py"
 
         file = open(Model_Name, 'w')
 
@@ -681,12 +684,9 @@ class Example(wx.Frame):
 #                position_i = position_i + str(j) + ' '
 #            file.write(position_i+'\n')
         file.close()
-        time.sleep(10)
         self.Close()
+        shutil.copy(Model_Name, self.Model_Name+"_Atomate2.py")
 #        exit()
-        execu_file = self.Model_Name+"-ATOMATE2_Relax2"
-#        subprocess.call(["python3", execu_file+".py"])
-        os.system("python3 "+execu_file+".py")
         return
 #
 
@@ -711,6 +711,13 @@ def main():
 #    ex = Example(None, title="Model_Creative_TEST")
 #    ex.Show()
     app.MainLoop()
+    time.sleep(5)
+#    execu_file = self.Model_Name+"-ATOMATE2_Relax2"
+    execu_file = "ATOMATE2_Relax2.py"
+#        subprocess.call(["python3", execu_file])
+    os.system("python3 "+execu_file)
+    time.sleep(10)
+    os.remove(execu_file)
 
 if __name__ == '__main__':
     main()
