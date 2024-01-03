@@ -19,6 +19,7 @@ import time
  
 import wx
 import wx.lib.scrolledpanel as scrolled
+#import MgO_Bandstructure
 
 class Example(wx.Frame):
 
@@ -51,7 +52,8 @@ class Example(wx.Frame):
 #        icon = wx.StaticBitmap(panel, bitmap=wx.Bitmap('/home/jun_jiang/Documents/Latex_art_beamer/Presentation_Beamer/Figures/BCC_logo-2.jpg'))
 #        icon = wx.StaticBitmap(panel, bitmap=wx.Bitmap('/home/jun-jiang/Documents/Latex_Beamer/Figures/BCC_logo-2.jpg'))
 #        icon = wx.StaticBitmap(panel, bitmap=wx.Bitmap('/home/jun-jiang/Downloads/791763113.jpg').ConvertToImage().Scale(200,200))
-        icon = wx.StaticBitmap(panel, wx.ID_ANY, FigSize('/home/jiangjun/Documents/Latex_Beamer/Figures/Logo_BCC-BCU.png', 410, 200))
+#        icon = wx.StaticBitmap(panel, wx.ID_ANY, FigSize('/home/jiangjun/Documents/Latex_Beamer/Figures/Logo_BCC-BCU.png', 410, 200))
+        icon = wx.StaticBitmap(panel, wx.ID_ANY, FigSize('/home/jun-jiang/Documents/Latex_Beamer/Figures/Logo_BCC-BCU.png', 410, 200))
         sizer.Add(icon, pos=(1, 2), flag=wx.TOP|wx.RIGHT|wx.ALIGN_RIGHT,
             border=1)
 
@@ -718,6 +720,7 @@ def main():
     os.system("python3 "+execu_file)
     time.sleep(10)
     os.remove(execu_file)
+#    MgO_Bandstructure.main()
 
 if __name__ == '__main__':
     main()
