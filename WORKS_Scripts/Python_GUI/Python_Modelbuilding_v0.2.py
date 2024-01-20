@@ -19,7 +19,7 @@ import time
  
 import wx
 import wx.lib.scrolledpanel as scrolled
-#import MgO_Bandstructure
+import MgO_Bandstructure
 
 class Example(wx.Frame):
 
@@ -720,7 +720,7 @@ def main():
     os.system("python3 "+execu_file)
     time.sleep(10)
     os.remove(execu_file)
-#    MgO_Bandstructure.main()
+    MgO_Bandstructure.main()
 
 if __name__ == '__main__':
     main()
