@@ -1,0 +1,40 @@
+\documentclass{article}%
+\usepackage[T1]{fontenc}%
+\usepackage[utf8]{inputenc}%
+\usepackage{lmodern}%
+\usepackage{textcomp}%
+\usepackage{lastpage}%
+\usepackage{graphicx}%
+%
+%
+%
+\begin{document}%
+\normalsize%
+\section{示例文档}%
+\label{sec:}%
+
+%
+\subsection{数据表格}%
+\label{subsec:}%
+\textbackslash{}begin\{tabular\}\{llr\}\newline%
+\textbackslash{}toprule\newline%
+ \& 姓名 \& 年龄 \textbackslash{}\textbackslash{}\newline%
+\textbackslash{}midrule\newline%
+0 \& 张三 \& 20 \textbackslash{}\textbackslash{}\newline%
+1 \& 李四 \& 25 \textbackslash{}\textbackslash{}\newline%
+2 \& 王五 \& 30 \textbackslash{}\textbackslash{}\newline%
+\textbackslash{}bottomrule\newline%
+\textbackslash{}end\{tabular\}\newline%
+
+%
+\subsection{饼状图}%
+\label{subsec:}%
+
+
+\begin{figure}%
+\centering%
+\includegraphics[width=120px]{pie_chart.pdf}%
+\end{figure}
+
+%
+\end{document}
