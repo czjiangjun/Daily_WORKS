@@ -13,6 +13,7 @@
   \node [box,below=0.5 of se] (density) {$\rho(\vec r)=\sum_{i=1}^n f_i\,|\phi_i(\vec r_i)|^2$};
   \node [box,below=0.5 of density] (criterion) {Convergence criterion satisfied?};
 
+%%%%%% ------------ 定义 虚线方框转角 -----------------  %%%%%%
   \path
   (potential.north west) ++(-1em,1em) coordinate (potential fit)
   (criterion.south east) ++(1em,-1em) coordinate (criterion fit);
@@ -26,6 +27,7 @@
   \path [arrow] (se) -- (density);
   \path [arrow] (density) -- (criterion);
 
+%%%%%% ------------ 绘制 虚线方框 -----------------  %%%%%%
   \node [rectangle,draw,dashed,inner sep=1em,fit=(potential fit) (criterion fit)] (enclosure) {};
   \node [above=-0.8em of enclosure,anchor=south,draw,outer sep=0pt,fill=white] (enclosure label) {\Large\textbf{Kohn-Sham method}};
 
