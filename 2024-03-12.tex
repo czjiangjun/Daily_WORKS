@@ -1,0 +1,65 @@
+%---------------------- TEMPLATE FOR REPORT ------------------------------------------------------------------------------------------------------%
+
+%\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+%\title{\rm{VASP}的电荷密度存储文件\rm{CHGCAR}}
+%\title{面向高温合金材料设计的计算模拟软件中的几个主要问题}
+\title{近年来的科研工作状况}
+\author[ ]{}   %
+%\author[ ]{姜~骏\thanks{jiangjun@bcc.ac.cn}}   %
+%\affil[ ]{北京市计算中心}    %
+%\author[a]{Author A}									     %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+%%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     	     %
+%\author[b]{Author D}									     %
+%\author[b]{Author/作者 D}								     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+%\affil[b]{作者单位-2}			    						     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%\date{2020-12-30}									     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Report-----------------------------------------%
+%\title{报告标题:~}   %
+%-----------------------------------------------------------------------------
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+%\author{
+%\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+%\small
+%(The Address，City Post code)						%Address	       %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+姜骏长年从事第一原理计算方法和软件研究，熟悉密度泛函理论~(\textrm{Density Functional Theory, DFT})~和第一原理计算方法，特别是对赝势~(\textrm{Pseudo-Potential, PP})~理论、全势-线性缀加平面波~(\textrm{Full Potential-Linearised Augmeneted Plane-Wave, FP-LAPW})~方法和投影子缀加波~(\textrm{Projected~Augmented~Wave, PAW})~方法有系统、深入的理解。2017年7月起，作为骨干研究人员承担科技部“材料基因工程关键技术与支撑平台”重点专项课题“研发多尺度集成化高通量计算方法与计算软件”研究任务，从事高通量跨尺度并发式集成计算主体算法与软件开发。近年来主要工作包括第一原理-分子动力学材料计算软件平台的设计与开发、晶体空间群解析软件开发和\textrm{VASP}软件的赝势重构等。
+
+\begin{itemize}
+	\item 基于\textrm{FP-LAPW}方法的高精度软件\textrm{WIEN2k}的性能提升:\\
+		\textrm{FP-LAPW}方法具有极高的精度，且不依赖原子赝势。但\textrm{WIEN2k}代码陈旧、数据结构零散、\textrm{I/O}负载繁重，因此代码效率低下，制约了该软件的影响力。本人对\textrm{WIEN2k}代码进行全面梳理，应用$\vec k\cdot\vec p$方法，将\textrm{WIEN2k}代码的计算效率提升了$1\sim2$个数量级。本项研究成果为学术专著。
+	\item 基于\textrm{PAW}方法的原子数据集(赝势)的构造:\\
+		\textrm{PAW}方法很好地平衡了第一原理计算精度和效率，但对原子赝势(原子数据集)依赖度很高。商业软件\textrm{VASP}的原子数据集文件\textrm{POTCAR}性能优异，但仅有原子信息文件，并无生成方案；开源软件\textrm{PWSCF}、\textrm{ABINIT}和\textrm{Quantum Espresso~(QE)}等的计算略逊于\textrm{VASP}重要原因之一是原子数据集(赝势)的差异。本人通过对相关原子数据集生成方案和\textrm{PAW}方法的深入研究，探索了支持\textrm{VASP}原子数据集生成的可行方案，已经完成约75\%的工作量。该工作对于应用\textrm{PAW}方法研究极端条件下的材料物性有着重要的意义。本项研究成果为学术专著。
+
+	\item 在参与国家重点专项研究任务过程中，本人对现有国际常用材料计算流程与数据库及其代码实现作了系统剖析，熟悉并掌握包括\textrm{Material Projects}、\textrm{ASE}在内的多种计算软件自动流程与数据库实现方案及其细节，并搭建支持国家重点专项研究所需的材料计算自动流程与数据库，支持相关领域的科研工作。本项研究成果为软件著作权。
+
+%此间完成专著“材料计算流程与数据库”、“材料计算与机器学习”，收入北京科技大学编写教材中。
+
+%此间完成\textrm{DFT}系统完整讲义一份，现流行于各材料计算平台与公众传媒。
+\end{itemize}
+	自\textrm{2022}年秋，本人受邀与中科院物理所、北京理工大学、北京科技大学、中国工程物理研究院相关课题组就\textrm{DFT}与第一原理分子动力学的理论与代码实现的相关讨论，对\textrm{TD-DFT}、\textrm{DMFT}等具体理论和实现作了系统梳理，与课题负责老师达成合作意向。

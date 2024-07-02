@@ -1,0 +1,84 @@
+%---------------------- TEMPLATE FOR REPORT ------------------------------------------------------------------------------------------------------%
+
+%\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+%\title{\rm{VASP}的电荷密度存储文件\rm{CHGCAR}}
+%\title{面向高温合金材料设计的计算模拟软件中的几个主要问题}
+\title{\textbf{拟安装材料计算简介}}
+\author[ ]{}   %
+%\author[ ]{姜~骏}   %
+%\author[ ]{姜~骏\thanks{jiangjun@bcc.ac.cn}}   %
+%\affil[ ]{北京市计算中心}    %
+%\author[a]{Author A}									     %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+%%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     	     %
+%\author[b]{Author D}									     %
+%\author[b]{Author/作者 D}								     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+%\affil[b]{作者单位-2}			    						     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%\date{2023-10-26}									     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Report-----------------------------------------%
+%\title{报告标题:~}   %
+%-----------------------------------------------------------------------------
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+%\author{
+%\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+%\small
+%(The Address，City Post code)						%Address	       %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+
+\textbf{可安装的材料计算软件}
+\begin{itemize}
+	\item \textrm{VASP}:\\
+		由维也纳大学开发的电子结构计算和第一原理-分子动力学材料模拟软件包，是当前材料模拟和计算材料科学研究中最通用的商用软件之一
+	\item \textrm{WIEN2k}:\\
+		由维也纳技术大学开发的固体电子结构计算软件，基于高精度的\textrm{FP}-\textrm{LAPW}方法开发，是当前第一原理计算计算精度检验和磁性计算的重要商业软件
+	\item \textrm{ABINIT}:\\
+		最初由\textrm{Univ. Catholique}发起，由世界各地科学工作者参与开发和维护的开源软件，基于赝势和平面波的第一性原理计算材料计算软件，基于\textrm{PAW}方法开发，是材料模拟计算功能非常全面的软件
+	\item \textrm{Abacus}:\\
+		由何力新教授、任新国研究员和陈默涵研究员主导开发发的基于密度泛函理论的开源电子结构软件,主要面向凝聚态材料模拟计算，软件支持平面波基矢量和数值原子轨道基矢量，主要采用模守恒赝势，可适用于从小体系到上千原子大体系的电子结构优化、原子结构弛豫、分子动力学模拟等计算。此外还支持一些\textrm{AI}算法，和国内外多个主流程序建立有接口，部分功能也支持国产超算硬件 
+	\item \textrm{CP2k}:\\
+		最初由德国\textrm{Max Planck Institute~(MPI)}开发, 现由\textrm{ETH Zurich}和\textrm{Univ. Zurich}维护。软件可支持上千个原子的大体系计算, 广泛用于固体、液体、分子、周期、材料、晶体和生物系统的模拟，是当前运行最快的开源第一性原理材料计算和模拟软件
+	\item \textrm{LAMMPS}:\\
+		由美国\textrm{Sandia}国家实验室开发，用于为大规模原子、分子行为分子动力学过程模拟，是目前材料研究领域应用最广泛的分子动力学性质模拟的开源软件
+\end{itemize}
+
+\newpage
+\textbf{可安装的材料计算辅助软件}
+\begin{itemize}
+	\item \textrm{VESTA}:\\
+		由现任职于日本国立科学博物館的\textrm{Koichi MOMMA}开发的晶体结构可视化建模开源软件，用于对晶体的结构模型、体相性质如电子/原子核电荷密度和晶体形态的\textrm{3D}可视化
+	\item \textrm{Xcrysden}:\\
+		由斯洛文尼亚\textrm{Jo\"zef~Stefan}研究所开发的晶体和分子结构可视化开源软件，用于对分子和晶体结构、电子密度等数据的可视化，特别支持对材料\textrm{Fermi}面的可视化展示
+	\item \textrm{VASPKIT}:\\
+		由西安理工大学\textrm{Wang Vei}教授开发编写的支持\textrm{VASP}计算开源辅助软件，用于\textrm{VASP}计算的输入控制文件、$\vec k$点文件、结构模型的快速生成和电子结构输出结果的快速解析
+	\item \textrm{p4vasp}:\\
+		由\textrm{VASP}官网提供的\textrm{VASP}结构分析软件，用于对\textrm{VASP}计算的电子结构(如能带、态密度等)的可视化开源软件，现已停止版本更新
+	\item \textrm{VMD}:\\
+		由美国\textrm{Univ. Illinois}开发的可视化软件，支持对分子动力学结果和蛋白质三维结构的可视化 
+	\item \textrm{ovito}:\\
+		最初由\textrm{Tech. Univ. Darmstadt}开发，现主要由\textrm{OVITO GmbH}公司开发和维护的面向原子和分子动力学模拟、原子蒙特卡罗和其他基于粒子模拟数据的科学可视化和分析的软件，软件类型包括简单基础的免费版和功能更齐全的商业版，相对于\textrm{VMD}等软件，\textrm{ovito}消耗内存小，导入大体系时软件运行更流畅
+\end{itemize}
