@@ -34,10 +34,21 @@
 %\textcolor[rgb]{0.75, 0.5, 0.25}{自定义颜色2}
 \usepackage{hyperref} 
 \usepackage{graphicx}
+\usepackage{float}               %将图片定死在某一个位置用(主要支持[htbp!]中的h)
 \usepackage{subfigure}           %图片跨页
-\usepackage{animate}		 %插入动画
+\usepackage[controls]{animate}	 %插入动画
 \usepackage{tikz}		 %绘图工具
-\usetikzlibrary{arrows,shapes,chains,shapes,arrows.meta,matrix}
+\usetikzlibrary{%
+    arrows,shapes,chains,fit, arrows.meta,matrix,
+    backgrounds,
+    graphs, decorations, 
+    decorations.markings, 
+    decorations.pathmorphing, 
+%    graphdrawing,                                       % requires lualatex
+    positioning, petri,
+    shapes.geometric, snakes
+}
+%\usegdlibrary{trees,force, layered}                     % requires lualatex
 \usepackage{adjustbox}                                   %绘制跨页流程图形
 \newsavebox{\mysavebox}                                  %绘制跨页流程图形
 \newlength{\myrest}                                      %绘制跨页流程图形
@@ -55,6 +66,11 @@
 \usepackage{makecell}		%允许单元格内换行    % 在指定单元格内用 \makecell[c]{abc \\ def} 实现单元格内换行
 
 %\pgfpagesuselayout{1 on 1 with notes landscape}[a4paper,border shrink=5mm]
+
+\usepackage{booktabs}           %修改表格线段的粗细，可以自定义修改线段粗细
+%\toprule[2pt]                   %表格顶端线粗细设置
+%\midrule[1pt]                   %表格中间线粗细设置
+%\bottomrule[1.8pt]              %表格底端线粗细设置
 
 %%%%%%%%%%%%%%%%%%%%%%BIBTEX 引用参考文献%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\usepackage{filecontents}
@@ -88,8 +104,11 @@
 
 %\useoutertheme{smoothbars}
 \useinnertheme[shadow=true]{rounded}
+
+% Beamer Settings
 \usetheme{Berkeley}                                          %主题式样
 %\usetheme{Luebeck}
+%\usetheme{Warsaw}
 
 \usecolortheme{lily}                                        %颜色主题式样
 
@@ -101,7 +120,9 @@
 %\beamersetaveragebackground{gray}                          %设置背景颜色(单一色) 
 \beamertemplateshadingbackground{green!10}{red!5}         %设置背景颜色(渐变色)
 
-\graphicspath{{/home/jun-jiang/Documents/Latex_Beamer/Figures/}}
+\graphicspath{{$PATHPWD/Figures/}}                           %$PATH用于脚本指定图片路径
+%\graphicspath{{/home/jun-jiang/Documents/Latex_Beamer/Figures/}}   %直接指定图片绝对路径
+%\graphicspath{{/home/jiangjun/Documents/Latex_Beamer/Figures/}}   %直接指定图片绝对路径
 
 %i放置单位logo
 %\logo{\includegraphics[width=1.6cm,height=0.35cm]{Figures/BCC_logo-1.png}}	%简单设置logo
