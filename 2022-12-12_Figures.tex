@@ -483,10 +483,14 @@
 
 %%%%%% ------------ 绘制 虚线 -----------------  %%%%%%
 %\draw [gray, dotted, line width=2pt] (Symmetry-seperate) -- (Modeling-Initial.south);
-\draw [gray, dotted, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
+\draw [gray, loose dotted, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
+%\draw [gray, densely dotted, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
 \draw [gray, dotted, line width=2pt] (DataBase.south)++(-9.5em,-1.58em) -- (Multi-Scale-Simulation.south);
 %%%%%% ------------ 绘制 虚线方框 -----------------  %%%%%%
 \node [rectangle,draw=blue!30, dashdotted, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%\node [rectangle,draw=blue!30, dash dot, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%\node [rectangle,draw=blue!30, dash dot dot, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%\node [rectangle,draw=violet, dash, inner sep=0.8em,fit=(DataBase-1) (DataBase-2), thick] (enclosure) {};
 \node [rectangle,draw=violet, dashed, inner sep=0.8em,fit=(DataBase-1) (DataBase-2), thick] (enclosure) {};
 
 \node [rectangle,draw=red, inner sep=0.8em,fit=(Machine-Learning-1) (Machine-Learning-2), line width=3.0pt] (enclosure) {};
