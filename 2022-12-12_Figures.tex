@@ -471,7 +471,7 @@
 \path [arrow, draw=black, line width=3pt] (Process-Design.south)++(-2.0em, 0.0em) |- (Process-Design-2) -- (Process-Manage-1);
 %\path [draw=black, line width=3pt] (Process-Design-1) -- (Process-Design-2);
 %\path [arrow, draw=black, line width=3pt] (Process-Design-2) -- (Process-Manage-1);
-\path [arrow, draw=green!70, line width=3pt] (Modeling-Analysis-1) -- (DataBase-3);
+\path [arrow, draw=green!70!red, opacity=0.50, line width=3pt] (Modeling-Analysis-1) -- (DataBase-3);
 \path [arrow, draw=red!80, line width=3pt] (Process-Manage.east) -- (Multi-Scale.west);
 \path [arrow, draw=black,  line width=3pt] (Multi-Scale.south) |- (Data-Manage.east);
 
@@ -483,7 +483,7 @@
 
 %%%%%% ------------ 绘制 虚线 -----------------  %%%%%%
 %\draw [gray, dotted, line width=2pt] (Symmetry-seperate) -- (Modeling-Initial.south);
-\draw [gray, loose dotted, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
+\draw [gray, dashed, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
 %\draw [gray, densely dotted, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
 \draw [gray, dotted, line width=2pt] (DataBase.south)++(-9.5em,-1.58em) -- (Multi-Scale-Simulation.south);
 %%%%%% ------------ 绘制 虚线方框 -----------------  %%%%%%
