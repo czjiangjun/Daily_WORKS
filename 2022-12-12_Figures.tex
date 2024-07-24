@@ -465,7 +465,7 @@
   (Process-Manage.north) ++(-8.6em, 0.8em) coordinate (DataBase-1)
   (Data-Manage.south) ++ (7.0em, -0.1em) coordinate (DataBase-2)
   (Process-Design.south)++(-2.0em, -1.50em) coordinate (Process-Design-1)
-  (Process-Design.south)++(-10.5em, -1.50em) coordinate (Process-Design-2)
+  (Process-Design.south)++(-2.0em, -4.00em) coordinate (Process-Design-2)
   (Process-Manage.north)++(2.7em, 0.0em) coordinate (Process-Manage-1)
   (Modeling-Analysis.south)++(-2.0em, 0.0em) coordinate (Modeling-Analysis-1)
   (Data-Manage.north) ++ (-5.5em, 0.0em) coordinate (DataBase-3)
@@ -484,7 +484,7 @@
 \path [arrow, gray,thick] (Highthrough-2) -- (Process-Design.north);
 
 \path [arrow, draw=blue!30, line width=4pt] (Process-Design.south) -- (Multi-Scale.north);
-\path [arrow, draw=black, line width=3pt] (Process-Design.south)++(-2.0em, 0.0em) |- (Process-Design-2) -- (Process-Manage-1);
+\path [arrow, draw=black, line width=3pt] (Process-Design.south)++(-2.0em, 0.0em) -- (Process-Design-2) -| (Process-Manage.north);
 %\path [draw=black, line width=3pt] (Process-Design-1) -- (Process-Design-2);
 %\path [arrow, draw=black, line width=3pt] (Process-Design-2) -- (Process-Manage-1);
 \path [arrow, draw=green!70!red, opacity=0.50, line width=3pt] (Modeling-Analysis-1) -- (DataBase-3);
