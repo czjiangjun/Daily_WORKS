@@ -69,9 +69,9 @@ class Fig_Draw:
 #          print(Data_XX)
           return self.Data_XX, self.Data_YY
 
-      def Fig(self):
-          Data_XX = self.Data_XX
-          Data_YY = self.Data_YY
+      def Fig(self, Data_XX, Data_YY):
+#          Data_XX = self.Data_XX
+#          Data_YY = self.Data_YY
           xmin = round(Data_XX[0])
           xmax = round(Data_XX[-1])
           xmin = xmin-0.05*(xmax-xmin)
@@ -116,7 +116,7 @@ def main():
     File_Draw = Fig_Draw(Fig_Name, Data_File, labels, style_type)
     XX, YY = File_Draw.Data(Data_File)
 #    print (XX, YY)
-    Fig_Draw.Fig(File_Draw)
+    Fig_Draw.Fig(XX, YY)
 
 if __name__ == '__main__':
     main()
