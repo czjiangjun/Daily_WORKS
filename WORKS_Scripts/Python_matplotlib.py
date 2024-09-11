@@ -30,13 +30,16 @@ from mpl_toolkits.mplot3d import Axes3D
 # print(current_path)
 
 class Fig_Draw:
-      def __init__(self, name, file, labels, type = None, cure_type = None, marker= None):
+      def __init__(self, name, file, labels, type = None, column = None, cure_type = None, marker= None):
           style = {1:'-',2:'-.',3:'--',4:'-._'}
           style_index = list(style.keys())
           style_line = list(style.values())
 
           self.name = name
           self.file = file
+          self.column = [1,2]
+          if not (column == None):
+              self.column = column
           self.labels = ['X-label', 'Y-label']
           self.labels[0] = labels[0]
           self.labels[1] = labels[1]
@@ -60,8 +63,8 @@ class Fig_Draw:
               Data = line.replace('\n', '').strip('').split(' ')
               Data = [i for i in Data if i !='']
 #               print(Data[1])
-              self.Data_XX.append(float(Data[0]))
-              self.Data_YY.append(float(Data[1]))
+              self.Data_XX.append(float(Data[self.column[0]-1]))
+              self.Data_YY.append(float(Data[self.column[1]-1]))
               num = num + 1
 #          print(Data_XX)
           return self.Data_XX, self.Data_YY
@@ -94,9 +97,9 @@ class Fig_Draw:
 #           plt.legend(loc='best') 
           plt.title(self.name)
 
-          plt.savefig("TEST_fig.png")
-          plt.savefig("TEST_fig.pdf")
-          plt.savefig("TEST_fig.eps")
+          plt.savefig(self.name + ".png")
+#          plt.savefig(self.name + ".pdf")
+#          plt.savefig(self.name + ".eps")
           plt.show()
           return
 
@@ -109,6 +112,7 @@ def main():
     Data_File = '/home/jun-jiang/BCC/2023-NICE/Ni-CO2/C-O_H-E_1'
     labels = ['C-H/O-H','E-energy/eV']
     style_type = '-.'
+#    column = [1,2]
     File_Draw = Fig_Draw(Fig_Name, Data_File, labels, style_type)
     XX, YY = File_Draw.Data(Data_File)
 #    print (XX, YY)
