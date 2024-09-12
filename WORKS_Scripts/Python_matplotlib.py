@@ -56,7 +56,7 @@ class Fig_Draw:
 
 
       def Data(self, file):
-          print (file)
+#          print (file)
           Data_File = open(file, 'r')
           num = 0
           for line in Data_File:
