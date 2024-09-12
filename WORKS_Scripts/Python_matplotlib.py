@@ -116,7 +116,7 @@ def main():
     File_Draw = Fig_Draw(Fig_Name, Data_File, labels, style_type)
     XX, YY = File_Draw.Data(Data_File)
 #    print (XX, YY)
-    Fig_Draw.Fig(XX, YY)
+    File_Draw.Fig(XX, YY)
 
 if __name__ == '__main__':
     main()
