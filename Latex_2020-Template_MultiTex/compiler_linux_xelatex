@@ -19,7 +19,7 @@
 # fi
 # exit
 
-Figures=../../Latex_Beamer/Figures
+Figures=../../Latex_Beamer/
 #if [[ "$2" ]]; then
 #	Figures=`echo $2 | awk -F "=" '{print $2}'`
 #	if [ -d $Figures ]; then
@@ -60,15 +60,20 @@ done
 # echo $References
 # exit
 
-PATH_Local=`pwd` && test -s Latex_2020-Template.tex && cp Latex_2020-Template.tex Latex_2020-Template_tmp
+PATH_Local=`pwd` && test -s Latex_2020-Template_tmp && mv Latex_2020-Template_tmp Latex_2020-Template.tex 
+cp Latex_2020-Template.tex Latex_2020-Template_tmp
 cd $Figures && PATH_Figure=`pwd`
+#echo 'test'
+# exit 0
 # echo $PATH_Figure
 cd $PATH_Local && sed -e "s#\$PATHPWD#`echo $PATH_Figure`#" Latex_2020-Template_tmp  > Latex_2020-Template.tex
 
 cd $References && PATH_Reference=`pwd` && cd $PATH_Local
-test -s 00_General_Template/Content-4-Bibliography.tex && cp 00_General_Template/Content-4-Bibliography.tex 00_General_Template/Content-4-Bibliography_tmp 
+test -s 00_General_Template/Content-4-Bibliography_tmp && mv 00_General_Template/Content-4-Bibliography_tmp 00_General_Template/Content-4-Bibliography.tex
+	cp 00_General_Template/Content-4-Bibliography.tex 00_General_Template/Content-4-Bibliography_tmp 
 	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 00_General_Template/Content-4-Bibliography_tmp > 00_General_Template/Content-4-Bibliography.tex
-test -s 01_Latex_Template/Content-4-Bibliography.tex && cp 01_Latex_Template/Content-4-Bibliography.tex 01_Latex_Template/Content-4-Bibliography_tmp
+test -s 01_Latex_Template/Content-4-Bibliography_tmp && mv 01_Latex_Template/Content-4-Bibliography_tmp 01_Latex_Template/Content-4-Bibliography_tmp 
+       	cp 01_Latex_Template/Content-4-Bibliography.tex 01_Latex_Template/Content-4-Bibliography_tmp
 	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 01_Latex_Template/Content-4-Bibliography_tmp > 01_Latex_Template/Content-4-Bibliography.tex
 
 touch 01_Latex_Template/.tmp 
