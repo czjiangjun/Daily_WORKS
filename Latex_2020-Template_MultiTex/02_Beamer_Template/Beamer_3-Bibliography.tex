@@ -5,6 +5,7 @@
 {
 \frametitle{主要参考文献}
 {\tiny\textrm{
+%\setlength{\bibsep}{0em}  %%设置参考文献间距
 %\phantomsection\addcontentsline{toc}{section}{Bibliography}	 %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正	%
 %\phantomsection\addcontentsline{toc}{section}{主要参考文献}	 %直接调用\addcontentsline命令可能导致超链指向不准确,一般需要在之前调用一次\phantomsection命令加以修正	%
 	\bibliography{$PATHPWD/Myref}				%%$PATH用于脚本指定图片路径
@@ -12,6 +13,7 @@
 \bibliographystyle{$PATHPWD/mybib}				%%$PATH用于脚本指定图片路径
 %\bibliographystyle{../ref/mybib}%
 }}
+%\printbibliography[heading=bibintoc, title=参考文献]    %%在目录列表中列出参考文献，title可自定义
 %\nocite{*}%
 }
 %-----------------------------------------------------------------------------
