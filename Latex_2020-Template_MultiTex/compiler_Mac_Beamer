@@ -17,10 +17,10 @@ test -e 02_Beamer_Template/Beamer_2-Main.tex && echo "%Main_File"  > 02_Beamer_T
 gsed '$a%%%%%%%%%%  '"$1"'   %%%%%%%%%%  \n\\\input{'"$1"'}' Beamer_Template/.tmp  > Beamer_Template/Beamer_2-Main.tex 
 rm 02_Beamer_Template/.tmp 
 
-xelatex Beamer-Template_Main
+xelatex -shell-escape Beamer-Template_Main
 bibtex Beamer-Template_Main
-xelatex Beamer-Template_Main
-xelatex Beamer-Template_Main
+xelatex -shell-escape Beamer-Template_Main
+xelatex -shell-escape Beamer-Template_Main
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .Beamer-Template_Main.*.swp *.aux *.bbl *.blg
 cd 02_Beamer_Template/
 rm -rf *.aux  *.bbl  *.dvi *.blg *.bcf *.out *.log *.nav *.thm *.snm *.toc *.*.xml *.*~ *~ .*.*.swp
