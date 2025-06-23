@@ -34,6 +34,12 @@
   decorations.pathmorphing,
   positioning,fit
 }
+% 定义箭头样式
+%\tikzstyle{arrow} = [thick,->,>=stealth]
+%在最新的 tikz 版本中，应该使用 \tikzset 命令而不是 \tikzstyle
+ \tikzset{
+    arrow/.style = {thick, ->, >=Stealth} % 使用Stealth箭头类型
+}
 
 \usepgfmodule{shapes}
 \usepgfmodule{plot}
