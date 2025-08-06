@@ -39,13 +39,27 @@
 
 \begin{abstract}
 %The content of the abstract
-	异相界面催化的微观动力学模拟涉及跨尺度高通量计算，我们通过对比各种的材料计算自动流程软件实现方案，提出了适应模拟异质界面催化材料的高通量材料计算自动流程软件的基本结构，并面向异相催化反应的特点，完成了高通量材料计算自动流程的软件调度、组织与优化，实现跨尺度计算的流程化。引入$\vec k\cdot\vec p$微扰，将周期体系\textrm{DFT}计算的效率提升一个数量级，满足异质界面催化反应机理研究涉及反应多、模拟动力学过程计算耗时长的问题。在自动流程形成计算材料数据库的基础上，构建碳催化材料知识图谱，为数据驱动的异质界面催化反应提供软件支持。
+%	异相界面催化的微观动力学模拟涉及跨尺度高通量计算，我们通过对比各种的材料计算自动流程软件实现方案，提出了适应模拟异质界面催化材料的高通量材料计算自动流程软件的基本结构，并面向异相催化反应的特点，完成了高通量材料计算自动流程的软件调度、组织与优化，实现跨尺度计算的流程化。引入$\vec k\cdot\vec p$微扰，将周期体系\textrm{DFT}计算的效率提升一个数量级，满足异质界面催化反应机理研究涉及反应多、模拟动力学过程计算耗时长的问题。在自动流程形成计算材料数据库的基础上，构建碳催化材料知识图谱，为数据驱动的异质界面催化反应提供软件支持。
+	本研究聚焦于异质界面催化体系中的微观动力学过程建模难题，针对其涉及反应路径复杂、时间尺度跨度大以及计算资源需求高等特征，构建了一套面向异相催化模拟的高通量材料计算自动化流程系统。在系统评估现有主流材料计算自动流程软件的功能模块与扩展性基础上，设计并实现了适配异质界面体系的流程结构，涵盖任务生成、调度、计算资源分配与跨尺度模型协同等核心环节。引入$\vec k\cdot\vec p$微扰方法，对复杂的周期性材料体系加速计算表明，该方案可将密度泛函理论\textrm{(DFT)}计算效率提升至原有的一个数量级以上，有效缓解反应多样性与动力学过程计算耗时之间的矛盾。基于自动流程积累的结构、能量与动力学参数数据，构建了面向碳基催化剂的材料数据库及知识图谱体系，提升了异质界面催化机理研究的数据驱动能力与可拓展性。该系统为复杂催化反应路径的定量模拟与材料发现提供了关键的计算平台与算法支撑。
+
+%	\newpage
+%	{\centering \large \bf Abstract}
+%
+%\noindent
+%This study focuses on the challenges in simulation of micro-kinetic processes in heterogeneous interface catalytic systems. Given the characteristics of such systems, including complex reaction pathways, large time-scale and high computational resource requirements, a high-throughput automated workflow system for heterogeneous catalytic simulations has been developed.
+%
+%\noindent
+%By systematically evaluating the functional modules and extensibility of existing mainstream automated material calculation workflow software, a workflow structure adapted to heterogeneous interface systems was designed and implemented, covering core links such as task generation, scheduling, computational resource allocation, and cross-scale model collaboration. The $\vec k\cdot\vec p$ perturbation method was introduced to accelerate calculations for alloy-type periodic material systems, the results indicated that this method would improve the efficiency of density functional theory (DFT) calculations by more than an order of magnitude. This effectively alleviates the contradiction between reaction diversity and the time-consuming nature of kinetic process calculations.
+%
+%\noindent
+%Based on the structural, energy, and kinetic parameter data accumulated by the automated workflow, a material database and knowledge graph system for carbon-based catalysts were constructed, enhancing the data-driven capability and expandability of heterogeneous interface catalytic mechanism research. This system provides a key computational platform and algorithmic support for the quantitative simulation of complex catalytic reaction pathways and material discovery.
 \end{abstract}
 
 %\keywords{Keyword1; Keyword2; Keyword3}
 \keywords{异质界面催化，高通量计算，$\vec k\cdot\vec p$微扰，知识图谱}
 
 \maketitle
+%\newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %---------------The Content of The Paper----------------------%
