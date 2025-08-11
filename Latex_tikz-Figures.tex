@@ -223,7 +223,7 @@
   \path [draw,magenta] (Criterion.west)++(0.25em, 0.0em)--(Criterion-fit) node[midway,above=-0.05,outer sep=0pt](TextNode1){\fontsize{4.0pt}{2.5pt}\selectfont{\textrm{\textcolor{black}{NO}}}};
   \path [draw,magenta] (Criterion-fit) |-(Potential-fit1);
   \node [box, right=0.3 of SCF-output, fill=green!50, text width=7.0em, minimum height=0.5em] (SCF-properties) {\fontsize{5.0pt}{2.5pt}\selectfont{各类物理数据与性质计算}};
-  \node [box, fill=magenta!50, text width=8.5em, draw=pink, minimum height=0.5em, thick] at (-3.8,9.15) (Figure) {\includegraphics[width=1.05in, height=0.7in,viewport=0 0 1172 863,clip]{DFT.png}};
+  \node [box, fill=magenta!50, text width=8.5em, draw=pink, minimum height=0.5em, thick] at (-3.8,9.15) (Figure) {\includegraphics[width=1.05in, height=0.7in,viewport=0 0 1172 863,clip]{Figures/DFT.png}};
 
   \path [arrow, draw=purple] (SCF-output.east) --(SCF-properties.west);
   \path [draw, dotted, brown] (Symmetry-OP.west) --(Symmetry-OP-fit2);
@@ -252,7 +252,97 @@
     arrow/.style={draw,-latex', red},
   ]
 
-  \node [box-rect, fill=magenta!50, text width=8.5em, draw=pink, minimum height=0.5em, thick] at (current page.west)(Figure) {\includegraphics[width=1.25in, height=0.7in,viewport=0 0 103 55,clip]{The-Periodic-Table-of-perovskene-materials.jpg}};
+  \node [box-rect, fill=magenta!50, text width=8.5em, draw=pink, minimum height=0.5em, thick] at (current page.west)(Figure) {\includegraphics[width=1.25in, height=0.7in,viewport=0 0 103 55,clip]{Figures/The-Periodic-Table-of-perovskene-materials.jpg}};
+  \node [box-rect, right=0.9 of Figure, fill=gray!30, text width=12.5em, minimum height=0.5em] (Highthrough-Put) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{Python/Web High~throughput Service}}};
+  \node [box-rect, right=1.0 of Highthrough-Put, fill=white, text width=3.5em, minimum height=14.0em, yshift=-3.5em, very thin] (Modeling-Initial) {\fontsize{7.5pt}{2.5pt}\selectfont{Modeling and Initialization\vskip 0.4pt}};
+  \node [box-rect, below=0.5 of Figure, fill=red!30, text width=7.5em, minimum height=0.5em] (Modeling-mode) {\fontsize{7.5pt}{5.5pt}\selectfont{Modeling\\\textrm{+ASE\_Atoms}}};
+  \node [box-rect, right=1.0 of Modeling-mode, fill=red!30, text width=4.5em, minimum height=0.5em] (User-defineded) {\fontsize{7.5pt}{5.5pt}\selectfont{User defined}};
+  \node [box-rect, right=1.0 of User-defineded, fill=brown!30, text width=4.5em, minimum height=0.5em] (Process-Design) {\fontsize{7.5pt}{5.5pt}\selectfont{Process Design}};
+  \node [box-rect, below=0.5 of Modeling-mode, fill=green!30, text width=10.5em, minimum height=0.5em] (Modeling-Analysis) {\fontsize{7.5pt}{5.5pt}\selectfont{Analysis of content and symmetry}};
+
+  \node [box-rect, below=1.5 of Modeling-Analysis, fill=blue!50, text width=6.5em, minimum height=0.5em, xshift=3.5em] (Process-Manage) {\fontsize{7.5pt}{2.5pt}\selectfont{\textrm{MP\_FireWorks}}};
+  \node [box-rect, right=1.95 of Process-Manage, fill=red!50, text width=9.0em, minimum height=6.0em] (Multi-Scale) {\fontsize{7.5pt}{5.5pt}\selectfont{\vskip -25ptHighthroughput Calculation\\\textrm{DFT-MD-$\cdots$}\\\textrm{(Multi-scale)}}};
+  \node [box-rect, right=2.1 of Process-Manage, fill=orange!50, text width=8.2em, minimum height=0.5em, yshift=-1.8em] (Custodian) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{Cudodian}}};
+  \node [box-rect, below=0.05 of Modeling-Initial, fill=white, text width=3.5em, minimum height=10.3em, very thin] (Multi-Scale-Simulation) {\fontsize{7.5pt}{2.5pt}\selectfont{Multi-scale Simulation\vskip 0.4pt}};
+  \node [below=1.0 of Process-Manage, text width=9.5em, minimum height=0.5em] (DataBase) {\fontsize{7.5pt}{5.5pt}\selectfont{\textcolor{violet}{\textrm{Database~(MongoDB)}}}};
+
+  \node [box-rect, below=0.8 of DataBase, fill=olive!60, text width=12.5em, minimum height=2.5em] (Data-Manage) {\fontsize{7.5pt}{5.5pt}\selectfont{Data:~Analysis and Management}};
+  \node [box-rect, below=0.8 of Data-Manage, fill=lime!70, text width=6.5em, minimum height=1.5em, xshift=-3.5em] (Result-Analysis) {\fontsize{7.5pt}{5.5pt}\selectfont{Result-Analysis}};
+  \node [box-rect, right=0.5 of Result-Analysis, fill=teal!70, text width=15.5em, minimum height=1.5em] (Machine-Learning) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{Python}ML algorithm integrated:~\textrm{GPR/BO/ANN}}};
+  \node [box-rect, below=2.5 of Data-Manage, fill=darkgray!70, text width=15.5em, minimum height=1.5em, xshift=5.0em] (Application) {\fontsize{7.5pt}{5.5pt}\selectfont{\textcolor{white}{Application:\\Multi-body interaction between atoms}}};
+  \node [box-rect, below=0.05 of Multi-Scale-Simulation, fill=white, text width=3.5em, minimum height=11.0em, very thin] (Result-Machine-Learning) {\fontsize{7.5pt}{2.5pt}\selectfont{Result-Machine-Learing\vskip 0.4pt }};
+
+%%%%%% ------------ 定义 虚线方框转角 -----------------  %%%%%%
+\path
+  (Figure.north) ++(-5.0 em, -0.6em) coordinate (Model-fit)
+  (Modeling-Analysis.south) ++(5.0em, 0.6em) coordinate (Symmetry-fit)
+  (Modeling-Analysis.south) ++(-6.0em, -0.2em) coordinate (Symmetry-seperate)
+  (Highthrough-Put.south) ++(-4.2em, 0.0em) coordinate (Highthrough-1)
+  (Highthrough-Put.south) ++(3.45em, -0.0em) coordinate (Highthrough-2)
+  (Highthrough-Put.west) ++(-1.50em, 0.0em) coordinate (Highthrough-3)
+  (Process-Manage.north) ++(-8.6em, 0.8em) coordinate (DataBase-1)
+  (Data-Manage.south) ++ (7.0em, -0.1em) coordinate (DataBase-2)
+  (Process-Design.south)++(-2.0em, -1.50em) coordinate (Process-Design-1)
+  (Process-Design.south)++(-2.0em, -4.00em) coordinate (Process-Design-2)
+  (Process-Manage.north)++(2.7em, 0.0em) coordinate (Process-Manage-1)
+  (Modeling-Analysis.south)++(-2.0em, 0.0em) coordinate (Modeling-Analysis-1)
+  (Data-Manage.north) ++ (-5.5em, 0.0em) coordinate (DataBase-3)
+  (Application.north)++(-6.51em, 0.0em) coordinate(Application-1)
+  (Application.north)++(-4.35em, 0.0em) coordinate(Application-2)
+  (Application.north)++(4.43em, 0.0em) coordinate(Application-3)
+  (Machine-Learning.north) ++(-7.5em, -0.5em) coordinate (Machine-Learning-1)
+  (Machine-Learning.south) ++(7.5em, 0.5em) coordinate (Machine-Learning-2);
+
+\path [arrow, gray,thick] (Figure.south) -- (Modeling-mode);
+\path [arrow, gray,thick] (Highthrough-Put.west) -- (Highthrough-3) |- (Modeling-mode.east);
+\path [arrow, gray,thick] (Modeling-mode.south) -- (Modeling-Analysis);
+\path [arrow, gray,thick] (User-defineded.west) -- (Modeling-mode.east);
+\path [arrow, gray,thick] (User-defineded.east) -- (Process-Design.west);
+\path [arrow, gray,thick] (Highthrough-1) -- (User-defineded.north);
+\path [arrow, gray,thick] (Highthrough-2) -- (Process-Design.north);
+
+\path [arrow, draw=blue!30, line width=4pt] (Process-Design.south) -- (Multi-Scale.north);
+\path [arrow, draw=black, line width=3pt] (Process-Design.south)++(-2.0em, 0.0em) -- (Process-Design-2) -| (Process-Manage.north);
+%\path [draw=black, line width=3pt] (Process-Design-1) -- (Process-Design-2);
+%\path [arrow, draw=black, line width=3pt] (Process-Design-2) -- (Process-Manage-1);
+\path [arrow, draw=green!70!red, opacity=0.50, line width=3pt] (Modeling-Analysis-1) -- (DataBase-3);
+\path [arrow, draw=red!80, line width=3pt] (Process-Manage.east) -- (Multi-Scale.west);
+\path [arrow, draw=black,  line width=3pt] (Multi-Scale.south) |- (Data-Manage.east);
+
+\path [arrow, draw=black, thick](Data-Manage.south)++(-3.45em, 0.0em) -- (Result-Analysis.north);
+\path [arrow, draw=black, thick](Result-Analysis.south)++(2.0em, 0.0em) -- (Application-1);
+\path [arrow, draw=black, thick](Data-Manage.south)++(0.65em, 0.0em) -- (Application-2);
+\path [arrow, draw=black, thick](Machine-Learning.north) |- (Data-Manage.east);
+\path [arrow, draw=black, thick](Machine-Learning.south) -- (Application-3);
+
+%%%%%% ------------ 绘制 虚线 -----------------  %%%%%%
+%\draw [gray, dotted, line width=2pt] (Symmetry-seperate) -- (Modeling-Initial.south);
+\draw [gray, dashed, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
+%\draw [gray, densely dotted, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
+\draw [gray, dotted, line width=2pt] (DataBase.south)++(-9.5em,-1.58em) -- (Multi-Scale-Simulation.south);
+%%%%%% ------------ 绘制 虚线方框 -----------------  %%%%%%
+\node [rectangle,draw=blue!30, dashdotted, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%\node [rectangle,draw=blue!30, dash dot, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%\node [rectangle,draw=blue!30, dash dot dot, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%\node [rectangle,draw=violet, dash, inner sep=0.8em,fit=(DataBase-1) (DataBase-2), thick] (enclosure) {};
+\node [rectangle,draw=violet, dashed, inner sep=0.8em,fit=(DataBase-1) (DataBase-2), thick] (enclosure) {};
+
+\node [rectangle,draw=red, inner sep=0.8em,fit=(Machine-Learning-1) (Machine-Learning-2), line width=3.0pt] (enclosure) {};
+\end{tikzpicture}
+%\caption{\tiny \textrm{Pseudopotential for metallic sodium, based on the empty core model and screened by the Thomas-Fermi dielectric function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Fig:BCC-Multi-Procedure-En}
+\end{figure}
+
+\begin{figure}[h!]
+%\vspace*{-0.15in}
+\centering
+\begin{tikzpicture}[
+    box-rect/.style={rectangle,draw,fill=darkgray!20,node distance=1cm,text width=15em,text centered,rounded corners,minimum height=2em,thick},
+    box-diam/.style={diamond, aspect=7, inner sep=2pt, draw,fill=green!50,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    arrow/.style={draw,-latex', red},
+  ]
+
+  \node [box-rect, fill=magenta!50, text width=8.5em, draw=pink, minimum height=0.5em, thick] at (current page.west)(Figure) {\includegraphics[width=1.25in, height=0.7in,viewport=0 0 103 55,clip]{Figures/The-Periodic-Table-of-perovskene-materials.jpg}};
   \node [box-rect, right=0.9 of Figure, fill=gray!30, text width=12.5em, minimum height=0.5em] (Highthrough-Put) {\fontsize{7.5pt}{5.5pt}\selectfont{高通量材料计算\textrm{Python/Web}服务}};
   \node [box-rect, right=1.0 of Highthrough-Put, fill=white, text width=0.5em, minimum height=11.6em, yshift=-3.5em, very thin] (Modeling-Initial) {\fontsize{7.5pt}{2.5pt}\selectfont{结构建模与初始化\vskip 0.4pt}};
   \node [box-rect, below=0.5 of Figure, fill=red!30, text width=7.5em, minimum height=0.5em] (Modeling-mode) {\fontsize{7.5pt}{5.5pt}\selectfont{计算结构建模\\\textrm{+ASE\_Atoms}模块}};
@@ -330,7 +420,69 @@
 \node [rectangle,draw=red, inner sep=0.8em,fit=(Machine-Learning-1) (Machine-Learning-2), line width=3.0pt] (enclosure) {};
 \end{tikzpicture}
 %\caption{\tiny \textrm{Pseudopotential for metallic sodium, based on the empty core model and screened by the Thomas-Fermi dielectric function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
-\label{Fig:BCC-Multi-Procedure}
+\label{Fig:BCC-Multi-Procedure-Ch}
+\end{figure}
+
+\begin{figure}[h!]
+%\vspace*{-0.15in}
+\centering
+\begin{tikzpicture}[
+    box-rect/.style={rectangle,draw,fill=darkgray!20,node distance=1cm,text width=15em,text centered,rounded corners,minimum height=2em,thick},
+    box-diam/.style={diamond, aspect=7, inner sep=2pt, draw,fill=green!50,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    arrow/.style={draw,-latex', red},
+  ]
+	
+  \node [box-rect, fill=green!40, text width=3.0em, minimum height=1.5em, yshift=-3.5em, very thin] (Modeling-Initial) {\fontsize{7.5pt}{2.5pt}\selectfont{Modeling}};
+  \node [box-rect, right=1.0 of Modeling-Initial, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{DFT}}};
+  \node [box-rect, above=0.8 of Highthrough-DFT, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT1) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{DFT}}};
+  \node [box-rect, above=2.0 of Highthrough-DFT, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT2) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{DFT}}};
+  \node [box-rect, below=0.8 of Highthrough-DFT, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT3) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{DFT}}};
+  \node [box-rect, below=2.0 of Highthrough-DFT, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT4) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{DFT}}};
+  \node [box-rect, below=3.0 of Highthrough-DFT, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT5) {\fontsize{7.5pt}{5.5pt}\selectfont{$\cdots$}};
+  \node [box-rect, right=4.0 of Modeling-Initial, fill=cyan, text width=4.5em, minimum height=1.5em, very thin] (Modeling-Screen) {\fontsize{7.5pt}{2.5pt}\selectfont{Screen-Optimization}};
+  \node [box-rect, right=1.4 of Modeling-Screen, fill=orange!40, text width=4.5em, minimum height=0.5em ] (Deter-Step) {\fontsize{7.5pt}{2.5pt}\selectfont{Speed-deter Step}};
+  \node [box-rect, above=1.0 of Deter-Step, fill=orange!40, text width=4.5em, minimum height=0.5em] (Deter-Step1) {\fontsize{7.5pt}{2.5pt}\selectfont{Speed-deter Step}};
+  \node [box-rect, below=1.0 of Deter-Step, fill=orange!40, text width=4.5em, minimum height=0.5em] (Deter-Step2) {\fontsize{7.5pt}{2.5pt}\selectfont{Speed-deter Step}};
+
+  \node [box-rect, right=10.5 of Modeling-Initial, fill=darkgray!30, text width=2.5em, minimum height=1.5em, very thin] (Modeling-Coupling) {\fontsize{7.5pt}{2.5pt}\selectfont{Model-Coupling}};
+  \node [above=1.0 of Modeling-Coupling, text width=7.0em, minimum height=0.5em] (Coupling) {\fontsize{7.5pt}{5.5pt}\selectfont{\textcolor{violet}{\textrm{DFT-MD Coupling}}}};
+  \node [box-rect, right=12.0 of Modeling-Initial, fill=magenta!30, text width=4.5em, minimum height=0.5em] (MD-Calc) {\fontsize{7.5pt}{2.5pt}\selectfont{\textrm{MD \\Simulation}}};
+
+\path
+  (Deter-Step1.north) ++(-4.0 em, 0.6em) coordinate (Coupling1)
+  (MD-Calc.south) ++(3.0 em, -6.0em) coordinate (Coupling2)
+  (MD-Calc.east) ++(0.5 em, 0.0em) coordinate (Coupling-corner1)
+  (Deter-Step2.south) ++(-5.5 em, -0.6em) coordinate (Coupling-corner2)
+  (Modeling-Initial.east) ++(0.5em,0.0em) coordinate (Modeling-corner)
+  (Modeling-Screen.west) ++(-1.0em,0.0em) coordinate (Screen-corner1)
+  (Modeling-Screen.east) ++(2.8em,0.0em) coordinate (Screen-corner2)
+  (Modeling-Coupling.west) ++(-1.5em,0.0em) coordinate (Coupling-corner) ;
+
+\node [rectangle,draw=violet, dashed, inner sep=0.8em,fit=(Coupling1) (Coupling2), line width=2.0pt] (enclosure) {};
+
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Highthrough-DFT.west);
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Modeling-corner) |- (Highthrough-DFT1.west);
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Modeling-corner) |- (Highthrough-DFT2.west);
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Modeling-corner) |- (Highthrough-DFT3.west);
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Modeling-corner) |- (Highthrough-DFT4.west);
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Modeling-corner) |- (Highthrough-DFT5.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT.east) -- (Modeling-Screen.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT1.east) -| (Screen-corner1) -- (Modeling-Screen.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT2.east) -| (Screen-corner1) -- (Modeling-Screen.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT3.east) -| (Screen-corner1) -- (Modeling-Screen.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT4.east) -| (Screen-corner1) -- (Modeling-Screen.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT5.east) -| (Screen-corner1) -- (Modeling-Screen.west);
+  \path [arrow, draw=brown!70!red, opacity=0.50, thick] (Modeling-Screen.east) -- (Deter-Step.west);
+  \path [arrow, draw=brown!70!red, opacity=0.50, thick] (Modeling-Screen.east) -- (Screen-corner2) |- (Deter-Step1.west);
+  \path [arrow, draw=brown!70!red, opacity=0.50, thick] (Modeling-Screen.east) -- (Screen-corner2) |- (Deter-Step2.west);
+  \path [arrow, draw=purple!70!red, opacity=0.50, thick] (Deter-Step.east) -- (Modeling-Coupling.west);
+  \path [arrow, draw=purple!70!red, opacity=0.50, thick] (Deter-Step1.east) -| (Coupling-corner) -- (Modeling-Coupling.west);
+  \path [arrow, draw=purple!70!red, opacity=0.50, thick] (Deter-Step2.east) -| (Coupling-corner) -- (Modeling-Coupling.west);
+  \path [arrow, draw=black, opacity=0.50, thick] (Modeling-Coupling.east) -- (MD-Calc.west);
+  \path [arrow] (MD-Calc.east)--(Coupling-corner1)|-(Coupling-corner2) node[midway,below=0.50,outer sep=0pt, xshift=-10.0em](TextNode){\fontsize{7.0pt}{4.5pt}\selectfont{\textrm{\textcolor{black}{Optimization: Multi-iteration}}}}|-(Deter-Step.west) ;
+\end{tikzpicture}
+%\caption{\tiny \textrm{Pseudopotential for metallic sodium, based on the empty core model and screened by the Thomas-Fermi dielectric function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Fig:BCC-Multi-Scale-Procedure-En}
 \end{figure}
 
 \begin{figure}[h!]
@@ -392,7 +544,7 @@
   \path [arrow] (MD-Calc.east)--(Coupling-corner1)|-(Coupling-corner2) node[midway,below=0.05,outer sep=0pt, xshift=-10.0em](TextNode){\fontsize{7.0pt}{4.5pt}\selectfont{\textrm{\textcolor{black}{多次迭代，寻找最优}}}}|-(Deter-Step.west) ;
 \end{tikzpicture}
 %\caption{\tiny \textrm{Pseudopotential for metallic sodium, based on the empty core model and screened by the Thomas-Fermi dielectric function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
-\label{Fig:BCC-Multi-Scale-Procedure}
+\label{Fig:BCC-Multi-Scale-Procedure-Ch}
 \end{figure}
 
 %\begin{figure}[h!]
