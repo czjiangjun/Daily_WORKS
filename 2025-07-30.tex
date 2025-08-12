@@ -52,7 +52,7 @@
 二十世纪七十年代以来，随着计算机科学和密度泛函理论\textrm{(Density Functional Theory， DFT)}\upcite{PR136-B864_1964,PR140-A1133_1965,Parr-Yang,CR91-651_1991}、分子动力学\textrm{(Molecular Dynamics， MD)}的发展和融合，计算材料科学\textrm{(computational materials science)}获得了空前发展，与物理、化学、工程力学以及应用数学等诸多基础和应用学科交叉日益紧密，逐渐成为一门新兴的独立学科，并在材料学研究中发挥越来越重要的作用。\upcite{NatMat3-429_2004,App-CataA254-5_2003,JACS125-4306_2003,JCombChem5-472_2003,Meas_Sci-Tech16-1_2005,Nature392-694_1998}材料计算模拟研究的不断深入，也推动了材料模拟核心计算软件日益成熟。%核心计算软件解决的是物质运动基本方程求解和基本物性计算的问题，除此之外，完整的材料模拟过程还包括“计算前处理”的问题建模、计算参数选择到“计算后处理”的数据分析，几乎每一部分都有大量具体的工作有赖人工，频繁的人机交互严重影响了模拟计算流程的顺畅与效率。
 特别值得注意的是，近年来，得益于高精度的多尺度计算方法和高性能并行计算技术的突破，高通量材料计算在创新发展新材料、发现新现象方面具有巨大的潜能。
 
-进入21世纪，欧洲、日本、美国等发达国家先后启动了以多尺度模拟、研发和科学设计为手段，提升材料设计成功率，缩短材料开发周期为目的的多种类型的国家级科研专项，其中以美国的“材料基因组计划(Materials Genome Initiative，MGI)”最为著名。该计划的根本目的是通过增效集成各个尺度的材料模拟工具、高效实验手段和数据库，把材料研发从传统经验式提升到科学设计，从而大大加快材料研发速度。我国也于2016年起启动国家重点研发计划“材料基因工程关键技术与支撑平台”。变革材料计算的研发模式，%计算流程设计与衔接不同尺度的计算过程，降低人机交互频次，优化，实现材料计算流程的自动化与跨尺度物性模拟，
+进入21世纪，欧洲、日本、美国等发达国家先后启动了以多尺度模拟、研发和科学设计为手段，提升材料设计成功率，缩短材料开发周期为目的的多种类型的国家级科研专项，其中以美国的“材料基因组计划(Materials Genome Initiative，MGI)”最为著名。该计划的根本目的是通过增效集成各个尺度的材料模拟工具、高效实验手段和数据库，把材料研发从传统经验式提升到科学设计，从而大大加快材料研发速度。\upcite{CNature36-89_2014}我国也于2016年起启动国家重点研发计划“材料基因工程关键技术与支撑平台”。变革材料计算的研发模式，%计算流程设计与衔接不同尺度的计算过程，降低人机交互频次，优化，实现材料计算流程的自动化与跨尺度物性模拟，
 基于人工智能和成规模的高通量计算形成的材料数据库，以数据驱动和引领材料研究，业成为新材料领域的新共识。在能源材料预测\upcite{PRL108-068701_2012}、拓扑绝缘体发现\upcite{RMP82-3045_2010}、热电材料\upcite{JACS128-12140_2006}、催化材料\upcite{ACIE46-6016_2007}、轻质镁合金研究\upcite{PRB84-084101_2011}、超导材料\upcite{PRL105-217003_2010}、磁性材料\upcite{NatMat10-158_2011,JPD40-R337_2007}，复杂多组元化合物表面设计\upcite{Science316-732_2007,ACSNano5-247_2011}，二元或三元化合物结构稳定性判断\upcite{PRB85-144116_2012}，以及高强高温合金等体系中有广泛的成功应用和尝试。
 
 作为催化燃烧研究的典型代表，适合天然气燃烧的催化剂研发一直是能源利用领域的重要课题。\upcite{GasHeat22-12_2002,GasHeat22-523_2002,GasHeat21-61_2001}天然气的主要成分是甲烷($\mathrm{CH}_4$)，在没有催化剂的条件下，甲烷在空气中直接燃烧，温度高达1600$^{\circ}\mathrm{C}$左右，并生成氮氧化物($\mathrm{NO}_x$)等污染物质。使用催化剂，不仅可以降低$\mathrm{CH}_4$ 的起燃温度和燃烧峰值温度，减少污染物生成;并且燃烧利用率可以达到99.9\%，接近完全氧化，基本不会形成\textrm{CO}和碳氢化合物，因此$\mathrm{CH}_4$ 催化燃烧可以达到近零污染排放。2014年底，国务院颁布的 《能源发展战略行动计划2014-2020》指出，我国优化能源结构的路径是:~降低煤炭消费比重，提高天然气消费比重，大力发展风电、 太阳能、 地热能等可再生能源，安全发展核电。提高清洁能源比重，是我国能源结构调整的必由之路。结合我国目前的能源使用方式，天然气是短中期替代煤炭的最佳选择。天然气作为清洁的化石能源，具备资源丰富、性价比高等优势，但是由于$\mathrm{CH}_4$催化燃烧过程复杂性的制约，直到现在，催化剂与$\mathrm{CH}_4$相互作用的微观机理仍不清楚，开发适合天然气在$377\sim877^{\circ}\mathrm{C}$范围燃烧的催化剂，仍是研究的重点和难点。\upcite{ProcChem15-242_2003}因此加快$\mathrm{CH}_4$燃烧机理研究，对于加快我国能源消费结构调整，减少空气污染具有很重要的科学价值。
@@ -81,7 +81,7 @@
 传统的科学计算软件，存在人机交互频繁，自动化程度低的普遍问题。近年来涌现了多种支持高通量材料模拟自动流程软件，主要以支持原子、分子尺度等微观模拟计算为主，目标是实现材料电子结构、分子动力学和热力学物理量计算过程的自动化，建立相应的数据库。自动流程的示意简图如\textrm{Fig.}\ref{Fig:MP_data_flow}所示。
 \begin{figure}[h!]
 \centering
-\includegraphics[height=3.1in,width=4.3in,viewport=0 0 800 650,clip]{Figures/MP_data_flow.png}%}
+\includegraphics[height=3.1in,width=4.3in,viewport=0 0 800 650,clip]{Figures/Gray-MP_data_flow.png}%}
 \caption{一般材料计算自动流程中的数据流示意(引自文献\cite{CMS49-299_2010}).}%
 \label{Fig:MP_data_flow}
 \end{figure}
@@ -96,7 +96,7 @@
 \begin{figure}[h!]
 \centering
 %\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
-\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{Figures/MP_comp_infrastructure.png}%}
+\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{Figures/Gray-MP_comp_infrastructure.png}%}
 %\includegraphics[height=1.2in,width=1.7in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
 %\includegraphics[height=1.2in,width=1.6in,viewport=0 0 1020 730,clip]{CEP_structure_flow.png}%}
 \caption{\textrm{Materials Project (MP)}的基本构架(引自文献\cite{CMS97-209_2015}).}%
@@ -109,7 +109,7 @@
 %\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
 %\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{MP_comp_infrastructure.png}%}
 %\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
-\includegraphics[height=2.4in]{Figures/ASE_Python_lib.png}%}
+\includegraphics[height=2.4in]{Figures/Gray-ASE_Python_lib.png}%}
 \caption{\textrm{ASE}的\textrm{Python}模块关系.(引自文献\cite{JPCM29-273002_2017})}
 \label{Auto_Flow_Platform-5}
 \end{figure}
@@ -122,7 +122,7 @@
 %\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
 %\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{MP_comp_infrastructure.png}%}
 %\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
-\includegraphics[height=2.4in]{Figures/Matcloud.jpg}%}
+\includegraphics[height=2.4in]{Figures/Gray-Matcloud.jpg}%}
 \caption{\textrm{MatCloud}的结构与流程图.(引自文献\cite{CMS146-319_2018})}
 \label{Auto_Flow_Platform-6}
 \end{figure}
@@ -165,11 +165,11 @@
 \end{table}
 
 \subsection{适应异质界面催化微观机理研究的自动流程}
-对比上述各类流程软件，燃烧催化反应的模拟对于计算流程的各环节提出的诸多挑战。现有的计算流程软件都无法给出完善的解决方案，因此有必要在充分调研计算流程软件研发状况的基础上,针对催化燃烧计算任务的特点，开发面向适合$\mathrm{CH}_4$催化材料研究的高通量计算流程软件。在充分分析、对比各软件功能模块基础上，我们开发了适应异质界面催化微观机理研究的自动流程软件。软件的程序结构如图\textrm{Fig.}\ref{MP_comp_BCC}所示。该软件的计算模块基于\textrm{ASE}模块，采用\textrm{MP}的高通量任务分配与提交模块\textrm{FireWorks}的作业调复方式，实现第一原理-分子动力学的多尺度计算功能。计算结果分析部分在\textrm{ASE}和\textrm{MP}的\textrm{Pymatgen}功能基础上，利用\textrm{Python}提供的机器学习功能模块，扩充现有软件的计算分析能力。
+对比上述各类流程软件，燃烧催化反应的模拟对于计算流程的各环节提出的诸多挑战。现有的计算流程软件都无法给出完善的解决方案，因此有必要在充分调研计算流程软件研发状况的基础上,针对催化燃烧计算任务的特点，开发面向适合$\mathrm{CH}_4$催化材料研究的高通量计算流程软件。在充分分析、对比各软件功能模块基础上，我们开发了适应异质界面催化微观机理研究的自动流程软件。软件的程序结构如图\textrm{Fig.}\ref{MP_comp_BCC}所示。该软件的计算模块基于\textrm{ASE}模块，采用\textrm{MP}的高通量任务分配与提交模块\textrm{FireWorks}的作业调度方式，实现第一原理-分子动力学的多尺度计算功能。计算结果分析部分在\textrm{ASE}和\textrm{MP}的\textrm{Pymatgen}功能基础上，利用\textrm{Python}提供的机器学习功能模块，扩充现有软件的计算分析能力。
 \begin{figure}[h!]
 \centering
 \hskip -35pt
-\includegraphics[height=6.00in]{Figures/MP_comp_BCC.png}
+\includegraphics[height=6.00in]{Figures/Gray-MP_comp_BCC.png}
 \caption{面向催化材料研究的适跨尺度计算流程结构示意。}%
 \label{MP_comp_BCC}
 \end{figure}
@@ -189,7 +189,7 @@
 \begin{figure}[h!]
 \centering
 \vskip -2pt
-\includegraphics[height=2.25in]{Figures/CH4_complex_machine.png}
+\includegraphics[height=2.25in]{Figures/Gray-CH4_complex_machine.png}
 \caption{面向复杂体系材料模拟顺序流程的``动态分发''子过程并发化示意图。}%
 \label{CH4_comp_BCC}
 \end{figure}
@@ -197,7 +197,7 @@
 
 我们的测试结果显示，计算流程与作业管理系统都会涉及到对计算资源的调度、分配、管理，但现有的计算流程在生成计算任务后，将计算资源和任务提交作业管理系统后，直到作业管理系统完成计算任务管理过程，将结果和计算资源返还计算流程，这一过程中，计算流程一般不再参与计算资源的分配和调度。这一计算方式在简单材料模型计算中可以保持较高的计算资源利用率，但是考虑到甲烷催化燃烧模拟计算的复杂性，即使考虑独立子进程的并发，计算过程中仍会存在诸多计算资源空置和等待的情形。以计算模型的结构优化为例，同时并发的多个计算模型，由于元素和组分的不同，并发任务完成时间的差别可能会很大。如果计算流程能在在此过程中动态地监控各计算资源上计算任务的负载情况，将后续队列中的计算任务及时地分发到空载节点上，有望大大加速计算模型的优化效率。在此基础上，适当引入数据挖掘或机器学习算法，也提升了材料模拟计算流程的计算速度。以数据库方式管理计算流程，极大地方便计算流程的子过程和参数的分解，同时也为``动态分发''子过程提供了便利。
 
-\subsection{$\vec k\cdot\vec p$方法加速第一原理计算}
+\subsection{$\vec k\cdot\vec p$方法加速复杂体系的第一原理计算}
 \textrm{DFT}方法计算周期体系的物理性质时，要对不可约\textrm{Brillouin}区的离散的$\vec k$\,点求解单粒子波动方程，通过$\vec k$\,空间积分。为保证计算精度，需要对大量$\vec k$\,点求解\textrm{Kohn-Sham}方程。$\vec k\cdot\vec p$\,微扰理论\upcite{JCP6-367_1938,F.Seitz}最早用于讨论半导体导带底和价带顶极值附近的能带能带结构。近年来，越来越多地被用来加速固体能带计算。\upcite{PRB62-4383_2000,PRB64-233104_2001,CPC177-280_2007}
 
 %\subsection{$\vec k\cdot\vec p$\,微扰基本理论}
@@ -257,7 +257,9 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 %我们提出的计算方案基于改进的四面体积分布点方法，\upcite{PRB49-16223_1994}可以快速、有效地选择被扰动点$\vec k$\,点。
 
 %\subsection{被微扰$\vec k$\,点的选择}
-将$\vec k\cdot\vec p$方法应用到\textrm{FP-LAPW}方法的\textrm{WIEN2K}程序包\upcite{WIEN2K-UG_2001}中。分别用\textrm{FP-LAPW}和$\vec k\cdot\vec p$\,微扰方法完成$\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,自洽迭代后，并计算对比$\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,的能带的变化。%计算有关参数：根据图\ref{fig:per-optim}给出的$\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_6$晶胞参数4.105{\AA}，$\mathrm{EuB}_6$晶胞参数4.180{\AA}，$\mathrm{B}_6$笼内\textrm{B-B}键长与$\mathrm{B}_6$-$\mathrm{B}_6$笼间\textrm{B-B}键长比\textrm{p}=1.043；用于不同原子的\textrm{Muffin-tin}球半径分别为$\mathrm R_{\mathrm{Eu}}$=2.5\textrm{au}，$\mathrm R_{\mathrm{Ca}}$=2.0\textrm{au}，$\mathrm R_{\mathrm B}$=1.55\textrm{au}。计算中对被微扰$\vec k$\,点使用的基组如下：对\textrm{Ca}的4\textit{s}、3\textit{p}轨道和\textrm{Eu}的6\textit{s}、6\textit{p}轨道采用\textrm{LAPW}基组，\textrm{Ca}的3\textit{d}轨道和\textrm{Eu}的5\textit{d}、4\textit{f}轨道采用\textrm{APW+lo}基组，\textrm{Ca}的3\textit{s}轨道和\textrm{Eu}的5\textit{s}、5\textit{p}轨道作半芯层处理，采用\textrm{LAPW+LO}基组，\textrm{B}的2\textit{s}、2\textit{p}轨道采用程序默认的\textrm{APW+lo}基组。计算用的平面波截断条件选为$\mathrm R_{min}$$\mathrm K_{max}$=7.0；晶胞的第一不可约布里渊区(\textrm{irreducible Brillouin zone})内有56个不等价$\vec k$\,点。总电荷收敛标准低于$10^{-4}$。交换-相关能泛函采用\textrm{Perdew-Wang} 91的表达式并加梯度校正\upcite{PRL77-3865_1996}(\textrm{GGA})。用\textrm{GGA+U}方法进行计算以尽量消除$\mathrm{Eu}^{2+}$\,的4\textit{f}电子自相互作用引起的误差；\upcite{PRB48-16929_1993,PRB69-165111_2004}参照文献\cite{SSC50-903_1984}的实验结果选取参数$\mathrm{U}_{\mathit f}$=7.0\textrm{eV}，\textrm{J}=0。图\ref{fig:per-optim}同时也给出考虑旋-轨耦合后的总能量，$\vec k\cdot\vec p$\,微扰的旋-轨耦合计算与\textrm{C. Persson}等建议的第二个方案思想一致。考虑相对论效应后，由于相对论效应引起的的能量降低，$\mathrm{CaB}_6$\,比$\mathrm{EuB}_6$\,小得多。$\vec k\cdot\vec p$\,微扰方法与\textrm{FP-LAPW}方法的结论相同。
+将$\vec k\cdot\vec p$方法应用到\textrm{FP-LAPW}方法的\textrm{WIEN2K}程序包\upcite{WIEN2K-UG_2001}中。分别用\textrm{FP-LAPW}和$\vec k\cdot\vec p$\,微扰方法完成$\mathrm{CaB}_6$\,$\mathrm{CaB}_6$与$\mathrm{EuB}_6$\,的复合式(掺杂)化合物自洽迭代后，并计算对比各类物质的状态方程和光学电导率的数据。计算有关参数：%根据图\ref{fig:per-optim}给出的
+$\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_6$晶胞参数4.105{\AA}，$\mathrm{EuB}_6$晶胞参数4.180{\AA}，$\mathrm{B}_6$笼内\textrm{B-B}键长与$\mathrm{B}_6$-$\mathrm{B}_6$笼间\textrm{B-B}键长比\textrm{p}=1.043；用于不同原子的\textrm{Muffin-tin}球半径分别为$\mathrm R_{\mathrm{Eu}}$=2.5\textrm{au}，$\mathrm R_{\mathrm{Ca}}$=2.0\textrm{au}，$\mathrm R_{\mathrm B}$=1.55\textrm{au}。计算中对被微扰$\vec k$\,点使用的基组如下：对\textrm{Ca}的4\textit{s}、3\textit{p}轨道和\textrm{Eu}的6\textit{s}、6\textit{p}轨道采用\textrm{LAPW}基组，\textrm{Ca}的3\textit{d}轨道和\textrm{Eu}的5\textit{d}、4\textit{f}轨道采用\textrm{APW+lo}基组，\textrm{Ca}的3\textit{s}轨道和\textrm{Eu}的5\textit{s}、5\textit{p}轨道作半芯层处理，采用\textrm{LAPW+LO}基组，\textrm{B}的2\textit{s}、2\textit{p}轨道采用程序默认的\textrm{APW+lo}基组。计算用的平面波截断条件选为$\mathrm R_{min}$$\mathrm K_{max}$=7.0；晶胞的第一不可约布里渊区(\textrm{irreducible Brillouin zone})内有56个不等价$\vec k$\,点。总电荷收敛标准低于$10^{-4}$。交换-相关能泛函采用\textrm{Perdew-Wang} 91的表达式并加梯度校正\upcite{PRL77-3865_1996}(\textrm{GGA})。用\textrm{GGA+U}方法进行计算以尽量消除$\mathrm{Eu}^{2+}$\,的4\textit{f}电子自相互作用引起的误差；\upcite{PRB48-16929_1993,PRB69-165111_2004}参照文献\cite{SSC50-903_1984}的实验结果选取参数$\mathrm{U}_{\mathit f}$=7.0\textrm{eV}，\textrm{J}=0。%图\ref{fig:per-optim}同时也给出考虑旋-轨耦合后的总能量，$\vec k\cdot\vec p$\,微扰的旋-轨耦合计算与\textrm{C. Persson}等建议的第二个方案思想一致。
+考虑相对论效应后，由于相对论效应引起的的能量降低，$\mathrm{CaB}_6$\,比$\mathrm{EuB}_6$\,小得多。$\vec k\cdot\vec p$\,微扰方法与\textrm{FP-LAPW}方法的结论相同。
 %%\newpage
 %  \phantomsection\addcontentsline{toc}{section}{Bibliography}
 %  \phantomsection\addcontentsline{toc}{section}{(本章)参考文献}
@@ -272,15 +274,6 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 %%  \nocite{*}
 %图\ref{fig:DOS_CaB6-kp}对比了$\vec k\cdot\vec p$方法与\textrm{FP-LAPW}分别计算的CaB$_6$的\textrm{DOS}。能量零点为\textrm{Fermi}面的位置。从图\ref{fig:DOS_CaB6-kp}可以看出，在\textrm{Fermi}面以下-9.0$\sim$-1.0\textrm{eV}的价带主要是B的2\textit{p}轨道构成的B$_6$群轨道(成键)；导带部分0$\sim$6.0\textrm{eV}的主要组分来自B$_6$的2\textit{p}群轨道(反键)；特别地，在\textrm{Fermi}面附近，0$\sim$1.0\textrm{eV}的能带有少量Ca的3\textit{d}的组分，图\ref{fig:DOS_CaB6-kp}同时对比了包含不同被微扰$\vec k$点的$\vec k\cdot\vec p$方法计算CaB$_6$的$\vec k$空间积分\textrm{DOS}。因为\textrm{DOS}曲线所围的面积即电子数目，$\vec k\cdot\vec p$方法与\textrm{FP-LAPW}方法的\textrm{DOS}曲线面积相同。$\vec k\cdot\vec p$方法的\textrm{DOS}峰位置与\textrm{FP-LAPW}的位置吻合，只是在\textrm{Fermi}面以下，-10$\sim$0\textrm{eV}范围内，部分峰的强度有些差别。因此$\vec k\cdot\vec p$方法计算的本征态波函数的$\vec k$空间积分也得到了满意的结果。并且当被微扰$\vec k$点数目由4个增加到20个时，$\vec k$空间积分的\textrm{DOS}与\textrm{FP-LAPW}的结果吻合得更好，这一点与\textrm{C. Persson}的结果完全一致。
 
-图\ref{fig:Band_Hexaborides-kp}给出CaB$_6$和EuB$_6$的能带结构。绘制能带图时，$\vec k$空间布点并非四面体布点，各$\vec k$点分别落在某些高对称线上，CaB$_6$和EuB$_6$的布点完全相同。因为根据作图需要，能带计算中高对称性线布点的被微扰$\vec k$点数目比\textrm{SCF}迭代的四面体布点的被微扰$\vec k$点数目多。对比图\ref{fig:Band_Hexaborides-kp}的CaB$_6$和EuB$_6$的能带图，$\vec k\cdot\vec p$方法得到的各能级与\textrm{FP-LAPW}的结果符合得非常好。我们的计算结果表明，从少数的被微扰$\vec k$点出发，用$\vec k\cdot\vec p$方法计算得到的\textrm{Fermi}面附近的能带的能级与\textrm{FP-LAPW}的各能带的能级能量误差并不大，并且适当增加被微扰 点数目，可以提高\textrm{Fermi}面附近的能带的能量精度。
-\begin{figure}[ht!]
-\centering
-\includegraphics[height=3.3in,width=5.5in,viewport=0 0 905 535,clip]{Figures/Band_kp.png}
-\caption{\small \textrm{FP-LAPW}(实线)和$\vec k\cdot\vec p$微扰(点)计算得到的金属六硼化物的能带结构对比.(a) CaB$_6$; (b) EuB$_6$ spin-up; (c) EuB$_6$ spin-down}%(与文献\cite{EPJB33-47_2003}图1对比)
-\label{fig:Band_Hexaborides-kp}
-\end{figure}
-%图\ref{fig:per-CaB6-kp}和图\ref{fig:per-CaB6-DOS}分别给出四个被微扰$\vec k$\,点及其对应微扰点$\vec k^{\prime}$\,由$\vec k\cdot\vec p$\,微扰与\textrm{FP-LAPW}分别通过\textrm{SCF}得到的能级和积分得到的态密度(\textrm{Density of States, DOS})。计算中采用的是四面体布点-积分，因此图中各$\vec k$\,是各四面体的顶点，与一般能带图中的$\vec k$\,点分布不同，这些四面体顶点并不沿着特定的高对称线分布，以图\ref{fig:per-CaB6-kp1}为例，给出被微扰点$\vec k_1$\,和对应的各个微扰点$\vec k_1^{i{\prime}}$的坐标(省略了共同的分母11)。图\ref{fig:per-CaB6-kp}仍具有能带图的特征，能量零点为\textrm{Fermi}面的位置。从相应的\textrm{DOS}图(图\ref{fig:per-CaB6-DOS})可以看出，在\textrm{Fermi}面以下$-9\thicksim-1$\,\textrm{eV}的价带主要是\textrm{B}的2\textit{p}轨道构成的$\textrm{B}_6$\,群轨道(成键)；导带部分$0\thicksim6.0$\,\textrm{eV}的主要组分来自$\textrm{B}_6$\,的2\textit{p}群轨道(反键)；特殊地，在\textrm{X}点附近，$0\thicksim1.0$\,\textrm{eV}的能带有\textrm{Ca}的4\textit{s}的组分，主要集中在图\ref{fig:per-CaB6-kp2}的$\vec k_2^{2\prime}$\,(0,0,4/11)、$\vec k_2^{4\prime}$\,(0,0,5/11)、$\vec k_2^{6\prime}$\,(0,1/11,5/11)附近。对于各$\vec k$\,点相应的能级，基于$\vec k\cdot\vec p$\,微扰的\textrm{SCF}和\textrm{FP-LAPW}的\textrm{SCF}计算结果一致，最大偏差约0.5\textrm{eV}。图\ref{fig:per-CaB6-kp}中通过直接对角化计算本征态的被微扰点$\vec k_i$\,的矩阵大小为$\thicksim700\times700$\,而$\vec k\cdot\vec p$\,微扰计算的各$\vec k^{\prime}$\,的矩阵大小为$\thicksim40\times40$，因此完成一次自洽迭代的计算量大大降低，而计算精度的牺牲很小。从图\ref{fig:per-CaB6-kp}的各被微扰$\vec k_i$\,点和$\vec k_i^{j{\prime}}$\,的能量数值看，$\vec k$\,点和微扰点的各能级的能量值比较接近，通过\textrm{FP-LAPW}计算得到的不同$\vec k$\,点的能量差不超过1.5\textrm{eV}，表明这样选择的作为微扰$\vec k^{\prime}$\,点是合理的。此外，从图\ref{fig:per-CaB6-kp1}给出的$\vec k^{\prime}$\,坐标看，当$\vec k^{\prime}$\,点位于$\vec k$\,空间中离$\vec k$越远，通过$\vec k\cdot\vec p$\,微扰得到的本征态能量值与\textrm{FP-LAPW}的计算的能量本征值差别大。图\ref{fig:per-CaB6-DOS}$\mathrm{CaB}_6$的\textrm{DOS}对比$\vec k$\,表明了$\vec k\cdot\vec p$\,微扰对$\vec k$\,空间积分结果的影响。$\vec k\cdot\vec p$\,微扰与\textrm{FP-LAPW}方法的\textrm{DOS}曲线面积相同，因为\textrm{DOS}曲线所围的面积即电子数目。$\vec k\cdot\vec p$\,微扰的\textrm{DOS}峰位置与\textrm{FP-LAPW}的位置吻合，只是在\textrm{Fermi}面以下，$-10\thicksim0$\,\textrm{eV}范围内，部分峰的强度有些差别。当被微扰点$\vec k$\,点数目由4个增加到20个时，$\vec k$\,空间积分的\textrm{DOS}与\textrm{FP-LAPW}的结果吻合得更好，这一点与\textrm{C. Persson}的结果完全一致。
-
 \begin{figure}[h!]
 \centering
 \includegraphics[height=2.5in,width=2.95in,viewport=0 50 460 500,clip]{Figures/EOS_kp.png}
@@ -291,6 +284,15 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 与一般赝势\textrm{(Pseudo-potential, PP)}方法相比，\textrm{FP-LAPW}方法的优点在于对体系总能量的计算更为精确。晶体的一些热学性质与体系的总能量梯度有关，图\ref{EOS_kp}我们考察微扰方法计算的体系总能量梯度随晶胞参数改变的曲线。结果表明，$\vec k\cdot\vec p$方法的结果与\textrm{FP-LAPW}方法结果符合得非常好。我们仅用4个被微扰点%和52个
 进行计算，对\ch{CaB6}的\textrm{FP-LAPW}和微扰方法计算得到的二次曲线的两阶导数分别是2.562和2.626%，EuB6是2.633和2.589
 。结果与\textrm{FP-LAPW}吻合。再次表明$\vec k\cdot\vec p$方法对SCF计算大大提高效率，但是并未牺牲很大的计算精度。
+
+除了一般化合物的性质计算，将$\vec k\cdot\vec p$方法应用到复杂体系，该方法也表现出优异的计算精度和计算能力。图\ref{fig:Band_Hexaborides-kp}给出CaB$_6$与EuB$_6$掺杂化合物的光学电导率结构。光学电导率图谱中，$\vec k$空间布点为高密度的四面体布点，各参考$\vec k$点分别落在某些高对称线上。光学性质计算中，光电导率计算中的布点的被微扰$\vec k$点数目比传统的\textrm{SCF}迭代的四面体布点的被微扰$\vec k$点数目多，计算耗时也更长。对比图\ref{fig:Band_Hexaborides-kp}的掺杂的金属六硼化物的光学电导率结果，$\vec k\cdot\vec p$方法得到的能谱函数曲线与\textrm{FP-LAPW}的结果符合得非常好。我们的计算结果表明，从少数的被微扰$\vec k$点出发，用$\vec k\cdot\vec p$方法计算得到的\textrm{Fermi}面附近的电子结构的准确描述，与\textrm{FP-LAPW}的各能带的能级能量误差很小，并且适当增加被微扰 点数目，可以提高\textrm{Fermi}面附近的电子及结构的能量精度。
+\begin{figure}[ht!]
+\centering
+\includegraphics[height=3.0in,width=5.5in,viewport=0 0 536 300,clip]{Figures/Optic-CaB6_kp.png}
+\caption{\small \textrm{FP-LAPW}(实线)和$\vec k\cdot\vec p$微扰(虚线)计算得到的掺杂金属六硼化物的光学电导率结构.}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{fig:Band_Hexaborides-kp}
+\end{figure}
+%图\ref{fig:per-CaB6-kp}和图\ref{fig:per-CaB6-DOS}分别给出四个被微扰$\vec k$\,点及其对应微扰点$\vec k^{\prime}$\,由$\vec k\cdot\vec p$\,微扰与\textrm{FP-LAPW}分别通过\textrm{SCF}得到的能级和积分得到的态密度(\textrm{Density of States, DOS})。计算中采用的是四面体布点-积分，因此图中各$\vec k$\,是各四面体的顶点，与一般能带图中的$\vec k$\,点分布不同，这些四面体顶点并不沿着特定的高对称线分布，以图\ref{fig:per-CaB6-kp1}为例，给出被微扰点$\vec k_1$\,和对应的各个微扰点$\vec k_1^{i{\prime}}$的坐标(省略了共同的分母11)。图\ref{fig:per-CaB6-kp}仍具有能带图的特征，能量零点为\textrm{Fermi}面的位置。从相应的\textrm{DOS}图(图\ref{fig:per-CaB6-DOS})可以看出，在\textrm{Fermi}面以下$-9\thicksim-1$\,\textrm{eV}的价带主要是\textrm{B}的2\textit{p}轨道构成的$\textrm{B}_6$\,群轨道(成键)；导带部分$0\thicksim6.0$\,\textrm{eV}的主要组分来自$\textrm{B}_6$\,的2\textit{p}群轨道(反键)；特殊地，在\textrm{X}点附近，$0\thicksim1.0$\,\textrm{eV}的能带有\textrm{Ca}的4\textit{s}的组分，主要集中在图\ref{fig:per-CaB6-kp2}的$\vec k_2^{2\prime}$\,(0,0,4/11)、$\vec k_2^{4\prime}$\,(0,0,5/11)、$\vec k_2^{6\prime}$\,(0,1/11,5/11)附近。对于各$\vec k$\,点相应的能级，基于$\vec k\cdot\vec p$\,微扰的\textrm{SCF}和\textrm{FP-LAPW}的\textrm{SCF}计算结果一致，最大偏差约0.5\textrm{eV}。图\ref{fig:per-CaB6-kp}中通过直接对角化计算本征态的被微扰点$\vec k_i$\,的矩阵大小为$\thicksim700\times700$\,而$\vec k\cdot\vec p$\,微扰计算的各$\vec k^{\prime}$\,的矩阵大小为$\thicksim40\times40$，因此完成一次自洽迭代的计算量大大降低，而计算精度的牺牲很小。从图\ref{fig:per-CaB6-kp}的各被微扰$\vec k_i$\,点和$\vec k_i^{j{\prime}}$\,的能量数值看，$\vec k$\,点和微扰点的各能级的能量值比较接近，通过\textrm{FP-LAPW}计算得到的不同$\vec k$\,点的能量差不超过1.5\textrm{eV}，表明这样选择的作为微扰$\vec k^{\prime}$\,点是合理的。此外，从图\ref{fig:per-CaB6-kp1}给出的$\vec k^{\prime}$\,坐标看，当$\vec k^{\prime}$\,点位于$\vec k$\,空间中离$\vec k$越远，通过$\vec k\cdot\vec p$\,微扰得到的本征态能量值与\textrm{FP-LAPW}的计算的能量本征值差别大。图\ref{fig:per-CaB6-DOS}$\mathrm{CaB}_6$的\textrm{DOS}对比$\vec k$\,表明了$\vec k\cdot\vec p$\,微扰对$\vec k$\,空间积分结果的影响。$\vec k\cdot\vec p$\,微扰与\textrm{FP-LAPW}方法的\textrm{DOS}曲线面积相同，因为\textrm{DOS}曲线所围的面积即电子数目。$\vec k\cdot\vec p$\,微扰的\textrm{DOS}峰位置与\textrm{FP-LAPW}的位置吻合，只是在\textrm{Fermi}面以下，$-10\thicksim0$\,\textrm{eV}范围内，部分峰的强度有些差别。当被微扰点$\vec k$\,点数目由4个增加到20个时，$\vec k$\,空间积分的\textrm{DOS}与\textrm{FP-LAPW}的结果吻合得更好，这一点与\textrm{C. Persson}的结果完全一致。
 
 \begin{figure}[h!]
 \centering
@@ -309,7 +311,7 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 知识图谱\textrm{(Knowledge~Graph)}是一种用于组织、表示和存储知识的图形化数据结构形式，它仿照人类对于知识的认知、理解方式，将实体\textrm{(Entities)}、关系\textrm{(Relationship)}和属性\textrm{(Attributes)}以图形的形式呈现出来，使计算机能够更好地认知、理解和推理知识。早在1960年代，就曾出现过以模拟仿真实人类思维-决策流程的专家系统，称为知识工程\textrm{(Knowledge Engineering, KE)}\upcite{Knowledge_Engineering}。此后不久，涌现了多种专家与知识管理系统，一般统称为知识库系统\textrm{(knowledge-based system)}。在知识库系统基础上，通过用户人机问答式互动，可以构建结构化的机器可读与生成式的文本知识，而运维知识库系统的，通常是行业和领域专家(如图\ref{Fig:Knowledge-based_system}所示)。
 \begin{figure}[h!]
 \centering
-\includegraphics[height=1.85in,width=5.85in,viewport=0 0 1500 475,clip]{Figures/Knowledge-based_system.png}
+\includegraphics[height=1.85in,width=5.85in,viewport=0 0 1500 475,clip]{Figures/Gray-Knowledge-based_system.png}
 \caption{\small\textrm{知识体系的结构示例. 引自文献~\cite{ACR56-128_2023}}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:Knowledge-based_system}
 \end{figure}
@@ -340,7 +342,7 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 由\textrm{Ontology}出发表示的实体-实体关系为\textrm{ABox~(Assertion component)}。图\ref{Fig:Mapping-relationship-molecule-synthon}给出分子与合成体的图谱表示。 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=4.90in,width=5.85in,viewport=0 0 950 790,clip]{Figures/Mapping-the-relationship-between-molecule-and-synthon.png}
+\includegraphics[height=4.90in,width=5.85in,viewport=0 0 950 790,clip]{Figures/Gray-Mapping-the-relationship-between-molecule-and-synthon.png}
 \caption{\small\textrm{分子与合成体的图谱关系. }}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:Mapping-relationship-molecule-synthon}
 \end{figure}
@@ -348,7 +350,7 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 用\textrm{IRIs}标签化学物种是机器可操作的，但不方便化学家识别，因此\textrm{TWA}中的化学物种需要进一步添加通用化学信息学标签\upcite{COC26-33_2019}，如\textrm{\textrm{InChI}}、\textrm{InChIKey}和\textrm{CAS}注册码、\textrm{PubChemCID}和\textrm{SMILES}等，如图\ref{Fig:Key-OntoSpecies-and-external-concepts}所示。
 \begin{figure}[h!]
 \centering
-\includegraphics[height=3.20in,width=4.35in,viewport=0 0 990 750,clip]{Figures/Key_OntoSpecies-and-external_concepts.png}
+\includegraphics[height=3.20in,width=4.35in,viewport=0 0 990 750,clip]{Figures/Gray-Key_OntoSpecies-and-external_concepts.png}
 \caption{\small\textrm{Key OntoSpecies (black) and external (blue) concepts, along with a number of properties (green) used to describe chemical species in TWA KG. cite from~\cite{ACR56-128_2023}}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:Key-OntoSpecies-and-external-concepts}
 \end{figure}
@@ -401,27 +403,22 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 \subsection{化学知识图谱的框架}
 %采用业界成熟通行的实现方案和技术体系作为本次架构设计的基础。
 我们基于已有的计算材料及相关数据库，构建面向催化领域的知识图谱。在我们的知识图谱设计中，%以信息安全和行业信息化标准为开展工作的基础保障，充分
-采用\textrm{SOA(Service-Oriented Architecture)}的设计思想，将系统进行纵向切分包括数据层、基础支撑层、服务支撑层、应用层等几个层面。在切分的过程中对具体的应用系统与具体的数据存储通过中间的业务服务体系进行解耦，从而使得系统中的业务应用与数据保持相对独立，减少应用系统各功能模块间的依赖关系，通过定义良好的访问接口与通讯协议形成松散耦合型系统，在保证系统间信息交换的同时，还能保持各系统之间的相对独立的运行。图\ref{KG_Chem-Frame}为化工知识图谱系统项目整体架构图。
+采用\textrm{SOA(Service-Oriented Architecture)}的设计思想，将系统进行纵向切分包括数据层、基础支撑层、服务支撑层、应用层等几个层面。在切分的过程中对具体的应用系统与具体的数据存储通过中间的业务服务体系进行解耦，从而使得系统中的业务应用与数据保持相对独立，减少应用系统各功能模块间的依赖关系，通过定义良好的访问接口与通讯协议形成松散耦合型系统，在保证系统间信息交换的同时，还能保持各系统之间的相对独立的运行。图\ref{KG_Chem-Frame}为碳化学知识图谱系统项目数据传输与知识形成架构图。
 \begin{figure}[h!]
 %\vspace*{-0.05in}
 \centering
-\includegraphics[height=3.08in,width=6.00in,viewport=0 0 245 113,clip]{Figures/KG_Chem-Frame.png}
-\caption{知识图谱的总体技术框架。}%(与文献\cite{EPJB33-47_2003}图1对比)
+\includegraphics[height=4.18in,width=3.92in,viewport=0 0 96 113,clip]{Figures/Gray-KG_Chem-Frame.png}
+\caption{知识图谱的数据传输与知识形成框架。}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{KG_Chem-Frame}
 \end{figure} 
 %本项目建设是以满足化工知识知识图谱与知识库建设的实际需要为目标，充分利用现有数据和监测成果，依托现有计算机网络环境及资源环境，遵循统一的技术架构。
-\begin{itemize}
-	\item 数据层\\ 
-数据层作为应用系统的底层，经过总集标段数据中台处理后形成统一标准、统一格式的数据及业务系统自有数据为支撑层提供算据支撑。数据中台提供的数据包括基础数据、业务数据、实时监测数据、实体数据和文件数据。
-\item 支撑层\\ 
-支撑层作为系统整体服务能力核心，包括已建设的公用组件支撑、大数据支撑服务和知识引擎。其中知识处理模块针对原始知识库进行数据清洗、知识表示与建模、知识抽取、知识融合、知识加工、知识存储等处理，最终形成基础知识库；为应用和外部应用提供智能支撑。
-\item 接口层\\ 
-接口层封装集成支撑层技术服务逻辑，形成统一标准的知识接口和数据接口向上为系统应用提供服务。
-\item 应用层\\ 
-应用层主要以微服务的方式为用户提供各种应用服务，包括实体识别、实体查询、关系查询、化工知识概览等服务。外部应用的服务主要包括化工知识图谱展现等业务系统，需要通过数据中台调用知识库的知识接口服务。
-\item 展示层\\
-展示层为用户提供友好的界面展示效果和交互式操作。针对不同终端展示界面进行设计和适配，确保不同界面下展示信息的全面和美观。 
-\end{itemize}
+数据层作为应用系统的底层，经过总集标段数据中台处理后形成统一标准、统一格式的数据及业务系统自有数据为支撑层提供算据支撑。数据中台提供的数据包括基础数据、业务数据、实时监测数据、实体数据和文件数据。数据处理与支撑作为系统整体服务能力核心，包括已建设的公用组件支撑、大数据支撑服务和知识引擎。其中知识处理模块针对原始知识库进行数据清洗、知识表示与建模、知识抽取、知识融合、知识加工、知识存储等处理，最终形成基础知识库；为应用和外部应用提供智能支撑。
+
+自然语言处理主要以微服务的方式为用户提供各种应用服务，包括实体识别、实体查询、关系查询、碳化学知识概览等服务。外部应用的服务主要包括碳化学知识图谱展现等业务系统，需要通过数据中台调用知识库的知识接口服务。接口封装集成支撑层技术服务逻辑，形成统一标准的知识接口和数据接口向上为系统应用提供服务。
+
+持久化层主要以各类实体关系的存储与归档为主，主要围绕系统化知识的完整存储，结合搜索算法\textrm{neo4j}，可以提供快速的知识实体与关系存储与服务。
+
+领域应用展示层为用户提供友好的界面展示效果和交互式操作。针对不同终端展示界面进行设计和适配，确保不同界面下展示信息的全面和美观。用户所学的碳化学知识也将在这里得到呈现
 
 %\subsection{数据采集} 
 %在项目建设过程中，首先需要广泛的数据采集工作，包括收集和整理化学化工领域的文献、数据集、专利信息等。因此必须建立规范的数据采集流程，确保数据的准确性和完整性。同时，%我们对业务进行了建模，
@@ -431,7 +428,7 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 \begin{figure}[h!]
 	\vskip -10pt
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/KG_Chem-entity_search.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 160 95,clip]{Figures/Gray-KG_Chem-entity_search.png}
 \caption{\small\textrm{实体文本检索示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity_search}
 \end{figure}
@@ -441,7 +438,7 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/KG_Chem-entity.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity.png}
 \caption{\small\textrm{实体文本识别示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity}
 \end{figure}
@@ -453,7 +450,7 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/KG_Chem-entity-check.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity-check.png}
 \caption{\small\textrm{实体查询示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity_check}
 \end{figure}
@@ -465,7 +462,7 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/KG_Chem-entity-relation.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity-relation.png}
 \caption{\small\textrm{实体关系查询示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity_relation}
 \end{figure}
@@ -479,7 +476,7 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/KG_Chem-entity-overview.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity-overview.png}
 \caption{\small\textrm{化学-化工知识概览示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity_overview}
 \end{figure}
@@ -487,7 +484,7 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 85,clip]{Figures/KG_Chem-entity-overview-hyperlink.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 85,clip]{Figures/Gray-KG_Chem-entity-overview-hyperlink.png}
 \caption{\small\textrm{每个相关实体都可以超链接的形式呈现，用户点击，即可跳转到该实体的详细词条页面}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity_overview-hyperlink}
 \end{figure}
@@ -495,11 +492,11 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 %\subsection{智能搜索} 
 基于自然语言处理和信息检索技术，实现智能搜索功能，用户可以通过输入问题或关键词来获取相关的知识和信息。
 
-支持关键词匹配和语义理解：系统能够理解用户输入的查询意图，并根据输入的关键词或问题匹配合适的知识库中的内容。图\ref{Fig:KG-Chem_smart_search}给出知识图谱的智能搜索示例。
+支持关键词匹配和语义理解：利用\textrm{neo4j}检索技术，系能够理解用户输入的查询意图，并根据输入的关键词或问题匹配合适的知识库中的内容。图\ref{Fig:KG-Chem_smart_search}给出知识图谱的智能搜索示例。
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 85,clip]{Figures/KG_Chem-smart_search.png}
-\caption{\small\textrm{知识图谱智能搜索示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/KG_Chem-neo4j.png}
+\caption{\small\textrm{知识图谱智能\textrm{neo4j}搜索示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_smart_search}
 \end{figure}
 实体识别不仅需要高准确性，还要考虑到速度和可扩展性，特别是在处理大规模数据集时。因此，选择合适的实体识别技术和优化算法是至关重要的。
@@ -512,7 +509,7 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 图\ref{Fig:KG-Chem_visualization}展示实体关系和属性：通过图谱可视化，展示化学化工行业中的各种实体(如化工专家、有机化工、无机化工等)之间的关系和属性。
 \begin{figure}[h!]
 \centering
-\includegraphics[height=3.40in,width=4.85in,viewport=0 0 145 110,clip]{Figures/KG_Chem-visualization.png}
+\includegraphics[height=3.40in,width=4.85in,viewport=0 0 145 110,clip]{Figures/Gray-KG_Chem-visualization.png}
 \caption{\small\textrm{知识图谱可视化示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_visualization}
 \end{figure}
@@ -578,8 +575,16 @@ $\vec k\cdot\vec p$\,微扰方法的基本思想，是选用平面波基组$\{\P
 未来的智能体可以进一步提升智能性，比如为了节约知识存储的成本，很多知识可通过推演或计算得到。所以如果\textrm{Marie}在知识图谱中没有找到答案，它会采取另外的技术路线:~通过激活发现软件，该软件会寻找适合问题的软件，合适的软件再向知识图谱查询并计算相关结果。一个典型的例子是用户提问查询\ch{CO2}的热容时，软件\textrm{Thermo}会在诸如\textrm{OntoCompChem}中计算\ch{CO2}的热容。
 
 \section{结论}
-异质界面催化剂材料的研究在能源转化、环境保护领域具有重要地位，但长期以来，该类催化反应所涉及的复杂的界面结构与动态反应过程，也为高效催化剂设计带来挑战。我们的工作着眼高通量计算流程优化、微观模拟计算加速($\vec k\cdot\vec p$ 微扰方法)与基于数据驱动的新材料研发技术知识图谱，构建了服务模拟建模、数据生产到机理挖掘的全链条研究框架的工具系统。
+%异质界面催化剂材料的研究在能源转化、环境保护领域具有重要地位，但长期以来，该类催化反应所涉及的复杂的界面结构与动态反应过程，也为高效催化剂设计带来挑战。我们的工作着眼高通量计算流程优化、微观模拟计算加速($\vec k\cdot\vec p$ 微扰方法)与基于数据驱动的新材料研发技术知识图谱，构建了服务模拟建模、数据生产到机理挖掘的全链条研究框架的工具系统。
 
-针对传统计算效率低、体系覆盖有限的问题，首先重点解决面向异质界面的高通量计算流程：通过集成和改造基于\textrm{FireWorks}的计算流程与调度方案，结合第一性原理计算的多尺度筛选策略，实现了适应异质界面催化动力学模拟的\textrm{DFT-MD}多尺度计算流程设计。同时，引入轮询调度算法，平衡有限资源下的计算复杂，充分提升计算资源的利用率。催化反应动力学过程涉及的反应多，动力学过程复杂，\textrm{DFT}模拟耗时长，研究通过优化$\vec k$空间布点的选取方案，引入$\vec k\cdot\vec p$微扰方法，在基本不损失精度的前提下，将单个第一原理微观动力学模拟计算的时间提升约一个数量级。在此基础上，利用自动流程获得的计算材料数据库，研究构建面向异质界面催化知识图谱，实现计算材料数据的关联与挖掘。知识图谱以材料结构、物性为核心节点，通过图神经网络算法挖掘隐藏的构效关系，并对基于知识图谱的数字孪生技术实现异质界面催化模拟化学反应机理的实现给出建议方案。
+%针对传统计算效率低、体系覆盖有限的问题，首先重点解决面向异质界面的高通量计算流程：通过集成和改造基于\textrm{FireWorks}的计算流程与调度方案，结合第一性原理计算的多尺度筛选策略，实现了适应异质界面催化动力学模拟的\textrm{DFT-MD}多尺度计算流程设计。同时，引入轮询调度算法，平衡有限资源下的计算复杂，充分提升计算资源的利用率。催化反应动力学过程涉及的反应多，动力学过程复杂，\textrm{DFT}模拟耗时长，研究通过优化$\vec k$空间布点的选取方案，引入$\vec k\cdot\vec p$微扰方法，在基本不损失精度的前提下，将单个第一原理微观动力学模拟计算的时间提升约一个数量级。在此基础上，利用自动流程获得的计算材料数据库，研究构建面向异质界面催化知识图谱，实现计算材料数据的关联与挖掘。知识图谱以材料结构、物性为核心节点，通过图神经网络算法挖掘隐藏的构效关系，并对基于知识图谱的数字孪生技术实现异质界面催化模拟化学反应机理的实现给出建议方案。
 
-本研究任务分别得到科技创新2030重大项目"基于人工智能技术的高性能多尺度分子动力学模拟平台"(2024ZD0606900)、国家重点专项"高通量并发式材料计算算法和软件"(2017YFB0701500)和国家自然科学基金面上项目"低维材料等离和激子极化激元的第一性原理研究"(1247421)的经费支持。
+%本研究任务分别得到科技创新2030重大项目"基于人工智能技术的高性能多尺度分子动力学模拟平台"(2024ZD0606900)、国家重点专项"高通量并发式材料计算算法和软件"(2017YFB0701500)和国家自然科学基金面上项目"低维材料等离和激子极化激元的第一性原理研究"(1247421)的经费支持。
+
+异质界面催化材料在能源转化与环境治理等关键领域展现出广泛应用前景，但其界面结构复杂、反应路径多样、动力学过程跨尺度等特性，长期制约了高效催化剂的理论设计与精准调控。本研究围绕这一科学问题，构建了一套贯通高通量建模、计算加速与知识抽取的自动化流程化研究体系，形成了支持异质界面催化材料从微观机制模拟到数据驱动发现的全链条方法论框架。
+针对传统计算流程在异质体系模拟中的效率瓶颈与覆盖盲区，优化并拓展了基于 FireWorks 的自动化调度系统，融合 DFT 与分子动力学的多尺度筛选策略，实现异质界面催化反应动力学的高通量模拟流程重构。同时，引入轮询调度机制动态调配计算资源，提高系统吞吐率与资源利用率。在微观模拟效率方面，通过引入$\vec k\cdot\vec p$微扰方法并结合优化的$\vec k$空间布点策略，在确保第一性原理计算精度的基础上，实现计算效率提升约一个数量级，显著降低了反应路径搜索与动力学过程建模的计算成本。
+
+在大规模流程化模拟数据基础上，进一步构建面向异质催化的材料知识图谱系统，将原子结构、电子态与反应能垒等高维特征映射为结构-性能图谱节点，结合图神经网络模型挖掘潜在构效关系，并提出基于知识图谱驱动的数字孪生建模思路，为异质界面催化反应的机制模拟与材料设计提供了可扩展的智能计算范式。上述研究在提升异质催化模拟效率、建立结构-性能认知框架和推动数据驱动材料设计方面具有显著的技术创新与工程价值。
+
+本研究任务分别得到科技创新 2030 重大项目" 基于人工智能技术的高性能多尺度分子动力学模拟平台"(2024ZD0606900)%国家重点专项" 高通量并发式材料计算算法和软件"(2017YFB0701500) 
+和国家自然科学基金面上项目" 低维材料等离和激子极化激元的第一性原理研究"(1247421) 的经费支持。
