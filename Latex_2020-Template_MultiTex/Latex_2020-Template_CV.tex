@@ -1,0 +1,97 @@
+\documentclass[%
+	12pt, oneside, a4paper,
+%       10pt, oneside, AutoFakeBold, a4paper
+%       10pt, twoside, a4paper
+%       10pt, oneside, a4paper
+%       tikz,11pt,class=main,crop=false
+       tikz,svgnames,border={0 2}
+]{article}      % Specifies the document class
+%]{book}        % Specifies the document class
+%]{stanalone}
+%]{standalone}
+%AutoFakeBold 克服汉字加粗问题
+
+%---------%%%%%%%%%%%%%%%%----------xeCJK下设置环境-------------%%%%%%%%%%%%%%%%%%-----------%  
+\input{00_General_Template/Template_Preamble}                                                                  %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%---------%%%%%%%%%%%%%%%%--------xeCJK下设置中文字体-----------%%%%%%%%%%%%%%%%%%-----------%  
+\input{00_General_Template/Template_Fonts}                                                                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%---------%%%%%%%%%%%%%%%%--------xeCJK下设置评论文字-----------%%%%%%%%%%%%%%%%%%-----------%  
+%\input{00_General_Template/Template_Comment}                                                                   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%  % 插图使用位置  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\graphicspath{{/home/jun-jiang/Documents/Latex_Beamer}}              				             %$PATHPWD用于脚本指定图片路径
+%\graphicspath{{/home/jun_jiang/Documents/Latex_Beamer/Figures/}}                            %
+%\graphicspath{{/home/jun-jiang/Documents/Latex_Beamer/Figures/}}                            %
+%\graphicspath{{/home/jiangjun/Documents/Latex_Beamer/Figures/}}                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%  % 页眉-页脚设计  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\input{00_General_Template/Template_Fancy}		 %% 普通页眉-页脚
+%\include{03_Meet_Conference/Template_Meet_Fancy}	 %% 会议纪录用页眉-页脚 (单位信笺格式) 
+\include{04_BCC_Report/Template_BCC_Fancy}	 	 %% 报告用页眉-页脚 (单位信笺格式)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%    The Title of The Paper    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\include{00_General_Template/Author_Title}	  	   %% 测试用文本:~标题-作者-单位     %
+%%\include*{01_Latex_Template/Author_Title}	  	   %% 普通文本:~标题-作者 (可选)     %
+%\include*{03_Meet_Conference/Title_Recoder_MeetInfo}	   %% 会议纪录:~标题-地点-记录员     %
+%\include*{04_BCC_Report/Author_Title_BCC}		   %% 报告信息:~标题-报告人   	     %
+\include*{04_BCC_Report/CV_Title_BCC}		           %% 个人简历:~标题  	             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%
+%----------------------------------------------------------------------------------------------------------------------------------------------------%
+%
+%%%%------The Abstract and the keywords of The Paper-------%%%%
+%\include{00_General_Template/Content-0-Abstract}          %% 测试用论文:~摘要       	      %
+%\include*{01_Latex_Template/Content-0-Abstract}           %% 普通论文:~摘要 (可选)  	      %
+%\include*{03_Meet_Conference/Content-Meet-Meberstyle}     %% 会议纪录:~到会人员信息(必选)   %
+%\include*{04_BCC_Report/Content-BCC-Abstract}             %% 报告内容摘要(必选)	      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%----------------------------------------------------------------------------------------------------------------------------------------------------%
+%
+%----------------The Body Of The Paper------------------------%
+%
+%-----%%%%%%%------- Introduction ---------%%%%%%%%%%---------%
+%\include{00_General_Template/Content-1-Introduction}	    %% 测试用论文:~引言		      %
+%--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
+%
+%-------------------------------------------------------------%
+%
+%-----%%%%%%%----Main Body of The Paper----%%%%%%%%%%---------%
+%\include{00_General_Template/Content-2-Main}			%% 测试用文本	  	     	 %
+%\include*{01_Latex_Template/Content-2-Main}			%% 普通文本:~不分页   	     	 %
+%\include{01_Latex_Template/Content-2-Main}			%% 普通文本:~分页    	     	 %
+%\include*{03_Meet_Conference/Content_MeetRecord}		%% 会议纪录:~会议内容	 	 %
+%\include*{04_BCC_Report/Template_Report_Author}	 	      	%% 报告内容:~报告人简历-报告内容 %
+\include*{04_BCC_Report/CV_main_BCC} 			        %% 个人简历 %
+%--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
+%
+%----------------------------------------------------------------------------------------------------------------------------------------------------%
+%
+%----%%%%%%%%%%%%%%%%----Acknowledge----%%%%%%%%%%%%%%%%%-----%
+%\include{00_General_Template/Content-3-Acknowledge}       	%% 测试用文本:~致谢    	      %
+%\include*{01_Latex_Template/Content-3-Acknowledge}       	%% 普通文本:~致谢      	      %
+%\include{01_Latex_Template/Content-3-Acknowledge}       	%% 普通文本:~致谢      	      %
+%--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
+%
+%----------------------------------------------------------------------------------------------------------------------------------------------------%
+%
+%----%%%%%%%%%%%%----The Bibliographyge----%%%%%%%%%%%%%%-----%
+%\include*{01_Latex_Template/Content-4-Bibliography}             %% 普通论文:~参考文献 	      %
+%\include{01_Latex_Template/Content-4-Bibliography}             %% 普通论文:~参考文献 	      %
+%--------%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%--------%
+%
+%----------------------------------------------------------------------------------------------------------------------------------------------------%
+%
+\clearpage     %\end{CJK} 前加上\clearpage是CJK的要求
+%\end{CJK*}
+\end{document}
