@@ -1,3 +1,60 @@
+%---------------------- TEMPLATE FOR REPORT ------------------------------------------------------------------------------------------------------%
+
+\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+\title{\hei \textrm{2024}年度项目资金动态监管系统培训}
+%\title{\hei 清华大学讨论会议纪要}
+%\title{\hei 与中科合成油讨论纪要 (IV)}
+%\title{\hei 与北京低碳清洁能源研究院讨论纪要}
+\author[ ]{记录员:~姜骏}   %
+%\author[ ]{记录员:~高朋林}   %
+%\author[ ]{姜~骏\thanks{jiangjun@bcc.ac.cn}}   %
+%\author[a]{Author A}									     %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     	     %
+%\author[b]{Author D}									     %
+%\author[b]{Author/作者 D}								     %
+%\author[b]{Author E}									     %
+%\affil[ ]{会议地点:~双清大厦4号楼16层会议室}    %
+%\affil[ ]{会议地点:~计算中心\textrm{317}会议室}    %
+%\affil[ ]{讨论地点:~北京低碳清洁能源研究院}    %
+\affil[ ]{在线讨论}    %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+%\affil[b]{作者单位-2}			    						     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号						     %
+%\date{} % 不显示日期									     %
+%\date{2020-12-30}									     %
+\date{\footnotesize\rm\today}							     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Report-----------------------------------------%
+%\title{报告标题:~}   %
+%-----------------------------------------------------------------------------
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+%\author{
+%\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+%\small
+%(The Address，City Post code)						%Address	       %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+
 %-------%%%%%%%% PREPARE FOR THE ABSTRACT BIBLIOGRAPH FIG. AND TAB. %%%%%%%%-----------%
 %
 %\begin{CJK}{UTF8}{gbsn} %针对文字编码为unix %CJK自带的utf-8简体字体有gbsn(宋体)和gkai(楷体)
@@ -37,10 +94,10 @@
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
 %
-%------%%%%%%%%%%%%%%------The Abstract and the keywords of The Paper-------%%%%%%%%%%%%%--------%
-
 \thispagestyle{fancy}   % 插入页眉页脚                                        %
+%------%%%%%%%%%%%%%%------      到会人员信息     -------%%%%%%%%%%%%%--------%
 \begin{abstract}
+%		\input{~/Documents/Daily_WORKS/Meet_Conference/Meeting_Members}    %%  会议纪录目录:~到会人员信息
 %	\begin{itemize}
 %		\item \peopinfo{姜骏}{北京市计算中心}{副研究员}   %到会人员信息(姓名、单位、职称)
 %	\end{itemize}
@@ -49,7 +106,6 @@
 %		\peopinfo{吴健}{清华大学}{教授}\peopinfo{于涛}{钢铁研究总院}{教授}\peopinfo{姜骏}{北京市计算中心}{副研究员} 
 %\peopsimp{聂淼}{}\peopsimp{陶应龙}{}\peopsimp{王彩群}{}\peopsimp{高朋林}{}\peopsimp{姜骏}{}
 \peopsimp{姚洁}{}\peopsimp{姜骏}{}
-		\input{~/Documents/Daily_WORKS/Meet_Conference/Meeting_Members}    %%  会议纪录目录:~到会人员信息
 \end{abstract}
 
 %\keywords{Keyword1; Keyword2; Keyword3}
@@ -65,3 +121,76 @@
 %
 %----------------------------------------------------------------------------------------------------------------------------------------------------%
 %
+
+\section*{会议内容}
+{\CJKfamily{hei}姜骏}:~前期工作的情况
+\begin{itemize}
+	\item 感谢中科合成油提供机会，通过化学-化工知识图谱项目推动双方合作
+	\item 2023年11月双方领导碰面后，煤化工、石油化工、天然气、生物质为起点的数据及产业链没有及时落实
+	\item 期待这次一线工作人员对接，能够尽快推进相关工作
+\end{itemize}
+
+{\CJKfamily{hei}任鹏举}:~对知识图谱工作的设想和期待
+\begin{itemize}
+	\item 前期工作的基础，再次明确要求:~不是单纯的知识图谱展示，而是期待能够成为长期合作的起点
+	\item 面对人工智能全方位的转型
+		\begin{itemize}
+			\item 智能实验室
+			\item 定位 \ch{C}基材料(能源~材料)
+			\item 充分发挥人工智能的作用
+		\end{itemize}
+	\item 机遇:~知识图谱项目作为切入点
+	\item 与科学院文献情报中心合作:~文献信息梳理~(项目已结题)
+	\item 关于“智能科学家”项目主要挑战
+		\begin{itemize}
+			\item 传统的智能:~机械臂的自动化，动作可分解，可自动控制
+			\item 科研活动的重复动作自动化:~不统一、非确定性；仪器表征方法多:~操作、接口的多样性；软件的缺乏
+			\item 科研数据的优化
+		\end{itemize}
+	\item 后续工作的设想:~初步的原型机
+		\begin{itemize}
+			\item 依托软件，完成数据的梳理
+			\item 形成知识
+			\item 专业知识网络(刚性)-大模型(柔性)相结合:~\textcolor{red}{期待专业领域新知识的发现}
+		\end{itemize}
+	\item 将当前的具体需求，及时落地
+\end{itemize}
+
+{\CJKfamily{hei}孟凡银}:~通用知识图谱与行业学科的结合
+\begin{itemize}
+	\item 大模型的预测能力
+	\item 大模型的预测路径
+	\item 基于图像识别的学习推理:~卷积神经网络方法
+	\item 知识图谱抽取的普遍关系:\\
+		实体-关系-属性
+	\item 自然语言的模糊性:\\
+		知识图谱-语义关系-知识点网络:~大模型
+\end{itemize}
+
+{\CJKfamily{hei}任鹏举}:~关于专业知识(图谱)与大模型的思考与阐述
+\begin{itemize}
+	\item 基于专业知识(刚性)-\textrm{ChatGPT}模型(柔性)融合思想的详细阐述~姜骏参与了讨论
+\end{itemize}
+
+{\CJKfamily{hei}孟凡银}:~说明计算机技术上相关问题的实现策略并展示案例
+\begin{itemize}
+	\item 明确技术思路上可行，需要数据支持
+\end{itemize}
+
+		
+{\CJKfamily{hei}任鹏举}:~期待尝试后有成果(不在大，在希望)
+\begin{itemize}
+	\item 要求提供此前生成知识图谱的文件示例(\textrm{excel}或任何格式)
+	\item 参考文件示例提供专业知识数据(文件数据是否有要求)~孟凡银明确:~无特殊要求
+	\item \textcolor{blue}{期待尝试知识图谱(刚性)-\textrm{ChatGPT}模型(柔性)的结合}
+	\item 能体现人工智能的效果，为领导提供信心:~\textcolor{red}{有助于推进下一阶段的合作，争取主动}
+	\item 远期目标:~行业领域内乃至市场需求
+\end{itemize}
+
+{\CJKfamily{hei}双方共同约定}
+\begin{itemize}
+	\item \textcolor{red}{相关技术文档的准备}
+	\item \textcolor{blue}{定期讨论机制:~每两周一次}:~周四上午\textrm{10:00}
+	\item 有问题随时沟通
+	\item 关于知识产权归属的约定:~友好协商，争取共赢
+\end{itemize}
