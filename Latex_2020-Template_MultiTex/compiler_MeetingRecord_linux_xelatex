@@ -107,5 +107,6 @@ cd ../03_Meet_Conference/
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
 cd ../04_BCC_Report/
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
-cd .. && rm -rf tmp.tex && evince $1.pdf &
+cd .. && rm -rf tmp.tex *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+evince $1.pdf &
 cd ../Meet_Conference && rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
