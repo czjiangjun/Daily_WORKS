@@ -62,11 +62,20 @@ done
 
 PATH_Local=`pwd` && test -s Latex_2020-Template_MeetingRecord_tmp && mv Latex_2020-Template_MeetingRecord_tmp Latex_2020-Template_MeetingRecord.tex 
 cp Latex_2020-Template_MeetingRecord.tex Latex_2020-Template_MeetingRecord_tmp
+
+# test -e 01_Latex_Template/Content-2-Main.tex && echo "%Main_File"  > 01_Latex_Template/.tmp
 cd $Figures && PATH_Figure=`pwd`
 #echo 'test'
 # exit 0
 # echo $PATH_Figure
 cd $PATH_Local && sed -e "s#\$PATHPWD#`echo $PATH_Figure`#" Latex_2020-Template_MeetingRecord_tmp  > Latex_2020-Template_MeetingRecord.tex
+while [[ ! -f $1.tex ]];
+do
+	# echo "The Directory of Figures"
+	read -p "The Correct MeetingRecord: " var_Record_File
+	$1 = $var_Record_File #| awk -F "=" '{print $2}'`
+done
+test -s $1.tex  && cp $1.tex tmp.tex
 
 cd $References && PATH_Reference=`pwd` && cd $PATH_Local
 test -s 00_General_Template/Content-4-Bibliography_tmp && mv 00_General_Template/Content-4-Bibliography_tmp 00_General_Template/Content-4-Bibliography.tex
@@ -76,18 +85,13 @@ test -s 01_Latex_Template/Content-4-Bibliography_tmp && mv 01_Latex_Template/Con
        	cp 01_Latex_Template/Content-4-Bibliography.tex 01_Latex_Template/Content-4-Bibliography_tmp
 	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 01_Latex_Template/Content-4-Bibliography_tmp > 01_Latex_Template/Content-4-Bibliography.tex
 
-touch 01_Latex_Template/.tmp 
-test -s 01_Latex_Template/Content-2-Main.tex && sed 's/^\\input/%\\input/g' 01_Latex_Template/Content-2-Main.tex  > 01_Latex_Template/.tmp || echo "%Main_File"  > 01_Latex_Template/.tmp
-# test -e 01_Latex_Template/Content-2-Main.tex && echo "%Main_File"  > 01_Latex_Template/.tmp
-sed '$a%%%%%%%%%%  '"$1"'   %%%%%%%%%%  \n\\\input{'"$1"'}' 01_Latex_Template/.tmp  > 01_Latex_Template/Content-2-Main.tex 
-rm 01_Latex_Template/.tmp 
 
-xelatex -shell-escape Latex_2020-Template
-bibtex Latex_2020-Template
-xelatex -shell-escape Latex_2020-Template
-xelatex -shell-escape Latex_2020-Template
+xelatex -shell-escape Latex_2020-Template_MeetingRecord
+bibtex Latex_2020-Template_MeetingRecord
+xelatex -shell-escape Latex_2020-Template_MeetingRecord
+xelatex -shell-escape Latex_2020-Template_MeetingRecord
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.sta *.snm *.toc *.xml *.*~ *~ .Latex_2020-Template.*.swp *.aux *.bbl *.blg 
-mv Latex_2020-Template.pdf $1.pdf
+mv Latex_2020-Template_MeetingRecord.pdf $1.pdf
 # mv Latex_2020-Template_MeetingRecord_tmp Latex_2020-Template_MeetingRecord.tex
 cp Latex_2020-Template_MeetingRecord_tmp Latex_2020-Template_MeetingRecord.tex && rm Latex_2020-Template_MeetingRecord_tmp
 cd 00_General_Template/
@@ -103,5 +107,5 @@ cd ../03_Meet_Conference/
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
 cd ../04_BCC_Report/
 rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
-cd .. && evince $1.pdf &
-cd .. && rm -rf .*.swp *.tex~
+cd .. && rm -rf tmp.tex && evince $1.pdf &
+cd ../Meet_Conference && rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
