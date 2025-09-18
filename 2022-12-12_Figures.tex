@@ -1,0 +1,688 @@
+%---------------------- TEMPLATE FOR REPORT ------------------------------------------------------------------------------------------------------%
+
+%\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+%\title{\rm{VASP}的电荷密度存储文件\rm{CHGCAR}}
+%\title{面向高温合金材料设计的计算模拟软件中的几个主要问题}
+\title{\rm{VASP}中的主程序结构}
+\author[ ]{姜~骏}   %
+%\author[ ]{姜~骏\thanks{jiangjun@bcc.ac.cn}}   %
+%\affil[ ]{北京市计算中心}    %
+%\author[a]{Author A}									     %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+%%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     	     %
+%\author[b]{Author D}									     %
+%\author[b]{Author/作者 D}								     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+%\affil[b]{作者单位-2}			    						     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%\date{2020-12-30}									     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Report-----------------------------------------%
+%\title{报告标题:~}   %
+%-----------------------------------------------------------------------------
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+%\author{
+%\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+%\small
+%(The Address，City Post code)						%Address	       %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+\begin{figure}[h!]
+%\vspace*{-0.15in}
+\centering
+\begin{tikzpicture}[
+    box/.style={rectangle,draw,fill=DarkGray!20,node distance=1cm,text width=15em,text centered,rounded corners,minimum height=2em,thick},
+    box1/.style={rectangle,draw,fill=green!50,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    box2/.style={rectangle,draw,fill=magenta!75,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    box3/.style={rectangle,draw,fill=blue!30,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    box4/.style={rectangle,draw,fill=violet!45,node distance=2cm,text width=13em,text centered,rounded corners,minimum height=2em,thick},
+%    arrow/.style={draw,-latex', thick},
+    arrow/.style={draw,-latex', red, line width=2pt},
+  ]
+%  \node [box] (potential) {$v_{\text{ext},s}(\vec r)=v_\text{H}(\vec r) + v_\text{xc}(\vec r) + v_\text{ext}(\vec r)$};
+  \node [box1,text width=8em] (Softwares) {实际程序\\实现和应用};
+%  \node [box,below=0.5 of potential] (hamiltonian) {$\hat{H}_{KS}=-\frac{\hbar^2}{2m}\vec{\nabla}^2 + v_{\text{ext},s}(\vec r)$};
+  \node [box2,below=0.5 of Softwares] (Method) {基组和势函数处理方法\\$\vec k$空间积分方案};
+%  \node [box,below=0.5 of hamiltonian] (se) {$\hat{H}_{KS} \phi_i(\vec r)= E_i \phi_i(\vec r)$};
+  \node [box3,below=0.7 of Method, text width=13em] (Theory) {基本理论\\\textrm{DFT}和\textrm{Band Structure}};
+%  \node [box,below=0.5 of se] (density) {$\rho(\vec r)=\sum_{i=1}^n f_i\,|\phi_i(\vec r_i)|^2$};
+  \node [box4,below=0.8 of Theory, text width=15em] (Basic-Equ) {(学科)基本方程\\量子力学:~\textrm{Schr\"odinger}方程\\$\hat{\mathbf H}\Psi=E\Psi$};
+%  \node [box,below=0.5 of density] (criterion) {Convergence criterion satisfied?};
+
+%  \node [box,above=1.5 of potential, fill=orange!30, text width=20em] (initial) {Supply initial density guess $\rho_\text{ini}(\vec r)$ to Kohn Sham equations};
+  \node [box4,left=0.5 of Basic-Equ, fill=violet!30, text width=5em, minimum height=5em] (PDE) {经典数值\\分析算法};
+%  \node [box,below=1.5 of criterion, fill=blue!30, text width=20em] (energy) {Use $\rho_\text{fin}(\vec r)$ to minimize total energy functional $E_{V_\text{ext}}[\rho]=T_{e,s}[\phi_i\{\rho\}] + V_{ee,H}[\rho] + E_{xc}[\rho] + V_{eI}[\rho]$};
+  \node [box4,left=1.0 of Method, fill=magenta!50, text width=5em] (Algorithm) {具体\\算法\\实现};
+
+  \node [box4,right=0.5 of Basic-Equ, fill=violet!30, text width=5em] (OS) {操作\\系统\\与\\编程\\技术};
+  \node [box4,right=1.0 of Method, fill=magenta!50, text width=5em] (coding) {程序语言};
+%  \node [box4,right=1.0 of Method, fill=magenta!50, text width=5em, draw=red, thick] at (-5,0) (Figure) {\includegraphics[width=0.5in, height=0.4in]{Figures/Multi-Scale-6.png}};
+%  \path [arrow] (initial) -- (potential);
+  \path [arrow] (Method) -- (Softwares);
+  \path [arrow] (Theory) -- (Method);
+  \path [arrow] (Basic-Equ) -- (Theory);
+%  \path [arrow] (density) -- (criterion);
+
+  \path [arrow] (PDE) -- (Algorithm);
+  \path [arrow] (OS) -- (coding);
+ % \path [arrow] (OS) -- (Figure);
+  \path [arrow] (coding) |- (Softwares.east);
+  \path [arrow] (Algorithm) |- (Softwares.west);
+  \path [arrow] (Method.east) -- (coding.west);
+  \path [arrow] (Method.west) -- (Algorithm.east);
+
+%%%%%% ------------ 定义 虚线方框转角 -----------------  %%%%%%
+%  \path
+%  (potential.north west) ++(-1em,1em) coordinate (potential fit)
+%  (criterion.south east) ++(1em,-1em) coordinate (criterion fit);
+
+%%%%%% ------------ 绘制 虚线方框 -----------------  %%%%%%
+%  \node [rectangle,draw,dashed,inner sep=1em,fit=(potential fit) (criterion fit)] (enclosure) {};
+%  \node [above=-0.8em of enclosure,anchor=south,draw,outer sep=0pt,fill=white] (enclosure label) {\Large\textbf{Kohn-Sham method}};
+
+%  \path [arrow] (criterion) -- (energy) node [midway,left=0.1,draw,outer sep=0pt,fill=white] (TextNode) {Yes};
+%  \path [draw,thick] (criterion.south) ++(0em,-1em) -- (criterion fit) node [midway,below=0.1,sloped,draw,outer sep=0pt,fill=white] (TextNode) {No};
+%  \draw [arrow] (criterion fit) |- (potential.east);
+\end{tikzpicture}
+%\caption{\tiny \textrm{Pseudopotential for metallic sodium, based on the empty core model and screened by the Thomas-Fermi dielectric function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Method-Procedure}
+\end{figure}
+
+\begin{figure}[h!]
+%\vspace*{-0.15in}
+\centering
+\begin{tikzpicture}[
+    box/.style={rectangle,draw,fill=darkgray!20,node distance=1cm,text width=15em,text centered,rounded corners,minimum height=2em,thick},
+    box1/.style={diamond, aspect=7, inner sep=2pt, draw,fill=green!50,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    box2/.style={rectangle,draw,fill=magenta!75,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    box3/.style={rectangle,draw,fill=blue!30,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    box4/.style={rectangle,draw,fill=violet!45,node distance=2cm,text width=13em,text centered,rounded corners,minimum height=2em,thick},
+%    arrow/.style={draw,-latex', thick},
+    arrow/.style={draw,-latex', red},
+  ]
+%  \node [box] (potential) {$v_{\text{ext},s}(\vec r)=v_\text{H}(\vec r) + v_\text{xc}(\vec r) + v_\text{ext}(\vec r)$};
+  \node [box, fill=brown!80, text width=2.5em, minimum height=0.5em,xshift=-30.0em, yshift=-7.5em] at (current page.west)(Symmetry-OP) {\fontsize{5.0pt}{2.5pt}\selectfont{对称操作}};
+  \node [box, fill=blue!30, text width=7.0em, minimum height=0.5em] at(-7.5,12.45) (Init-Struct) {\fontsize{5.0pt}{2.5pt}\selectfont{初始结构~(经验或猜测)}};
+  \node [box, fill=blue!30, text width=5.0em, minimum height=0.5em] at(-7.5,11.35) (Init-Charge) {\fontsize{5.0pt}{2.5pt}\selectfont{初始电荷密度$\rho_0$}};
+  \node [box, draw=blue, fill=white, text width=8.0em, minimum height=0.5em] at(-4.0,11.6) (DFT-SCF) {\fontsize{16.0pt}{4.5pt}\selectfont{\textcolor{blue}{\bf{DFT-$SCF$}}}};
+%  \node [dot,  below=0.1 of Init-Charge] (Corner1) {};
+  \node [box, below=0.6 of Symmetry-OP, fill=blue!120, text width=5.0em, minimum height=1em] (Potential) {\fontsize{5.0pt}{2.5pt}\selectfont{\textcolor{white}{全势\textrm{(FP)}方法\vskip -1.3em 赝势\textrm{(PP)}方法}}};
+  \node [box, right=0.3 of Potential, fill=blue!60, text width=6.0em, minimum height=0.5em] (Hartree) {\fontsize{5.0pt}{2.5pt}\selectfont{\textrm{Hartree}势$V_\mathrm{H}(\vec r)$}};
+  \node [box, right=0.8 of Hartree, fill=blue!60, text width=7.0em, minimum height=0.5em] (Exch-Corr) {\fontsize{5.0pt}{2.5pt}\selectfont{交换-相关势$V_{\mathrm{XC}}[\rho(\vec r)]$}};
+  \node [box, below=0.2 of Potential, fill=orange!80, text width=4.0em, minimum height=0.5em] (Basis-set) {\fontsize{5.0pt}{2.5pt}\selectfont{基函数}};
+  \node [box, right=0.8 of Basis-set, fill=red!80, text width=7.0em, minimum height=0.5em] (Fock-matrix) {\fontsize{5.0pt}{2.5pt}\selectfont{构造\textrm{Fock}矩阵}};
+  \node [box, below=0.2 of Fock-matrix, fill=green!80, text width=7.0em, minimum height=0.5em] (Kohn-Sham) {\fontsize{5.0pt}{2.5pt}\selectfont{求解\textrm{Kohn-Sham}方程\vskip -1.3em (\textrm{Fock}矩阵对角化)}};
+  \node [box, below=0.2 of Kohn-Sham, fill=blue!80, text width=7.0em, minimum height=0.5em] (Wave-Eigen) {\fontsize{5.0pt}{2.5pt}\selectfont{\textcolor{white}{本征态波函数$\Psi_i(\vec r)$，\vskip -1.3em 能量本征值$\varepsilon_i$}}};
+%  \node [box, draw=blue, fill=white, text width=5.0em, minimum height=1em] at(-3.0,-2.7) (k-space) {\fontsize{5.0pt}{2.5pt}\selectfont{$\vec k$-空间积分方案}};
+  \node [box, below=0.2 of Wave-Eigen, fill=blue!80, text width=7.0em, minimum height=0.5em] (Charge) {\fontsize{5.0pt}{2.5pt}\selectfont{\textcolor{white}{计算电荷密度$\rho$}}};
+  \node [box, draw=blue, below=2.60 of Exch-Corr, fill=purple!30, text width=5.0em, minimum height=0.5em] (k-space) {\fontsize{5.0pt}{2.5pt}\selectfont{$\vec k$-空间积分方案}};
+  \node [box, below=0.2 of Charge, fill=blue!80, text width=5.5em, minimum height=0.5em] (ele-ele) {\fontsize{4.0pt}{2.5pt}\selectfont{\textcolor{white}{电子-电子静电作用$E_{e\textendash e}$}}};
+  \node [box, left=0.05 of ele-ele, fill=blue!80, text width=5.5em, minimum height=0.5em] (Ion-ele) {\fontsize{4.0pt}{2.5pt}\selectfont{\textcolor{white}{离子-电子静电作用$E_{\mathrm{N}\textendash e}$}}};
+%  \node [box, left=2.4 of Basis-set, fill=blue!80, text width=4.6em, minimum height=0.5em] at(-11,0.0) (Ion-Static) {\fontsize{4.0pt}{2.5pt}\selectfont{离子静电作用$E_{\mathrm{N\textendash N}}$}};
+  \node [box, left=0.05 of Ion-ele, fill=blue!80, text width=4.6em, minimum height=0.5em] (Ion-Static) {\fontsize{4.0pt}{2.5pt}\selectfont{\textcolor{white}{离子静电作用$E_{\mathrm{N\textendash N}}$}}};
+  \node [box, right=0.05 of ele-ele, fill=blue!80, text width=5.0em, minimum height=0.5em] (Kinetic-Ene) {\fontsize{4.0pt}{2.5pt}\selectfont{\textcolor{white}{电子动能$T=\sum T_i$}}};
+  \node [box, right=0.05 of Kinetic-Ene, fill=blue!80, text width=5.0em, minimum height=0.5em] (Exch-Corr-Ene) {\fontsize{4.0pt}{2.5pt}\selectfont{\textcolor{white}{交换-相关能$E[\rho(\vec r)]$}}};
+%%%%%% ------------ 定义 虚线方框转角 -----------------  %%%%%%
+\path
+  (Init-Charge.south) ++(0.0 em, -0.3em) coordinate (Potential-fit1)
+  (Symmetry-OP.east) ++(1.5em, 0.0em) coordinate (Symmetry-OP-fit)
+  (Hartree.south) ++(0.0 em, -0.3em) coordinate (Hartree-fit)
+  (Exch-Corr.south) ++(0.0em, -0.3em) coordinate (Exch-Corr-fit)
+  (Potential.north west) ++(-4.0em,0.15em) coordinate (Potential-fit)
+  (Exch-Corr-Ene.south east) ++(0.1em,-0.15em) coordinate (Exch-Corr-Ene-fit1)
+  (Fock-matrix.west) ++(-1.0 em, 0.75em) coordinate (Fock-matrix-fit)
+  (Kohn-Sham.east) ++(1.0em, -1.0em) coordinate (Kohn-Sham-fit)
+  (Ion-ele.north west) ++(-5.5em,0.03em) coordinate (Ion-ele-fit)
+  (Exch-Corr-Ene.south east) ++(0.04em,-0.03em) coordinate (Exch-Corr-Ene-fit);
+
+  \node [rectangle,draw=red, inner sep=0.1em,fit=(Ion-ele-fit) (Exch-Corr-Ene-fit),thick] (enclosure2) {};
+  \node [box1, below=0.05 of enclosure2, fill=purple!80, text width=7.0em, minimum height=0.5em] (Criterion) {\fontsize{5.0pt}{2.5pt}\selectfont{收敛判据}};
+  \node [box, below=0.2 of Criterion, fill=purple!80, text width=7.0em, minimum height=0.5em] (SCF-output) {\fontsize{4.2pt}{1.5pt}\selectfont{输出电荷密度$\rho(\vec r)$\vskip 0.2em 本征态波函数$\Psi_i(\vec r)$ \vskip -1.9em 能量本征值$\varepsilon_i$}};
+%  \node [box,below=0.5 of potential] (hamiltonian) {$\hat{H}_{KS}=-\frac{\hbar^2}{2m}\vec{\nabla}^2 + v_{\text{ext},s}(\vec r)$};
+%  \node [box,below=0.5 of hamiltonian] (se) {$\hat{H}_{KS} \phi_i(\vec r)= E_i \phi_i(\vec r)$};
+%  \node [box,below=0.5 of se] (density) {$\rho(\vec r)=\sum_{i=1}^n f_i\,|\phi_i(\vec r_i)|^2$};
+%  \node [box,below=0.5 of density] (criterion) {Convergence criterion satisfied?};
+
+%  \node [box,above=1.5 of potential, fill=orange!30, text width=20em] (initial) {Supply initial density guess $\rho_\text{ini}(\vec r)$ to Kohn Sham equations};
+%  \node [box,below=1.5 of criterion, fill=blue!30, text width=20em] (energy) {Use $\rho_\text{fin}(\vec r)$ to minimize total energy functional $E_{V_\text{ext}}[\rho]=T_{e,s}[\phi_i\{\rho\}] + V_{ee,H}[\rho] + E_{xc}[\rho] + V_{eI}[\rho]$};
+
+\path
+  (Basis-set.south) ++(0.0em,-6.55em) coordinate (Basis-set-fit)
+  (Charge.west) ++(-1.25em,0.0em) coordinate (Charge-fit)
+  (Wave-Eigen.west) ++(-1.25em,0.0em) coordinate (Wave-Eigen-fit)
+  (Potential.north west) ++(-3.9em,0.20em) coordinate (Potential-fit2)
+  (Criterion.west) ++(-8.9em,0.0em) coordinate (Criterion-fit)
+  (SCF-output.west) ++(-11.40em,-1.5em) coordinate (SCF-output-fit)
+  (Symmetry-OP.west) ++(-5.5em, 0.0em) coordinate (Symmetry-OP-fit2)
+  (k-space.east) ++(4.35em, 0.0em) coordinate (k-space-fit) ;
+
+%  \path [arrow] (initial) -- (potential);
+  \path [arrow, gray] (Init-Struct) -- (Init-Charge);
+  \path [arrow] (Symmetry-OP.east) -| (Init-Charge.north);
+  \path [arrow, blue!90] (Potential) -- (Hartree);
+
+  \path [draw, magenta](Init-Charge.south) ++(0em, -0.0em) --(Potential-fit1);
+  \path [arrow, draw=magenta] (Potential-fit1) -| (Hartree.north);
+  \path [draw, magenta](Init-Charge.south) ++(0em, -0.0em) --(Potential-fit1);
+  \path [arrow, draw=magenta] (Potential-fit1) -| (Exch-Corr.north);
+  \path [draw, magenta](Hartree.south) -- (Hartree-fit) ++ (0em, 0.0em);
+  \path [arrow, draw=magenta] (Hartree-fit) -| (Fock-matrix.north);
+  \path [draw, magenta](Exch-Corr.south) --(Exch-Corr-fit) ++(0em, 0.0em);
+  \path [arrow, draw=magenta] (Exch-Corr-fit) -| (Fock-matrix.north);
+
+  \path [arrow, draw=orange] (Basis-set) -- (Fock-matrix);
+  \path [arrow, draw=orange] (Basis-set.north) -- (Potential.south);
+  \path [draw, dotted, brown] (Symmetry-OP.east) ++(0em, 0.0em)-- (Symmetry-OP-fit);
+  \path [arrow, dotted, draw=brown] (Symmetry-OP-fit) |- (Fock-matrix.west);
+
+%%%%%% ------------ 绘制 虚线方框 -----------------  %%%%%%
+  \node [rectangle,draw,dashdotted,inner sep=0.1em,fit=(Potential-fit) (Exch-Corr-Ene-fit1)] (enclosure) {};
+
+
+  \path [arrow, draw=black] (Fock-matrix) -- (Kohn-Sham);
+  \path [arrow, draw=black] (Kohn-Sham) -- (Wave-Eigen);
+  \path [arrow, draw=black] (Wave-Eigen) -- (Charge);
+%  \node [rectangle,draw=red, fill=gray!30, inner sep=0.1em,fit=(Fock-matrix-fit) (Kohn-Sham-fit), thick] (enclosure1) {};
+  \node [rectangle,draw=red, dotted, inner sep=0.1em,fit=(Fock-matrix-fit) (Kohn-Sham-fit), thick] (enclosure1) {};
+ % \path [arrow] (OS) -- (Figure);
+  \path [arrow, draw=cyan] (k-space.west) -| (Charge.north);
+
+  \node [above=0.2em of Ion-Static, anchor=south,outer sep=0pt] (Etot-label){\fontsize{5.0pt}{2.5pt}\selectfont{\textcolor{red}{$\mathbf{E}_{TOT}$}}};
+  \path [arrow] (Charge) --(enclosure2);
+  \path [draw, magenta] (Charge) --(Charge-fit);
+  \path [draw, magenta] (Charge-fit) |-(Potential-fit1);
+  \path [draw, magenta] (Wave-Eigen) --(Wave-Eigen-fit);
+  \path [draw, magenta] (Wave-Eigen-fit) |-(Potential-fit1);
+  \path [draw, orange] (Basis-set) --(Basis-set-fit);
+  \path [draw, orange] (Basis-set-fit) -|(enclosure2);
+
+  \path [arrow] (enclosure2)-- (Criterion);
+
+
+  \path [arrow] (Criterion)--(SCF-output) node[midway,right=0.1,outer sep=0pt](TextNode1){\fontsize{4.0pt}{2.5pt}\selectfont{\textrm{\textcolor{black}{Yes}}}};
+  \path [draw,magenta] (Criterion.west)++(0.25em, 0.0em)--(Criterion-fit) node[midway,above=-0.05,outer sep=0pt](TextNode1){\fontsize{4.0pt}{2.5pt}\selectfont{\textrm{\textcolor{black}{NO}}}};
+  \path [draw,magenta] (Criterion-fit) |-(Potential-fit1);
+  \node [box, right=0.3 of SCF-output, fill=green!50, text width=7.0em, minimum height=0.5em] (SCF-properties) {\fontsize{5.0pt}{2.5pt}\selectfont{各类物理数据与性质计算}};
+  \node [box, fill=magenta!50, text width=8.5em, draw=pink, minimum height=0.5em, thick] at (-3.8,9.15) (Figure) {\includegraphics[width=1.05in, height=0.7in,viewport=0 0 1172 863,clip]{DFT.png}};
+
+  \path [arrow, draw=purple] (SCF-output.east) --(SCF-properties.west);
+  \path [draw, dotted, brown] (Symmetry-OP.west) --(Symmetry-OP-fit2);
+  \path [draw, dotted, brown] (Symmetry-OP-fit2) --(SCF-output-fit);
+  \path [arrow, dotted, draw=brown](SCF-output-fit)-|(SCF-properties.south);
+  \path [draw, cyan] (k-space) --(k-space-fit);
+  \path [arrow, cyan](k-space-fit)|-(SCF-properties.east);
+  \path [arrow, draw, fill=red, line width=2.5pt] (enclosure1.east) -- (Figure.west);
+
+%  \node [above=-0.8em of enclosure,anchor=south,draw,outer sep=0pt,fill=white] (enclosure label) {\Large\textbf{Kohn-Sham method}};
+
+%  \path [arrow] (criterion) -- (energy) node [midway,left=0.1,draw,outer sep=0pt,fill=white] (TextNode) {Yes};
+%  \path [draw,thick] (criterion.south) ++(0em,-1em) -- (criterion fit) node [midway,below=0.1,sloped,draw,outer sep=0pt,fill=white] (TextNode) {No};
+%  \draw [arrow] (criterion fit) |- (potential.east);
+\end{tikzpicture}
+%\caption{\tiny \textrm{Pseudopotential for metallic sodium, based on the empty core model and screened by the Thomas-Fermi dielectric function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Fig:DFT-SCF}
+\end{figure}
+
+\begin{figure}[h!]
+%\vspace*{-0.15in}
+\centering
+\begin{tikzpicture}[
+    box-rect/.style={rectangle,draw,fill=darkgray!20,node distance=1cm,text width=15em,text centered,rounded corners,minimum height=2em,thick},
+    box-diam/.style={diamond, aspect=7, inner sep=2pt, draw,fill=green!50,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    arrow/.style={draw,-latex', red},
+  ]
+
+  \node [box-rect, fill=magenta!50, text width=8.5em, draw=pink, minimum height=0.5em, thick] at (current page.west)(Figure) {\includegraphics[width=1.25in, height=0.7in,viewport=0 0 103 55,clip]{The-Periodic-Table-of-perovskene-materials.jpg}};
+  \node [box-rect, right=0.9 of Figure, fill=gray!30, text width=12.5em, minimum height=0.5em] (Highthrough-Put) {\fontsize{7.5pt}{5.5pt}\selectfont{高通量材料计算\textrm{Python/Web}服务}};
+  \node [box-rect, right=1.0 of Highthrough-Put, fill=white, text width=0.5em, minimum height=11.6em, yshift=-3.5em, very thin] (Modeling-Initial) {\fontsize{7.5pt}{2.5pt}\selectfont{结构建模与初始化\vskip 0.4pt}};
+  \node [box-rect, below=0.5 of Figure, fill=red!30, text width=7.5em, minimum height=0.5em] (Modeling-mode) {\fontsize{7.5pt}{5.5pt}\selectfont{计算结构建模\\\textrm{+ASE\_Atoms}模块}};
+  \node [box-rect, right=1.0 of Modeling-mode, fill=red!30, text width=4.5em, minimum height=0.5em] (User-defineded) {\fontsize{7.5pt}{5.5pt}\selectfont{用户需求自定义}};
+  \node [box-rect, right=1.0 of User-defineded, fill=brown!30, text width=4.5em, minimum height=0.5em] (Process-Design) {\fontsize{7.5pt}{5.5pt}\selectfont{计算流程设计}};
+  \node [box-rect, below=0.5 of Modeling-mode, fill=green!30, text width=10.5em, minimum height=0.5em] (Modeling-Analysis) {\fontsize{7.5pt}{5.5pt}\selectfont{组分、模型与结构对称性分析}};
+
+  \node [box-rect, below=1.5 of Modeling-Analysis, fill=blue!50, text width=6.5em, minimum height=0.5em, xshift=3.5em] (Process-Manage) {\fontsize{7.5pt}{2.5pt}\selectfont{计算流程管理\\\textrm{MP\_FireWorks}模块}};
+  \node [box-rect, right=1.95 of Process-Manage, fill=red!50, text width=9.0em, minimum height=6.0em] (Multi-Scale) {\fontsize{7.5pt}{5.5pt}\selectfont{\vskip -25pt高性能计算任务\\\textrm{DFT-MD-$\cdots$}\\\textrm{(跨尺度计算)}\\\textrm{+}集成核心计算软件接口}};
+  \node [box-rect, right=2.1 of Process-Manage, fill=orange!50, text width=8.2em, minimum height=0.5em, yshift=-1.8em] (Custodian) {\fontsize{7.5pt}{5.5pt}\selectfont{容错机制\textrm{Cudodian}模块}};
+  \node [box-rect, below=0.05 of Modeling-Initial, fill=white, text width=0.5em, minimum height=11.6em, very thin] (Multi-Scale-Simulation) {\fontsize{7.5pt}{2.5pt}\selectfont{多尺度计算与模拟\vskip 0.4pt}};
+  \node [below=1.0 of Process-Manage, text width=6.5em, minimum height=0.5em] (DataBase) {\fontsize{7.5pt}{5.5pt}\selectfont{\textcolor{violet}{\textrm{MongoDB}数据库}}};
+
+  \node [box-rect, below=0.8 of DataBase, fill=olive!60, text width=12.5em, minimum height=2.5em] (Data-Manage) {\fontsize{7.5pt}{5.5pt}\selectfont{计算结果数据与管理}};
+  \node [box-rect, below=0.8 of Data-Manage, fill=lime!70, text width=6.5em, minimum height=1.5em, xshift=-3.5em] (Result-Analysis) {\fontsize{7.5pt}{5.5pt}\selectfont{计算结果可视化分析}};
+  \node [box-rect, right=0.5 of Result-Analysis, fill=teal!70, text width=15.5em, minimum height=1.5em] (Machine-Learning) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{Python}集成的机器学习算法\textrm{GPR/BO/ANN}支持}};
+  \node [box-rect, below=2.5 of Data-Manage, fill=darkgray!70, text width=15.5em, minimum height=1.5em, xshift=5.0em] (Application) {\fontsize{7.5pt}{5.5pt}\selectfont{\textcolor{white}{特色应用场景:~原子间多体相互作用}}};
+  \node [box-rect, below=0.05 of Multi-Scale-Simulation, fill=white, text width=0.5em, minimum height=11.0em, very thin] (Result-Machine-Learning) {\fontsize{7.5pt}{2.5pt}\selectfont{计算结果分析与机器学习\vskip 0.4pt }};
+
+%%%%%% ------------ 定义 虚线方框转角 -----------------  %%%%%%
+\path
+  (Figure.north) ++(-5.0 em, -0.6em) coordinate (Model-fit)
+  (Modeling-Analysis.south) ++(5.0em, 0.6em) coordinate (Symmetry-fit)
+  (Modeling-Analysis.south) ++(-6.0em, -0.2em) coordinate (Symmetry-seperate)
+  (Highthrough-Put.south) ++(-4.2em, 0.0em) coordinate (Highthrough-1)
+  (Highthrough-Put.south) ++(3.45em, -0.0em) coordinate (Highthrough-2)
+  (Highthrough-Put.west) ++(-1.50em, 0.0em) coordinate (Highthrough-3)
+  (Process-Manage.north) ++(-8.6em, 0.8em) coordinate (DataBase-1)
+  (Data-Manage.south) ++ (7.0em, -0.1em) coordinate (DataBase-2)
+  (Process-Design.south)++(-2.0em, -1.50em) coordinate (Process-Design-1)
+  (Process-Design.south)++(-2.0em, -4.00em) coordinate (Process-Design-2)
+  (Process-Manage.north)++(2.7em, 0.0em) coordinate (Process-Manage-1)
+  (Modeling-Analysis.south)++(-2.0em, 0.0em) coordinate (Modeling-Analysis-1)
+  (Data-Manage.north) ++ (-5.5em, 0.0em) coordinate (DataBase-3)
+  (Application.north)++(-6.51em, 0.0em) coordinate(Application-1)
+  (Application.north)++(-4.35em, 0.0em) coordinate(Application-2)
+  (Application.north)++(4.43em, 0.0em) coordinate(Application-3)
+  (Machine-Learning.north) ++(-7.5em, -0.5em) coordinate (Machine-Learning-1)
+  (Machine-Learning.south) ++(7.5em, 0.5em) coordinate (Machine-Learning-2);
+
+\path [arrow, gray,thick] (Figure.south) -- (Modeling-mode);
+\path [arrow, gray,thick] (Highthrough-Put.west) -- (Highthrough-3) |- (Modeling-mode.east);
+\path [arrow, gray,thick] (Modeling-mode.south) -- (Modeling-Analysis);
+\path [arrow, gray,thick] (User-defineded.west) -- (Modeling-mode.east);
+\path [arrow, gray,thick] (User-defineded.east) -- (Process-Design.west);
+\path [arrow, gray,thick] (Highthrough-1) -- (User-defineded.north);
+\path [arrow, gray,thick] (Highthrough-2) -- (Process-Design.north);
+
+\path [arrow, draw=blue!30, line width=4pt] (Process-Design.south) -- (Multi-Scale.north);
+\path [arrow, draw=black, line width=3pt] (Process-Design.south)++(-2.0em, 0.0em) -- (Process-Design-2) -| (Process-Manage.north);
+%\path [draw=black, line width=3pt] (Process-Design-1) -- (Process-Design-2);
+%\path [arrow, draw=black, line width=3pt] (Process-Design-2) -- (Process-Manage-1);
+\path [arrow, draw=green!70!red, opacity=0.50, line width=3pt] (Modeling-Analysis-1) -- (DataBase-3);
+\path [arrow, draw=red!80, line width=3pt] (Process-Manage.east) -- (Multi-Scale.west);
+\path [arrow, draw=black,  line width=3pt] (Multi-Scale.south) |- (Data-Manage.east);
+
+\path [arrow, draw=black, thick](Data-Manage.south)++(-3.45em, 0.0em) -- (Result-Analysis.north);
+\path [arrow, draw=black, thick](Result-Analysis.south)++(2.0em, 0.0em) -- (Application-1);
+\path [arrow, draw=black, thick](Data-Manage.south)++(0.65em, 0.0em) -- (Application-2);
+\path [arrow, draw=black, thick](Machine-Learning.north) |- (Data-Manage.east);
+\path [arrow, draw=black, thick](Machine-Learning.south) -- (Application-3);
+
+%%%%%% ------------ 绘制 虚线 -----------------  %%%%%%
+%\draw [gray, dotted, line width=2pt] (Symmetry-seperate) -- (Modeling-Initial.south);
+\draw [gray, dashed, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
+%\draw [gray, densely dotted, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
+\draw [gray, dotted, line width=2pt] (DataBase.south)++(-9.5em,-1.58em) -- (Multi-Scale-Simulation.south);
+%%%%%% ------------ 绘制 虚线方框 -----------------  %%%%%%
+\node [rectangle,draw=blue!30, dashdotted, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%\node [rectangle,draw=blue!30, dash dot, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%\node [rectangle,draw=blue!30, dash dot dot, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%\node [rectangle,draw=violet, dash, inner sep=0.8em,fit=(DataBase-1) (DataBase-2), thick] (enclosure) {};
+\node [rectangle,draw=violet, dashed, inner sep=0.8em,fit=(DataBase-1) (DataBase-2), thick] (enclosure) {};
+
+\node [rectangle,draw=red, inner sep=0.8em,fit=(Machine-Learning-1) (Machine-Learning-2), line width=3.0pt] (enclosure) {};
+\end{tikzpicture}
+%\caption{\tiny \textrm{Pseudopotential for metallic sodium, based on the empty core model and screened by the Thomas-Fermi dielectric function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Fig:BCC-Multi-Procedure}
+\end{figure}
+
+\begin{figure}[h!]
+%\vspace*{-0.15in}
+\centering
+\begin{tikzpicture}[
+    box-rect/.style={rectangle,draw,fill=darkgray!20,node distance=1cm,text width=15em,text centered,rounded corners,minimum height=2em,thick},
+    box-diam/.style={diamond, aspect=7, inner sep=2pt, draw,fill=green!50,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    arrow/.style={draw,-latex', red},
+  ]
+	
+  \node [box-rect, fill=green!40, text width=0.5em, minimum height=1.5em, yshift=-3.5em, very thin] (Modeling-Initial) {\fontsize{7.5pt}{2.5pt}\selectfont{建模阶段}};
+  \node [box-rect, right=1.0 of Modeling-Initial, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{DFT}计算}};
+  \node [box-rect, above=0.8 of Highthrough-DFT, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT1) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{DFT}计算}};
+  \node [box-rect, above=2.0 of Highthrough-DFT, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT2) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{DFT}计算}};
+  \node [box-rect, below=0.8 of Highthrough-DFT, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT3) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{DFT}计算}};
+  \node [box-rect, below=2.0 of Highthrough-DFT, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT4) {\fontsize{7.5pt}{5.5pt}\selectfont{\textrm{DFT}计算}};
+  \node [box-rect, below=3.0 of Highthrough-DFT, fill=blue!30, text width=4.5em, minimum height=0.5em] (Highthrough-DFT5) {\fontsize{7.5pt}{5.5pt}\selectfont{$\cdots$}};
+  \node [box-rect, right=4.0 of Modeling-Initial, fill=cyan, text width=0.5em, minimum height=1.5em, very thin] (Modeling-Screen) {\fontsize{7.5pt}{2.5pt}\selectfont{筛选优化}};
+  \node [box-rect, right=2.0 of Modeling-Screen, fill=orange!40, text width=4.5em, minimum height=0.5em ] (Deter-Step) {\fontsize{7.5pt}{2.5pt}\selectfont{决速步}};
+  \node [box-rect, above=1.0 of Deter-Step, fill=orange!40, text width=4.5em, minimum height=0.5em] (Deter-Step1) {\fontsize{7.5pt}{2.5pt}\selectfont{决速步}};
+  \node [box-rect, below=1.0 of Deter-Step, fill=orange!40, text width=4.5em, minimum height=0.5em] (Deter-Step2) {\fontsize{7.5pt}{2.5pt}\selectfont{决速步}};
+
+  \node [box-rect, right=10.0 of Modeling-Initial, fill=darkgray!30, text width=0.5em, minimum height=1.5em, very thin] (Modeling-Coupling) {\fontsize{7.5pt}{2.5pt}\selectfont{耦合}};
+  \node [above=1.2 of Modeling-Coupling, text width=8.0em, minimum height=0.5em] (Coupling) {\fontsize{7.5pt}{5.5pt}\selectfont{\textcolor{violet}{\textrm{DFT-MD}的约化耦合算法}}};
+  \node [box-rect, right=12.0 of Modeling-Initial, fill=magenta!30, text width=4.5em, minimum height=0.5em] (MD-Calc) {\fontsize{7.5pt}{2.5pt}\selectfont{\textrm{MD}计算}};
+
+\path
+  (Deter-Step1.north) ++(-5.5 em, 0.6em) coordinate (Coupling1)
+  (MD-Calc.south) ++(3.0 em, -5.0em) coordinate (Coupling2)
+  (MD-Calc.east) ++(0.5 em, 0.0em) coordinate (Coupling-corner1)
+  (Deter-Step2.south) ++(-5.5 em, -0.6em) coordinate (Coupling-corner2)
+  (Modeling-Initial.east) ++(0.5em,0.0em) coordinate (Modeling-corner)
+  (Modeling-Screen.west) ++(-1.0em,0.0em) coordinate (Screen-corner1)
+  (Modeling-Screen.east) ++(2.8em,0.0em) coordinate (Screen-corner2)
+  (Modeling-Coupling.west) ++(-1.5em,0.0em) coordinate (Coupling-corner) ;
+
+\node [rectangle,draw=violet, dashed, inner sep=0.8em,fit=(Coupling1) (Coupling2), line width=2.0pt] (enclosure) {};
+
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Highthrough-DFT.west);
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Modeling-corner) |- (Highthrough-DFT1.west);
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Modeling-corner) |- (Highthrough-DFT2.west);
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Modeling-corner) |- (Highthrough-DFT3.west);
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Modeling-corner) |- (Highthrough-DFT4.west);
+  \path [arrow, draw=green!70!red, opacity=0.50, thick] (Modeling-Initial.east) -- (Modeling-corner) |- (Highthrough-DFT5.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT.east) -- (Modeling-Screen.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT1.east) -| (Screen-corner1) -- (Modeling-Screen.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT2.east) -| (Screen-corner1) -- (Modeling-Screen.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT3.east) -| (Screen-corner1) -- (Modeling-Screen.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT4.east) -| (Screen-corner1) -- (Modeling-Screen.west);
+  \path [arrow, draw=blue!70!red, opacity=0.50, thick] (Highthrough-DFT5.east) -| (Screen-corner1) -- (Modeling-Screen.west);
+  \path [arrow, draw=brown!70!red, opacity=0.50, thick] (Modeling-Screen.east) -- (Deter-Step.west);
+  \path [arrow, draw=brown!70!red, opacity=0.50, thick] (Modeling-Screen.east) -- (Screen-corner2) |- (Deter-Step1.west);
+  \path [arrow, draw=brown!70!red, opacity=0.50, thick] (Modeling-Screen.east) -- (Screen-corner2) |- (Deter-Step2.west);
+  \path [arrow, draw=purple!70!red, opacity=0.50, thick] (Deter-Step.east) -- (Modeling-Coupling.west);
+  \path [arrow, draw=purple!70!red, opacity=0.50, thick] (Deter-Step1.east) -| (Coupling-corner) -- (Modeling-Coupling.west);
+  \path [arrow, draw=purple!70!red, opacity=0.50, thick] (Deter-Step2.east) -| (Coupling-corner) -- (Modeling-Coupling.west);
+  \path [arrow, draw=black, opacity=0.50, thick] (Modeling-Coupling.east) -- (MD-Calc.west);
+  \path [arrow] (MD-Calc.east)--(Coupling-corner1)|-(Coupling-corner2) node[midway,below=0.05,outer sep=0pt, xshift=-10.0em](TextNode){\fontsize{7.0pt}{4.5pt}\selectfont{\textrm{\textcolor{black}{多次迭代，寻找最优}}}}|-(Deter-Step.west) ;
+\end{tikzpicture}
+%\caption{\tiny \textrm{Pseudopotential for metallic sodium, based on the empty core model and screened by the Thomas-Fermi dielectric function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+\label{Fig:BCC-Multi-Scale-Procedure}
+\end{figure}
+
+%\begin{figure}[h!]
+%%\vspace*{-0.15in}
+%\centering
+\begin{lrbox}{\mysavebox}%
+\begin{tikzpicture}[node distance=1.8cm]
+\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=7cm,minimum height=1cm,text centered,text width =7cm, draw=black,fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
+\tikzstyle{process} = [rectangle,minimum width=7cm,minimum height=1cm,text centered,text width =7cm,draw=black,fill=orange!30]
+\tikzstyle{process-sub} = [rectangle,minimum width=5cm,minimum height=1cm,text centered,text width =5cm,draw=black,fill=blue!10]
+\tikzstyle{decision} = [diamond,aspect = 3,text centered,draw=black,fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzstyle{straightline} = [line width = 1pt,-]
+\tikzstyle{dashedline} = [dashed, line width = 1pt,-]
+\tikzstyle{point}=[coordinate]
+
+	\node (start) [startstop] {程序启动\\模块与变量声明、初始赋值\\打开必要的文档};
+	\node (process0) [io,below of=start] {输出版本信息};
+%\node (input1) [io,below of=start] {输入聚类的个数 $k$ 和最大迭代次数 $n$ };
+	\node (processin1-1) [io,below of=process0] {读入\textrm{POSCAR}文件头};
+	\node (processin1-2) [io,below of=processin1-1] {初次读入\\\textrm{POTCAR}文件};
+	\node (processin1-3) [io,below of=processin1-2] {读入\textrm{INCAR}文件};
+        \node (process1) [process,below of=processin1-3] {准备芯层移动相关的计算\\$\vec k$~空间能量展宽相关准备};
+	\node (process2) [io,below of=process1] {再次读入\\\textrm{POTCAR}文件};
+	\node (processin2) [process,below of=process2] {准备\textrm{LDA}+\textit{U}初始化};
+	\node (process3) [process,below of=processin2] {原子\textrm{PAW}计算的电荷密度差\\一致性检验};
+	\node (process4) [io,below of=process3] {读入完整的\textrm{POSCAR}文件};
+	\node (process5) [process,below of=process4] {响应函数等相关初始设置\\检索交换-相关势列表};
+	\node (process6) [process,below of=process5] {晶体对称性初始化};
+	\node (processin6) [io,below of=process6] {读入\textrm{KPOINTS}文件};
+	\node (process6-1) [process,below of=processin6] {生成与$\vec k$~点有关的量};
+	\node (process7) [process,below of=process6-1] {设置波函数有关的基本量\\生成$\vec k$~空间积分所需的网格点};
+	\node (process8) [io,below of=process7] {输出各类初始化信息};
+	\node (processout8-1) [io,below of=process8] {输出晶格参数信息};
+	\node (processout8-2) [io,below of=processout8-1] {输出$\vec k$点信息};
+	\node (process9) [process,below of=processout8-2] {\textrm{allocate}各类数组\\包括电荷、势、波函数};
+	\node (process10) [process,below of=process9] {原子\textrm{PAW}有关势函数计算};
+	\node (process11) [process,below of=process10] {\textcolor{red}{\hei{构造初始电荷密度}}};
+	\node (process12) [process,below of=process11] {\textcolor{red}{\hei{计算实空间或倒空间投影子算符}}};
+	\node (process13) [process,below of=process12] {初始化能量本征值、\textrm{Fermi}能\\积分权重、缀加电荷};
+	\node (process14) [decision,below of=process13,yshift=-1cm] {判断\textrm{INCAR}文件中是否提供积分权重};
+	\node (process15) [io,below of=process14,xshift=-5cm, yshift=-1cm] {读入\textrm{INCAR}文件\\中的积分权重};
+	\node (process16) [process,below of=process14, yshift=-3cm] {\textcolor{red}{\hei{计算投影算符作用\\于波函数的投影}}};
+	\node (process17) [process,below of=process16] {\textcolor{red}{\hei{计算$\mathbf{D}_{ij}$}}};
+	\node (process18) [process,below of=process17] {\textcolor{red}{\hei{波函数正交化}}};
+	\node (process19) [process,below of=process18] {\textcolor{red}{\hei{计算初始电荷密度}}};
+	\node (process20) [process,below of=process19] {\textcolor{red}{\hei{重新计算局域势}}};
+	\node (process21) [process,below of=process20] {\textcolor{red}{\hei{一些特殊计算的准备}}};
+	\node (process22) [process,below of=process21] {\textcolor{red}{\hei{电子步计算\\(总能量最小化)}}};
+	\node (process23) [process,below of=process22] {能带占据数检查};
+	\node (process24) [process,below of=process23] {\textcolor{red}{\hei{静态受力和应力计算}}};
+	\node (process25) [process,below of=process24] {检查受力和总能的一致性};
+	\node (process26) [process,below of=process25] {重新计算倒空间势函数};
+	\node (process27) [decision,below of=process26] {离子运动判据};
+	\node (process28) [process-sub,below of=process27,xshift=-3cm] {\textcolor{red}{\hei{分子动力\\学计算}}};
+	\node (process29) [process-sub,below of=process27,xshift=3cm] {\textcolor{red}{\hei{晶格弛豫\\计算}}};
+	\node (process30) [process,below of=process27,yshift=-3.6cm] {\textcolor{red}{\hei{离子位置变换后\\重新计算投影函数、\\局域势}}};
+	\node (process31) [decision,below of=process30] {收敛判据};
+	\node (process32) [io,below of=process31] {输出电荷密度};
+	\node (process33) [io,below of=process32] {输出能量本征值};
+	\node (process34) [io,below of=process33] {输出当前电荷密度};
+	\node (process35) [process,below of=process34] {计算光学性质};
+	\node (process36) [process,below of=process35] {计算双电子\\多中心积分};
+	\node (process37) [process,below of=process36] {计算总的\textrm{DOS}、\\分波占据和\\分波\textrm{DOS}};
+	\node (process38) [io,below of=process37] {输出\textrm{DOS}和\\分波\textrm{DOS}};
+	\node (stop) [startstop,below of=process38] {程序结束};
+
+%\node (decision1) [decision,below of=process2,yshift=-0.5cm] {是否收敛或迭代次数达到 $n$ };
+%\node (stop) [startstop,below of=decision1,node distance=3cm] {输出聚类结果};
+	\node(point1)[point,left of=process14 ,xshift =-3.2cm]{};
+	\node(point2)[point,left of=process16, xshift =-3.2cm]{};
+	\node(point3)[point,left of=process27, xshift =-1.2cm]{};
+	\node(point4)[point,left of=process27, xshift =4.8cm]{};
+	\node(point5)[point,below of=process28]{};
+	\node(point6)[point,below of=process29]{};
+	\node(point7)[point,above of=process30]{};
+	\node(point8)[point,left of=process22,xshift =-5cm,yshift= 1cm]{};
+	\node(point10)[point,above of=process22,yshift=-0.8cm]{};
+	\node(point9)[point,left of=process31,xshift = -5cm]{};
+
+\draw [arrow] (start) -- (process0);
+\draw [arrow] (process0) -- (processin1-1);
+\draw [arrow] (processin1-1) -- (processin1-2);
+\draw [arrow] (processin1-2) -- (processin1-3);
+%\draw [arrow] (input1) -- (process1);
+\draw [arrow] (processin1-3) -- (process1);
+\draw [arrow] (process1) -- (process2);
+\draw [arrow] (process2) -- (processin2);
+\draw [arrow] (processin2) -- (process3);
+\draw [arrow] (process3) -- (process4);
+\draw [arrow] (process4) -- (process5);
+\draw [arrow] (process5) -- (process6);
+\draw [arrow] (process6) -- (processin6);
+\draw [arrow] (processin6) -- (process6-1);
+\draw [arrow] (process6-1) -- (process7);
+\draw [arrow] (process7) -- (process8);
+\draw [arrow] (process8) -- (processout8-1);
+\draw [arrow] (processout8-1) -- (processout8-2);
+\draw [arrow] (processout8-2) -- (process9);
+\draw [arrow] (process9) -- (process10);
+\draw [arrow] (process10) -- (process11);
+\draw [arrow] (process11) -- (process12);
+\draw [arrow] (process12) -- (process13);
+\draw [arrow] (process13) -- (process14);
+\draw [straightline] (process14.west) -- node[anchor=south]{是}(point1);
+\draw [arrow] (point1) -- (process15);
+\draw [straightline] (process15) -- (point2);
+\draw [arrow] (point2) -- (process16.west);
+\draw [arrow] (process14) -- node[anchor=east]{否} (process16);
+\draw [arrow] (process16) -- (process17);
+\draw [arrow] (process17) -- (process18);
+\draw [arrow] (process18) -- (process19);
+\draw [arrow] (process19) -- (process20);
+\draw [arrow] (process20) -- (process21);
+\draw [arrow] (process21) -- (process22);
+\draw [straightline] (point8) -- (point10);
+\draw [arrow] (point10) -- (process22);
+\draw [arrow] (process22) -- (process23);
+\draw [arrow] (process23) -- (process24);
+\draw [arrow] (process24) -- (process25);
+\draw [arrow] (process25) -- (process26);
+\draw [arrow] (process26) -- (process27);
+\draw [straightline] (process27.west) -- node[anchor=south]{分子动力学}(point3);
+\draw [straightline] (process27.east) -- node[anchor=south]{结构弛豫}(point4);
+\draw [arrow] (point3) -- (process28);
+\draw [arrow] (point4) -- (process29);
+\draw [straightline] (process28) -- (point5);
+\draw [straightline] (process29) -- (point6);
+\draw [straightline] (point5) -- (point7);
+\draw [straightline] (point6) -- (point7);
+\draw [arrow] (point7) -- (process30);
+\draw [arrow] (process30) -- (process31);
+\draw [straightline] (process31.west) -- node[anchor=south]{否}(point9);
+\draw [straightline] (point9) -- (point8);
+\draw [arrow] (process31) -- node[anchor=west]{是}(process32);
+\draw [arrow] (process32) -- (process33);
+\draw [arrow] (process33) -- (process34);
+\draw [arrow] (process34) -- (process35);
+\draw [arrow] (process35) -- (process36);
+\draw [arrow] (process36) -- (process37);
+\draw [arrow] (process37) -- (process38);
+\draw [arrow] (process38) -- (stop);
+%\draw [dashedline] (process3.west) -- (point1);
+%\draw [dashedline] (point1) -- (point3);
+%\draw [dashedline] (point3) -- (process1.west);
+%\draw [dashedline] (process3) -- (point1);
+%\draw [dashedline] (point1) |- (point2);
+%\draw [dashedline] (point2) -- (process2.north);
+%\draw [dashedline] (process7.west) -- (process3.east);
+%\draw [dashedline] (process3.north) -- (point4);
+%\draw [dashedline] (point4) -- (process6.west);
+%\draw [arrow] (process4) -- (process5);
+%\draw [arrow] (process2.east) -| (process7.north);
+%\draw [arrow] (process6) -- (process8);
+%\draw [arrow] (process6) |- (process7);
+%\draw [arrow] (process7) |- (process8.east);
+%\draw [arrow] (process8) -- node[anchor=south] {否} (process9);
+%\draw [arrow] (process7) -- (process9);
+%\draw [arrow] (decision1) -- node[anchor=east] {是} (stop);
+%\draw [straightline] (decision1) -|  (point1);
+%\draw [straightline] (process6) -|  (point5);
+%\draw [arrow] (point1) -- node[anchor=south] {否} (input1);
+%\draw [arrow] (point5) -- (process9);
+\end{tikzpicture}
+\end{lrbox}%
+\ifdim\ht\mysavebox>\textheight
+    \setlength{\myrest}{\ht\mysavebox}%
+    \loop\ifdim\myrest>\textheight
+        \newpage\par\noindent
+        \clipbox{0 {\myrest-\textheight} 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+        \addtolength{\myrest}{-\textheight}%
+    \repeat
+    \newpage\par\noindent
+    \clipbox{0 0 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+\else
+    \usebox{\mysavebox}%
+\fi
+
+%\caption{\textrm{The Maiin-Flow of VASP.}}
+%\label{Fig:VASP_MAIN-FLOW}
+%\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  绘制流程图  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=3cm,minimum height=1cm,text centered,text width =3cm, draw=black,fill=red!30]
+%\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
+%\tikzstyle{process} = [rectangle,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=orange!30]
+%\tikzstyle{decision} = [diamond,aspect = 3,text centered,draw=black,fill=green!30]
+%\tikzstyle{arrow} = [thick,->,>=stealth]
+%\tikzstyle{straightline} = [line width = 1pt,-]
+%\tikzstyle{point}=[coordinate]
+%
+%\begin{tikzpicture}[node distance=2cm]
+%\node (start) [startstop] {开始};
+%\node (input1) [io,below of=start] {输入聚类的个数 $k$ 和最大迭代次数 $n$ };
+%\node (process1) [process,below of=input1] {初始化 $k$ 个聚类中心};
+%\node (process2) [process,below of=process1] {分配各数据对象到距离最近的类中};
+%\node (decision1) [decision,below of=process2,yshift=-0.5cm] {是否收敛或迭代次数达到 $n$ };
+%\node (stop) [startstop,below of=decision1,node distance=3cm] {输出聚类结果};
+%\node(point1)[point,left of=input1,node distance=5cm]{};
+%
+%\draw [arrow] (start) -- (input1);
+%\draw [arrow] (input1) -- (process1);
+%\draw [arrow] (process1) -- (process2);
+%\draw [arrow] (process2) -- (decision1);
+%\draw [arrow] (decision1) -- node[anchor=east] {是} (stop);
+%\draw [straightline] (decision1) -|  (point1);
+%\draw [arrow] (point1) -- node[anchor=south] {否} (input1);
+%\end{tikzpicture}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  绘制流程图  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{figure}
+%\scriptsize
+%\tikzstyle{format}=[rectangle,draw,thin,fill=white]
+%%定义语句块的颜色,形状和边
+%\tikzstyle{test}=[diamond,aspect=2,draw,thin]
+%%定义条件块的形状,颜色
+%\tikzstyle{point}=[coordinate,on grid,]
+%%像素点,用于连接转移线
+%\begin{tikzpicture}%[node distance=10mm,auto,>=late',thin,start chain=going below,every join/.style={norm},]
+%%start chain=going below指明了流程图的默认方向,node distance=8mm则指明了默认的node距离。这些可以在定义node的时候更改,比如说
+%%\node[point,right of=n3,node distance=10mm] (p0){};
+%%这里声明了node p0,它在node n3 的右边,距离是10mm。
+%\node[format] (start){Start};
+%\node[format,below of=start,node distance=7mm] (define){Some defines};
+%\node[format,below of=define,node distance=7mm] (PCFinit){PCF8563 Initialize};
+%\node[format,below of=PCFinit,node distance=7mm] (DS18init){DS18 Initialize};
+%\node[format,below of=DS18init,node distance=7mm] (LCDinit){LCD Initialize};
+%\node[format,below of=LCDinit,node distance=7mm] (processtime){Processtime};
+%\node[format,below of=processtime,node distance=7mm] (keyinit){Key Initialize};
+%\node[test,below of=keyinit,node distance=15mm](setkeycheck){Check Set Key};
+%\node[point,left of=setkeycheck,node distance=18mm](point3){};
+%\node[format,below of=setkeycheck,node distance=15mm](readtime){Read Time};
+%\node[point,right of=readtime,node distance=15mm](point4){};
+%\node[format,below of=readtime](processtime1){Processtime};
+%\node[format,below of=processtime1](gettemp){Get Temperature};
+%\node[format,below of=gettemp](display){Display All Data};
+%\node[format,right of=setkeycheck,node distance=40mm](setsetflag){Set SetFlag=1};
+%\node[format,below of=setsetflag](setinit){Set Mode Initialize};
+%\node[format,below of=setinit](checksetting){Checksetting()};
+%\node[test,below of=checksetting,node distance=15mm](savecheck){Check Save Key};
+%\node[format,below of=savecheck,node distance=15mm](clearsetflag){Clear SetFlag=0};
+%\node[format,below of=clearsetflag](settime){Set Time};
+%\node[point,below of=display,node distance=7mm](point1){};
+%\node[point,below of=settime,node distance=7mm](point2){};
+%%\node[format] (n0) at(4,4){A}; 直接指定位置
+%%定义完node之后进行连线,
+%%\draw[->] (n0.south) -- (n1); 带箭头实线
+%%\draw[-] (n0.south) -- (n1); 不带箭头实线
+%%\draw[&lt;->] (n0.south) -- (n1.north);   双箭头
+%%\draw[&lt;-,dashed] (n1.south) -- (n2.north); 带箭头虚线 
+%%\draw[&lt;-] (n0.south) to node{Yes} (n1.north);  带字,字在箭头方向右边
+%%\draw[->] (n1.north) to node{Yes} (n0.south);  带字,字在箭头方向左边
+%%\draw[->] (n1.north) to[out=60,in=300] node{Yes} (n0.south);  曲线
+%%\draw[->,draw=red](n2)--(n1);  带颜色的线
+%\draw[->] (start)--(define);
+%\draw[->] (define)--(PCFinit);
+%\draw[->](PCFinit)--(DS18init);
+%\draw[->](DS18init)--(LCDinit);
+%\draw[->](LCDinit)--(processtime);
+%\draw[->](processtime)--(keyinit);
+%\draw[->](keyinit)--(setkeycheck);
+%\draw[->](setkeycheck)--node[above]{Yes}(setsetflag);
+%\draw[->](setkeycheck) --node[left]{No} (readtime);
+%\draw[->](readtime)--(processtime1);
+%\draw[->](processtime1)--(gettemp);
+%\draw[->](gettemp)--(display);
+%\draw[-](display)--(point1);
+%\draw[-](point1)-|(point3);
+%\draw[->](point3)--(setkeycheck.west);
+%\draw[->](setsetflag)--(setinit);
+%\draw[->](setinit)--(checksetting);
+%\draw[->](checksetting)--(savecheck);
+%\draw[->](savecheck)--node[left]{Yes}(clearsetflag);
+%\draw[->](savecheck.west)|-node[left]{No}(checksetting);
+%\draw[->](clearsetflag)--(settime);
+%\draw[-](settime)--(point2);
+%\draw[-](point2)-|(point4);
+%\draw[->](point4)--(readtime.east);
+%\end{tikzpicture}
+%\end{figure}
+
+\section{化学反应方程式的书写}
+\ce{2H2+O2 ->[\textrm{燃烧}][$\Delta$] 2H2O} %%催化剂
+\ce{2H2+O2 $\xlongequal[\triangle]{\ce{MnO2}}$ 2H2O} % 一个简单的化学公式
+\ce{2H2+O2  ->[\textrm{燃烧}][$\triangle$] 2H2O} % 一个简单的化学公式
+\ce{#} %% 三键
+\ce{->} %%箭头
+\ce{<=>}  %%可逆号
+\ce{<=>[\textrm{催化剂}][$\triangle$]}
+\ce{<-->[\textrm{放电}][\textrm{充电}]} %%双向箭头
+\ce{<=>>[\textrm{催化剂}][$\triangle$]} %%长短箭头符号
+\ce{<<=>[\textrm{催化剂}][$\triangle$]}
