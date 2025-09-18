@@ -1,0 +1,90 @@
+%---------------------- TEMPLATE FOR REPORT ------------------------------------------------------------------------------------------------------%
+
+%\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+%\title{\rm{VASP}的电荷密度存储文件\rm{CHGCAR}}
+%\title{面向高温合金材料设计的计算模拟软件中的几个主要问题}
+%\title{适用于异质界面的高通量材料计算自动流程软件的结构与实现}
+\title{{\heiti 计算服务问卷}(初稿)}%\footnote{这是在提供服务前，向用户征集的有关技术服务的背景调查}
+\author[ ]{}   %
+%\author[ ]{姜~骏\thanks{jiangjun@bcc.ac.cn}}   %
+%\affil[ ]{北京市计算中心}    %
+%\author[a]{Author A}									     %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+%%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     	     %
+%\author[b]{Author D}									     %
+%\author[b]{Author/作者 D}								     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+%\affil[b]{作者单位-2}			    						     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+%\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+%\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+%\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+%\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%\date{2020-12-30}									     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Report-----------------------------------------%
+%\title{报告标题:~}   %
+%-----------------------------------------------------------------------------
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+%\author{
+%\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+%\small
+%(The Address，City Post code)						%Address	       %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+\maketitle
+\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{-1in}
+\section{用户知识背景}
+\begin{enumerate}[(1)]
+%		\setlength{\itemsep}{20pt}
+%		\setlength{\parsep}{65pt}
+		\setlength{\parskip}{30pt}
+	\item 您对模拟计算(特别是第一原理计算)了解吗?
+	\item 如果您对模拟计算有所了解，您对目标研究体系可能的计算难度有预期吗?
+\end{enumerate}
+\vskip 20pt
+
+\section{研究体系的描述}
+\noindent 如果可能，请用简单、准确的语言描述或概括您关心的研究体系:
+\vskip 40pt
+\noindent\textcolor{red}{建模是计算模拟的前提，通常需要用户和服务方多次讨论或反复迭代，才能确定模型}
+\begin{enumerate}[(1)]
+		\setlength{\itemsep}{30pt}
+	\item 您了解目标研究体系的元素组成吗?如果可以，请告知或提供出处数据或文献。
+	\item 您清楚该研究体系的微观结构和对称性(如果有)吗?如果可以，请告知或提供出处数据或文献。
+\end{enumerate}
+\vskip 20pt
+{\heiti \footnotesize{\textcolor{blue}{提交模拟计算的模型，必须经用户团队成员与计算服务方共同认定，然后才能开始启动计算模拟。}}}
+\vskip 10pt
+\noindent\textcolor{red}{计算模拟提供的数据，往往和实验检测/表征的结果不能简单地直接关联，但可以通过一定的理论或方法形成关联}
+\begin{enumerate}[(1)]
+		\setlength{\itemsep}{30pt}
+	\item 您重点关注目标研究体系的哪些性质?
+	\item 基于您对计算模拟的理解，您希望计算服务提供哪些计算数据?(如能带、态密度、各类偶极矩、光学函数等)
+	\item 您理解您的实验/测试结果与计算服务提供的数据之间的内在关联吗?
+\end{enumerate}
+\vspace*{25pt}
+
+\section{用户预期}
+\begin{enumerate}[(1)]
+		\setlength{\itemsep}{30pt}
+ 	\item 基于您对计算模拟的理解，您对计算服务的服务周期有预估吗?
+	\item 由于科学研究的不确定性，如果已有计算数据/结果无法达到您的预期，您能接受修正计算周期、甚至追加预算的建议吗
+\end{enumerate}
