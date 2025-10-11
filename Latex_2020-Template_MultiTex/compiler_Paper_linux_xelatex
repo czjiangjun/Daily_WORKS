@@ -1,0 +1,107 @@
+#!/bin/bash
+# 关于 texlive/xelatex 的中文输入
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+#%只要有相应的字体文档，不需要使用CJKutf8，直接由 xelatex 产生pdf文档	%
+#%检索安装字体用命令 fc-list | grep'字体名' 即可知道可用字体		%
+#%									%
+#\usepackage{fontspec}							%
+#\setmainfont[Mapping=tex-text]{LiSu}					%
+#%\setmainfont[Mapping=tex-text]{Adobe 宋体 Std}	%article用字体	%
+#%\setsansfont[Mapping=tex-text]{Adobe 黑体 Std}	 %Beamer用字体	%
+#%									%
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+# echo $1
+# # echo "The Directory of Figures"
+# if [[ "$var_Fig_Dir" && "$var_Bib_Dir" ]]; then
+#       echo $var_Fig_Dir $var_Bib_Dir
+# else
+#	echo No
+# fi
+# exit
+
+Figures=../../Latex_Beamer/
+#if [[ "$2" ]]; then
+#	Figures=`echo $2 | awk -F "=" '{print $2}'`
+#	if [ -d $Figures ]; then
+##		cd $Figures && pwd
+#		Figures=$Figures
+#	else
+#		echo "There is NO Figures_Dir"
+#		exit
+#	fi
+#fi
+while [[ ! -d $Figures ]];
+do
+	# echo "The Directory of Figures"
+	read -p "The Directory of Graphics: " var_Fig_Dir
+	Figures=$var_Fig_Dir #| awk -F "=" '{print $2}'`
+done
+# echo $Figures
+# exit
+
+References=../../Reference
+#if [[ "$3" ]]; then
+#	References=`echo $3 | awk -F "=" '{print $2}'`
+#	if [ -d $References ]; then
+##		cd $Figures && pwd
+#		References=$References
+##		echo $References
+#	else
+#		echo "There is NO References_Dir"
+#		exit
+#	fi
+#fi
+while [[ ! -d $References ]];
+do
+	# echo "The Directory of Figures"
+	read -p "The Directory of Bibliography: " var_Ref_Dir
+	References=$var_Ref_Dir #| awk -F "=" '{print $2}'`
+done
+# echo $References
+# exit
+
+PATH_Local=`pwd` && test -s Latex_2020-Template_Paper_tmp && mv Latex_2020-Template_Paper_tmp Latex_2020-Template_Paper.tex 
+cp Latex_2020-Template.tex Latex_2020-Template_Paper_tmp
+cd $Figures && PATH_Figure=`pwd`
+#echo 'test'
+# exit 0
+# echo $PATH_Figure
+cd $PATH_Local && sed -e "s#\$PATHPWD#`echo $PATH_Figure`#" Latex_2020-Template_Paper_tmp  > Latex_2020-Template_Paper.tex
+
+cd $References && PATH_Reference=`pwd` && cd $PATH_Local
+test -s 00_General_Template/Content-4-Bibliography_tmp && mv 00_General_Template/Content-4-Bibliography_tmp 00_General_Template/Content-4-Bibliography.tex
+	cp 00_General_Template/Content-4-Bibliography.tex 00_General_Template/Content-4-Bibliography_tmp 
+	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 00_General_Template/Content-4-Bibliography_tmp > 00_General_Template/Content-4-Bibliography.tex
+test -s 01_Latex_Template/Content-4-Bibliography_tmp && mv 01_Latex_Template/Content-4-Bibliography_tmp 01_Latex_Template/Content-4-Bibliography_tmp 
+       	cp 01_Latex_Template/Content-4-Bibliography.tex 01_Latex_Template/Content-4-Bibliography_tmp
+	sed -e "s#\$PATHPWD#`echo $PATH_Reference`#g" 01_Latex_Template/Content-4-Bibliography_tmp > 01_Latex_Template/Content-4-Bibliography.tex
+
+touch 01_Latex_Template/.tmp 
+test -s 01_Latex_Template/Content-2-Main.tex && sed 's/^\\input/%\\input/g' 01_Latex_Template/Content-2-Main.tex  > 01_Latex_Template/.tmp || echo "%Main_File"  > 01_Latex_Template/.tmp
+# test -e 01_Latex_Template/Content-2-Main.tex && echo "%Main_File"  > 01_Latex_Template/.tmp
+sed '$a%%%%%%%%%%  '"$1"'   %%%%%%%%%%  \n\\\input{'"$1"'}' 01_Latex_Template/.tmp  > 01_Latex_Template/Content-2-Main.tex 
+rm 01_Latex_Template/.tmp 
+
+xelatex -shell-escape Latex_2020-Template_Paper
+bibtex Latex_2020-Template_Paper
+xelatex -shell-escape Latex_2020-Template_Paper
+xelatex -shell-escape Latex_2020-Template_Paper
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.sta *.snm *.toc *.xml *.*~ *~ .Latex_2020-Template_Paper.*.swp *.aux *.bbl *.blg 
+mv Latex_2020-Template_Paper.pdf $1.pdf
+# mv Latex_2020-Template_Paper_tmp Latex_2020-Template_Paper.tex
+cp Latex_2020-Template_Paper_tmp Latex_2020-Template_Paper.tex && rm Latex_2020-Template_Paper_tmp
+cd 00_General_Template/
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+cp Content-4-Bibliography_tmp Content-4-Bibliography.tex && rm Content-4-Bibliography_tmp
+cd ../01_Latex_Template/
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+#cat Content-4-Bibliography_tmp 
+cp Content-4-Bibliography_tmp Content-4-Bibliography.tex && rm Content-4-Bibliography_tmp 
+#cd ../02_Beamer_Template/
+#rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+cd ../03_Meet_Conference/
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+cd ../04_BCC_Report/
+rm -rf *.bak *.log  *.dvi *.out *.nav *.thm *.snm *.toc *.xml *.*~ *~ .*.swp *.aux *.bbl *.blg
+cd .. && rm -rf $1.tex~ && evince $1.pdf &
+cd .. && rm -rf .*.swp *.tex~
