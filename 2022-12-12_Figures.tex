@@ -49,6 +49,393 @@
 \maketitle
 %\thispagestyle{empty}
 \pagestyle{empty}
+
+%\begin{figure}[h!]
+%%\vspace*{-0.15in}
+%\centering
+\begin{lrbox}{\mysavebox}%
+\begin{tikzpicture}[node distance=1.8cm]
+\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=7cm,minimum height=1cm,text centered,text width =7cm, draw=black,fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
+\tikzstyle{process} = [rectangle,minimum width=7cm,minimum height=1cm,text centered,text width =7cm,draw=black,fill=orange!30]
+\tikzstyle{process-sub} = [rectangle,minimum width=5cm,minimum height=1cm,text centered,text width =5cm,draw=black,fill=blue!10]
+\tikzstyle{decision} = [diamond,aspect = 3,text centered,draw=black,fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzstyle{straightline} = [line width = 1pt,-]
+\tikzstyle{dashedline} = [dashed, line width = 1pt,-]
+\tikzstyle{point}=[coordinate]
+
+	\node (start) [startstop] {程序启动\\模块与变量声明、初始赋值\\打开必要的文档};
+	\node (process0) [io,below of=start] {输出版本信息};
+%\node (input1) [io,below of=start] {输入聚类的个数 $k$ 和最大迭代次数 $n$ };
+	\node (processin1-1) [io,below of=process0] {读入\textrm{POSCAR}文件头};
+	\node (processin1-2) [io,below of=processin1-1] {初次读入\\\textrm{POTCAR}文件};
+	\node (processin1-3) [io,below of=processin1-2] {读入\textrm{INCAR}文件};
+        \node (process1) [process,below of=processin1-3] {准备芯层移动相关的计算\\$\vec k$~空间能量展宽相关准备};
+	\node (process2) [io,below of=process1] {再次读入\\\textrm{POTCAR}文件};
+	\node (processin2) [process,below of=process2] {准备\textrm{LDA}+\textit{U}初始化};
+	\node (process3) [process,below of=processin2] {原子\textrm{PAW}计算的电荷密度差\\一致性检验};
+	\node (process4) [io,below of=process3] {读入完整的\textrm{POSCAR}文件};
+	\node (process5) [process,below of=process4] {响应函数等相关初始设置\\检索交换-相关势列表};
+	\node (process6) [process,below of=process5] {晶体对称性初始化};
+	\node (processin6) [io,below of=process6] {读入\textrm{KPOINTS}文件};
+	\node (process6-1) [process,below of=processin6] {生成与$\vec k$~点有关的量};
+	\node (process7) [process,below of=process6-1] {设置波函数有关的基本量\\生成$\vec k$~空间积分所需的网格点};
+	\node (process8) [io,below of=process7] {输出各类初始化信息};
+	\node (processout8-1) [io,below of=process8] {输出晶格参数信息};
+	\node (processout8-2) [io,below of=processout8-1] {输出$\vec k$点信息};
+	\node (process9) [process,below of=processout8-2] {\textrm{allocate}各类数组\\包括电荷、势、波函数};
+	\node (process10) [process,below of=process9] {原子\textrm{PAW}有关势函数计算};
+	\node (process11) [process,below of=process10] {\textcolor{red}{\hei{构造初始电荷密度}}};
+	\node (process12) [process,below of=process11] {\textcolor{red}{\hei{计算实空间或倒空间投影子算符}}};
+	\node (process13) [process,below of=process12] {初始化能量本征值、\textrm{Fermi}能\\积分权重、缀加电荷};
+	\node (process14) [decision,below of=process13,yshift=-1cm] {判断\textrm{INCAR}文件中是否提供积分权重};
+	\node (process15) [io,below of=process14,xshift=-5cm, yshift=-1cm] {读入\textrm{INCAR}文件\\中的积分权重};
+	\node (process16) [process,below of=process14, yshift=-3cm] {\textcolor{red}{\hei{计算投影算符作用\\于波函数的投影}}};
+	\node (process17) [process,below of=process16] {\textcolor{red}{\hei{计算$\mathbf{D}_{ij}$}}};
+	\node (process18) [process,below of=process17] {\textcolor{red}{\hei{波函数正交化}}};
+	\node (process19) [process,below of=process18] {\textcolor{red}{\hei{计算初始电荷密度}}};
+	\node (process20) [process,below of=process19] {\textcolor{red}{\hei{重新计算局域势}}};
+	\node (process21) [process,below of=process20] {\textcolor{red}{\hei{一些特殊计算的准备}}};
+	\node (process22) [process,below of=process21] {\textcolor{red}{\hei{电子步计算\\(总能量最小化)}}};
+	\node (process23) [process,below of=process22] {能带占据数检查};
+	\node (process24) [process,below of=process23] {\textcolor{red}{\hei{静态受力和应力计算}}};
+	\node (process25) [process,below of=process24] {检查受力和总能的一致性};
+	\node (process26) [process,below of=process25] {重新计算倒空间势函数};
+	\node (process27) [decision,below of=process26] {离子运动判据};
+	\node (process28) [process-sub,below of=process27,xshift=-3cm] {\textcolor{red}{\hei{分子动力\\学计算}}};
+	\node (process29) [process-sub,below of=process27,xshift=3cm] {\textcolor{red}{\hei{晶格弛豫\\计算}}};
+	\node (process30) [process,below of=process27,yshift=-3.6cm] {\textcolor{red}{\hei{离子位置变换后\\重新计算投影函数、\\局域势}}};
+	\node (process31) [decision,below of=process30] {收敛判据};
+	\node (process32) [io,below of=process31] {输出电荷密度};
+	\node (process33) [io,below of=process32] {输出能量本征值};
+	\node (process34) [io,below of=process33] {输出当前电荷密度};
+	\node (process35) [process,below of=process34] {计算光学性质};
+	\node (process36) [process,below of=process35] {计算双电子\\多中心积分};
+	\node (process37) [process,below of=process36] {计算总的\textrm{DOS}、\\分波占据和\\分波\textrm{DOS}};
+	\node (process38) [io,below of=process37] {输出\textrm{DOS}和\\分波\textrm{DOS}};
+	\node (stop) [startstop,below of=process38] {程序结束};
+
+%\node (decision1) [decision,below of=process2,yshift=-0.5cm] {是否收敛或迭代次数达到 $n$ };
+%\node (stop) [startstop,below of=decision1,node distance=3cm] {输出聚类结果};
+	\node(point1)[point,left of=process14 ,xshift =-3.2cm]{};
+	\node(point2)[point,left of=process16, xshift =-3.2cm]{};
+	\node(point3)[point,left of=process27, xshift =-1.2cm]{};
+	\node(point4)[point,left of=process27, xshift =4.8cm]{};
+	\node(point5)[point,below of=process28]{};
+	\node(point6)[point,below of=process29]{};
+	\node(point7)[point,above of=process30]{};
+	\node(point8)[point,left of=process22,xshift =-5cm,yshift= 1cm]{};
+	\node(point10)[point,above of=process22,yshift=-0.8cm]{};
+	\node(point9)[point,left of=process31,xshift = -5cm]{};
+
+\draw [arrow] (start) -- (process0);
+\draw [arrow] (process0) -- (processin1-1);
+\draw [arrow] (processin1-1) -- (processin1-2);
+\draw [arrow] (processin1-2) -- (processin1-3);
+%\draw [arrow] (input1) -- (process1);
+\draw [arrow] (processin1-3) -- (process1);
+\draw [arrow] (process1) -- (process2);
+\draw [arrow] (process2) -- (processin2);
+\draw [arrow] (processin2) -- (process3);
+\draw [arrow] (process3) -- (process4);
+\draw [arrow] (process4) -- (process5);
+\draw [arrow] (process5) -- (process6);
+\draw [arrow] (process6) -- (processin6);
+\draw [arrow] (processin6) -- (process6-1);
+\draw [arrow] (process6-1) -- (process7);
+\draw [arrow] (process7) -- (process8);
+\draw [arrow] (process8) -- (processout8-1);
+\draw [arrow] (processout8-1) -- (processout8-2);
+\draw [arrow] (processout8-2) -- (process9);
+\draw [arrow] (process9) -- (process10);
+\draw [arrow] (process10) -- (process11);
+\draw [arrow] (process11) -- (process12);
+\draw [arrow] (process12) -- (process13);
+\draw [arrow] (process13) -- (process14);
+\draw [straightline] (process14.west) -- node[anchor=south]{是}(point1);
+\draw [arrow] (point1) -- (process15);
+\draw [straightline] (process15) -- (point2);
+\draw [arrow] (point2) -- (process16.west);
+\draw [arrow] (process14) -- node[anchor=east]{否} (process16);
+\draw [arrow] (process16) -- (process17);
+\draw [arrow] (process17) -- (process18);
+\draw [arrow] (process18) -- (process19);
+\draw [arrow] (process19) -- (process20);
+\draw [arrow] (process20) -- (process21);
+\draw [arrow] (process21) -- (process22);
+\draw [straightline] (point8) -- (point10);
+\draw [arrow] (point10) -- (process22);
+\draw [arrow] (process22) -- (process23);
+\draw [arrow] (process23) -- (process24);
+\draw [arrow] (process24) -- (process25);
+\draw [arrow] (process25) -- (process26);
+\draw [arrow] (process26) -- (process27);
+\draw [straightline] (process27.west) -- node[anchor=south]{分子动力学}(point3);
+\draw [straightline] (process27.east) -- node[anchor=south]{结构弛豫}(point4);
+\draw [arrow] (point3) -- (process28);
+\draw [arrow] (point4) -- (process29);
+\draw [straightline] (process28) -- (point5);
+\draw [straightline] (process29) -- (point6);
+\draw [straightline] (point5) -- (point7);
+\draw [straightline] (point6) -- (point7);
+\draw [arrow] (point7) -- (process30);
+\draw [arrow] (process30) -- (process31);
+\draw [straightline] (process31.west) -- node[anchor=south]{否}(point9);
+\draw [straightline] (point9) -- (point8);
+\draw [arrow] (process31) -- node[anchor=west]{是}(process32);
+\draw [arrow] (process32) -- (process33);
+\draw [arrow] (process33) -- (process34);
+\draw [arrow] (process34) -- (process35);
+\draw [arrow] (process35) -- (process36);
+\draw [arrow] (process36) -- (process37);
+\draw [arrow] (process37) -- (process38);
+\draw [arrow] (process38) -- (stop);
+%\draw [dashedline] (process3.west) -- (point1);
+%\draw [dashedline] (point1) -- (point3);
+%\draw [dashedline] (point3) -- (process1.west);
+%\draw [dashedline] (process3) -- (point1);
+%\draw [dashedline] (point1) |- (point2);
+%\draw [dashedline] (point2) -- (process2.north);
+%\draw [dashedline] (process7.west) -- (process3.east);
+%\draw [dashedline] (process3.north) -- (point4);
+%\draw [dashedline] (point4) -- (process6.west);
+%\draw [arrow] (process4) -- (process5);
+%\draw [arrow] (process2.east) -| (process7.north);
+%\draw [arrow] (process6) -- (process8);
+%\draw [arrow] (process6) |- (process7);
+%\draw [arrow] (process7) |- (process8.east);
+%\draw [arrow] (process8) -- node[anchor=south] {否} (process9);
+%\draw [arrow] (process7) -- (process9);
+%\draw [arrow] (decision1) -- node[anchor=east] {是} (stop);
+%\draw [straightline] (decision1) -|  (point1);
+%\draw [straightline] (process6) -|  (point5);
+%\draw [arrow] (point1) -- node[anchor=south] {否} (input1);
+%\draw [arrow] (point5) -- (process9);
+\end{tikzpicture}
+\end{lrbox}%
+\ifdim\ht\mysavebox>\textheight
+    \setlength{\myrest}{\ht\mysavebox}%
+    \loop\ifdim\myrest>\textheight
+        \newpage\par\noindent
+        \clipbox{0 {\myrest-\textheight} 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+        \addtolength{\myrest}{-\textheight}%
+    \repeat
+    \newpage\par\noindent
+    \clipbox{0 0 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+\else
+    \usebox{\mysavebox}%
+\fi
+
+%\caption{\textrm{The Maiin-Flow of VASP.}}
+%\label{Fig:VASP_MAIN-FLOW}
+%\end{figure}
+
+\newpage
+%\begin{figure}[h!]
+%%\vspace*{-0.15in}
+%\centering
+\begin{lrbox}{\mysavebox}%
+\begin{tikzpicture}[node distance=1.8cm,
+    box-rect/.style={rectangle,draw,fill=darkgray!20,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
+    box-diam/.style={diamond, aspect=1.5, inner sep=2pt, draw,fill=green!50,node distance=1cm,minimum width=0.5em,text centered,rounded corners,minimum height=2em,thick},
+    box-trape/.style={trapezium, trapezium left angle = 70, fill=darkgray!50, trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3em,thick},
+    arrow/.style={draw,-latex', red},
+  ]
+
+  \node [box-rect, fill=magenta!50, text width=10.5em, draw=pink, minimum height=0.5em, thick] at (current page.west)(Simulation-Box) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf 确定模拟体系的结构参数和粒子位置等信息}};
+  \node [box-rect, below=1.0 of Simulation-Box, fill=gray!30, text width=18.5em, minimum height=0.5em] (Input-Parameter) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf 确定力学性质模拟所需的参数}};
+  \node [box-rect, below=1.0 of Input-Parameter, fill=white, text width=18.5em, minimum height=0.5em, very thin] (Modeling-Initial) {\fontsize{9.5pt}{2.5pt}\selectfont{\textbf{确定粒子初始态的位置}:~$X_i(t=0)$\\\textbf{确定粒子初始态的速度$V_i(t=0)$}}};
+  \node [box-rect, below=1.0 of Modeling-Initial, fill=red!30, text width=18.5em, minimum height=0.5em] (Force-Field) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf{确定\textrm{GPUMD}产生的\textrm{NEP}势函数}:~$U_i^{\mathrm{NEP}}(X_i)$\\\textbf{确定模拟的边值条件}:~周期性边界/非周期性边界\\\textbf{确定模拟的时间步长}:~$\Delta t$}};
+  \node [box-rect, below=1.0 of Force-Field, fill=red!30, text width=22.5em, minimum height=0.5em] (Calculation-Force) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf{计算每个粒子在当前时点的受力和加速度}:\\$f_i(t_{\mathrm{current}})=-\nabla U(X_i(t_{\mathrm{current}}))~\mbox{且}~a_i(t_{\mathrm{current}})=\dfrac{f_i(t_{\mathrm{current}})}{m_i}$}};
+  \node [box-rect, below=1.0 of Calculation-Force, fill=brown!30, text width=12.5em, minimum height=0.5em] (Next-time-step) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf{移动到下一时间步}:~\\$t_{\mathrm{text}}=t_{\mathrm{current}}+\Delta t$}};
+  \node [box-rect, below=1.0 of Next-time-step, fill=green!30, text width=21.5em, minimum height=0.5em] (Simulation-Verlet) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf{更新每个粒子随时间演化后的位置}:\\$X_i(t_{\mathrm{next}})=X_i(t_{\mathrm{current}})+V_i(t_{\mathrm{current}})\Delta t+\dfrac12a_i(t_{\mathrm{current}})\Delta t^2$\\\textbf{更新每个粒子随时间演化后的受力与加速度}:\\$f_i(t_{\mathrm{next}})=-\nabla U(X_i(t_{\mathrm{next}}))$\\$a_i(t_{\mathrm{next}})=\dfrac{f_i(t_{\mathrm{next}})}{m_i}$\\\textbf{更新每个粒子随时间演化后的速度}\\$V_i(t_{\mathrm{next}})=V_i(t_{\mathrm{current}})+\dfrac12[a_i(t_{\mathrm{current}})+a_i(t_{\mathrm{next}})]\Delta t$}};
+%
+  \node [box-diam, below=1.0 of Simulation-Verlet, fill=blue!50, text width=12.5em, minimum height=2.5em] (Continue-next-time-step) {\fontsize{9.5pt}{5.5pt}\selectfont{评估模拟体系\\达到平衡态的依据\\达到平衡态的时间步数}};
+  \node [box-trape, below=1.0 of Continue-next-time-step, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-equilibrated-system) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述体系数据}};
+
+  \node [box-rect, right=2.0 of Force-Field, fill=orange!50, text width=15.0em, minimum height=0.5em] (Canonical-ensemble) {\fontsize{9.5pt}{5.5pt}\selectfont{分子动力学\\\textrm{NVT/NPT}系综模拟}};
+  \node [box-rect, below=0.8 of Canonical-ensemble, fill=white, text width=15.0em, minimum height=0.5em, very thin] (Small-Strain) {\fontsize{8.5pt}{5.5pt}\selectfont{构建材料生长模块尺寸与范围}};
+  \node [box-rect, below=0.8 of Small-Strain, text width=15.0em, minimum height=0.5em] (Optimization) {\fontsize{9.5pt}{5.5pt}\selectfont{将模拟体系在应力作用方向充分弛豫，能量最小化}};
+%
+  \node [box-rect, below=0.8 of Optimization, fill=olive!60, text width=15.0em, minimum height=0.5em, very thin] (NPT-Canonical-ensemble) {\fontsize{9.5pt}{5.5pt}\selectfont{\textrm{NPT}系统模拟}};
+  \node [box-rect, below=0.8 of NPT-Canonical-ensemble, fill=purple!30, text width=15.0em, minimum height=0.5em] (Calculate-Stress) {\fontsize{9.5pt}{5.5pt}\selectfont{计算下一应力步长条件下的状态}};
+  \node [box-diam, below=0.8 of Calculate-Stress, fill=blue!50, text width=12.5em, minimum height=2.5em] (Continue-next-stress-step) {\fontsize{9.5pt}{5.5pt}\selectfont{评估模拟体系\\达到指定应力\\达到应力步数上限}};
+  \node [box-rect, below=0.8 of Continue-next-stress-step, fill=lime!70, text width=15.0em, minimum height=0.5em] (Young-Modulus) {\fontsize{9.5pt}{5.5pt}\selectfont{计算体系的\textrm{Young}氏模量}};
+  \node [box-trape, below=0.8 of Young-Modulus, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-Mechanical-Properties) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述力学性质数据}};
+%
+%%%%%%% ------------ 定义 虚线方框转角 -----------------  %%%%%%
+\path
+  (Simulation-Verlet.west) ++(-1.5 em, -0.0em) coordinate (Continue-1)
+  (NPT-Canonical-ensemble.east) ++(1.5em, 0.0em) coordinate (Continue-2)
+  (Force-Field.east) ++(3.5em, 4.0em) coordinate (Return)
+  ;
+%
+\path [arrow, black,thick] (Simulation-Box.south) -- (Input-Parameter.north);
+\path [arrow, black,thick] (Input-Parameter.south) -- (Modeling-Initial.north);
+\path [arrow, black,thick] (Modeling-Initial.south) -- (Force-Field.north);
+\path [arrow, black,thick] (Force-Field.south) -- (Calculation-Force.north);
+\path [arrow, black,thick] (Calculation-Force.south) -- (Next-time-step.north);
+\path [arrow, black,thick] (Next-time-step.south) -- (Simulation-Verlet.north);
+\path [arrow, black,thick] (Simulation-Verlet.south) -- (Continue-next-time-step.north);
+\path [arrow, black,thick] (Continue-next-time-step.south) -- (Output-equilibrated-system.north);
+%
+\path [arrow, black,thick] (Canonical-ensemble.south) -- (Small-Strain.north);
+\path [arrow, black,thick] (Small-Strain.south) -- (Optimization.north);
+\path [arrow, black,thick] (Optimization.south) -- (NPT-Canonical-ensemble.north);
+\path [arrow, black,thick] (NPT-Canonical-ensemble.south) -- (Calculate-Stress.north);
+\path [arrow, black,thick] (Calculate-Stress.south) -- (Continue-next-stress-step.north);
+\path [arrow, black,thick] (Continue-next-stress-step.south) -- (Young-Modulus.north);
+\path [arrow, black,thick] (Young-Modulus.south) -- (Output-Mechanical-Properties.north);
+%
+\path [arrow, black,thick] (Continue-next-time-step.west) -| (Continue-1) |- (Calculation-Force.west);
+\path [arrow, black,thick] (Continue-next-time-step.north)++(0.0em, 1.2em) -| (Return) -| (Canonical-ensemble.north);
+\path [arrow, black,thick] (Continue-next-stress-step.east) -| (Continue-2) |- (Small-Strain.east);
+%
+%%%%%%% ------------ 绘制 虚线 -----------------  %%%%%%
+%%\draw [gray, dotted, line width=2pt] (Symmetry-seperate) -- (Modeling-Initial.south);
+%\draw [gray, dashed, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
+%%\draw [gray, densely dotted, ultra thick] (Symmetry-seperate) -- (Modeling-Initial.south);
+%\draw [gray, dotted, line width=2pt] (DataBase.south)++(-9.5em,-1.58em) -- (Multi-Scale-Simulation.south);
+%%%%%%% ------------ 绘制 虚线方框 -----------------  %%%%%%
+%\node [rectangle,draw=blue!30, dashdotted, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%%\node [rectangle,draw=blue!30, dash dot, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%%\node [rectangle,draw=blue!30, dash dot dot, inner sep=0.8em,fit=(Model-fit) (Symmetry-fit), very thick] (enclosure) {};
+%%\node [rectangle,draw=violet, dash, inner sep=0.8em,fit=(DataBase-1) (DataBase-2), thick] (enclosure) {};
+%\node [rectangle,draw=violet, dashed, inner sep=0.8em,fit=(DataBase-1) (DataBase-2), thick] (enclosure) {};
+%
+%\node [rectangle,draw=red, inner sep=0.8em,fit=(Machine-Learning-1) (Machine-Learning-2), line width=3.0pt] (enclosure) {};
+\end{tikzpicture}
+\end{lrbox}%
+\ifdim\ht\mysavebox>\textheight
+    \setlength{\myrest}{\ht\mysavebox}%
+    \loop\ifdim\myrest>\textheight
+        \newpage\par\noindent
+        \clipbox{0 {\myrest-\textheight} 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+        \addtolength{\myrest}{-\textheight}%
+    \repeat
+    \newpage\par\noindent
+    \clipbox{0 0 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
+\else
+    \usebox{\mysavebox}%
+\fi
+
+%\caption{\tiny \textrm{Pseudopotential for metallic sodium, based on the empty core model and screened by the Thomas-Fermi dielectric function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
+%\label{Fig:GPUMD_Mechanical-Stacking}
+%\end{figure}
+
+\newpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  绘制流程图  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=3cm,minimum height=1cm,text centered,text width =3cm, draw=black,fill=red!30]
+%\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
+%\tikzstyle{process} = [rectangle,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=orange!30]
+%\tikzstyle{decision} = [diamond,aspect = 3,text centered,draw=black,fill=green!30]
+%\tikzstyle{arrow} = [thick,->,>=stealth]
+%\tikzstyle{straightline} = [line width = 1pt,-]
+%\tikzstyle{point}=[coordinate]
+%
+%\begin{tikzpicture}[node distance=2cm]
+%\node (start) [startstop] {开始};
+%\node (input1) [io,below of=start] {输入聚类的个数 $k$ 和最大迭代次数 $n$ };
+%\node (process1) [process,below of=input1] {初始化 $k$ 个聚类中心};
+%\node (process2) [process,below of=process1] {分配各数据对象到距离最近的类中};
+%\node (decision1) [decision,below of=process2,yshift=-0.5cm] {是否收敛或迭代次数达到 $n$ };
+%\node (stop) [startstop,below of=decision1,node distance=3cm] {输出聚类结果};
+%\node(point1)[point,left of=input1,node distance=5cm]{};
+%
+%\draw [arrow] (start) -- (input1);
+%\draw [arrow] (input1) -- (process1);
+%\draw [arrow] (process1) -- (process2);
+%\draw [arrow] (process2) -- (decision1);
+%\draw [arrow] (decision1) -- node[anchor=east] {是} (stop);
+%\draw [straightline] (decision1) -|  (point1);
+%\draw [arrow] (point1) -- node[anchor=south] {否} (input1);
+%\end{tikzpicture}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  绘制流程图  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{figure}
+%\scriptsize
+%\tikzstyle{format}=[rectangle,draw,thin,fill=white]
+%%定义语句块的颜色,形状和边
+%\tikzstyle{test}=[diamond,aspect=2,draw,thin]
+%%定义条件块的形状,颜色
+%\tikzstyle{point}=[coordinate,on grid,]
+%%像素点,用于连接转移线
+%\begin{tikzpicture}%[node distance=10mm,auto,>=late',thin,start chain=going below,every join/.style={norm},]
+%%start chain=going below指明了流程图的默认方向,node distance=8mm则指明了默认的node距离。这些可以在定义node的时候更改,比如说
+%%\node[point,right of=n3,node distance=10mm] (p0){};
+%%这里声明了node p0,它在node n3 的右边,距离是10mm。
+%\node[format] (start){Start};
+%\node[format,below of=start,node distance=7mm] (define){Some defines};
+%\node[format,below of=define,node distance=7mm] (PCFinit){PCF8563 Initialize};
+%\node[format,below of=PCFinit,node distance=7mm] (DS18init){DS18 Initialize};
+%\node[format,below of=DS18init,node distance=7mm] (LCDinit){LCD Initialize};
+%\node[format,below of=LCDinit,node distance=7mm] (processtime){Processtime};
+%\node[format,below of=processtime,node distance=7mm] (keyinit){Key Initialize};
+%\node[test,below of=keyinit,node distance=15mm](setkeycheck){Check Set Key};
+%\node[point,left of=setkeycheck,node distance=18mm](point3){};
+%\node[format,below of=setkeycheck,node distance=15mm](readtime){Read Time};
+%\node[point,right of=readtime,node distance=15mm](point4){};
+%\node[format,below of=readtime](processtime1){Processtime};
+%\node[format,below of=processtime1](gettemp){Get Temperature};
+%\node[format,below of=gettemp](display){Display All Data};
+%\node[format,right of=setkeycheck,node distance=40mm](setsetflag){Set SetFlag=1};
+%\node[format,below of=setsetflag](setinit){Set Mode Initialize};
+%\node[format,below of=setinit](checksetting){Checksetting()};
+%\node[test,below of=checksetting,node distance=15mm](savecheck){Check Save Key};
+%\node[format,below of=savecheck,node distance=15mm](clearsetflag){Clear SetFlag=0};
+%\node[format,below of=clearsetflag](settime){Set Time};
+%\node[point,below of=display,node distance=7mm](point1){};
+%\node[point,below of=settime,node distance=7mm](point2){};
+%%\node[format] (n0) at(4,4){A}; 直接指定位置
+%%定义完node之后进行连线,
+%%\draw[->] (n0.south) -- (n1); 带箭头实线
+%%\draw[-] (n0.south) -- (n1); 不带箭头实线
+%%\draw[&lt;->] (n0.south) -- (n1.north);   双箭头
+%%\draw[&lt;-,dashed] (n1.south) -- (n2.north); 带箭头虚线 
+%%\draw[&lt;-] (n0.south) to node{Yes} (n1.north);  带字,字在箭头方向右边
+%%\draw[->] (n1.north) to node{Yes} (n0.south);  带字,字在箭头方向左边
+%%\draw[->] (n1.north) to[out=60,in=300] node{Yes} (n0.south);  曲线
+%%\draw[->,draw=red](n2)--(n1);  带颜色的线
+%\draw[->] (start)--(define);
+%\draw[->] (define)--(PCFinit);
+%\draw[->](PCFinit)--(DS18init);
+%\draw[->](DS18init)--(LCDinit);
+%\draw[->](LCDinit)--(processtime);
+%\draw[->](processtime)--(keyinit);
+%\draw[->](keyinit)--(setkeycheck);
+%\draw[->](setkeycheck)--node[above]{Yes}(setsetflag);
+%\draw[->](setkeycheck) --node[left]{No} (readtime);
+%\draw[->](readtime)--(processtime1);
+%\draw[->](processtime1)--(gettemp);
+%\draw[->](gettemp)--(display);
+%\draw[-](display)--(point1);
+%\draw[-](point1)-|(point3);
+%\draw[->](point3)--(setkeycheck.west);
+%\draw[->](setsetflag)--(setinit);
+%\draw[->](setinit)--(checksetting);
+%\draw[->](checksetting)--(savecheck);
+%\draw[->](savecheck)--node[left]{Yes}(clearsetflag);
+%\draw[->](savecheck.west)|-node[left]{No}(checksetting);
+%\draw[->](clearsetflag)--(settime);
+%\draw[-](settime)--(point2);
+%\draw[-](point2)-|(point4);
+%\draw[->](point4)--(readtime.east);
+%\end{tikzpicture}
+%\end{figure}
+
+\section{化学反应方程式的书写}
+\ce{2H2+O2 ->[\textrm{燃烧}][$\Delta$] 2H2O} %%催化剂
+\ce{2H2+O2 $\xlongequal[\triangle]{\ce{MnO2}}$ 2H2O} % 一个简单的化学公式
+\ce{2H2+O2  ->[\textrm{燃烧}][$\triangle$] 2H2O} % 一个简单的化学公式
+\ce{#} %% 三键
+\ce{->} %%箭头
+\ce{<=>}  %%可逆号
+\ce{<=>[\textrm{催化剂}][$\triangle$]}
+\ce{<-->[\textrm{放电}][\textrm{充电}]} %%双向箭头
+\ce{<=>>[\textrm{催化剂}][$\triangle$]} %%长短箭头符号
+\ce{<<=>[\textrm{催化剂}][$\triangle$]}
+
 \begin{figure}[h!]
 %\vspace*{-0.15in}
 \centering
@@ -831,26 +1218,6 @@
   (Simulation-Verlet.west) ++(-1.5 em, -0.0em) coordinate (Continue-1)
   (NPT-Canonical-ensemble.east) ++(1.5em, 0.0em) coordinate (Continue-2)
   (Force-Field.east) ++(3.5em, 4.0em) coordinate (Return)
-%  (Modeling-Analysis.south) ++(-6.0em, -0.2em) coordinate (Symmetry-seperate)
-%  (Highthrough-Put.south) ++(-4.2em, 0.0em) coordinate (Highthrough-1)
-%  (Highthrough-Put.south) ++(3.45em, -0.0em) coordinate (Highthrough-2)
-%  (Highthrough-Put.west) ++(-1.50em, 0.0em) coordinate (Highthrough-3)
-%  (Process-Manage.north) ++(-8.6em, 0.8em) coordinate (DataBase-1)
-%  (Data-Manage.south) ++ (7.0em, -0.1em) coordinate (DataBase-2)
-%  (Process-Design.south)++(-2.0em, -1.50em) coordinate (Process-Design-1)
-%  (Process-Design.south)++(-2.0em, -4.00em) coordinate (Process-Design-2)
-%  (Process-Manage.north)++(2.7em, 0.0em) coordinate (Process-Manage-1)
-%  (Modeling-Analysis.south)++(-2.0em, 0.0em) coordinate (Modeling-Analysis-1)
-%  (Data-Manage.north) ++ (-5.5em, 0.0em) coordinate (DataBase-3)
-%  (Application.north)++(-6.51em, 0.0em) coordinate(Application-1)
-%  (Application.north)++(-4.35em, 0.0em) coordinate(Application-2)
-%  (Application.north)++(4.43em, 0.0em) coordinate(Application-3)
-%  (Machine-Learning.north) ++(-7.5em, -0.5em) coordinate (Machine-Learning-1)
-%  (Machine-Learning.south) ++(7.5em, 0.5em) coordinate (Machine-Learning-2)
-%  (Machine-Learning.east) ++(1.0em, 0.0em) coordinate (Machine-Learning-3)
-%  (GPUMD-Mechanism.south) ++(0.0em, -1.0em) coordinate (GPUMD-Mechanism-Div)
-%  (Atom-Settlement.south) ++(0.0em, -1.0em) coordinate (Atom-Settlement-Cor)
-%  (Material-Growth.south) ++(0.0em, -1.0em) coordinate (Material-Growth-Cor)
   ;
 %
 \path [arrow, black,thick] (Simulation-Box.south) -- (Input-Parameter.north);
@@ -873,27 +1240,6 @@
 \path [arrow, black,thick] (Continue-next-time-step.west) -| (Continue-1) |- (Calculation-Force.west);
 \path [arrow, black,thick] (Continue-next-time-step.north)++(0.0em, 1.2em) -| (Return) -| (Canonical-ensemble.north);
 \path [arrow, black,thick] (Continue-next-stress-step.east) -| (Continue-2) |- (Small-Strain.east);
-%%\path [draw=black, line width=3pt] (Process-Design-1) -- (Process-Design-2);
-%%\path [arrow, draw=black, line width=3pt] (Process-Design-2) -- (Process-Manage-1);
-%\path [arrow, draw=green!70!red, opacity=0.50, line width=3pt] (Modeling-Analysis-1) -- (DataBase-3);
-%\path [arrow, draw=red!80, line width=3pt] (Process-Manage.east) -- (Multi-Scale.west);
-%\path [arrow, draw=black,  line width=3pt] (Multi-Scale.south) |- (Data-Manage.east);
-%
-%\path [arrow, draw=black, thick](Data-Manage.south)++(-3.45em, 0.0em) -- (Mechanism-Parameter.north);
-%\path [arrow, draw=black, thick](Mechanism-Parameter.south) |- (GPUMD-Mechanism.west);
-%\path [arrow, draw=black, thick](Data-Manage.south)++(0.65em, 0.0em) -- (Application-2);
-%\path [arrow, draw=black, thick](Machine-Learning.north) |- (Data-Manage.east);
-%\path [arrow, draw=black, thick](Machine-Learning.south) -- (Application-3);
-%\path [arrow, draw=black, thick](Machine-Learning.east) -- (Machine-Learning-3) |- (GPUMD-Mechanism.east);
-%\path [arrow, draw=black, thick](Application.south) -- (GPUMD-Mechanism.north);
-%\path [arrow, draw=black, thick](GPUMD-Mechanism.south) -- (GPUMD-Mechanism-Div) -| (Atom-Settlement.north);
-%\path [arrow, draw=black, thick](GPUMD-Mechanism.south) -- (GPUMD-Mechanism-Div) -| (Material-Growth.north);
-%\path [arrow, dotted,  draw=black, thick](Atom-Settlement.east) -- (AI-method.west);
-%\path [arrow, dotted,  draw=black, thick](AI-method.east) -- (Material-Growth.west);
-%\path [arrow, draw=black, thick](Atom-Settlement.south) -- (Atom-Settlement-Cor) |- (Result-Analysis.west);
-%\path [arrow, draw=black, thick](Material-Growth.south) -- (Material-Growth-Cor) |- (Result-Analysis.east);
-%\draw [dash dot dot, black, thick](GPUMD-Mechanism.south) -- (AI-method.north);
-%\path [arrow, dash dot dot, draw=black, thick](AI-method.south) -- (Result-Analysis.north);
 %
 %%%%%%% ------------ 绘制 虚线 -----------------  %%%%%%
 %%\draw [gray, dotted, line width=2pt] (Symmetry-seperate) -- (Modeling-Initial.south);
@@ -912,6 +1258,7 @@
 %\caption{\tiny \textrm{Pseudopotential for metallic sodium, based on the empty core model and screened by the Thomas-Fermi dielectric function.}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:GPUMD_Mechanical-Properties}
 \end{figure}
+
 %\begin{figure}[!h]
 %	\centering
 %	\begin{tikzpicture}[
@@ -1055,294 +1402,3 @@
 %	\label{fig:Broad_Spectrum-Analysis}
 %\end{figure}
 
-%\begin{figure}[h!]
-%%\vspace*{-0.15in}
-%\centering
-\begin{lrbox}{\mysavebox}%
-\begin{tikzpicture}[node distance=1.8cm]
-\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=7cm,minimum height=1cm,text centered,text width =7cm, draw=black,fill=red!30]
-\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
-\tikzstyle{process} = [rectangle,minimum width=7cm,minimum height=1cm,text centered,text width =7cm,draw=black,fill=orange!30]
-\tikzstyle{process-sub} = [rectangle,minimum width=5cm,minimum height=1cm,text centered,text width =5cm,draw=black,fill=blue!10]
-\tikzstyle{decision} = [diamond,aspect = 3,text centered,draw=black,fill=green!30]
-\tikzstyle{arrow} = [thick,->,>=stealth]
-\tikzstyle{straightline} = [line width = 1pt,-]
-\tikzstyle{dashedline} = [dashed, line width = 1pt,-]
-\tikzstyle{point}=[coordinate]
-
-	\node (start) [startstop] {程序启动\\模块与变量声明、初始赋值\\打开必要的文档};
-	\node (process0) [io,below of=start] {输出版本信息};
-%\node (input1) [io,below of=start] {输入聚类的个数 $k$ 和最大迭代次数 $n$ };
-	\node (processin1-1) [io,below of=process0] {读入\textrm{POSCAR}文件头};
-	\node (processin1-2) [io,below of=processin1-1] {初次读入\\\textrm{POTCAR}文件};
-	\node (processin1-3) [io,below of=processin1-2] {读入\textrm{INCAR}文件};
-        \node (process1) [process,below of=processin1-3] {准备芯层移动相关的计算\\$\vec k$~空间能量展宽相关准备};
-	\node (process2) [io,below of=process1] {再次读入\\\textrm{POTCAR}文件};
-	\node (processin2) [process,below of=process2] {准备\textrm{LDA}+\textit{U}初始化};
-	\node (process3) [process,below of=processin2] {原子\textrm{PAW}计算的电荷密度差\\一致性检验};
-	\node (process4) [io,below of=process3] {读入完整的\textrm{POSCAR}文件};
-	\node (process5) [process,below of=process4] {响应函数等相关初始设置\\检索交换-相关势列表};
-	\node (process6) [process,below of=process5] {晶体对称性初始化};
-	\node (processin6) [io,below of=process6] {读入\textrm{KPOINTS}文件};
-	\node (process6-1) [process,below of=processin6] {生成与$\vec k$~点有关的量};
-	\node (process7) [process,below of=process6-1] {设置波函数有关的基本量\\生成$\vec k$~空间积分所需的网格点};
-	\node (process8) [io,below of=process7] {输出各类初始化信息};
-	\node (processout8-1) [io,below of=process8] {输出晶格参数信息};
-	\node (processout8-2) [io,below of=processout8-1] {输出$\vec k$点信息};
-	\node (process9) [process,below of=processout8-2] {\textrm{allocate}各类数组\\包括电荷、势、波函数};
-	\node (process10) [process,below of=process9] {原子\textrm{PAW}有关势函数计算};
-	\node (process11) [process,below of=process10] {\textcolor{red}{\hei{构造初始电荷密度}}};
-	\node (process12) [process,below of=process11] {\textcolor{red}{\hei{计算实空间或倒空间投影子算符}}};
-	\node (process13) [process,below of=process12] {初始化能量本征值、\textrm{Fermi}能\\积分权重、缀加电荷};
-	\node (process14) [decision,below of=process13,yshift=-1cm] {判断\textrm{INCAR}文件中是否提供积分权重};
-	\node (process15) [io,below of=process14,xshift=-5cm, yshift=-1cm] {读入\textrm{INCAR}文件\\中的积分权重};
-	\node (process16) [process,below of=process14, yshift=-3cm] {\textcolor{red}{\hei{计算投影算符作用\\于波函数的投影}}};
-	\node (process17) [process,below of=process16] {\textcolor{red}{\hei{计算$\mathbf{D}_{ij}$}}};
-	\node (process18) [process,below of=process17] {\textcolor{red}{\hei{波函数正交化}}};
-	\node (process19) [process,below of=process18] {\textcolor{red}{\hei{计算初始电荷密度}}};
-	\node (process20) [process,below of=process19] {\textcolor{red}{\hei{重新计算局域势}}};
-	\node (process21) [process,below of=process20] {\textcolor{red}{\hei{一些特殊计算的准备}}};
-	\node (process22) [process,below of=process21] {\textcolor{red}{\hei{电子步计算\\(总能量最小化)}}};
-	\node (process23) [process,below of=process22] {能带占据数检查};
-	\node (process24) [process,below of=process23] {\textcolor{red}{\hei{静态受力和应力计算}}};
-	\node (process25) [process,below of=process24] {检查受力和总能的一致性};
-	\node (process26) [process,below of=process25] {重新计算倒空间势函数};
-	\node (process27) [decision,below of=process26] {离子运动判据};
-	\node (process28) [process-sub,below of=process27,xshift=-3cm] {\textcolor{red}{\hei{分子动力\\学计算}}};
-	\node (process29) [process-sub,below of=process27,xshift=3cm] {\textcolor{red}{\hei{晶格弛豫\\计算}}};
-	\node (process30) [process,below of=process27,yshift=-3.6cm] {\textcolor{red}{\hei{离子位置变换后\\重新计算投影函数、\\局域势}}};
-	\node (process31) [decision,below of=process30] {收敛判据};
-	\node (process32) [io,below of=process31] {输出电荷密度};
-	\node (process33) [io,below of=process32] {输出能量本征值};
-	\node (process34) [io,below of=process33] {输出当前电荷密度};
-	\node (process35) [process,below of=process34] {计算光学性质};
-	\node (process36) [process,below of=process35] {计算双电子\\多中心积分};
-	\node (process37) [process,below of=process36] {计算总的\textrm{DOS}、\\分波占据和\\分波\textrm{DOS}};
-	\node (process38) [io,below of=process37] {输出\textrm{DOS}和\\分波\textrm{DOS}};
-	\node (stop) [startstop,below of=process38] {程序结束};
-
-%\node (decision1) [decision,below of=process2,yshift=-0.5cm] {是否收敛或迭代次数达到 $n$ };
-%\node (stop) [startstop,below of=decision1,node distance=3cm] {输出聚类结果};
-	\node(point1)[point,left of=process14 ,xshift =-3.2cm]{};
-	\node(point2)[point,left of=process16, xshift =-3.2cm]{};
-	\node(point3)[point,left of=process27, xshift =-1.2cm]{};
-	\node(point4)[point,left of=process27, xshift =4.8cm]{};
-	\node(point5)[point,below of=process28]{};
-	\node(point6)[point,below of=process29]{};
-	\node(point7)[point,above of=process30]{};
-	\node(point8)[point,left of=process22,xshift =-5cm,yshift= 1cm]{};
-	\node(point10)[point,above of=process22,yshift=-0.8cm]{};
-	\node(point9)[point,left of=process31,xshift = -5cm]{};
-
-\draw [arrow] (start) -- (process0);
-\draw [arrow] (process0) -- (processin1-1);
-\draw [arrow] (processin1-1) -- (processin1-2);
-\draw [arrow] (processin1-2) -- (processin1-3);
-%\draw [arrow] (input1) -- (process1);
-\draw [arrow] (processin1-3) -- (process1);
-\draw [arrow] (process1) -- (process2);
-\draw [arrow] (process2) -- (processin2);
-\draw [arrow] (processin2) -- (process3);
-\draw [arrow] (process3) -- (process4);
-\draw [arrow] (process4) -- (process5);
-\draw [arrow] (process5) -- (process6);
-\draw [arrow] (process6) -- (processin6);
-\draw [arrow] (processin6) -- (process6-1);
-\draw [arrow] (process6-1) -- (process7);
-\draw [arrow] (process7) -- (process8);
-\draw [arrow] (process8) -- (processout8-1);
-\draw [arrow] (processout8-1) -- (processout8-2);
-\draw [arrow] (processout8-2) -- (process9);
-\draw [arrow] (process9) -- (process10);
-\draw [arrow] (process10) -- (process11);
-\draw [arrow] (process11) -- (process12);
-\draw [arrow] (process12) -- (process13);
-\draw [arrow] (process13) -- (process14);
-\draw [straightline] (process14.west) -- node[anchor=south]{是}(point1);
-\draw [arrow] (point1) -- (process15);
-\draw [straightline] (process15) -- (point2);
-\draw [arrow] (point2) -- (process16.west);
-\draw [arrow] (process14) -- node[anchor=east]{否} (process16);
-\draw [arrow] (process16) -- (process17);
-\draw [arrow] (process17) -- (process18);
-\draw [arrow] (process18) -- (process19);
-\draw [arrow] (process19) -- (process20);
-\draw [arrow] (process20) -- (process21);
-\draw [arrow] (process21) -- (process22);
-\draw [straightline] (point8) -- (point10);
-\draw [arrow] (point10) -- (process22);
-\draw [arrow] (process22) -- (process23);
-\draw [arrow] (process23) -- (process24);
-\draw [arrow] (process24) -- (process25);
-\draw [arrow] (process25) -- (process26);
-\draw [arrow] (process26) -- (process27);
-\draw [straightline] (process27.west) -- node[anchor=south]{分子动力学}(point3);
-\draw [straightline] (process27.east) -- node[anchor=south]{结构弛豫}(point4);
-\draw [arrow] (point3) -- (process28);
-\draw [arrow] (point4) -- (process29);
-\draw [straightline] (process28) -- (point5);
-\draw [straightline] (process29) -- (point6);
-\draw [straightline] (point5) -- (point7);
-\draw [straightline] (point6) -- (point7);
-\draw [arrow] (point7) -- (process30);
-\draw [arrow] (process30) -- (process31);
-\draw [straightline] (process31.west) -- node[anchor=south]{否}(point9);
-\draw [straightline] (point9) -- (point8);
-\draw [arrow] (process31) -- node[anchor=west]{是}(process32);
-\draw [arrow] (process32) -- (process33);
-\draw [arrow] (process33) -- (process34);
-\draw [arrow] (process34) -- (process35);
-\draw [arrow] (process35) -- (process36);
-\draw [arrow] (process36) -- (process37);
-\draw [arrow] (process37) -- (process38);
-\draw [arrow] (process38) -- (stop);
-%\draw [dashedline] (process3.west) -- (point1);
-%\draw [dashedline] (point1) -- (point3);
-%\draw [dashedline] (point3) -- (process1.west);
-%\draw [dashedline] (process3) -- (point1);
-%\draw [dashedline] (point1) |- (point2);
-%\draw [dashedline] (point2) -- (process2.north);
-%\draw [dashedline] (process7.west) -- (process3.east);
-%\draw [dashedline] (process3.north) -- (point4);
-%\draw [dashedline] (point4) -- (process6.west);
-%\draw [arrow] (process4) -- (process5);
-%\draw [arrow] (process2.east) -| (process7.north);
-%\draw [arrow] (process6) -- (process8);
-%\draw [arrow] (process6) |- (process7);
-%\draw [arrow] (process7) |- (process8.east);
-%\draw [arrow] (process8) -- node[anchor=south] {否} (process9);
-%\draw [arrow] (process7) -- (process9);
-%\draw [arrow] (decision1) -- node[anchor=east] {是} (stop);
-%\draw [straightline] (decision1) -|  (point1);
-%\draw [straightline] (process6) -|  (point5);
-%\draw [arrow] (point1) -- node[anchor=south] {否} (input1);
-%\draw [arrow] (point5) -- (process9);
-\end{tikzpicture}
-\end{lrbox}%
-\ifdim\ht\mysavebox>\textheight
-    \setlength{\myrest}{\ht\mysavebox}%
-    \loop\ifdim\myrest>\textheight
-        \newpage\par\noindent
-        \clipbox{0 {\myrest-\textheight} 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
-        \addtolength{\myrest}{-\textheight}%
-    \repeat
-    \newpage\par\noindent
-    \clipbox{0 0 0 {\ht\mysavebox-\myrest}}{\usebox{\mysavebox}}%
-\else
-    \usebox{\mysavebox}%
-\fi
-
-%\caption{\textrm{The Maiin-Flow of VASP.}}
-%\label{Fig:VASP_MAIN-FLOW}
-%\end{figure}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  绘制流程图  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=3cm,minimum height=1cm,text centered,text width =3cm, draw=black,fill=red!30]
-%\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=blue!30]
-%\tikzstyle{process} = [rectangle,minimum width=3cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=orange!30]
-%\tikzstyle{decision} = [diamond,aspect = 3,text centered,draw=black,fill=green!30]
-%\tikzstyle{arrow} = [thick,->,>=stealth]
-%\tikzstyle{straightline} = [line width = 1pt,-]
-%\tikzstyle{point}=[coordinate]
-%
-%\begin{tikzpicture}[node distance=2cm]
-%\node (start) [startstop] {开始};
-%\node (input1) [io,below of=start] {输入聚类的个数 $k$ 和最大迭代次数 $n$ };
-%\node (process1) [process,below of=input1] {初始化 $k$ 个聚类中心};
-%\node (process2) [process,below of=process1] {分配各数据对象到距离最近的类中};
-%\node (decision1) [decision,below of=process2,yshift=-0.5cm] {是否收敛或迭代次数达到 $n$ };
-%\node (stop) [startstop,below of=decision1,node distance=3cm] {输出聚类结果};
-%\node(point1)[point,left of=input1,node distance=5cm]{};
-%
-%\draw [arrow] (start) -- (input1);
-%\draw [arrow] (input1) -- (process1);
-%\draw [arrow] (process1) -- (process2);
-%\draw [arrow] (process2) -- (decision1);
-%\draw [arrow] (decision1) -- node[anchor=east] {是} (stop);
-%\draw [straightline] (decision1) -|  (point1);
-%\draw [arrow] (point1) -- node[anchor=south] {否} (input1);
-%\end{tikzpicture}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  绘制流程图  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{figure}
-%\scriptsize
-%\tikzstyle{format}=[rectangle,draw,thin,fill=white]
-%%定义语句块的颜色,形状和边
-%\tikzstyle{test}=[diamond,aspect=2,draw,thin]
-%%定义条件块的形状,颜色
-%\tikzstyle{point}=[coordinate,on grid,]
-%%像素点,用于连接转移线
-%\begin{tikzpicture}%[node distance=10mm,auto,>=late',thin,start chain=going below,every join/.style={norm},]
-%%start chain=going below指明了流程图的默认方向,node distance=8mm则指明了默认的node距离。这些可以在定义node的时候更改,比如说
-%%\node[point,right of=n3,node distance=10mm] (p0){};
-%%这里声明了node p0,它在node n3 的右边,距离是10mm。
-%\node[format] (start){Start};
-%\node[format,below of=start,node distance=7mm] (define){Some defines};
-%\node[format,below of=define,node distance=7mm] (PCFinit){PCF8563 Initialize};
-%\node[format,below of=PCFinit,node distance=7mm] (DS18init){DS18 Initialize};
-%\node[format,below of=DS18init,node distance=7mm] (LCDinit){LCD Initialize};
-%\node[format,below of=LCDinit,node distance=7mm] (processtime){Processtime};
-%\node[format,below of=processtime,node distance=7mm] (keyinit){Key Initialize};
-%\node[test,below of=keyinit,node distance=15mm](setkeycheck){Check Set Key};
-%\node[point,left of=setkeycheck,node distance=18mm](point3){};
-%\node[format,below of=setkeycheck,node distance=15mm](readtime){Read Time};
-%\node[point,right of=readtime,node distance=15mm](point4){};
-%\node[format,below of=readtime](processtime1){Processtime};
-%\node[format,below of=processtime1](gettemp){Get Temperature};
-%\node[format,below of=gettemp](display){Display All Data};
-%\node[format,right of=setkeycheck,node distance=40mm](setsetflag){Set SetFlag=1};
-%\node[format,below of=setsetflag](setinit){Set Mode Initialize};
-%\node[format,below of=setinit](checksetting){Checksetting()};
-%\node[test,below of=checksetting,node distance=15mm](savecheck){Check Save Key};
-%\node[format,below of=savecheck,node distance=15mm](clearsetflag){Clear SetFlag=0};
-%\node[format,below of=clearsetflag](settime){Set Time};
-%\node[point,below of=display,node distance=7mm](point1){};
-%\node[point,below of=settime,node distance=7mm](point2){};
-%%\node[format] (n0) at(4,4){A}; 直接指定位置
-%%定义完node之后进行连线,
-%%\draw[->] (n0.south) -- (n1); 带箭头实线
-%%\draw[-] (n0.south) -- (n1); 不带箭头实线
-%%\draw[&lt;->] (n0.south) -- (n1.north);   双箭头
-%%\draw[&lt;-,dashed] (n1.south) -- (n2.north); 带箭头虚线 
-%%\draw[&lt;-] (n0.south) to node{Yes} (n1.north);  带字,字在箭头方向右边
-%%\draw[->] (n1.north) to node{Yes} (n0.south);  带字,字在箭头方向左边
-%%\draw[->] (n1.north) to[out=60,in=300] node{Yes} (n0.south);  曲线
-%%\draw[->,draw=red](n2)--(n1);  带颜色的线
-%\draw[->] (start)--(define);
-%\draw[->] (define)--(PCFinit);
-%\draw[->](PCFinit)--(DS18init);
-%\draw[->](DS18init)--(LCDinit);
-%\draw[->](LCDinit)--(processtime);
-%\draw[->](processtime)--(keyinit);
-%\draw[->](keyinit)--(setkeycheck);
-%\draw[->](setkeycheck)--node[above]{Yes}(setsetflag);
-%\draw[->](setkeycheck) --node[left]{No} (readtime);
-%\draw[->](readtime)--(processtime1);
-%\draw[->](processtime1)--(gettemp);
-%\draw[->](gettemp)--(display);
-%\draw[-](display)--(point1);
-%\draw[-](point1)-|(point3);
-%\draw[->](point3)--(setkeycheck.west);
-%\draw[->](setsetflag)--(setinit);
-%\draw[->](setinit)--(checksetting);
-%\draw[->](checksetting)--(savecheck);
-%\draw[->](savecheck)--node[left]{Yes}(clearsetflag);
-%\draw[->](savecheck.west)|-node[left]{No}(checksetting);
-%\draw[->](clearsetflag)--(settime);
-%\draw[-](settime)--(point2);
-%\draw[-](point2)-|(point4);
-%\draw[->](point4)--(readtime.east);
-%\end{tikzpicture}
-%\end{figure}
-
-\section{化学反应方程式的书写}
-\ce{2H2+O2 ->[\textrm{燃烧}][$\Delta$] 2H2O} %%催化剂
-\ce{2H2+O2 $\xlongequal[\triangle]{\ce{MnO2}}$ 2H2O} % 一个简单的化学公式
-\ce{2H2+O2  ->[\textrm{燃烧}][$\triangle$] 2H2O} % 一个简单的化学公式
-\ce{#} %% 三键
-\ce{->} %%箭头
-\ce{<=>}  %%可逆号
-\ce{<=>[\textrm{催化剂}][$\triangle$]}
-\ce{<-->[\textrm{放电}][\textrm{充电}]} %%双向箭头
-\ce{<=>>[\textrm{催化剂}][$\triangle$]} %%长短箭头符号
-\ce{<<=>[\textrm{催化剂}][$\triangle$]}
