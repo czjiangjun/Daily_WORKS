@@ -800,7 +800,7 @@
 \centering
 \begin{tikzpicture}[
     box-rect/.style={rectangle,draw,fill=darkgray!20,node distance=1cm,text width=12em,text centered,rounded corners,minimum height=2em,thick},
-    box-diam/.style={diamond, aspect=2, inner sep=2pt, draw,fill=green!50,node distance=1cm,minimum width=0.5em,text centered,rounded corners,minimum height=2em,thick},
+    box-diam/.style={diamond, aspect=1.5, inner sep=2pt, draw,fill=green!50,node distance=1cm,minimum width=0.5em,text centered,rounded corners,minimum height=2em,thick},
     box-trape/.style={trapezium, trapezium left angle = 70, fill=darkgray!50, trapezium right angle=110,minimum width=3cm,minimum height=1cm,text centered,text width =3em,thick},
     arrow/.style={draw,-latex', red},
   ]
@@ -811,10 +811,10 @@
   \node [box-rect, below=1.0 of Modeling-Initial, fill=red!30, text width=18.5em, minimum height=0.5em] (Force-Field) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf{确定\textrm{GPUMD}产生的\textrm{NEP}势函数}:~$U_i^{\mathrm{NEP}}(X_i)$\\\textbf{确定模拟的边值条件}:~周期性边界/非周期性边界\\\textbf{确定模拟的时间步长}:~$\Delta t$}};
   \node [box-rect, below=1.0 of Force-Field, fill=red!30, text width=22.5em, minimum height=0.5em] (Calculation-Force) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf{计算每个粒子在当前时点的受力和加速度}:\\$f_i(t_{\mathrm{current}})=-\nabla U(X_i(t_{\mathrm{current}}))~\mbox{且}~a_i(t_{\mathrm{current}})=-\dfrac{f_i(t_{\mathrm{current}})}{m_i}$}};
   \node [box-rect, below=1.0 of Calculation-Force, fill=brown!30, text width=12.5em, minimum height=0.5em] (Next-time-step) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf{移动到下一时间步}:~\\$t_{\mathrm{text}}=t_{\mathrm{current}}+\Delta t$}};
-  \node [box-rect, below=1.0 of Next-time-step, fill=green!30, text width=18.5em, minimum height=0.5em] (Simulation-Verlet) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf{更新每个粒子随时间演化后的位置}:\\$X_i(t_{\mathrm{next}})=X_i(t_{\mathrm{current}})+V_i(t_{\mathrm{current}})\Delta t+\dfrac12a_i(t_{\mathrm{current}})\Delta t^2$\\\textbf{更新每个粒子随时间演化后的受力与加速度}:\\$f_i(t_{\mathrm{next}})=-\nabla U(X_i(t_{\mathrm{next}}))$\\$a_i(t_{\mathrm{next}})=\dfrac{f_i(t_{\mathrm{next}})}{m_i}$\\\textbf{更新每个粒子随时间演化后的速度}\\$V_i(t_{\mathrm{next}})=V_i(t_{\mathrm{current}})+\dfrac12[a_i(t_{\mathrm{current}})+a_i(t_{\mathrm{next}})]\Delta t$}};
+  \node [box-rect, below=1.0 of Next-time-step, fill=green!30, text width=21.5em, minimum height=0.5em] (Simulation-Verlet) {\fontsize{9.5pt}{5.5pt}\selectfont{\textbf{更新每个粒子随时间演化后的位置}:\\$X_i(t_{\mathrm{next}})=X_i(t_{\mathrm{current}})+V_i(t_{\mathrm{current}})\Delta t+\dfrac12a_i(t_{\mathrm{current}})\Delta t^2$\\\textbf{更新每个粒子随时间演化后的受力与加速度}:\\$f_i(t_{\mathrm{next}})=-\nabla U(X_i(t_{\mathrm{next}}))$\\$a_i(t_{\mathrm{next}})=\dfrac{f_i(t_{\mathrm{next}})}{m_i}$\\\textbf{更新每个粒子随时间演化后的速度}\\$V_i(t_{\mathrm{next}})=V_i(t_{\mathrm{current}})+\dfrac12[a_i(t_{\mathrm{current}})+a_i(t_{\mathrm{next}})]\Delta t$}};
 %
-  \node [box-diam, below=1.0 of Simulation-Verlet, fill=blue!50, text width=12.5em, minimum height=2.5em] (Continue-next-time_step) {\fontsize{9.5pt}{5.5pt}\selectfont{评估模拟体系\\达到平衡态的依据\\达到平衡态的时间步数}};
-  \node [box-trape, below=1.0 of Continue-next-time_step, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-equilibrated-system) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述体系数据}};
+  \node [box-diam, below=1.0 of Simulation-Verlet, fill=blue!50, text width=12.5em, minimum height=2.5em] (Continue-next-time-step) {\fontsize{9.5pt}{5.5pt}\selectfont{评估模拟体系\\达到平衡态的依据\\达到平衡态的时间步数}};
+  \node [box-trape, below=1.0 of Continue-next-time-step, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-equilibrated-system) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述体系数据}};
 
   \node [box-rect, right=2.0 of Force-Field, fill=orange!50, text width=15.0em, minimum height=0.5em] (Canonical-ensemble) {\fontsize{9.5pt}{5.5pt}\selectfont{分子动力学\\\textrm{NVT/NPT}系综模拟}};
   \node [box-rect, below=0.8 of Canonical-ensemble, fill=white, text width=15.0em, minimum height=0.5em, very thin] (Small-Strain) {\fontsize{8.5pt}{5.5pt}\selectfont{在体系一个方向上施加应力步长}};
@@ -822,14 +822,15 @@
 %
   \node [box-rect, below=0.8 of Optimization, fill=olive!60, text width=15.0em, minimum height=0.5em, very thin] (NPT-Canonical-ensemble) {\fontsize{9.5pt}{5.5pt}\selectfont{\textrm{NPT}系统模拟}};
   \node [box-rect, below=0.8 of NPT-Canonical-ensemble, fill=purple!30, text width=15.0em, minimum height=0.5em] (Calculate-Stress) {\fontsize{9.5pt}{5.5pt}\selectfont{计算下一应力步长条件下的状态}};
-  \node [box-diam, below=1.0 of Calculate-Stress, fill=blue!50, text width=12.5em, minimum height=2.5em] (Continue-next-stress_step) {\fontsize{9.5pt}{5.5pt}\selectfont{评估模拟体系\\达到指定应力\\达到应力步数上限}};
-  \node [box-rect, below=2.5 of Continue-next-stress_step, fill=lime!70, text width=15.0em, minimum height=0.5em] (Young-Modulus) {\fontsize{9.5pt}{5.5pt}\selectfont{计算体系的\textrm{Young}氏模量}};
-  \node [box-trape, below=1.0 of Young-Modulus, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-Mechanical-Properties) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述数据}};
+  \node [box-diam, below=0.8 of Calculate-Stress, fill=blue!50, text width=12.5em, minimum height=2.5em] (Continue-next-stress-step) {\fontsize{9.5pt}{5.5pt}\selectfont{评估模拟体系\\达到指定应力\\达到应力步数上限}};
+  \node [box-rect, below=0.8 of Continue-next-stress-step, fill=lime!70, text width=15.0em, minimum height=0.5em] (Young-Modulus) {\fontsize{9.5pt}{5.5pt}\selectfont{计算体系的\textrm{Young}氏模量}};
+  \node [box-trape, below=0.8 of Young-Modulus, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-Mechanical-Properties) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述力学性质数据}};
 %
 %%%%%%% ------------ 定义 虚线方框转角 -----------------  %%%%%%
-%\path
-%  (Figure.north) ++(-5.0 em, -0.6em) coordinate (Model-fit)
-%  (Modeling-Analysis.south) ++(5.0em, 0.6em) coordinate (Symmetry-fit)
+\path
+  (Simulation-Verlet.west) ++(-1.5 em, -0.0em) coordinate (Continue-1)
+  (NPT-Canonical-ensemble.east) ++(1.5em, 0.0em) coordinate (Continue-2)
+  (Force-Field.east) ++(3.5em, 4.0em) coordinate (Return)
 %  (Modeling-Analysis.south) ++(-6.0em, -0.2em) coordinate (Symmetry-seperate)
 %  (Highthrough-Put.south) ++(-4.2em, 0.0em) coordinate (Highthrough-1)
 %  (Highthrough-Put.south) ++(3.45em, -0.0em) coordinate (Highthrough-2)
@@ -849,18 +850,29 @@
 %  (Machine-Learning.east) ++(1.0em, 0.0em) coordinate (Machine-Learning-3)
 %  (GPUMD-Mechanism.south) ++(0.0em, -1.0em) coordinate (GPUMD-Mechanism-Div)
 %  (Atom-Settlement.south) ++(0.0em, -1.0em) coordinate (Atom-Settlement-Cor)
-%  (Material-Growth.south) ++(0.0em, -1.0em) coordinate (Material-Growth-Cor);
+%  (Material-Growth.south) ++(0.0em, -1.0em) coordinate (Material-Growth-Cor)
+  ;
 %
-\path [arrow, gray,thick] (Simulation-Box.south) -- (Input-Parameter.north);
-\path [arrow, gray,thick] (Input-Parameter.south) -- (Modeling-Initial.north);
-\path [arrow, gray,thick] (Modeling-Initial.south) -- (Force-Field.north);
-%\path [arrow, gray,thick] (User-defineded.west) -- (Modeling-mode.east);
-%\path [arrow, gray,thick] (User-defineded.east) -- (Process-Design.west);
-%\path [arrow, gray,thick] (Highthrough-1) -- (User-defineded.north);
-%\path [arrow, gray,thick] (Highthrough-2) -- (Process-Design.north);
+\path [arrow, black,thick] (Simulation-Box.south) -- (Input-Parameter.north);
+\path [arrow, black,thick] (Input-Parameter.south) -- (Modeling-Initial.north);
+\path [arrow, black,thick] (Modeling-Initial.south) -- (Force-Field.north);
+\path [arrow, black,thick] (Force-Field.south) -- (Calculation-Force.north);
+\path [arrow, black,thick] (Calculation-Force.south) -- (Next-time-step.north);
+\path [arrow, black,thick] (Next-time-step.south) -- (Simulation-Verlet.north);
+\path [arrow, black,thick] (Simulation-Verlet.south) -- (Continue-next-time-step.north);
+\path [arrow, black,thick] (Continue-next-time-step.south) -- (Output-equilibrated-system.north);
 %
-%\path [arrow, draw=blue!30, line width=4pt] (Process-Design.south) -- (Multi-Scale.north);
-%\path [arrow, draw=black, line width=3pt] (Process-Design.south)++(-2.0em, 0.0em) -- (Process-Design-2) -| (Process-Manage.north);
+\path [arrow, black,thick] (Canonical-ensemble.south) -- (Small-Strain.north);
+\path [arrow, black,thick] (Small-Strain.south) -- (Optimization.north);
+\path [arrow, black,thick] (Optimization.south) -- (NPT-Canonical-ensemble.north);
+\path [arrow, black,thick] (NPT-Canonical-ensemble.south) -- (Calculate-Stress.north);
+\path [arrow, black,thick] (Calculate-Stress.south) -- (Continue-next-stress-step.north);
+\path [arrow, black,thick] (Continue-next-stress-step.south) -- (Young-Modulus.north);
+\path [arrow, black,thick] (Young-Modulus.south) -- (Output-Mechanical-Properties.north);
+%
+\path [arrow, black,thick] (Continue-next-time-step.west) -| (Continue-1) |- (Calculation-Force.west);
+\path [arrow, black,thick] (Continue-next-time-step.north)++(0.0em, 1.2em) -| (Return) -| (Canonical-ensemble.north);
+\path [arrow, black,thick] (Continue-next-stress-step.east) -| (Continue-2) |- (Small-Strain.east);
 %%\path [draw=black, line width=3pt] (Process-Design-1) -- (Process-Design-2);
 %%\path [arrow, draw=black, line width=3pt] (Process-Design-2) -- (Process-Manage-1);
 %\path [arrow, draw=green!70!red, opacity=0.50, line width=3pt] (Modeling-Analysis-1) -- (DataBase-3);
