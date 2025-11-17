@@ -254,21 +254,33 @@
   \node [box-diam, below=1.0 of Simulation-Verlet, fill=blue!50, text width=12.5em, minimum height=2.5em] (Continue-next-time-step) {\fontsize{9.5pt}{5.5pt}\selectfont{评估模拟体系\\达到平衡态的依据\\达到平衡态的时间步数}};
   \node [box-trape, below=1.0 of Continue-next-time-step, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-equilibrated-system) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述体系数据}};
 
-  \node [box-rect, right=2.0 of Force-Field, fill=orange!50, text width=15.0em, minimum height=0.5em] (Canonical-ensemble) {\fontsize{9.5pt}{5.5pt}\selectfont{分子动力学\\\textrm{NVT/NPT}系综模拟}};
-  \node [box-rect, below=0.8 of Canonical-ensemble, fill=white, text width=15.0em, minimum height=0.5em, very thin] (Small-Strain) {\fontsize{8.5pt}{5.5pt}\selectfont{构建材料生长模块尺寸与范围}};
-  \node [box-rect, below=0.8 of Small-Strain, text width=15.0em, minimum height=0.5em] (Optimization) {\fontsize{9.5pt}{5.5pt}\selectfont{将模拟体系在应力作用方向充分弛豫，能量最小化}};
+  \node [box-rect, right=1.8 of Output-equilibrated-system, fill=orange!50, text width=15.0em, minimum height=0.5em] (Canonical-ensemble) {\fontsize{9.5pt}{5.5pt}\selectfont{分子动力学\\\textrm{NVT/NPT}系综模拟}};
+  \node [box-rect, below=0.8 of Canonical-ensemble, fill=white, text width=15.0em, minimum height=0.5em, very thin] (Range-Material-grow) {\fontsize{8.5pt}{5.5pt}\selectfont{构建材料生长模块尺寸与范围}};
+  \node [box-rect, below=1.0 of Range-Material-grow, fill=blue!30, text width=15.0em, minimum height=0.5em] (Atom-deposition) {\fontsize{9.5pt}{5.5pt}\selectfont{在指定位置安放原子}};
+  \node [box-rect, below=0.5 of Atom-deposition, fill=blue!30, text width=15.0em, minimum height=0.5em] (Atom-Stress) {\fontsize{9.5pt}{5.5pt}\selectfont{计算安放的每个\\原子的受力和应力}};
+  \node [box-rect, below=1.0 of Atom-Stress, text width=15.0em, minimum height=0.5em] (Optimization) {\fontsize{9.5pt}{5.5pt}\selectfont{将模拟体系在应力作用方向充分弛豫，能量最小化}};
 %
   \node [box-rect, below=0.8 of Optimization, fill=olive!60, text width=15.0em, minimum height=0.5em, very thin] (NPT-Canonical-ensemble) {\fontsize{9.5pt}{5.5pt}\selectfont{\textrm{NPT}系统模拟}};
-  \node [box-rect, below=0.8 of NPT-Canonical-ensemble, fill=purple!30, text width=15.0em, minimum height=0.5em] (Calculate-Stress) {\fontsize{9.5pt}{5.5pt}\selectfont{计算下一应力步长条件下的状态}};
-  \node [box-diam, below=0.8 of Calculate-Stress, fill=blue!50, text width=12.5em, minimum height=2.5em] (Continue-next-stress-step) {\fontsize{9.5pt}{5.5pt}\selectfont{评估模拟体系\\达到指定应力\\达到应力步数上限}};
-  \node [box-rect, below=0.8 of Continue-next-stress-step, fill=lime!70, text width=15.0em, minimum height=0.5em] (Young-Modulus) {\fontsize{9.5pt}{5.5pt}\selectfont{计算体系的\textrm{Young}氏模量}};
-  \node [box-trape, below=0.8 of Young-Modulus, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-Mechanical-Properties) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述力学性质数据}};
+  \node [box-diam, below=0.8 of NPT-Canonical-ensemble, fill=purple!30, text width=10.0em, minimum height=0.5em] (Calculate-Stress) {\fontsize{9.5pt}{5.5pt}\selectfont{评估增加沉降原子后体系是否稳定\\将每个原子\\在应力方向上按步长移动}};
+  \node [box-rect, below=0.8 of Calculate-Stress, fill=lime!70, text width=15.0em, minimum height=0.5em] (Young-Modulus) {\fontsize{9.5pt}{5.5pt}\selectfont{计算体系的\textrm{Young}氏模量}};
+  \node [box-diam, below=0.8 of Young-Modulus, fill=blue!50, text width=12.5em, minimum height=2.5em] (Continue-next-stress-step) {\fontsize{9.5pt}{5.5pt}\selectfont{评估模拟体系\\生长模块尺寸\\是否到达指定范围}};
+  \node [box-trape, below=0.8 of Continue-next-stress-step, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-Mechanical-Properties) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述力学性质数据}};
+%  \node [box-rect, below=0.8 of Continue-next-stress-step, fill=lime!70, text width=15.0em, minimum height=0.5em] (Young-Modulus) {\fontsize{9.5pt}{5.5pt}\selectfont{计算体系的\textrm{Young}氏模量}};
 %
 %%%%%%% ------------ 定义 虚线方框转角 -----------------  %%%%%%
 \path
   (Simulation-Verlet.west) ++(-1.5 em, -0.0em) coordinate (Continue-1)
-  (NPT-Canonical-ensemble.east) ++(1.5em, 0.0em) coordinate (Continue-2)
+  (NPT-Canonical-ensemble.west) ++(-1.5em, 0.0em) coordinate (Continue-2)
+  (NPT-Canonical-ensemble.east) ++(1.5em, 0.0em) coordinate (Continue-3)
+  (Range-Material-grow.south) ++(0.0em, -1.0em) coordinate (Corner-1)
+  (Optimization.north) ++(0.0em, 1.0em) coordinate (Corner-2)
   (Force-Field.east) ++(3.5em, 4.0em) coordinate (Return)
+  
+  (Atom-deposition.north west) ++(-0.5em, 0.5em) coordinate (Corner-Atom-1) 
+  (Atom-Stress.south east) ++(0.5em, -0.5em) coordinate (Corner-Atom-2) 
+
+  (Range-Material-grow.north west) ++(-2.5em, 0.5em) coordinate (Corner-Material-1) 
+  (Continue-next-stress-step.south east) ++(5.0em, -3.3em) coordinate (Corner-Material-2) 
   ;
 %
 \path [arrow, black,thick] (Simulation-Box.south) -- (Input-Parameter.north);
@@ -278,19 +290,26 @@
 \path [arrow, black,thick] (Calculation-Force.south) -- (Next-time-step.north);
 \path [arrow, black,thick] (Next-time-step.south) -- (Simulation-Verlet.north);
 \path [arrow, black,thick] (Simulation-Verlet.south) -- (Continue-next-time-step.north);
-\path [arrow, black,thick] (Continue-next-time-step.south) -- (Output-equilibrated-system.north);
+\path [arrow, black,thick] (Continue-next-time-step.south) -- node[midway,outer sep=0pt, xshift=1.0em, yshift=0.8em](TextNode1){\fontsize{8.0pt}{4.5pt}\selectfont{\textbf{\textcolor{black}{是}}}}(Output-equilibrated-system.north);
 %
-\path [arrow, black,thick] (Canonical-ensemble.south) -- (Small-Strain.north);
-\path [arrow, black,thick] (Small-Strain.south) -- (Optimization.north);
+\path [arrow, black,thick] (Canonical-ensemble.south) -- (Range-Material-grow.north);
+\path [arrow, black,thick] (Range-Material-grow.south) -- (Atom-deposition);
+\path [arrow, black,thick] (Atom-deposition) -- (Atom-Stress);
+\path [arrow, black,thick] (Atom-Stress) -- (Optimization.north);
 \path [arrow, black,thick] (Optimization.south) -- (NPT-Canonical-ensemble.north);
 \path [arrow, black,thick] (NPT-Canonical-ensemble.south) -- (Calculate-Stress.north);
-\path [arrow, black,thick] (Calculate-Stress.south) -- (Continue-next-stress-step.north);
-\path [arrow, black,thick] (Continue-next-stress-step.south) -- (Young-Modulus.north);
-\path [arrow, black,thick] (Young-Modulus.south) -- (Output-Mechanical-Properties.north);
+\path [arrow, black,thick] (Calculate-Stress.south) -- node[midway,outer sep=0pt, xshift=-0.5em](TextNode4){\fontsize{8.0pt}{4.5pt}\selectfont{\textbf{\textcolor{black}{是}}}}(Young-Modulus.north);
+\path [arrow, black,thick] (Young-Modulus.south) -- (Continue-next-stress-step.north);
+\path [arrow, black,thick] (Continue-next-stress-step.south) -- node[midway,outer sep=0pt, xshift=-1.0em](TextNode4){\fontsize{8.0pt}{4.5pt}\selectfont{\textbf{\textcolor{black}{是}}}}(Output-Mechanical-Properties.north);
 %
-\path [arrow, black,thick] (Continue-next-time-step.west) -| (Continue-1) |- (Calculation-Force.west);
-\path [arrow, black,thick] (Continue-next-time-step.north)++(0.0em, 1.2em) -| (Return) -| (Canonical-ensemble.north);
-\path [arrow, black,thick] (Continue-next-stress-step.east) -| (Continue-2) |- (Small-Strain.east);
+\path [arrow, black,thick] (Continue-next-time-step.west) node[midway,below=0.05,outer sep=0pt, xshift=-12.0em](TextNode2){\fontsize{8.0pt}{4.5pt}\selectfont{\textbf{\textcolor{black}{否}}}}-| (Continue-1) |- (Calculation-Force.west);
+\path [arrow, black,thick] (Continue-next-time-step.south)++(0.0em, -1.2em) -| (Canonical-ensemble.north);
+
+\draw [black, thick] (Continue-next-stress-step.west) -| node[midway,below=0.05,outer sep=0pt, xshift=-0.6em, yshift=12.0em ](TextNode3){\fontsize{8.0pt}{4.5pt}\selectfont{\textbf{\textcolor{black}{否}}}} (Continue-2) |- (Corner-1) ;
+\draw [black, thick] (Calculate-Stress.east) -| node[midway,below=0.05,outer sep=0pt, xshift=-0.6em, yshift=7.0em ](TextNode3){\fontsize{8.0pt}{4.5pt}\selectfont{\textbf{\textcolor{black}{否}}}} (Continue-3) |- (Corner-2);
+
+\node [rectangle,draw,dashdotted,inner sep=0.1em,fit=(Corner-Atom-1) (Corner-Atom-2)] (enclosure) {};
+\node [rectangle,draw,dotted,inner sep=0.1em,fit=(Corner-Material-1) (Corner-Material-2)] (enclosure) {};
 %
 %%%%%%% ------------ 绘制 虚线 -----------------  %%%%%%
 %%\draw [gray, dotted, line width=2pt] (Symmetry-seperate) -- (Modeling-Initial.south);
@@ -609,7 +628,7 @@
 
 
   \path [arrow] (Criterion)--(SCF-output) node[midway,right=0.1,outer sep=0pt](TextNode1){\fontsize{4.0pt}{2.5pt}\selectfont{\textrm{\textcolor{black}{Yes}}}};
-  \path [draw,magenta] (Criterion.west)++(0.25em, 0.0em)--(Criterion-fit) node[midway,above=-0.05,outer sep=0pt](TextNode1){\fontsize{4.0pt}{2.5pt}\selectfont{\textrm{\textcolor{black}{NO}}}};
+  \path [draw,magenta] (Criterion.west)++(0.25em, 0.0em)--(Criterion-fit) node[midway,above=-0.05,outer sep=0pt](TextNode2){\fontsize{4.0pt}{2.5pt}\selectfont{\textrm{\textcolor{black}{NO}}}};
   \path [draw,magenta] (Criterion-fit) |-(Potential-fit1);
   \node [box, right=0.3 of SCF-output, fill=green!50, text width=7.0em, minimum height=0.5em] (SCF-properties) {\fontsize{5.0pt}{2.5pt}\selectfont{各类物理数据与性质计算}};
   \node [box, fill=magenta!50, text width=8.5em, draw=pink, minimum height=0.5em, thick] at (-3.8,9.15) (Figure) {\includegraphics[width=1.05in, height=0.7in,viewport=0 0 1172 863,clip]{Figures/DFT.png}};
@@ -1210,8 +1229,8 @@
   \node [box-rect, below=0.8 of Optimization, fill=olive!60, text width=15.0em, minimum height=0.5em, very thin] (NPT-Canonical-ensemble) {\fontsize{9.5pt}{5.5pt}\selectfont{\textrm{NPT}系统模拟}};
   \node [box-rect, below=0.8 of NPT-Canonical-ensemble, fill=purple!30, text width=15.0em, minimum height=0.5em] (Calculate-Stress) {\fontsize{9.5pt}{5.5pt}\selectfont{计算下一应力步长条件下的状态}};
   \node [box-diam, below=0.8 of Calculate-Stress, fill=blue!50, text width=12.5em, minimum height=2.5em] (Continue-next-stress-step) {\fontsize{9.5pt}{5.5pt}\selectfont{评估模拟体系\\达到指定应力\\达到应力步数上限}};
-  \node [box-rect, below=0.8 of Continue-next-stress-step, fill=lime!70, text width=15.0em, minimum height=0.5em] (Young-Modulus) {\fontsize{9.5pt}{5.5pt}\selectfont{计算体系的\textrm{Young}氏模量}};
-  \node [box-trape, below=0.8 of Young-Modulus, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-Mechanical-Properties) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述力学性质数据}};
+  \node [box-trape, below=0.8 of Continue-next-stress-step, fill=red!50, text width=9.0em, minimum height=0.5em] (Output-Mechanical-Properties) {\fontsize{9.5pt}{5.5pt}\selectfont{输出达到平衡态时\\描述力学性质数据}};
+  \node [box-rect, below=0.8 of Output-Mechanical-Properties, fill=lime!70, text width=15.0em, minimum height=0.5em] (Young-Modulus) {\fontsize{9.5pt}{5.5pt}\selectfont{计算体系的\textrm{Young}氏模量并输出}};
 %
 %%%%%%% ------------ 定义 虚线方框转角 -----------------  %%%%%%
 \path
@@ -1227,19 +1246,19 @@
 \path [arrow, black,thick] (Calculation-Force.south) -- (Next-time-step.north);
 \path [arrow, black,thick] (Next-time-step.south) -- (Simulation-Verlet.north);
 \path [arrow, black,thick] (Simulation-Verlet.south) -- (Continue-next-time-step.north);
-\path [arrow, black,thick] (Continue-next-time-step.south) -- (Output-equilibrated-system.north);
+\path [arrow, black,thick] (Continue-next-time-step.south) -- node[midway,outer sep=0pt, xshift=-1.0em](TextNode1){\fontsize{8.0pt}{4.5pt}\selectfont{\textbf{\textcolor{black}{是}}}}(Output-equilibrated-system.north);
 %
 \path [arrow, black,thick] (Canonical-ensemble.south) -- (Small-Strain.north);
 \path [arrow, black,thick] (Small-Strain.south) -- (Optimization.north);
 \path [arrow, black,thick] (Optimization.south) -- (NPT-Canonical-ensemble.north);
 \path [arrow, black,thick] (NPT-Canonical-ensemble.south) -- (Calculate-Stress.north);
 \path [arrow, black,thick] (Calculate-Stress.south) -- (Continue-next-stress-step.north);
-\path [arrow, black,thick] (Continue-next-stress-step.south) -- (Young-Modulus.north);
-\path [arrow, black,thick] (Young-Modulus.south) -- (Output-Mechanical-Properties.north);
+\path [arrow, black,thick] (Continue-next-stress-step.south) -- node[midway,outer sep=0pt, xshift=-1.0em](TextNode4){\fontsize{8.0pt}{4.5pt}\selectfont{\textbf{\textcolor{black}{是}}}}(Output-Mechanical-Properties.north);
+\path [arrow, black,thick]  (Output-Mechanical-Properties.south)-- (Young-Modulus.north);
 %
-\path [arrow, black,thick] (Continue-next-time-step.west) -| (Continue-1) |- (Calculation-Force.west);
-\path [arrow, black,thick] (Continue-next-time-step.north)++(0.0em, 1.2em) -| (Return) -| (Canonical-ensemble.north);
-\path [arrow, black,thick] (Continue-next-stress-step.east) -| (Continue-2) |- (Small-Strain.east);
+\path [arrow, black,thick] (Continue-next-time-step.west) node[midway,below=0.05,outer sep=0pt, xshift=-12.0em](TextNode2){\fontsize{8.0pt}{4.5pt}\selectfont{\textbf{\textcolor{black}{否}}}}-| (Continue-1) |- (Calculation-Force.west);
+\path [arrow, black,thick] (Continue-next-time-step.south)++(0.0em, -1.2em) -| (Return) -| (Canonical-ensemble.north);
+\path [arrow, black,thick] (Continue-next-stress-step.east) node[midway,below=0.05,outer sep=0pt, xshift=31.0em, yshift=8.0em](TextNode3){\fontsize{8.0pt}{4.5pt}\selectfont{\textbf{\textcolor{black}{否}}}}-| (Continue-2) |- (Small-Strain.east);
 %
 %%%%%%% ------------ 绘制 虚线 -----------------  %%%%%%
 %%\draw [gray, dotted, line width=2pt] (Symmetry-seperate) -- (Modeling-Initial.south);
