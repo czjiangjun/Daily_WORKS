@@ -81,7 +81,8 @@
 传统的科学计算软件，存在人机交互频繁，自动化程度低的普遍问题。近年来涌现了多种支持高通量材料模拟自动流程软件，主要以支持原子、分子尺度等微观模拟计算为主，目标是实现材料电子结构、分子动力学和热力学物理量计算过程的自动化，建立相应的数据库。自动流程的示意简图如\textrm{Fig.}\ref{Fig:MP_data_flow}所示。
 \begin{figure}[h!]
 \centering
-\includegraphics[height=3.1in,width=4.3in,viewport=0 0 800 650,clip]{Figures/Gray-MP_data_flow.png}%}
+%\includegraphics[height=3.1in,width=4.3in,viewport=0 0 800 650,clip]{Figures/Gray-MP_data_flow.png}%}
+\includegraphics[height=3.1in,width=4.3in,viewport=0 0 800 650,clip]{Figures/MP_data_flow.png}%}
 \caption{一般材料计算自动流程中的数据流示意(引自文献\cite{CMS49-299_2010}).}%
 \label{Fig:MP_data_flow}
 \end{figure}
@@ -96,7 +97,8 @@
 \begin{figure}[h!]
 \centering
 %\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
-\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{Figures/Gray-MP_comp_infrastructure.png}%}
+%\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{Figures/Gray-MP_comp_infrastructure.png}%}
+\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{Figures/MP_comp_infrastructure.png}%}
 %\includegraphics[height=1.2in,width=1.7in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
 %\includegraphics[height=1.2in,width=1.6in,viewport=0 0 1020 730,clip]{CEP_structure_flow.png}%}
 \caption{\textrm{Materials Project (MP)}的基本构架(引自文献\cite{CMS97-209_2015}).}%
@@ -109,7 +111,8 @@
 %\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
 %\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{MP_comp_infrastructure.png}%}
 %\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
-\includegraphics[height=2.4in]{Figures/Gray-ASE_Python_lib.png}%}
+%\includegraphics[height=2.4in]{Figures/Gray-ASE_Python_lib.png}%}
+\includegraphics[height=2.4in]{Figures/ASE_Python_lib.png}%}
 \caption{\textrm{ASE}的\textrm{Python}模块关系.(引自文献\cite{JPCM29-273002_2017})}
 \label{Auto_Flow_Platform-5}
 \end{figure}
@@ -122,7 +125,8 @@
 %\includegraphics[height=1.2in,width=1.6in,viewport=0 0 720 660,clip]{AFLOW_database.png}%}
 %\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 530,clip]{MP_comp_infrastructure.png}%}
 %\includegraphics[height=2.4in,width=3.4in,viewport=0 0 670 420,clip]{QMIP_shame.png}%}
-\includegraphics[height=2.4in]{Figures/Gray-Matcloud.jpg}%}
+%\includegraphics[height=2.4in]{Figures/Gray-Matcloud.jpg}%}
+\includegraphics[height=2.4in]{Figures/Matcloud.jpg}%}
 \caption{\textrm{MatCloud}的结构与流程图.(引自文献\cite{CMS146-319_2018})}
 \label{Auto_Flow_Platform-6}
 \end{figure}
@@ -169,7 +173,8 @@
 \begin{figure}[h!]
 \centering
 \hskip -35pt
-\includegraphics[height=6.00in]{Figures/Gray-MP_comp_BCC.png}
+%\includegraphics[height=6.00in]{Figures/Gray-MP_comp_BCC.png}
+\includegraphics[height=6.00in]{Figures/MP_comp_BCC.png}
 \caption{面向催化材料研究的适跨尺度计算流程结构示意。}%
 \label{MP_comp_BCC}
 \end{figure}
@@ -189,7 +194,8 @@
 \begin{figure}[h!]
 \centering
 \vskip -2pt
-\includegraphics[height=2.25in]{Figures/Gray-CH4_complex_machine.png}
+%\includegraphics[height=2.25in]{Figures/Gray-CH4_complex_machine.png}
+\includegraphics[height=2.25in]{Figures/CH4_complex_machine.png}
 \caption{面向复杂体系材料模拟顺序流程的``动态分发''子过程并发化示意图。}%
 \label{CH4_comp_BCC}
 \end{figure}
@@ -311,7 +317,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 知识图谱\textrm{(Knowledge~Graph)}是一种用于组织、表示和存储知识的图形化数据结构形式，它仿照人类对于知识的认知、理解方式，将实体\textrm{(Entities)}、关系\textrm{(Relationship)}和属性\textrm{(Attributes)}以图形的形式呈现出来，使计算机能够更好地认知、理解和推理知识。早在1960年代，就曾出现过以模拟仿真实人类思维-决策流程的专家系统，称为知识工程\textrm{(Knowledge Engineering, KE)}\upcite{Knowledge_Engineering}。此后不久，涌现了多种专家与知识管理系统，一般统称为知识库系统\textrm{(knowledge-based system)}。在知识库系统基础上，通过用户人机问答式互动，可以构建结构化的机器可读与生成式的文本知识，而运维知识库系统的，通常是行业和领域专家(如图\ref{Fig:Knowledge-based_system}所示)。
 \begin{figure}[h!]
 \centering
-\includegraphics[height=1.85in,width=5.85in,viewport=0 0 1500 475,clip]{Figures/Gray-Knowledge-based_system.png}
+%\includegraphics[height=1.85in,width=5.85in,viewport=0 0 1500 475,clip]{Figures/Gray-Knowledge-based_system.png}
+\includegraphics[height=1.85in,width=5.85in,viewport=0 0 1500 475,clip]{Figures/Knowledge-based_system.png}
 \caption{\small\textrm{知识体系的结构示例. 引自文献~\cite{ACR56-128_2023}}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:Knowledge-based_system}
 \end{figure}
@@ -342,7 +349,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 由\textrm{Ontology}出发表示的实体-实体关系为\textrm{ABox~(Assertion component)}。图\ref{Fig:Mapping-relationship-molecule-synthon}给出分子与合成体的图谱表示。 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=4.90in,width=5.85in,viewport=0 0 950 790,clip]{Figures/Gray-Mapping-the-relationship-between-molecule-and-synthon.png}
+%\includegraphics[height=4.90in,width=5.85in,viewport=0 0 950 790,clip]{Figures/Gray-Mapping-the-relationship-between-molecule-and-synthon.png}
+\includegraphics[height=4.90in,width=5.85in,viewport=0 0 950 790,clip]{Figures/Mapping-the-relationship-between-molecule-and-synthon.png}
 \caption{\small\textrm{分子与合成体的图谱关系. }}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:Mapping-relationship-molecule-synthon}
 \end{figure}
@@ -350,7 +358,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 用\textrm{IRIs}标签化学物种是机器可操作的，但不方便化学家识别，因此\textrm{TWA}中的化学物种需要进一步添加通用化学信息学标签\upcite{COC26-33_2019}，如\textrm{\textrm{InChI}}、\textrm{InChIKey}和\textrm{CAS}注册码、\textrm{PubChemCID}和\textrm{SMILES}等，如图\ref{Fig:Key-OntoSpecies-and-external-concepts}所示。
 \begin{figure}[h!]
 \centering
-\includegraphics[height=3.20in,width=4.35in,viewport=0 0 990 750,clip]{Figures/Gray-Key_OntoSpecies-and-external_concepts.png}
+%\includegraphics[height=3.20in,width=4.35in,viewport=0 0 990 750,clip]{Figures/Gray-Key_OntoSpecies-and-external_concepts.png}
+\includegraphics[height=3.20in,width=4.35in,viewport=0 0 990 750,clip]{Figures/Key_OntoSpecies-and-external_concepts.png}
 \caption{\small\textrm{Key OntoSpecies (black) and external (blue) concepts, along with a number of properties (green) used to describe chemical species in TWA KG. cite from~\cite{ACR56-128_2023}}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:Key-OntoSpecies-and-external-concepts}
 \end{figure}
@@ -407,7 +416,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 \begin{figure}[h!]
 %\vspace*{-0.05in}
 \centering
-\includegraphics[height=4.18in,width=3.92in,viewport=0 0 96 113,clip]{Figures/Gray-KG_Chem-Frame.png}
+%\includegraphics[height=4.18in,width=3.92in,viewport=0 0 96 113,clip]{Figures/Gray-KG_Chem-Frame.png}
+\includegraphics[height=4.18in,width=3.92in,viewport=0 0 96 113,clip]{Figures/KG_Chem-Frame.png}
 \caption{知识图谱的数据传输与知识形成框架。}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{KG_Chem-Frame}
 \end{figure} 
@@ -428,7 +438,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 \begin{figure}[h!]
 	\vskip -10pt
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 160 95,clip]{Figures/Gray-KG_Chem-entity_search.png}
+%\includegraphics[height=2.40in,width=4.85in,viewport=0 0 160 95,clip]{Figures/Gray-KG_Chem-entity_search.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 160 95,clip]{Figures/KG_Chem-entity_search.png}
 \caption{\small\textrm{实体文本检索示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity_search}
 \end{figure}
@@ -438,7 +449,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity.png}
+%\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/KG_Chem-entity.png}
 \caption{\small\textrm{实体文本识别示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity}
 \end{figure}
@@ -450,7 +462,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity-check.png}
+%\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity-check.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/KG_Chem-entity-check.png}
 \caption{\small\textrm{实体查询示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity_check}
 \end{figure}
@@ -462,7 +475,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity-relation.png}
+%\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity-relation.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/KG_Chem-entity-relation.png}
 \caption{\small\textrm{实体关系查询示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity_relation}
 \end{figure}
@@ -476,7 +490,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity-overview.png}
+%\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/Gray-KG_Chem-entity-overview.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 80,clip]{Figures/KG_Chem-entity-overview.png}
 \caption{\small\textrm{化学-化工知识概览示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity_overview}
 \end{figure}
@@ -484,7 +499,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 
 \begin{figure}[h!]
 \centering
-\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 85,clip]{Figures/Gray-KG_Chem-entity-overview-hyperlink.png}
+%\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 85,clip]{Figures/Gray-KG_Chem-entity-overview-hyperlink.png}
+\includegraphics[height=2.40in,width=4.85in,viewport=0 0 145 85,clip]{Figures/KG_Chem-entity-overview-hyperlink.png}
 \caption{\small\textrm{每个相关实体都可以超链接的形式呈现，用户点击，即可跳转到该实体的详细词条页面}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_entity_overview-hyperlink}
 \end{figure}
@@ -509,7 +525,8 @@ $\mathrm{CaB}_6$\,和$\mathrm{EuB}_6$\,优化晶胞参数，选择$\mathrm{CaB}_
 图\ref{Fig:KG-Chem_visualization}展示实体关系和属性：通过图谱可视化，展示化学化工行业中的各种实体(如化工专家、有机化工、无机化工等)之间的关系和属性。
 \begin{figure}[h!]
 \centering
-\includegraphics[height=3.40in,width=4.85in,viewport=0 0 145 110,clip]{Figures/Gray-KG_Chem-visualization.png}
+%\includegraphics[height=3.40in,width=4.85in,viewport=0 0 145 110,clip]{Figures/Gray-KG_Chem-visualization.png}
+\includegraphics[height=3.40in,width=4.85in,viewport=0 0 145 110,clip]{Figures/KG_Chem-visualization.png}
 \caption{\small\textrm{知识图谱可视化示例}}%(与文献\cite{EPJB33-47_2003}图1对比)
 \label{Fig:KG-Chem_visualization}
 \end{figure}

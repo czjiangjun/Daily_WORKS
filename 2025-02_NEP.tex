@@ -1,0 +1,140 @@
+%---------------------- TEMPLATE FOR REPORT ------------------------------------------------------------------------------------------------------%
+
+%\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+%\title{\rm{VASP}的电荷密度存储文件\rm{CHGCAR}}
+%\title{面向高温合金材料设计的计算模拟软件中的几个主要问题}
+\title{如何快速做NEP势函数(合金篇)}
+\author[ ]{根据文本重新排版}   %
+%\author[ ]{姜~骏\thanks{jiangjun@bcc.ac.cn}}   %
+%\affil[ ]{北京市计算中心}    %
+%\author[a]{Author A}									     %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+%%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     	     %
+%\author[b]{Author D}									     %
+%\author[b]{Author/作者 D}								     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+%\affil[b]{作者单位-2}			    						     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%\date{2020-12-30}									     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Report-----------------------------------------%
+%\title{报告标题:~}   %
+%-----------------------------------------------------------------------------
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+%\author{
+%\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+%\small
+%(The Address，City Post code)						%Address	       %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+
+%\#-----------------------------------------------------------------------------
+\section{流程概述}
+%\#-----------------------------------------------------------------------------
+\subsection{用势函数研究什么问题}
+\begin{itemize}
+	\item 低温、室温、中温、高温:\\ 
+		如果是固态(低温、室温甚至中温，多数体系都是固态)，可以考虑加一部分\textrm{AIMD+ML (VASP~6.3.0以上版本)}，速度是普通\textrm{AIMD}的30倍左右，适合采集构型。如果是高温(多数已经是液态)，这时\textrm{AIMD+ML}可能不太合适，因为内存需求可能是普通\textrm{AIMD}的几十倍。
+	\item 常压、高压:\\
+		高压往往需要更高的单点能计算精度(即$\vec k$-\textrm{mesh}密度更高)，因为原子间距可能更小 ，力可能更大。
+	\item 通用势函数、专注于某种性质的势函数、核辐照势函数
+		通用势函数，需要非常丰富的结构，计算量大。专注于某种性质的势函数，仅需覆盖目标研究问题，结构需求少，计算量少。核辐照势函数，需更高单点能计算精度(例如:~\textrm{k-spacing=0.15})，和更多小团簇结构的各种扭曲晶格，以充分覆盖原子局域环境的剧烈变化，\textcolor{blue}{且必须加\textrm{zbl}，或计算\textrm{dimer}的压缩、拉伸}。
+\end{itemize}
+%    \#-----------------------
+\subsection{结构设计}
+\begin{enumerate}
+	\item 找平衡结构，然后缩放、微扰\\
+		先找各种情况下的平衡结构，例如不同温度、压强下的平衡晶格常数，目的是有个参考点，可以更明确、更具控制性的进行坐标、盒子的缩放、微扰，从而让训练集的力、压强关于参考点(例如原点)更对称，后续训练势函数的\textrm{NEP\_vs\_DFT}图更对称、均匀，可以更好的覆盖后续用势函数跑\textrm{MD}的力、压强。当然，如果不想找平衡点，也没有原则性问题。
+	\item \textrm{VASP}跑\textrm{AIMD}\\
+		训练集里，尽量多进行``1.''的缩放、微扰，而从\textrm{AIMD}中抽取的构型，不要占太大比例，个人觉得，可能不要超过\textrm{40\%}(这个阈值仅供参考，需要自己摸索)，主要原因是\textrm{AIMD}构型之间关联性(或相似度)更高，加太多\textrm{AIMD}结构，会导致训练集内结构的同质化严重，构型的覆盖范围不充分，影响势函数的描述能力。
+	\item 建议用\textrm{PyNEP}进行结构选择\\
+		\textrm{NEP}势函数的特点是不需大量结构，只需结构丰富、覆盖范围广，也就是少、精、广。基于这个特点，可以用各种方式对结构进行挑选(这也属于主动学习)，推荐\textrm{PyNEP}。
+\end{enumerate}
+%    \#-----------------------
+\subsection{流程总结(目前所知可能的最优流程)}
+\begin{enumerate}
+	\item 充分理解你研究问题涉及到的范围，例如温度范围、压强范围，从而确定力的范围(例如\textrm{-30~eV/\AA}到\textrm{30~eV/\AA})、最小原子间距(例如任一结构里，任一对原子间距最好大于\textrm{1.6~\AA}，原子间距往往决定了力的范围)等。
+	\item 基于``1''寻找各种情况下的平衡晶格常数(或平衡密度)，由此展开坐标、盒子的微扰和缩放，\textrm{dpdata}可以负责缩放、微扰;~再跑一点\textrm{AIMD}(如果体系有现成的经验势函数，强烈建议抛弃\textrm{AIMD}，选择用经验势函数跑\textrm{MD}，以采样各种结构)。获得一个覆盖广、结构少而精的初始结构集，然后全部统一精度计算单点能(根据文献、自己计算资源选择精度)，得到训练集。然后，可以把训练集分成\textrm{9:1}的两部分，\textrm{9/10}作为真正的训练集\textrm{train\_1.in}，\textrm{1/10}作为测试集\textrm{test\_1.in}，注意测试集的结构，要尽可能覆盖训练集的所有类型。\textrm{AIMD}时间步长统一用\textrm{3~fs}，因为\textrm{AIMD}目的是采样，不需要精确，只要体系不崩溃就行。
+	\item 从\textrm{OUTCAR}得到\textrm{NEP}的训练集、测试集\\
+		\begin{enumerate}
+			\item 第一步，用``\textrm{outcar2deep.py}''(\textrm{QQ}群\textrm{887975816}群文件里，后续可能加入\textrm{GPUMD}包的\textrm{GPUMD-master}\textbackslash\textrm{tools}\textbackslash\textrm{nep\_related}里)，把所有\textrm{OUTCAR}转换为\textrm{DP}势函数的训练集；
+			\item 第二步，用\textrm{GPUMD-master}\textbackslash\textrm{tools}\textbackslash\textrm{nep\_related}里的``\textrm{deep2nep}''把\textrm{DP}训练集转换为\textrm{NEP}训练集。
+		\end{enumerate}
+	\item 第一轮训练，用\textrm{train\_1.in}开始训练，快速得到势函数\textrm{nep\_1.txt}，基于\textrm{nep\_1.txt}，用\textrm{PyNEP}计算所选结构是否符合``少、精、广''的原则，删掉不需要的结构，然后用\textrm{nep\_1.txt}跑\textrm{MD}以获得想要的更多结构，\textrm{VASP}计算单点能，同样按\textrm{9:1}分别加入\textrm{train\_1.in}、\textrm{test\_1.in}，形成新的\textrm{train\_2.in}、\textrm{test\_2.in}，继续训练获得势函数\textrm{nep\_2.txt}，此时势函数一般已经比较精确了，如果验证之后发现还不够，可重复上述步骤得到\textrm{train\_3.in}、\textrm{test\_3.in}、\textrm{nep\_3.txt}，直到满意为止。
+\end{enumerate}
+%\#-----------------------------------------------------------------------------
+\section{流程详解}
+%\#-----------------------------------------------------------------------------
+\subsection{获得训练集、测试集}
+\begin{itemize}
+	\item 单原子\\
+		所有元素单原子的单点能计算，一般看作非金属，按非金属设置，如果计算不收敛或不正常，可以不做，因为单原子能量是作为能量的参考点，而\textrm{NEP}势函数自身可以自动确定参考点。
+	\item \textrm{dimer}\\
+		可以不做，除非势函数是面对核辐照，因为\textrm{dimer}单点能可能难以收敛或者不正常。
+    \item 单元素块体\\
+	    可以做一系列典型结构的块体，例如\textrm{fcc}、\textrm{bcc}、\textrm{hcp}等你体系可能遇到的结构，个人觉得，$2\times2\times2$的超胞就可以了。然后，可以用\textrm{dpdata}做一系列平衡晶格常数附近的缩放、微扰，这样，从一个初始结构出发，可以得到数个新结构。
+
+	    每个元素可以另外做一些大一点的超胞，例如$3\times3\times3$的\textrm{fcc}结构，用\textrm{VASP}跑一条\textrm{AIMD}轨迹，即熔点以上某个温度的\textrm{NVT}，抽样(间隔\textrm{200}或\textrm{400}或\textrm{500}步)获得一些单元素液态结构。
+    \item 二元合金\\
+	    元素对的合金，例如三元合金就有\textrm{AB}、\textrm{AC}、\textrm{BC}三种元素对合金，对每种元素对合金，例如~\textrm{AB}，可以做一系列组分的构型，$2\times2\times2$或$3\times3\times3$超胞，例如每种组分，从\textrm{5\%}到\textrm{95\%}，间隔\textrm{5\%}，即~$\mathrm{A}_{0.05}\mathrm{B}_{0.95}$，$\mathrm{A}_{0.10}\mathrm{B}_{0.90}$，$\mathrm{A}_{0.15}\mathrm{B}_{0.85}$，等等，每种组分，都可以正负缩放+微扰构造出几个新构型。同时，还可以分别按\textrm{fcc}、\textrm{bcc}、\textrm{hcp}等构建，这样就有更多构型了。
+    \item 三元合金\\
+    类似上述``二元合金''的方式做，具体做多少自己决定，但是要覆盖后续研究目标的典型组分。更多元合金以此类推。
+    \item 从\textrm{Materials~Project}网站，把你体系包含的所有元素相关的结构都下载下来，以每个结构为基础，都可以进行微扰、缩放\\
+	    注意，这些结构中部分原子可能距离很近了，所以微扰要注意，否则很容易让原子进一步靠近导致单点能计算时，力非常大，不太合适。
+    \item 空位\\
+    以前述的一些典型结构为基础，随机删除指定个数原子，获得空位结构。
+    \item 表面\\
+	    例如正常的$3\times3\times2$的\textrm{fcc}结构，把$z$的正方向盒子边长增大\textrm{8\AA}，就是$z$正方向的表面构型了，以此类推可以做单表面、双表面等。
+	    \textrm{AIMD}\\
+	    例如要做低温到高温都适应的势函数，可以跑一系列温度点的\textrm{AIMD}，例如\textrm{300~K}、\textrm{700~K}、\textrm{1100~K}、\textrm{1500~K}、\textrm{1900~K}、\textrm{2300~K}等等，温度间隔不需要太小，因为不同温度得到的构型，有部分重叠。值得注意的是，某些体系在某些特定温度会有特定结构或相，则对应温度附近温度点可稍密。\\
+	    \textcolor{red}{跑\textrm{AIMD}的原则是，体系不崩溃的前提下，精度尽可能粗糙，步数尽可能多。}
+	    \begin{itemize}
+		    \item \textrm{NVT}精度参考:~\textrm{ENCUT=450}，$k$点设置\textrm{111}~(或\textrm{k-spacing}为大于~1.5~的某个数)，时间步长\textrm{3~fs}。
+			    \item \textrm{NPT}精度参考:~\textrm{ENCUT=600}以保证\textrm{Pullay stress}为零(详见官网说明)，$k$点\textrm{111}，步长\textrm{3~fs}。
+		    \item \textrm{NVT(NPT)+ML}:~精度如上，主要注意\textrm{ML\_MB}参数设置，还有\textrm{ML\_LOGFILE}的\textrm{LCONF}值，它与\textrm{ML\_MB}有一定对应关系，\textrm{ML\_MB}需要看这个值的变化设置，详见官网，需要测试。
+	    \end{itemize}
+    \item 单点能\\
+    结合自己研究目标和文献，统一设置精度进行所有结构的单点能计算，形成训练集、测试集。
+\end{itemize}
+%    \#-----------------------
+\subsection{训练势函数}
+\begin{itemize}
+	\item 设置\textrm{nep.in}文件的超参数，请咨询樊老师。
+	\item 训练过程，请咨询樊老师。
+	\item 验证势函数，请咨询樊老师。
+\end{itemize}
+%\#-----------------------------------------------------------------------------
+%    III. 参考文献、资料
+%\#-----------------------------------------------------------------------------
+\begin{thebibliography}{99}
+		\bibitem{Neuroevolution} Neuroevolution machine learning potentials: Combining high accuracy and low cost in atomistic simulations and application to heat transport. ~(\url{https://journals.aps.org/prb/abstract/10.1103/PhysRevB.104.104309})
+		\bibitem{Development} Development of a deep machine learning interatomic potential for metalloid-containing Pd-Si compounds.~(\url{https://journals.aps.org/prb/abstract/10.1103/PhysRevB.100.174101})
+		\bibitem{Modeling} Modeling refractory high-entropy alloys with efficient machine-learned interatomic potentials: Defects and segregation.~(见补充材料)~(\url{https://journals.aps.org/prb/abstract/10.1103/PhysRevB.104.104101})
+		\bibitem{Machine} Machine learning based interatomic potential for amorphous carbon.~(\url{https://journals.aps.org/prb/abstract/10.1103/PhysRevB.95.094203)}
+		\bibitem{GPUMD-NEP} GPUMD的NEP~(\url{https://gpumd.zheyongfan.org/index.php/Main\_Page#Inputs\_for\_the\_src.2Fnep\_executable})
+		\bibitem{PyNEP} PyNEP~(\url{https://github.com/bigd4/PyNEP})
+		\bibitem{VASP} \textrm{VASP} ~官网~(\url{https://www.vasp.at/wiki/index.php/The\_VASP\_Manual})
+\end{thebibliography}
+%\#-----------------------------------------------------------------------------
+
