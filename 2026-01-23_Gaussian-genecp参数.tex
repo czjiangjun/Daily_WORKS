@@ -1,0 +1,61 @@
+%---------------------- TEMPLATE FOR REPORT ------------------------------------------------------------------------------------------------------%
+
+%\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+%\title{\rm{VASP}的电荷密度存储文件\rm{CHGCAR}}
+%\title{面向高温合金材料设计的计算模拟软件中的几个主要问题}
+\title{\textrm{Gaussian}计算中参数\textrm{genecp}及其参数}
+\author[ ]{}   %
+%\author[ ]{姜~骏\thanks{jiangjun@bcc.ac.cn}}   %
+%\affil[ ]{北京市计算中心}    %
+%\author[a]{Author A}									     %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+%%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     	     %
+%\author[b]{Author D}									     %
+%\author[b]{Author/作者 D}								     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+%\affil[b]{作者单位-2}			    						     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%\date{2020-12-30}									     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Report-----------------------------------------%
+%\title{报告标题:~}   %
+%-----------------------------------------------------------------------------
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+%\author{
+%\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+%\small
+%(The Address，City Post code)						%Address	       %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+\textrm{Gaussian}计算中，针对重元素~(如过渡金属、镧系/锕系)有价电子和势函数控制参数\textrm{genecp}。也就是\textrm{general effective core potential}，即自定义赝势 + 基组,
+\begin{itemize}
+	\item \textrm{gen}:~自定义价层电子的基组
+	\item{ecp}:~自定义内层电子的有效核势~(\textrm{ECP}，赝势)，用于替代重原子的内层电子计算。
+\end{itemize}
+
+在\textrm{Gaussian}的输入文件中，必须在对应原子坐标下方分别定义轻原子的基组、重原子的基组 $+$ 赝势。具体到本次计算，比如\textrm{Gaussian}的输入文件\textrm{L1-R-3\_pbe0MWB48\_g09try1.gjf}中相关参数
+
+{\fontsize{10.2pt}{6.2pt}\selectfont{\VerbatimInput[firstline=100, lastline=208]{/home/bcc-317/L1-R-3-pbe0MWB48-g09try1.gjf}}}
+
+这里\ch{C}、\ch{H}、\ch{O}、\ch{N}和\ch{Cl}采用通用的\textrm{6-31G$\ast$}基组，而\ch{Er}的基组和(赝)势函数的参数是如何确定的，或者说是哪里来的(能否告知来源)
