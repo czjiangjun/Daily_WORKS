@@ -1,0 +1,156 @@
+%---------------------- TEMPLATE FOR REPORT ------------------------------------------------------------------------------------------------------%
+
+%\thispagestyle{fancy}   % 插入页眉页脚                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 用 authblk 包 支持作者和E-mail %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{More than one Author with different Affiliations}				     %
+\title{现有计算资源及登录方式}
+\author[ ]{}   %
+%\author[ ]{姜~骏\thanks{jiangjun@bcc.ac.cn}}   %
+%\affil[ ]{北京市计算中心}    %
+%\author[a]{Author A}									     %
+%\author[a]{Author B}									     %
+%\author[a]{Author C \thanks{Corresponding author: email@mail.com}}			     %
+%%\author[a]{Author/通讯作者 C \thanks{Corresponding author: cores-email@mail.com}}     	     %
+%\author[b]{Author D}									     %
+%\author[b]{Author/作者 D}								     %
+%\author[b]{Author E}									     %
+%\affil[a]{Department of Computer Science, \LaTeX\ University}				     %
+%\affil[b]{Department of Mechanical Engineering, \LaTeX\ University}			     %
+%\affil[b]{作者单位-2}			    						     %
+											     %
+%%% 使用 \thanks 定义通讯作者								     %
+											     %
+\renewcommand*{\Authfont}{\small\rm} % 修改作者的字体与大小				     %
+\renewcommand*{\Affilfont}{\small\it} % 修改机构名称的字体与大小			     %
+\renewcommand\Authands{ and } % 去掉 and 前的逗号					     %
+\renewcommand\Authands{ , } % 将 and 换成逗号					     %
+\date{} % 去掉日期									     %
+%\date{2020-12-30}									     %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  不使用 authblk 包制作标题  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-------------------------------The Title of The Report-----------------------------------------%
+%\title{报告标题:~}   %
+%-----------------------------------------------------------------------------
+
+%----------------------The Authors and the address of The Paper--------------------------------%
+%\author{
+%\small
+%Author1, Author2, Author3\footnote{Communication author's E-mail} \\    %Authors' Names	       %
+%\small
+%(The Address，City Post code)						%Address	       %
+%}
+%\affil[$\dagger$]{清华大学~材料加工研究所~A213}
+%\affil{清华大学~材料加工研究所~A213}
+%\date{}					%if necessary					       %
+%----------------------------------------------------------------------------------------------%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\maketitle
+%\thispagestyle{fancy}   % 首页插入页眉页脚 
+
+\section{\heiti 汴水超算}
+\begin{table}[!h]
+\tabcolsep 0pt \vspace*{-12pt}
+\caption{\textrm{汴水超算登录信息.}}
+\label{Table-Income}
+\begin{minipage}{0.95\textwidth}
+%\begin{center}
+\centering
+\def\temptablewidth{0.88\textwidth}
+%\rule{\temptablewidth}{2.0pt}
+%\begin{tabular*}{\temptablewidth}{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|}
+\begin{tabular*}{\temptablewidth}{@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c}
+	\toprule[2pt]        %% 绘制三线表顶端线,粗细设置
+	\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\textrm{VPN}登录信息}}  & \multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{服务器登录信息}} & \multirow{2}{*}{\fontsize{10.2pt}{6.2pt}\selectfont{备注}}\\
+	账号 & 密码 & 账号 & 密码 & \\
+%-------------------------------------------------------------------------------------------------------------------------
+%&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
+%Components\footnote{波函数主要成分后的括号中，$5s$、$5p$和$5p$、$4f$、$5d$分别指碲和铕的原子轨道。} &Gap (eV)   \\ \hline
+%-------------------------------------------------------------------------------------------------------------------------
+%&2.35       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%&       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%-------------------------------------------------------------------------------------------------------------------------
+	\midrule[1pt]        %% 绘制三线表中间线,粗细设置
+	\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\url{https://36.35.236.230:7788}}} &\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\url{https://10.5.10.3:22}}} &\\
+	{\fontsize{9.8pt}{6.2pt}\selectfont{bcc\_jiangj}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{BCCbcc123\$\%\^{}}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{bcc\_jiangj}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{@rM6PXCg1IHrTo}} & \\
+	{\fontsize{9.8pt}{6.2pt}\selectfont{bcc\_jiangj2}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{bcc\_jiangj2~(已失效)}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{bcc\_jiangj2}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{\#dV69EImgyHvz3}} & \\
+	\bottomrule[1.8pt]     %%绘制三线表底部线,粗细设置
+\end{tabular*}
+%\rule{\temptablewidth}{1.8pt}
+%\end{center}
+\end{minipage}
+\end{table}
+
+\section{\heiti 深圳超算}
+\begin{table}[!h]
+\tabcolsep 0pt \vspace*{-12pt}
+\caption{\textrm{深圳超算登录信息.}}
+\label{Table-Income}
+\begin{minipage}{0.95\textwidth}
+%\begin{center}
+\centering
+\def\temptablewidth{0.88\textwidth}
+%\rule{\temptablewidth}{2.0pt}
+%\begin{tabular*}{\temptablewidth}{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|}
+\begin{tabular*}{\temptablewidth}{@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c}
+	\toprule[2pt]        %% 绘制三线表顶端线,粗细设置
+	\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\textrm{VPN}登录信息}}  & \multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{服务器登录信息}} & \multirow{2}{*}{\fontsize{10.2pt}{6.2pt}\selectfont{备注}}\\
+	账号 & 密码 & 账号 & 密码 & \\
+%-------------------------------------------------------------------------------------------------------------------------
+%&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
+%Components\footnote{波函数主要成分后的括号中，$5s$、$5p$和$5p$、$4f$、$5d$分别指碲和铕的原子轨道。} &Gap (eV)   \\ \hline
+%-------------------------------------------------------------------------------------------------------------------------
+%&2.35       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%&       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%-------------------------------------------------------------------------------------------------------------------------
+	\midrule[1pt]        %% 绘制三线表中间线,粗细设置
+	\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\url{https://vpn.nsccsz.cn}}} &\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\url{https://10.68.0.121}}} &\\
+	{\fontsize{9.8pt}{6.2pt}\selectfont{zkywl\_lhy3}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{lhy\_zkywl3!}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{nsgkx\_lhy3}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{ZC20230155}} & \\
+	\midrule[1pt]        %% 绘制三线表中间线,粗细设置
+	\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\url{https://dsjvpn.nsccsz.cn:4443}}} &\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\url{https://10.32.48.56:22}}} &\\
+	{\fontsize{9.8pt}{6.2pt}\selectfont{gzsc\_jaj}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{BCCbcc@317123}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{nsgm\_jiangj}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{N202507140025}} & \\
+	\bottomrule[1.8pt]     %%绘制三线表底部线,粗细设置
+\end{tabular*}
+%\rule{\temptablewidth}{1.8pt}
+%\end{center}
+\end{minipage}
+\end{table}
+在编译节点，加载以下环境，可以使用联网功能:\\
+source /home-ssd/Soft/modules/bashrc \\
+module load proxy/proxy
+
+\section{\heiti 其余计算资源}
+\begin{table}[!h]
+\tabcolsep 0pt \vspace*{-12pt}
+\caption{\textrm{情报所超算登录信息.}}
+\label{Table-Income}
+\begin{minipage}{0.95\textwidth}
+%\begin{center}
+\centering
+\def\temptablewidth{0.88\textwidth}
+%\rule{\temptablewidth}{2.0pt}
+%\begin{tabular*}{\temptablewidth}{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|}
+\begin{tabular*}{\temptablewidth}{@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c}
+	\toprule[2pt]        %% 绘制三线表顶端线,粗细设置
+	\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\textrm{VPN}登录信息}}  & \multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{服务器登录信息}} & \multirow{2}{*}{\fontsize{10.2pt}{6.2pt}\selectfont{备注}}\\
+	账号 & 密码 & 账号 & 密码 & \\
+%-------------------------------------------------------------------------------------------------------------------------
+%&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
+%Components\footnote{波函数主要成分后的括号中，$5s$、$5p$和$5p$、$4f$、$5d$分别指碲和铕的原子轨道。} &Gap (eV)   \\ \hline
+%-------------------------------------------------------------------------------------------------------------------------
+%&2.35       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%&       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
+%-------------------------------------------------------------------------------------------------------------------------
+	\midrule[1pt]        %% 绘制三线表中间线,粗细设置
+	\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\url{https://td.bjast.ac.cn:44433}}} &\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\url{https://10.100.200.149:20016}}} &\\
+	{\fontsize{9.8pt}{6.2pt}\selectfont{bkrz02}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{Welcome123\$}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{root}}  &{\fontsize{9.8pt}{6.2pt}\selectfont{Welcome123\$}} & \\
+	\bottomrule[1.8pt]     %%绘制三线表底部线,粗细设置
+\end{tabular*}
+%\rule{\temptablewidth}{1.8pt}
+%\end{center}
+\end{minipage}
+\end{table}
+控制台:\\
+\textrm{web}访问:~\url{http://10.100.200.149/}\\
+用户名:~\textrm{useradmin}
+实例名称:~\textrm{Material\_Simulation}
+
