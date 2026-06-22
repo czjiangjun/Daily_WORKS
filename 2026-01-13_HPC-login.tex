@@ -239,10 +239,10 @@ module load proxy/proxy
 \def\temptablewidth{0.88\textwidth}
 %\rule{\temptablewidth}{2.0pt}
 %\begin{tabular*}{\temptablewidth}{|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|@{\extracolsep{\fill}}c|}
-\begin{tabular*}{\temptablewidth}{@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c}
+\begin{tabular*}{\temptablewidth}{@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c@{\extracolsep{\fill}}c}
 	\toprule[2pt]        %% 绘制三线表顶端线,粗细设置
-	\multicolumn{2}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{模型名称}} & \multirow{2}{*}{\fontsize{10.2pt}{6.2pt}\selectfont{\textrm{API}登录信息}}\\
-	 &账号  &密码 \\
+	\multirow{2}{*}{\fontsize{10.2pt}{6.2pt}\selectfont{模型名称}}  & \multicolumn{3}{c}{\fontsize{10.2pt}{6.2pt}\selectfont{\textrm{API}登录信息}} \\
+	 &账号  &密码 &备注\\
 %-------------------------------------------------------------------------------------------------------------------------
 %&Peak (eV)  & {$\vec k$}-point            &Band{$_v$} to Band{$_c$}  &Transition Orbital
 %Components\footnote{波函数主要成分后的括号中，$5s$、$5p$和$5p$、$4f$、$5d$分别指碲和铕的原子轨道。} &Gap (eV)   \\ \hline
@@ -251,7 +251,7 @@ module load proxy/proxy
 %&       &(0,0,0)         &33$\rightarrow$34    &$4f$(31.58)$5p$(38.69)$\rightarrow$$5p$      &2.142   \\% \cline{3-7}
 %-------------------------------------------------------------------------------------------------------------------------
 	\midrule[1pt]        %% 绘制三线表中间线,粗细设置
-	{\fontsize{9.8pt}{6.2pt}\selectfont{\textrm{Deepseek}}} &{\fontsize{9.8pt}{6.2pt}\selectfont{\textrm{Hexaborides}}} &{\fontsize{9.8pt}{6.2pt}\selectfont{\textrm{sk-f1a87bbcc89b48eaaf89fd288d9cf1fd}}} \\
+	{\fontsize{9.8pt}{6.2pt}\selectfont{\textrm{Deepseek}}} &{\fontsize{9.8pt}{6.2pt}\selectfont{\textrm{Hexaborides}}} &{\fontsize{9.8pt}{6.2pt}\selectfont{\textrm{sk-f1a87bbcc89b48eaaf89fd288d9cf1fd}}} &\\
 	\bottomrule[1.8pt]     %%绘制三线表底部线,粗细设置
 \end{tabular*}
 %\rule{\temptablewidth}{1.8pt}
