@@ -1,0 +1,222 @@
+%\documentclass[aip,reprint]{revtex4-1}
+%\documentclass[prb,twocolumn,floatfix,reprint,longbibliography,superscriptaddress]{revtex4-1}
+%\documentclass[prb,twocolumn,floatfix,superscriptaddress,longbibliography]{revtex4-1}
+\documentclass[preprint,12pt]{elsarticle}
+
+
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{graphicx}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+%\usepackage[bookmarks=true,colorlinks,
+%            citecolor=blue,linkcolor=blue, 
+%           breaklinks=true]{hyperref}
+%\usepackage[dvipdfm,bookmarks=true,colorlinks,citecolor=blue,linkcolor=blue, hypertex, breaklinks=true]{hyperref}
+\usepackage[bookmarks=true,colorlinks,citecolor=blue,linkcolor=blue, breaklinks=true]{hyperref}
+%\usepackage[bookmarks=true,colorlinks,
+%            linkcolor = blue,		%%修改此处为你想要的颜色
+%            anchorcolor = blue,	%%修改此处为你想要的颜色
+%            urlcolor = blue,		%%修改此处为你想要的颜色
+%            citecolor = blue,		%%修改此处为你想要的颜色，例如修改blue为red
+%            ]{hyperref}
+
+
+\usepackage{booktabs}
+\usepackage{setspace}
+\usepackage{subfigure}
+\usepackage{enumerate}
+%\makeatletter
+%\newcommand{\rmnum}[1]{\romannumeral #1}
+%\newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}
+%\makeatother
+
+
+\begin{document}
+	%\title{Electronic Properties of Ferromagnetic Kondo Lattice Compounds \textit{Re}Rh$_6$Ge$_4$ (\textit{Re}= Ce, Ho, Er, Tm)}
+	\title{Exotic 4$f$ correlated electronic states of Ferromagnetic Kondo Lattice Compounds \textit{Re}Rh$_6$Ge$_4$ (\textit{Re}=Ce, Ho, Er, Tm)}
+%\title{Complex Behavior of Lanthanides 4\textit{f} Electrons in Ferromagnetic Kondo Lattice Compounds \textit{Re}Rh$_6$Ge$_4$}
+
+%	\author{Ping Qian}
+%	\email{qianping@ustb.edu.cn}
+%	\affiliation{Department of Physics, University of Science and Technology Beijing, Beijing 100083, China}
+	
+	
+	
+	
+	\author{Caiqun Wang}
+	\affiliation{Department of Physics, University of Science and Technology Beijing, Beijing 100083, China}
+	\affiliation{Beijing Computing Center Co. Ltd, Beijing 100094, China}
+	
+	\author{Yu Gao}
+	\affiliation{Department of Physics, Beijing Normal University, Beijing 100875, China}
+	
+	\author{Jun Jiang}
+	\affiliation{Beijing Computing Center Co. Ltd, Beijing 100094, China}
+	
+	\author{Qiaoni Chen$^\dagger$}
+%	\email{qiaoni@bnu.edu.cn}
+	\ead{qiaoni@bnu.edu.cn}
+	\affiliation{Department of Physics, Beijing Normal University, Beijing 100875, China}
+	
+	\author{Haiyan Lu$^\ddagger$}
+%	\email{hyluphys@163.com}
+	\ead{hyluphys@163.com}
+	\affiliation{Institute of Materials, China Academy of Engineering Physics, Mianyang 621907, Sichuan, China}
+	
+	\author{Ping Qian$^\ast$}
+%	\email{qianping@ustb.edu.cn}
+	\ead{qianping@ustb.edu.cn}
+	\affiliation{School of Mathematics and Physics, University of Science and Technology Beijing, Beijing 100083, China}
+	
+
+
+
+	
+	
+	\begin{abstract} 
+%CeRh$_6$Ge$_4$ stands out as the first stoichiometric metallic compound with a ferromagnetic quantum critical point, thereby garnering significant attention. Ferromagnetic Kondo lattice compounds $Re$Rh$_6$Ge$_4$ ($Re$=Ce, Ho, Er, Tm) have been systematically investigated with density functional theory incorporating Coulomb interaction $U$ and spin-orbital coupling. We determined the magnetic easy axis of CeRh$_6$Ge$_4$ is within the $ab$ plane, which is in agreement with previous magnetization measurements conducted under external magnetic field and $\mu$SR experiments. We also predicted the magnetic easy axes for the other three compounds. For TmRh$_6$Ge$_4$, the magnetic easy axis aligns along the $c$ axis, thus preserving the $C_3$ rotational symmetry of the $c$ axis. Especially, there are triply degenerate nodal points along the $\Gamma-A$ direction in the band structure including spin-orbital coupling. A possible localized to itinerant crossover is revealed as 4$f$ electrons increase from CeRh$_6$Ge$_4$ to TmRh$_6$Ge$_4$. Specifically, the 4$f$ electrons of TmRh$_6$Ge$_4$ contribute to the formation of a large Fermi surface, indicating their participation in the conduction process. Conversely, the 4$f$ electrons in HoRh$_6$Ge$_4$, ErRh$_6$Ge$_4$ and CeRh$_6$Ge$_4$ remain localized, which result in smaller Fermi surfaces for these compounds. These theoretical investigations on electronic structure and magnetic properties shed deep insight into the unique nature of 4$f$ electrons, providing critical predictions for subsequent experimental studies.
+
+		As the first metallic compound proposed to exhibit a ferromagnetic quantum critical point, CeRh$_6$Ge$_4$ has garnered significant attention. We investigate the ferromagnetic Kondo lattice compounds $Re$Rh$_6$Ge$_4$ ($Re$ = Ce, Ho, Er, Tm) systematically using density functional theory including Coulomb interaction corrections (DFT+$U$) and spin-orbit coupling. Our results indicate that the magnetic easy axis of CeRh$_6$Ge$_4$ lies within the $ab$-plane, consistent with prior magnetization measurements under external magnetic fields and $\mu\mathrm{SR}$ experiments. We also make a prediction of the magnetic easy axes for the other three compounds. For TmRh$_6$Ge$_4$, the magnetic easy axis is consistently along the $c$-axis, thereby preserving the $C_3$ rotational symmetry about the $c$-axis. Notably, in the band structure including spin-orbit coupling, triple degenerate nodes exist along the $\Gamma-A$ direction. As the number of 4\textit{f} electrons increases from CeRh$_6$Ge$_4$ to TmRh$_6$Ge$_4$, a possible transition from localized to itinerant behavior is revealed. 4\textit{f} electrons exhibit some itinerant character under conditions that are neither empty, full nor half-filled. These localized-itinerant 4\textit{f} electrons are the primary reason for the formation of the ferromagnetic ground state. Calculations of the density of states and Fermi surfaces for the compounds show that the 4\textit{f} electrons in TmRh$_6$Ge$_4$ contribute to forming a large Fermi surface, indicating their participation in the conduction process. Conversely, the 4\textit{f} electrons in HoRh$_6$Ge$_4$, ErRh$_6$Ge$_4$, and CeRh$_6$Ge$_4$ remain localized, resulting in smaller Fermi surfaces for these compounds. These theoretical investigations into the electronic structure and magnetic properties provide deep insights into the unique nature of 4\textit{f} electrons and offer key predictions for subsequent experimental studies.
+	\end{abstract}
+	
+\maketitle
+\section{Introduction}
+Over the past two decades, the origin of quantum criticality in heavy fermion materials has been a persistent focus of experimental and theoretical research \cite{si2010heavy, custers2003breakup, lohneysen1994non}. Heavy fermion materials, typically containing lanthanide or actinide elements with partially filled $f$-electrons, are archetypal strongly correlated electron systems. These materials often exhibit a wealth of phenomena, such as unconventional superconductivity \cite{ran2019nearly, jiao2020chiral, li2021research, lin2020heavy}, non-Fermi liquid behaviors \cite{legros2019universal, trovarelli2000pronounced, daou2008linear, stewart2001non, lohneysen1994non}, and exotic quantum critical phenomena \cite{si2010heavy, liu2023quantum, custers2003breakup}. In some heavy fermion materials, quantum criticality is thought to be driven primarily by the competition between the RKKY interaction and the Kondo effect, a mechanism that does not exceed the Landau paradigm. However, studies have revealed a large class of heavy fermion materials where the quantum critical point (QCP) is accompanied by a sudden collapse of Kondo screening. In the Kondo breakdown scenario of the QCP, the Fermi volume undergoes a jump from a large Fermi surface to a small Fermi surface at the critical point. The Hertz-Millis-Moriya theory \cite{hertz1976quantum, millis1993effect, moriya1985spin} laid the groundwork for understanding quantum critical phenomena in itinerant magnets, but its applicability to ferromagnetic QCPs has been questioned due to the first-order nature of the transition in clean itinerant ferromagnets \cite{belitz1999first, chubukov2004instability}. Recent experiments on CeRh$_6$Ge$_4$ have provided strong evidence for the existence of a ferromagnetic QCP under high pressure \cite{shen2020strange}, making it a unique and important system. However, the detailed nature of the $4f$ electrons and their role in the ferromagnetic ground state across the rare-earth series remain to be fully elucidated. In this work, we perform first-principles calculations on the isostructural compounds $Re$Rh$_6$Ge$_4$ ($Re =$ Ce, Ho, Er, Tm) to systematically study their electronic structure and magnetic properties, with the aim of understanding the evolution of $4f$ electron behavior and its connection to ferromagnetism. It is important to note that our calculations are performed at ambient pressure, providing a baseline for understanding these compounds. Future theoretical work incorporating pressure effects would be valuable to directly connect with the high-pressure QCP experiments.
+
+\section{Computational methods}
+
+First-principles electronic structure calculations were performed using the full-potential (linearized) augmented plane wave (FP-LAPW) plus local orbitals (lo) method as implemented in the WIEN2k software package \cite{blaha2001wien2k, madsen2001efficient}. The exchange-correlation functional was treated using the Perdew-Burke-Ernzerhof (PBE) parametrization of the generalized gradient approximation (GGA) \cite{perdew1996generalized}. For full Brillouin zone (BZ) sampling, a $7 \times 7 \times 11$ $k$-point mesh \cite{monkhorst1976special} was employed for self-consistent calculations, and convergence with respect to $k$-mesh density was checked by performing selected calculations with an $11 \times 11 \times 17$ mesh. The plane wave cutoff was determined by $R_{\text{min}}^{\text{mt}}K_{\text{max}} = 8.5$. Muffin-tin radii ($R_{\text{MT}}$) were chosen as 2.5 a.u. for Re, 2.3 a.u. for Rh, and 2.1 a.u. for Ge. The zero-temperature equilibrium structure was obtained by fitting the total energy as a function of volume to the Murnaghan equation of state \cite{murnaghan1944compressibility}. After obtaining the equilibrium structure, self-consistent field calculations were performed with energy convergence set to $10^{-6}$ Ry and charge convergence to $10^{-4}$ $e$. Due to the presence of heavy lanthanide elements, spin-orbit coupling (SOC) was included in a second-variational way using the scalar-relativistic wavefunctions. Given the partially filled $4f$ orbitals on the rare-earth ions, a Hubbard $U$ correction was also incorporated in the calculations using the simplified (around mean-field) approach of Anisimov et al. \cite{anisimov1997first} as implemented in WIEN2k. Consequently, both SOC and Hubbard $U$ were applied on the rare-earth sites. For Ce, we used $U_{\text{eff}} = U - J = 6$ eV as in previous studies \cite{wu2021anisotropic}. For Ho, Er, and Tm, we also used $U_{\text{eff}} = 6$ eV for consistency and to allow for a systematic comparison across the series. The choice of this value is discussed further in the Results section, where we also present a limited dependence check with $U_{\text{eff}} = 4$ eV and $8$ eV for key quantities. Ferromagnetic calculations were performed for all four compounds, as they possess ferromagnetic ground states according to experiment or are assumed to be ferromagnetic based on their isostructural nature (see discussion below). However, a challenging aspect of DFT calculations on systems with $4f$ electrons is the potentially complex energy landscape. Calculations can sometimes struggle to converge or may become trapped in local minima \cite{dorado2013advances}. To overcome these issues, we carefully chose initial electronic configurations and tested different starting conditions when searching for the ground state for different magnetic axis orientations, ensuring the reliability of the results.
+
+\section{Results and discussion}
+
+\subsection{Crystal structure and lattice parameters}
+
+The crystal structure of the Kondo lattice compounds $Re$Rh$_6$Ge$_4$ ($Re =$ Ce, Ho, Er, Tm) is hexagonal \cite{vosswinkel2013new}. The rare-earth ions form a triangular lattice within the $ab$-plane, and the overall lattice consists of layers of this triangular lattice stacked along the $c$-axis, as shown in Fig. 1. As shown in Table 1, the lattice constant along the $c$-axis is significantly smaller than that along the $a$- or $b$-axes. The $Re$Rh$_6$Ge$_4$ lattice belongs to the non-centrosymmetric space group $P\bar{6}m2$, lacking spatial inversion symmetry. The presence of two inequivalent Rh ions and Ge ions, marked by light (dark) blue sites and light (dark) yellow sites in Fig. 1, results in the non-centrosymmetric nature of the lattice. The first Brillouin zone is a hexagonal prism, as illustrated in Fig. 1(c), with the $k_z$ direction along the $c$-axis, the $k_x$ direction along the $a$-axis, and the $k_y$ direction perpendicular to $k_x$. The red points mark high-symmetry points in the Brillouin zone. The $\Gamma - A$ distance is longer due to the shorter $c$-axis lattice constant.
+
+\begin{table}[h]
+\caption{Optimized lattice parameters of the rare earth germanides $Re$Rh$_6$Ge$_4$ ($Re =$ Ce, Ho, Er, Tm). Experimental values from Ref. \cite{vosswinkel2013new} are shown in parentheses.}
+\label{tab:lattice}
+\begin{tabular}{c c c c c}
+\hline
+Compound & $a$ (\AA) & $c$ (\AA) & $a/c$ & Volume (\AA$^3$) \\
+\hline
+CeRh$_6$Ge$_4$ & 7.20 (7.18) & 3.88 (3.87) & 1.855 & 174.28 (172.81) \\
+HoRh$_6$Ge$_4$ & 7.24 (7.20) & 3.84 (3.82) & 1.884 & 174.12 (171.54) \\
+ErRh$_6$Ge$_4$ & 7.24 (7.20) & 3.84 (3.82) & 1.887 & 174.09 (171.53) \\
+TmRh$_6$Ge$_4$ & 7.24 (7.19) & 3.84 (3.82) & 1.886 & 174.04 (171.18) \\
+\hline
+\end{tabular}
+\end{table}
+
+The lattice constants for these Kondo lattice compounds $Re$Rh$_6$Ge$_4$ were optimized in the non-magnetic (paramagnetic) state using the Murnaghan equation of state \cite{murnaghan1944compressibility}, starting from experimental X-ray diffraction data on powder samples \cite{vosswinkel2013new}. The optimized lattice parameters are presented in Table 1, alongside the experimental values for comparison. The calculated values agree well with the experimental data, with deviations of less than 1\% for the lattice constants. This good agreement validates our computational setup and provides confidence in the subsequent predictions for the magnetic properties. As the atomic number of the rare-earth element increases from CeRh$_6$Ge$_4$ to TmRh$_6$Ge$_4$, the lattice constant along the $c$-axis decreases, while the lattice constant along the $a$-axis tends to increase. The $a/c$ ratio generally decreases from Ce to Ho, but then increases slightly for Er and Tm. The unit cell volume decreases, consistent with the decreasing ionic radius of the rare-earth ions (lanthanide contraction).
+
+\subsection{Magnetic anisotropy}
+
+Magnetic measurements indicate that several rare-earth germanides possess local magnetic moments \cite{vosswinkel2013new}, e.g., GdRh$_6$Ge$_4$, TbRh$_6$Ge$_4$, DyRh$_6$Ge$_4$, and YbRh$_6$Ge$_4$. Among these, CeRh$_6$Ge$_4$ and the other three compounds we study exhibit a ferromagnetic ground state. CeRh$_6$Ge$_4$ has been extensively studied, and magnetization measurements show its magnetic easy axis lies within the $ab$-plane \cite{shen2020strange}. Neutron diffraction on powder samples could not resolve magnetic Bragg peaks, but coherent oscillations were observed in zero-field $\mu$SR measurements \cite{shu2021magnetic}. $\mu$SR measurements suggest the easy axis is along the $a$-axis. Next, we performed ferromagnetic DFT calculations to locate the magnetic easy axis. Given that Ce is a heavy element, spin-orbit coupling was included, and the Hubbard $U_{\text{eff}}$ was fixed at $6$ eV based on prior work \cite{wu2021anisotropic, wang2021localized}. As the lanthanide elements have unfilled $4f$ shells, the magnetism in these rare-earth germanides is primarily attributed to the lanthanide ions.
+
+We first calculated the ground state energy with the magnetic axis along the lattice vector directions, as shown in Table 2. For CeRh$_6$Ge$_4$, when the magnetic axis is along the $c$-axis, the total ground state energy is higher than along the $a$-axis and $b$-axis. The energy differences are on the order of tens of meV per formula unit, which, while large compared to typical magnetocrystalline anisotropy energies, is a consequence of the strong spin-orbit coupling and the large magnetic moments associated with the $4f$ electrons. We note that these energy differences are sensitive to the $k$-point mesh; our tests with a denser $11\times11\times17$ mesh changed the relative energies by less than 5\%. The significantly higher energy for the $c$-axis orientation confirms that our calculation aligns with experiment: the ground state is in the $ab$-plane. We define the $a$-axis as the $x$-axis, corresponding to $\phi = 0^\circ$, and the $b$-axis corresponds to $\phi = 120^\circ$. The ground state energy of CeRh$_6$Ge$_4$ with the magnetic axis in the $ab$-plane is shown in Fig. 2. The lowest ground state energies occur at $\phi = 30^\circ$, $\phi = 90^\circ$, and $\phi = 150^\circ$. In Fig. 2(a), the ground state energy has been subtracted by the value at $\phi = 30^\circ$, which is $-1250481.72198$ eV. Therefore, our calculation indicates that the magnetic easy axes for CeRh$_6$Ge$_4$ are along the $\phi = 30^\circ$, $\phi = 90^\circ$, and $\phi = 150^\circ$ directions. The energy difference between the easy axis and the $a$-axis is about 12 meV per formula unit.
+
+Magnetic susceptibility and magnetization measurements \cite{vosswinkel2013new} on HoRh$_6$Ge$_4$, ErRh$_6$Ge$_4$, and TmRh$_6$Ge$_4$ indicate the presence of local moments in these compounds. The Curie temperatures for HoRh$_6$Ge$_4$ and ErRh$_6$Ge$_4$ are both positive, suggesting ferromagnetism in these two compounds. CeRh$_6$Ge$_4$ and TmRh$_6$Ge$_4$ both have relatively small local moments, leading to negative Curie temperatures inferred from higher-temperature magnetic measurements. However, recent experiments clarified that the Curie temperature for CeRh$_6$Ge$_4$ is near 2.5 K. The local moment of TmRh$_6$Ge$_4$ is larger than that of CeRh$_6$Ge$_4$, so its Curie temperature should be higher than 2.5 K. Although magnetic measurements on HoRh$_6$Ge$_4$, ErRh$_6$Ge$_4$, and TmRh$_6$Ge$_4$ are scarce, they all exhibit signs of ferromagnetism, and they are isostructural to CeRh$_6$Ge$_4$. We therefore performed ferromagnetic DFT calculations for these three compounds. For TmRh$_6$Ge$_4$, the total ground state energy with the magnetic axis along the $c$-axis is lower than the values along the $a$-axis and $b$-axis. Similarly, for HoRh$_6$Ge$_4$ and ErRh$_6$Ge$_4$, the total ground state energies along the $c$-axis are also lower than those along the $a$- or $b$-axes, as shown in Table 2. Thus, unlike CeRh$_6$Ge$_4$, the magnetic easy axes for the other three compounds are no longer within the $ab$-plane. Therefore, we scanned the ground state energy within the $ac$-plane; the results are shown in Fig. 2. The $c$-axis is chosen as the $z$-axis, so the $c$-axis corresponds to $\theta = 0^\circ$, and the $a$-axis corresponds to $\theta = 90^\circ$, marked by blue and red lines, respectively. For HoRh$_6$Ge$_4$ and ErRh$_6$Ge$_4$, the lowest ground state energies occur at $\theta = 15^\circ$ and $\theta = 165^\circ$, while for TmRh$_6$Ge$_4$, the minimum is at $\theta = 0^\circ$. With the magnetic axis along $\theta = 15^\circ$, the ground state energies for HoRh$_6$Ge$_4$ and ErRh$_6$Ge$_4$ are lower than along the axes. The ground state energy for TmRh$_6$Ge$_4$ is lowest with the magnetic axis along the $c$-axis.
+
+\begin{table}[h]
+\caption{Relative ferromagnetic ground state energy (in meV per formula unit) of the rare earth germanides $Re$Rh$_6$Ge$_4$ ($Re =$ Ce, Ho, Er, Tm) along different axes. The energy is given relative to the easy axis direction.}
+\label{tab:energy}
+\begin{tabular}{c c c c}
+\hline
+Compound & $a$-axis (meV) & $b$-axis (meV) & $c$-axis (meV) \\
+\hline
+CeRh$_6$Ge$_4$ & 12 & 12 & 84 \\
+HoRh$_6$Ge$_4$ & 1152 & 1152 & 0 \\
+ErRh$_6$Ge$_4$ & 903 & 903 & 0 \\
+TmRh$_6$Ge$_4$ & 992 & 992 & 0 \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Electronic structure and topological features}
+
+Previous DFT simulations on CeRh$_6$Ge$_4$ primarily focused on the paramagnetic phase. We first performed paramagnetic calculations and compared our full-potential all-electron DFT band structures with previous simulations, finding good agreement. Since ferromagnetism plays a crucial role in CeRh$_6$Ge$_4$, we mainly focus on ferromagnetic calculations here. The ground state energy calculations for different axis directions indicate the easy axis is along $\phi = 30^\circ$, so we selected $\phi = 30^\circ$ as the magnetic axis direction for further analysis. Neither spin-orbit coupling nor the Hubbard $U$ on Ce can be neglected. A smaller $U$ would place bands predominantly composed of $4f$ orbitals too close to the Fermi level, contradicting quantum oscillation experiments \cite{wang2021localized}. In this paper, following prior simulations \cite{wu2021anisotropic}, we fixed $U_{\text{eff}} = 6$ eV. The band structure of CeRh$_6$Ge$_4$ is shown in Fig. 3(a). Several bands cross the Fermi level, confirming the metallic nature of CeRh$_6$Ge$_4$ revealed by experiments. To visualize the contribution of $4f$ electrons, the band structure is projected onto the $4f$ orbitals. The $4f$ orbitals of Ce$^{3+}$ ions contribute negligibly to the bands near the Fermi level. Given the $4f^1$ electronic configuration of Ce$^{3+}$, the bands formed by $4f$ orbitals are expected to lie significantly below the Fermi level.
+
+The band structures of HoRh$_6$Ge$_4$ and ErRh$_6$Ge$_4$ are displayed in Figs. 3(b) and 3(c). According to these band structures, both HoRh$_6$Ge$_4$ and ErRh$_6$Ge$_4$ are metals, as several bands cross the Fermi level. The electronic configurations of Ho$^{3+}$ and Er$^{3+}$ are $4f^{10}$ and $4f^{11}$, respectively. The blue points indicate contributions from $4f$ orbitals; several bands near the Fermi surface originate from these $4f$ orbitals. Additionally, a band crossing the Fermi level is also marked with blue points, indicating hybridization between $4f$ orbitals and itinerant bands. Compared to HoRh$_6$Ge$_4$, the bands primarily composed of $4f$ orbitals in ErRh$_6$Ge$_4$ lie closer to the Fermi level. In TmRh$_6$Ge$_4$, however, the situation differs, as shown in Fig. 3(d). With the increasing number of $4f$ electrons, bands near the Fermi level acquire more $4f$ orbital character, and a valley near the $A$ point is pushed above the Fermi level.
+
+Worth mentioning are the topological properties of the band structures. Due to the $C_{3v}$ point group symmetry along the $c$-axis and the absence of spatial inversion symmetry in $Re$Rh$_6$Ge$_4$, triple degenerate nodes exist in YRh$_6$Ge$_4$, LaRh$_6$Ge$_4$, and LuRh$_6$Ge$_4$ \cite{guo2018triply}. Without SOC, they host two pairs of triple degenerate points along the $\Gamma - A$ direction. These triple points arise from the crossing of a non-degenerate band and a doubly degenerate band. When SOC is included, these triple points transform into a pair of triple degenerate nodes. Triple degenerate nodes are considered an intermediate state between doubly degenerate Weyl points and quadruple degenerate Dirac points. Since the magnetic easy axis of TmRh$_6$Ge$_4$ is along the $c$-axis, the $C_{3v}$ point group symmetry is preserved. In the band structure of TmRh$_6$Ge$_4$, triple degenerate points also exist along the $\Gamma - A$ direction. We estimate the crossing point to be at approximately $k_z = 0.35$ \AA$^{-1}$ along the $\Gamma-A$ path, with an energy of about $-0.08$ eV relative to the Fermi level. In contrast, for CeRh$_6$Ge$_4$, HoRh$_6$Ge$_4$, and ErRh$_6$Ge$_4$, the $C_{3v}$ symmetry is broken by the direction of the magnetic easy axis. The triple degenerate points disappear, and Weyl points are expected to appear. A detailed analysis of these Weyl points is beyond the scope of the present work, but our band structure calculations suggest their presence.
+
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.48\textwidth]{eps/band.eps}\\
+		%\includegraphics[width=0.48\textwidth]{eps/band2.eps}\\
+		\caption{\label{fig:band} Band structure of (a) CeRh$_6$Ge$_4$, (b) HoRh$_6$Ge$_4$, (c) ErRh$_6$Ge$_4$ and (d) TmRh$_6$Ge$_4$ along high symmetry paths in the BZ. The calculations are carried in the ferroamgnetic phase with the SOC, and by fixed $U=6$ $eV$. These compounds are all metallic, with bands crossing the Fermi surface (red dashed lines). The blue lines are the $Re$-$4f$ orbital projected band structure. }		
+	\end{figure}
+%\begin{figure}[h]
+%\centering
+%\includegraphics[width=0.9\linewidth]{fig3.png}
+%\caption{Band structure of (a) CeRh$_6$Ge$_4$, (b) HoRh$_6$Ge$_4$, (c) ErRh$_6$Ge$_4$ and (d) TmRh$_6$Ge$_4$ along high symmetry paths in the BZ. The calculations are carried in the ferromagnetic phase with the SOC, and by fixed $U_{\text{eff}} = 6$ eV. These compounds are all metallic, with bands crossing the Fermi surface (red dashed lines). The blue lines are the $Re-4f$ orbital projected band structure.}
+%\label{fig:band}
+%\end{figure}
+
+\subsection{Localized and itinerant character of $4f$ electrons}
+
+To quantitatively characterize the gradual change in localized and itinerant behavior of the $4f$ electrons, we calculated the $4f$ charge within the Muffin-tin sphere (atomic region) and the atomic magnetic moment for the rare earth element in $Re$Rh$_6$Ge$_4$. Here $Re$ stands for all the lanthanides elements but La and Pm are excluded. The results are listed in Table 3. Along different magnetization directions, the trend in spin magnetic moment correlates with the local part of unpaired $4f$ electrons. The charge and the magnetic moment given by DFT is very little different from them in the atomic configurations. We attribute these difference to the weak overlapping of $4f$ orbitals with the orbitals from the vicinal atoms. As described by DFT means that there are very little itinerant part of the $4f$ electrons entered outside the muffin-tin sphere (the interstitial region). So we can analyzed the degree of delocalization of the $4f$ electrons in the compounds by the numerical results. Generally speak, from Ce to Eu, and then to Yb and Lu, the localized character of the $4f$ electrons is most pronounced when the $4f$ orbital occupation is 7 (half-filled) and 14 (fully filled).
+
+Before reaching half-filling of the $4f$ orbitals, as the number of unpaired $4f$ electrons increases, the electrons exhibit a trend of decreasing delocalization and increasing localization and magnetic moment (in parentheses). For instance, in Ce, the initial atomic configure is $4f^1$. Regardless of whether the magnetic axis is along the $c$ axis, $a$ axis, or the $ab$ plane, the electrons show partial occupation in both spin-up and spin-down orbitals, indicating that a small number of $f$ electrons have significant delocalized character. While as the magnetic axis evolves from the $c$ axis to the $a$ axis and the $ab$ plane, the electrons tend to become more localized, consistent with the previous calculation results. In the progression from Pr to Eu, the electrons clearly polarize. For Pr (initial atomic unpaired configure $4f^3$), the number of localized electrons is approximately 1.86; for Nd (initial $4f^4$), the number of localized electrons is about 2.86; for Sm (initial $4f^6$), the number of localized electrons is about 5.29. Clearly, the $4f$ electrons exhibit increasingly localized characteristics. Correspondingly, during the transition from halffilling to full-filling, the $4f$ orbital electron count in Gd ($4f^7$) changes from the atomic state of 7 to 6.886.78. However, from Tb ($4f^9 \rightarrow 4f^7 \uparrow f^{2 \downarrow}$), the magnetic moment (in parentheses) is 5.89, a little bigger than the net value from spin-up minus spin-down electrons in atomic configuration, due to the delocalization mainly from spin down part. Similarly, Dy ($4f^{10} \rightarrow 4f^7 \uparrow f^{3 \downarrow}$), the counterpart is 4.45-4.89 (magnetic moment); for Ho ($4f^{11} \rightarrow 4f^7 \uparrow f^{4 \downarrow}$), is about 3.87 (magnetic moment); for Er ($4f^{12} \rightarrow 4f^7 \uparrow f^{5 \downarrow}$), is 2.86-2.91 (magnetic moment); for Tm ($4f^{13} \rightarrow 4f^7 \uparrow f^{6 \downarrow}$), is about 1.80 (magnetic moment). Finally, the $4f$ electrons of Yb and Lu have completely filled shells, resulting in zero unpaired electrons and zero magnetism, indicating complete localization.
+
+\begin{table}[h]
+\caption{The charge up/down and magnetic moments (in parentheses) from $4f$ electrons in atom along different axes for the rare earth germanides $Re$Rh$_6$Ge$_4$ ($Re =$ Ce-Lu). Although SOC was considered in the calculations, band analysis shows that the contribution of $4f$ electrons near the Fermi surface is small. Therefore, the net magnetic moment from $4f$ electrons arises from the difference between spin-up and spin-down contributions, similar to the case of spin polarization.}
+\label{tab:4fcharge}
+\begin{tabular}{c c c c c c c}
+\hline
+Compound & \multicolumn{2}{c}{$c$-axis} & \multicolumn{2}{c}{$a$-axis} & \multicolumn{2}{c}{$ab$-plane} \\
+\hline
+CeRh$_6$Ge$_4$ & $4f^1$ & 0.38/0.15 (0.24) & 0.58/0.14 (0.31) & 0.89/0.15 (0.78) \\
+PrRh$_6$Ge$_4$ & $4f^3$ & 1.88/0.04 (1.89) & 1.87/0.05 (1.87) & 1.88/0.04 (1.88) \\
+NdRh$_6$Ge$_4$ & $4f^4$ & 2.85/0.05 (2.87) & 2.85/0.05 (2.88) & 2.85/0.04 (2.88) \\
+SmRh$_6$Ge$_4$ & $4f^6$ & 4.99/0.03 (5.30) & 5.63/0.05 (4.84) & 4.85/0.04 (4.93) \\
+EuRh$_6$Ge$_4$ & $4f^7$ & 6.54/0.02 (6.63) & 6.53/0.02 (6.62) & 6.53/0.02 (6.62) \\
+GdRh$_6$Ge$_4$ & $4f^7$ & 6.87/0.04 (6.83) & 6.79/0.04 (6.87) & 6.79/0.04 (6.87) \\
+TbRh$_6$Ge$_4$ & $4f^9$ & 6.80/1.02 (5.89) & 6.80/1.02 (5.90) & 6.80/1.02 (5.90) \\
+DyRh$_6$Ge$_4$ & $4f^{10}$ & 6.77/2.38 (4.45) & 6.81/2.00 (4.89) & 6.81/2.00 (4.89) \\
+HoRh$_6$Ge$_4$ & $4f^{11}$ & 6.81/3.00 (3.86) & 6.81/3.00 (3.88) & 6.81/3.00 (3.88) \\
+ErRh$_6$Ge$_4$ & $4f^{12}$ & 6.81/4.00 (2.86) & 6.81/4.00 (2.86) & 6.81/3.91 (2.91) \\
+TmRh$_6$Ge$_4$ & $4f^{13}$ & 6.82/5.05 (1.80) & 6.80/5.01 (1.81) & 6.79/5.03 (1.78) \\
+YbRh$_6$Ge$_4$ & $4f^{14}$ & 6.74/6.74 (0.00) & 6.74/6.74 (0.00) & 6.74/6.74 (0.00) \\
+LuRh$_6$Ge$_4$ & $4f^{14}$ & 6.75/6.75 (0.00) & 6.75/6.75 (0.00) & 6.75/6.75 (0.00) \\
+\hline
+\end{tabular}
+\end{table}
+
+The localized and itinerant hybridization characteristics of the $4f$ electrons provide a good explanation for the diverse ferromagnetic ground states observed in compounds from Ce to Ho, Er, and Tm. The itinerant nature of the part-filled $4f$ orbitals in $Re$, originates from hybridization with the $p$-orbitals of neighboring Ge atoms. This hybridization acts as a bridge for exchange interactions between part-filled $4f$ electrons, promoting the spontaneous formation of a ferromagnetic state in these compounds. From the data, for Ce, Ho, and Er, there are differences in the distribution of localized-delocalized electrons along the $c$ axis compared to the $ab$ plane. In contrast, for Tm, $4f$ electron is localized more, due to the exist of sufficiently large number of $4f$ electrons, the few delocalized part along the $c$ axis may play a more significant role. Therefore, the complex properties exhibited by the compounds are closely related to the localized-itinerant distribution of the $4f$ electrons.
+
+\subsection{Density of states and Fermi surface}
+
+The density of states (DOS) for these compounds is shown in Fig. 4. All calculations were performed for the ferromagnetic case, including SOC and $U_{\text{eff}} = 6$ eV. The upper and lower halves of the horizontal axis represent the majority and minority spin components of the DOS, respectively. Partial DOS from different orbitals are displayed with different colors. The purple shaded region represents the Rh-$4d$ orbital DOS, the orange line represents the Ge-$4p$ orbital DOS, and the blue line represents the $4f$ orbital DOS. The total DOS (black line in Fig. 4) is non-zero at the Fermi level, confirming the metallic nature of all compounds. The DOS near the Fermi level is primarily dominated by the Rh-$4d$ orbitals. As shown in Fig. 4(a), a small blue peak exists near $-2$ eV below the Fermi level in CeRh$_6$Ge$_4$. It represents the occupied $4f$ state, or the $J = 5/2$ state after considering SOC. In contrast, for HoRh$_6$Ge$_4$ and TmRh$_6$Ge$_4$, several blue peaks appear above but close to the Fermi level. These represent unoccupied $4f$ orbitals. As more $4f$ orbitals become occupied from HoRh$_6$Ge$_4$ to TmRh$_6$Ge$_4$, a peak from the Tm-$4f$ orbitals is situated precisely at the Fermi level. Consequently, the Tm-$4f$ orbitals are itinerant and contribute to the Fermi surface of TmRh$_6$Ge$_4$. As a result, TmRh$_6$Ge$_4$ possesses a large Fermi surface, unlike the other three compounds where the $4f$ orbitals remain largely localized, leading to smaller Fermi surfaces. We have checked the sensitivity of this conclusion to the choice of $U_{\text{eff}}$ by performing calculations with $U_{\text{eff}} = 4$ eV and $8$ eV for TmRh$_6$Ge$_4$. In both cases, the Tm $4f$ states still contribute to the DOS at the Fermi level, although the exact shape and position of the peaks shift. This indicates that the conclusion about the itinerant character of Tm $4f$ electrons is robust within the DFT+$U$ framework, at least for the range of $U$ values considered.
+
+To illustrate the evolution of the Fermi surface volume, we simulated the Fermi surfaces of these compounds. Our simulated Fermi surface for CeRh$_6$Ge$_4$ closely resembles previous results \cite{wang2021localized}. Eight bands cross the Fermi level, so the Fermi surface of CeRh$_6$Ge$_4$ consists of eight sheets. Four of these are hole-type, and four are electron-type. The Fermi surfaces of HoRh$_6$Ge$_4$ and ErRh$_6$Ge$_4$ also consist of eight sheets, with four being electron-type. Meanwhile, the Fermi surface of TmRh$_6$Ge$_4$ comprises six sheets, of which only two are electron-type. The intersections of the Fermi surfaces with the $k_x k_z$ plane are shown in Fig. 5, clearly demonstrating the Fermi surface evolution. In TmRh$_6$Ge$_4$, the $\delta$ and $\delta'$ bands do not cross the Fermi level, resulting in the absence of the dark green and green lines in Fig. 5(d).
+
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.48\textwidth]{eps/2D.eps} \\
+		%\label{fig:Ho-FM}
+		\caption{\label{fig:2D} The cross session of the $xz$ plane and the Fermi surface  of (a) CeRh$_6$Ge$_4$, (b) HoRh$_6$Ge$_4$, (c) ErRh$_6$Ge$_4$ and (d) TmRh$_6$Ge$_4$ calculated with the SOC and $U=6$ $eV$. The orange line ($\alpha$), yellow line ($\alpha'$), dark blue line ($\beta$) and blue line ($\beta'$) represent the hole type bands, while the brown line ($\gamma$), red line ($\gamma'$), dark green line ($\delta$) and green line ($\delta'$) represent the hole type bands.}		
+	\end{figure}	
+%\begin{figure}[h]
+%\centering
+%\includegraphics[width=0.9\linewidth]{fig5.png}
+%\caption{The cross section of the $xz$ plane and the Fermi surface of (a) CeRh$_6$Ge$_4$, (b) HoRh$_6$Ge$_4$, (c) ErRh$_6$Ge$_4$ and (d) TmRh$_6$Ge$_4$ calculated with the SOC and $U_{\text{eff}} = 6$ eV. The orange line ($\alpha$), yellow line ($\alpha'$), dark blue line ($\beta$) and blue line ($\beta'$) represent the hole type bands, while the brown line ($\gamma$), red line ($\gamma'$), dark green line ($\delta$) and green line ($\delta'$) represent the electron type bands.}
+%\label{fig:fermi}
+%\end{figure}
+
+\section{Conclusions}
+
+Based on experimental evidence that the germanides $Re$Rh$_6$Ge$_4$ (Re = Ce, Ho, Er, Tm) typically exhibit a ferromagnetic ground state, we performed ferromagnetic DFT calculations on these compounds. By fixing the Coulomb interaction $U_{\text{eff}} = 6$ eV and including SOC effects, we predict that the magnetic easy axis of CeRh$_6$Ge$_4$ lies within the $ab$-plane, at an angle $\phi = 30^\circ$ relative to the $a$-axis. For the less-studied compounds, our predictions indicate that the easy axes of HoRh$_6$Ge$_4$ and ErRh$_6$Ge$_4$ lie within the $ac$-plane, at an angle $\theta = 15^\circ$ relative to the $c$-axis. In contrast, the magnetic easy axis of TmRh$_6$Ge$_4$ is along the $c$-axis, preserving the $C_{3v}$ point group symmetry. Interestingly, within the $\Gamma - A$ direction, we observe triple degenerate nodes in their band structures. The other three compounds, due to their unique magnetic orientations, have magnetic axes that break the $C_{3v}$ symmetry; thus, while nodes are absent, Weyl points appear along the $\Gamma - A$ direction. Analysis of the density of states further elucidates that the $4f$ states are largely localized, with itinerancy increasing from HoRh$_6$Ge$_4$ to TmRh$_6$Ge$_4$. Because the $4f$ electrons actively participate in forming the Fermi surface, TmRh$_6$Ge$_4$ hosts a large Fermi surface.
+
+Recent thermoelectric measurements reported an intriguing phenomenon in CeRh$_6$Ge$_4$: the onset of orbital-selective hybridization within the ferromagnetic phase at about 0.7 GPa leads to a perceptible change in the Fermi surface geometry. Nonetheless, quantum oscillation data indicate that the extremal orbits on the Fermi surface remain unchanged across the critical temperature $T_c$. This discrepancy underscores the need for further numerical studies on CeRh$_6$Ge$_4$ under pressure to delve deeper into the physics near the quantum critical point. Simultaneously, experimental investigations on the isostructural counterparts HoRh$_6$Ge$_4$, ErRh$_6$Ge$_4$, and TmRh$_6$Ge$_4$ remain relatively sparse. Our results will establish a connection between magnetic properties and electronic structure, facilitating subsequent theoretical and experimental efforts.
+
+\section*{Acknowledgments}
+This work is supported by the National Key Research and Development Program of China (under Grant No. 2024YFA1408600), the National Natural Science Foundation of China (under Grant No. 12474241), Presidential Foundation of CAEP (under Grant No. YZJJZQ2024014), National Key Research and Development Program of China (under Grant No. 2022YFA1402201). We are grateful for the fruitful conversations with Pengjie Guo, and we thank Kai Liu for helpful discussions. We acknowledge National Super Computer Center in Tianjin for computing time.
+
+%\bibliographystyle{apsrev4-1}
+\bibliographystyle{elsarticle-num} 
+\bibliography{RE}
+
+\end{document}
